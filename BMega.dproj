@@ -1,0 +1,432 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CAA64BAC-FC74-42FE-A3F1-6535E5470EDD}</ProjectGuid>
+        <MainSource>BMega.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>19.2</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_ExeOutput>.\Output</DCC_ExeOutput>
+        <DCC_UnitSearchPath>.\Vendor\Synapse;.\Vendor\json4delphi\src;.\Vendor\7Zip;.\Vendor\DEC_5_2;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_DcuOutput>.\Output\Temp</DCC_DcuOutput>
+        <DCC_BplOutput>.\Output\Temp</DCC_BplOutput>
+        <DCC_DcpOutput>.\Output\Temp</DCC_DcpOutput>
+        <DCC_Namespace>$(DCC_Namespace);$(DCC_UsePackage);System;Vcl;Vcl.Imaging;Vcl.Samples;Vcl.Shell;Vcl.Touch;$(DCC_Namespace)</DCC_Namespace>
+        <Manifest_File>None</Manifest_File>
+        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <DCC_E>false</DCC_E>
+        <DCC_N>false</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_F>false</DCC_F>
+        <DCC_K>false</DCC_K>
+        <SanitizedProjectName>BMega</SanitizedProjectName>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>System.Win;Winapi;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_IMPLICIT_STRING_CAST_LOSS>false</DCC_IMPLICIT_STRING_CAST_LOSS>
+        <DCC_IMPLICIT_STRING_CAST>false</DCC_IMPLICIT_STRING_CAST>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <Icon_MainIcon>BMega_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_DebugInfoInTds>true</DCC_DebugInfoInTds>
+        <DCC_MapFile>3</DCC_MapFile>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>BMega_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_MapFile>3</DCC_MapFile>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <DCC_UnitSearchPath>.\Tools\DUnit\src;.\Source\FastMM;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_MapFile>3</DCC_MapFile>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>BMega_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="Source\UI\AdvancedAttackWaveFormatDesigner.pas">
+            <Form>AdvancedAttackWaveFormatDesignerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\BBotEngine.pas"/>
+        <DCCReference Include="Source\Blowfish.pas"/>
+        <DCCReference Include="Source\Declaracoes.pas"/>
+        <DCCReference Include="Source\Inject.pas"/>
+        <DCCReference Include="Source\uAStar.pas"/>
+        <DCCReference Include="Source\UI\uAdvancedAttackFrame.pas">
+            <Form>AdvancedAttackFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\uBBinaryHeap.pas"/>
+        <DCCReference Include="Source\uBBotAction.pas"/>
+        <DCCReference Include="Source\uBBotAddresses.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotAdvAttack.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAmmoCounter.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAntiAfk.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAntiPush.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotAttackSequence.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotAttacker.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotAttackerTask.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAutoRope.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAutoStack.pas"/>
+        <DCCReference Include="Source\Modules\uBBotAvoidWaves.pas"/>
+        <DCCReference Include="Source\Modules\uBBotBackpacks.pas"/>
+        <DCCReference Include="Source\Modules\uBBotBagLootKicker.pas"/>
+        <DCCReference Include="Source\Modules\uBBotCaveBot.pas"/>
+        <DCCReference Include="Source\Modules\uBBotClientTools.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotConfirmAttack.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures1036.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures1057.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures850.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures853.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures854.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures862.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures870.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures910.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures942.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures943.pas"/>
+        <DCCReference Include="Source\Creatures\uBBotCreatures990.pas"/>
+        <DCCReference Include="Source\Modules\uBBotDepositer.pas"/>
+        <DCCReference Include="Source\Modules\uBBotDepositerWithdraw.pas"/>
+        <DCCReference Include="Source\Modules\uBBotDepotTools.pas"/>
+        <DCCReference Include="Source\Modules\uBBotDropVials.pas"/>
+        <DCCReference Include="Source\Modules\uBBotEatFood.pas"/>
+        <DCCReference Include="Source\Modules\uBBotEatFoodGround.pas"/>
+        <DCCReference Include="Source\Modules\uBBotEnchanter.pas"/>
+        <DCCReference Include="Source\Modules\uBBotEvents.pas"/>
+        <DCCReference Include="Source\Modules\uBBotExhaust.pas"/>
+        <DCCReference Include="Source\Modules\uBBotExpStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotFastHand.pas"/>
+        <DCCReference Include="Source\Modules\uBBotFishing.pas"/>
+        <DCCReference Include="Source\Modules\uBBotFramerate.pas"/>
+        <DCCReference Include="Source\Modules\uBBotFriendHealer.pas"/>
+        <DCCReference Include="Source\Modules\uBBotHealer.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotIgnoreAttack.pas"/>
+        <DCCReference Include="Source\Modules\uBBotJustLoggedIn.pas"/>
+        <DCCReference Include="Source\Modules\uBBotKillStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotLevelSpy.pas"/>
+        <DCCReference Include="Source\Modules\uBBotLightHack.pas"/>
+        <DCCReference Include="Source\Modules\uBBotLogout.pas"/>
+        <DCCReference Include="Source\Modules\uBBotLooter.pas"/>
+        <DCCReference Include="Source\Modules\uBBotLooterStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotMacros.pas"/>
+        <DCCReference Include="Source\Modules\uBBotManaDrinker.pas"/>
+        <DCCReference Include="Source\Modules\uBBotManaTrainer.pas"/>
+        <DCCReference Include="Source\Modules\uBBotMenu.pas"/>
+        <DCCReference Include="Source\Modules\uBBotOTMoney.pas"/>
+        <DCCReference Include="Source\Modules\uBBotOpenCorpses.pas"/>
+        <DCCReference Include="Source\Modules\OpenCorpses\uBBotOpenCorpsesTask.pas"/>
+        <DCCReference Include="Source\Modules\uBBotPacketSender.pas"/>
+        <DCCReference Include="Source\Modules\uBBotProfitStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotProtector.pas"/>
+        <DCCReference Include="Source\Modules\uBBotRareLootAlarm.pas"/>
+        <DCCReference Include="Source\Modules\Reconnect\uBBotReconnect.pas"/>
+        <DCCReference Include="Source\Modules\Reconnect\uBBotReconnectManager.pas"/>
+        <DCCReference Include="Source\Modules\uBBotReuser.pas"/>
+        <DCCReference Include="Source\Modules\uBBotRunners.pas"/>
+        <DCCReference Include="Source\Modules\uBBotServerSave.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSkillsStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSkinner.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSpecialSQMs.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSpells.pas"/>
+        <DCCReference Include="Source\Modules\uBBotStats.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSupliesStats.pas"/>
+        <DCCReference Include="Source\Modules\Attack\Shooter\uBBotTargetAreaShooter.pas"/>
+        <DCCReference Include="Source\Modules\uBBotTestEngine.pas"/>
+        <DCCReference Include="Source\Modules\uBBotTradeWatcher.pas"/>
+        <DCCReference Include="Source\Modules\uBBotTradeWindow.pas"/>
+        <DCCReference Include="Source\Modules\uBBotTrader.pas"/>
+        <DCCReference Include="Source\Modules\Attack\uBBotTrainer.pas"/>
+        <DCCReference Include="Source\Modules\uBBotWalkState.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalker2.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalkerDistancerTask.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalkerPathFinder.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalkerPathFinderCreature.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalkerPathFinderPosition.pas"/>
+        <DCCReference Include="Source\Modules\Walk\uBBotWalkerTask.pas"/>
+        <DCCReference Include="Source\Modules\uBBotWarBot.pas"/>
+        <DCCReference Include="Source\Modules\WarNet\uBBotWarNet.pas"/>
+        <DCCReference Include="Source\Modules\Attack\Shooter\uBBotWaverShooter.pas"/>
+        <DCCReference Include="Source\uBGuard.pas"/>
+        <DCCReference Include="Source\uBProfiler.pas"/>
+        <DCCReference Include="Source\uBTree.pas"/>
+        <DCCReference Include="Source\uBTypes.pas"/>
+        <DCCReference Include="Source\uBVector.pas"/>
+        <DCCReference Include="Source\uBase16and64.pas"/>
+        <DCCReference Include="Source\uBattlelist.pas"/>
+        <DCCReference Include="Source\uBotPacket.pas"/>
+        <DCCReference Include="Source\uContainer.pas"/>
+        <DCCReference Include="Source\uDistance.pas"/>
+        <DCCReference Include="Source\uDownloader.pas"/>
+        <DCCReference Include="Source\uEngine.pas"/>
+        <DCCReference Include="Source\uEventCounter.pas"/>
+        <DCCReference Include="Source\UI\uFLootItems.pas">
+            <Form>FLootItems</Form>
+        </DCCReference>
+        <DCCReference Include="Source\uHUD.pas"/>
+        <DCCReference Include="Source\uInventory.pas"/>
+        <DCCReference Include="Source\uItem.pas"/>
+        <DCCReference Include="Source\uItemDatExporter.pas"/>
+        <DCCReference Include="Source\uItemLoader.pas"/>
+        <DCCReference Include="Source\uKMeans.pas"/>
+        <DCCReference Include="Source\uLogin.pas"/>
+        <DCCReference Include="Source\UI\uMCEditor.pas">
+            <Form>frmMC</Form>
+        </DCCReference>
+        <DCCReference Include="Source\Macro\uMacroCore.pas"/>
+        <DCCReference Include="Source\Macro\uBBotMacroFunctions.pas"/>
+        <DCCReference Include="Source\UI\uMain.pas">
+            <Form>FMain</Form>
+        </DCCReference>
+        <DCCReference Include="Source\uPackets.pas"/>
+        <DCCReference Include="Source\uRegex.pas"/>
+        <DCCReference Include="Source\uSelf.pas"/>
+        <DCCReference Include="Source\uSettings.pas"/>
+        <DCCReference Include="Source\uTibia.pas"/>
+        <DCCReference Include="Source\uTibiaDeclarations.pas"/>
+        <DCCReference Include="Source\uTibiaParser.pas"/>
+        <DCCReference Include="Source\uTibiaProcess.pas"/>
+        <DCCReference Include="Source\uTibiaState.pas"/>
+        <DCCReference Include="Source\uTiles.pas"/>
+        <DCCReference Include="Source\uUpdate.pas"/>
+        <DCCReference Include="Source\uVip.pas"/>
+        <DCCReference Include="Source\uXTea.pas"/>
+        <DCCReference Include="Source\ucLogin.pas"/>
+        <DCCReference Include="Source\UI\uCavebotFrame.pas">
+            <Form>CavebotFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uDebugFrame.pas">
+            <Form>DebugFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uReconnectManagerFrame.pas">
+            <Form>ReconnectManagerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uUserErrorFrame.pas">
+            <Form>UserErrorFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\uUserError.pas"/>
+        <DCCReference Include="Source\Modules\uBBotPositionStatistics.pas"/>
+        <DCCReference Include="Source\UI\uMacrosFrame.pas">
+            <Form>MacrosFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uLooterFrame.pas">
+            <Form>LooterFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\Modules\WarNet\uBBotWarNetServerQuery.pas"/>
+        <DCCReference Include="Source\uBBotTCPSocket.pas"/>
+        <DCCReference Include="Source\Modules\WarNet\uBBotWarNetProtocol.pas"/>
+        <DCCReference Include="Source\UI\uWarNetFrame.pas">
+            <Form>WarNetFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uDebugWalkerFrame.pas">
+            <Form>DebugWalkerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uBBotGUIMessages.pas"/>
+        <DCCReference Include="Source\uBCache.pas"/>
+        <DCCReference Include="Source\UI\uKillerFrame.pas">
+            <Form>KillerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uSpecialSQMsFrame.pas">
+            <Form>SpecialSQMsFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uFriendHealerFrame.pas">
+            <Form>FriendHealerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uBBotItemSelector.pas"/>
+        <DCCReference Include="Source\UI\uAttackSequencesFrame.pas">
+            <Form>AttackSequencesFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uManaToolsFrame.pas">
+            <Form>ManaToolsFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uHealerFrame.pas">
+            <Form>HealerFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\UI\uVariablesFrame.pas">
+            <Form>VariablesFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Source\Modules\Attack\uBBotSummonDetector.pas"/>
+        <DCCReference Include="Source\Macro\uMacroEngine.pas"/>
+        <DCCReference Include="Source\Macro\uMacroVariable.pas"/>
+        <DCCReference Include="Source\Macro\uMacroRegistry.pas"/>
+        <DCCReference Include="Source\Macro\uBBotMacroRegistry.pas"/>
+        <DCCReference Include="Source\Macro\uIMacro.pas"/>
+        <DCCReference Include="Source\Modules\uBBotSuperFollow.pas"/>
+        <None Include="VERSIONS.inc"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">BMega.dpr</Source>
+                </Source>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1046</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName"/>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+            <ModelSupport>False</ModelSupport>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+</Project>

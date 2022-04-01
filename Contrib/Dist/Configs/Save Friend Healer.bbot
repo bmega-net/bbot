@@ -1,0 +1,8 @@
+BBOT
+FriendHealer.Enable=-1
+FriendHealer.Items=@M:339412329426239437941268638955
+Friend 1 UH 70HP;70;1234;5678;Ultimate Healing Rune;3160;exura sio "%Name
+Friend 2 SIO;70;1234;5678;Cast Spell;1;exura sio "%Name
+Allies;70;8888;9999;Cast Spell;1;exura sio "%Name
+Party;16;535;4353;Great Health Potion;239;exura sio "%Name
+@M:339412329426239437941268638955

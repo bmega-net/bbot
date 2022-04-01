@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{91513B22-BF78-45DB-98C5-16561BC313AA}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="DLL\BDll.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="BMega.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Setup\Setup.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BDll">
+        <MSBuild Projects="DLL\BDll.dproj"/>
+    </Target>
+    <Target Name="BDll:Clean">
+        <MSBuild Projects="DLL\BDll.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BDll:Make">
+        <MSBuild Projects="DLL\BDll.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BMega">
+        <MSBuild Projects="BMega.dproj"/>
+    </Target>
+    <Target Name="BMega:Clean">
+        <MSBuild Projects="BMega.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BMega:Make">
+        <MSBuild Projects="BMega.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Setup">
+        <MSBuild Projects="Setup\Setup.dproj"/>
+    </Target>
+    <Target Name="Setup:Clean">
+        <MSBuild Projects="Setup\Setup.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Setup:Make">
+        <MSBuild Projects="Setup\Setup.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BDll;BMega;Setup"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BDll:Clean;BMega:Clean;Setup:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BDll:Make;BMega:Make;Setup:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

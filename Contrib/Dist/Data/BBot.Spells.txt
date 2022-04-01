@@ -1,0 +1,118 @@
+# Format definitions
+#   Kind = Healing | Support | Summon | Attack | Supply
+#
+# Basic spell:
+#   Name/Spell/Mana/Kind
+#       Intense Healing/exura gran/70/Healing
+#
+#   Name/Spell/Mana/Kind[/Wave/Expansion]
+#       Fire Wave/exevo flam hur/25/Attack/Wave/0,1,1,2
+#       Terra Wave/exevo tera hur/210/Attack/Wave/0,0,1,1,1
+#       Great Energy Beam/exevo gran vis lux/110/Attack/Wave/0,0,0,0,0,0,0,0
+#       Energy Strike/exori vis/20/Attack/Wave/0
+#
+#   Name/Spell/Mana/Kind[/Area/Center/Range/Radius]
+#       Mass Healing/exura gran mas res/150/Healing/Area/Self/0/3
+#       Fierce Berserk/exori gran/340/Attack/Area/Self/0/1
+#       Energy Strike/exori vis/20/Attack/Area/Target/3/0
+#
+# Basic rune:
+#   Name/ID/Kind[/Area-Definition]
+#       Ultimate Healing Rune/3160/Healing
+
+Intense Healing/exura gran/70/Healing
+Light Healing/exura/20/Healing
+Wound Cleansing/exura ico/40/Healing
+Summon Creature/utevo res/0/Summon
+Find Person/exiva/20/Support
+Creature Illusion/utevo res ina/100/Support
+Apprentices Strike/exori min flam/6/Attack
+Practise Fire Wave/exevo dis flam hur/5/Attack
+Fire Wave/exevo flam hur/25/Attack
+Energy Beam/exevo vis lux/40/Attack
+Great Energy Beam/exevo gran vis lux/110/Attack
+Energy Wave/exevo vis hur/170/Attack
+Ice Wave/exevo frigo hur/25/Attack
+Terra Wave/exevo tera hur/210/Attack
+Conjure Arrow/exevo con/100/Supply
+Conjure Poisoned Arrow/exevo con pox/130/Supply
+Conjure Explosive Arrow/exevo con flam/290/Supply
+Food/exevo pan/120/Supply
+Cure Poison/exana pox/30/Healing
+Magic Shield/utamo vita/50/Support
+Invisible/utana vid/440/Support
+Light/utevo lux/20/Support
+Great Light/utevo gran lux/60/Support
+Practise Healing/exura dis/5/Healing
+Ultimate Healing/exura vita/160/Healing
+Divine Healing/exura san/160/Healing
+Cure Curse/exana mort/40/Healing
+Conjure Piercing Bolt/exevo con grav/180/Supply
+Conjure Sniper Arrow/exevo con hur/160/Supply
+Ultimate Flame Strike/exori max flam/100/Attack
+Physical Strike/exori moe ico/20/Attack
+Ultimate Terra Strike/exori max tera/100/Attack
+Conjure Bolt/exevo con mort/140/Supply
+Conjure Power Bolt/exevo con vis/700/Supply
+Annihilation/exori gran ico/300/Attack
+Fierce Berserk/exori gran/340/Attack
+Strong Terra Strike/exori gran tera/60/Attack
+Terra Strike/exori tera/20/Attack
+Ultimate Ice Strike/exori max frigo/100/Attack
+Ultimate Energy Strike/exori max vis/100/Attack
+Strong Ethereal Spear/exori gran con/55/Attack
+Intense Recovery/utura gran/165/Healing
+Recovery/utura/75/Healing
+Groundshaker/exori mas/160/Attack
+Wrath of Nature/exevo gran mas tera/700/Attack
+Rage of the Skies/exevo gran mas vis/600/Attack
+Death Strike/exori mort/20/Attack
+Strong Energy Strike/exori gran vis/60/Attack
+Energy Strike/exori vis/20/Attack
+Flame Strike/exori flam/20/Attack
+Whirlwind Throw/exori hur/40/Attack
+Ethereal Spear/exori con/25/Attack
+Haste/utani hur/60/Support
+Sharpshooter/utito tempo san/450/Support
+Cancel Invisibility/exana ina/200/Support
+Challenge/exeta res/30/Support
+Inflict Wound/utori kor/30/Attack
+Brutal Strike/exori ico/30/Attack
+Front Sweep/exori min/200/Attack
+Electrify/utori vis/30/Attack
+Charge/utani tempo hur/100/Support
+Blood Rage/utito tempo/290/Support
+Swift Foot/utamo tempo san/400/Support
+Protector/utamo tempo/200/Support
+Strong Flame Strike/exori gran flam/60/Attack
+Hells Core/exevo gran mas flam/1100/Attack
+Strong Ice Strike/exori gran frigo/60/Attack
+Ice Strike/exori frigo/20/Attack
+Eternal Winter/exevo gran mas frigo/1050/Attack
+Strong Ice Wave/exevo gran frigo hur/170/Attack
+Divine Missile/exori san/20/Attack
+Divine Caldera/exevo mas san/160/Attack
+Berserk/exori/115/Attack
+Heal Friend/exura sio/140/Healing
+Ultimate Light/utevo vis lux/140/Support
+Holy Flash/utori san/30/Attack
+Salvation/exura gran san/210/Healing
+Strong Haste/utani gran hur/100/Support
+Levitate/exani hur up/50/Support
+Levitate/exani hur down/50/Support
+Enchant Staff/exeta vis/80/Supply
+Ignite/utori flam/30/Attack
+Envenom/utori pox/30/Attack
+Curse/utori mort/30/Attack
+Enchant Spear/exeta con/350/Supply
+Heal Party/utura mas sio/0/Healing
+Mass Healing/exura gran mas res/150/Healing
+Intense Wound Cleansing/exura gran ico/200/Healing
+Lightning/exori amp vis/60/Attack
+Magic Rope/exani tera/20/Support
+Cure Electrification/exana vis/30/Healing
+Cure Burning/exana flam/30/Healing
+Cure Bleeding/exana kor/30/Healing
+Train Party/utito mas sio/0/Support
+Protect Party/utamo mas sio/0/Support
+Enchant Party/utori mas sio/0/Support

@@ -1,0 +1,250 @@
+BBOT
+BasicFeatures.AutoEat=-1
+BasicFeatures.AutoEatFromGround=-1
+BasicFeatures.AutoOpenBackpacks=-1
+BasicFeatures.AutoScreenshot=-1
+Cavebot.DepotCity=1
+Cavebot.Enable=-1
+Cavebot.Waypoint=@M:838662136155698087481797342
+Point (33026 32085 8)
+Point (33021 32084 8)
+Point (33017 32082 8)
+Point (33015 32078 8)
+Point (33010 32076 8)
+Point (33009 32076 8)
+Point (33008 32076 9)
+Point (33008 32072 9)
+Point (33008 32076 9)
+Point (33008 32077 8)
+Point (33013 32077 8)
+Point (33015 32081 8)
+Point (33017 32085 8)
+Point (33016 32090 8)
+Point (33013 32093 8)
+Point (33013 32098 8)
+Point (33013 32100 8)
+Point (33013 32101 9)
+Point (33016 32104 9)
+Point (33021 32104 9)
+Point (33023 32100 9)
+Point (33025 32096 9)
+Point (33022 32094 9)
+Point (33025 32097 9)
+Point (33023 32101 9)
+Point (33020 32104 9)
+Point (33016 32103 9)
+Point (33014 32102 9)
+Point (33013 32102 8)
+Point (33013 32098 8)
+Point (33015 32094 8)
+Point (33016 32089 8)
+Point (33019 32086 8)
+Point (33024 32085 8)
+Point (33028 32087 8)
+Point (33029 32091 8)
+Point (33031 32095 8)
+Point (33036 32096 8)
+Point (33041 32096 8)
+Point (33045 32094 8)
+Point (33049 32093 8)
+Point (33050 32089 8)
+Point (33051 32088 8)
+Point (33051 32087 9)
+Point (33053 32083 9)
+Point (33056 32081 9)
+Point (33058 32081 9)
+Point (33060 32078 9)
+Point (33063 32075 9)
+Point (33068 32075 9)
+Point (33069 32080 9)
+Point (33069 32075 9)
+Point (33064 32075 9)
+Point (33060 32077 9)
+Point (33058 32080 9)
+Point (33058 32085 9)
+Point (33061 32086 9)
+Point (33061 32087 10)
+Point (33059 32083 10)
+Point (33059 32078 10)
+Point (33059 32073 10)
+Point (33057 32069 10)
+Point (33055 32065 10)
+Point (33055 32060 10)
+Point (33050 32059 10)
+Point (33054 32061 10)
+Point (33056 32065 10)
+Point (33057 32070 10)
+Point (33060 32073 10)
+Point (33065 32073 10)
+Point (33069 32072 10)
+Point (33073 32070 10)
+Point (33077 32068 10)
+Point (33077 32064 10)
+Point (33076 32068 10)
+Point (33072 32070 10)
+Point (33068 32072 10)
+Point (33068 32077 10)
+Point (33069 32082 10)
+Point (33071 32086 10)
+Point (33075 32087 10)
+Point (33077 32091 10)
+Point (33079 32095 10)
+Point (33082 32098 10)
+Point (33085 32101 10)
+Point (33090 32101 10)
+Point (33091 32106 10)
+Point (33088 32103 10)
+Point (33088 32100 10)
+Point (33091 32103 10)
+Point (33092 32108 10)
+Point (33097 32109 10)
+Point (33100 32112 10)
+Point (33099 32116 10)
+Point (33094 32116 10)
+Point (33091 32113 10)
+Point (33092 32108 10)
+Point (33093 32104 10)
+Point (33097 32102 10)
+Point (33093 32104 10)
+Point (33090 32101 10)
+Point (33086 32099 10)
+Point (33082 32098 10)
+Point (33081 32093 10)
+Point (33078 32090 10)
+Point (33076 32087 10)
+Point (33073 32084 10)
+Point (33068 32083 10)
+Point (33066 32079 10)
+Point (33063 32076 10)
+Point (33060 32078 10)
+Point (33059 32083 10)
+Point (33061 32086 10)
+Point (33061 32088 9)
+Point (33058 32085 9)
+Point (33056 32081 9)
+Point (33052 32080 9)
+Point (33049 32077 9)
+Point (33045 32075 9)
+Point (33049 32077 9)
+Point (33052 32081 9)
+Point (33052 32083 9)
+Point (33050 32088 9)
+Point (33046 32090 9)
+Point (33050 32088 9)
+Point (33051 32088 8)
+Point (33049 32092 8)
+Point (33045 32094 8)
+Point (33040 32095 8)
+Point (33036 32099 8)
+Point (33036 32104 8)
+Point (33035 32109 8)
+Point (33036 32113 8)
+Point (33039 32116 8)
+Point (33043 32118 8)
+Point (33047 32118 8)
+Point (33047 32117 9)
+Point (33049 32113 9)
+Point (33054 32112 9)
+Point (33058 32114 9)
+Point (33062 32114 9)
+Point (33061 32112 9)
+Point (33061 32107 9)
+Point (33059 32111 9)
+Point (33055 32112 9)
+Point (33050 32113 9)
+Point (33048 32116 9)
+Point (33047 32118 8)
+Point (33042 32118 8)
+Point (33038 32116 8)
+Point (33036 32112 8)
+Point (33033 32109 8)
+Point (33028 32109 8)
+Point (33026 32113 8)
+Point (33029 32116 8)
+Point (33030 32120 8)
+Point (33030 32121 8)
+Point (33030 32122 9)
+Point (33026 32121 9)
+Point (33024 32120 9)
+Point (33023 32116 9)
+Point (33025 32115 9)
+Point (33030 32114 9)
+Point (33035 32113 9)
+Point (33039 32114 9)
+Point (33041 32117 9)
+Point (33043 32121 9)
+Point (33043 32126 9)
+Point (33043 32130 9)
+Point (33040 32133 9)
+Point (33036 32135 9)
+Point (33034 32139 9)
+Point (33034 32134 9)
+Point (33030 32132 9)
+Point (33029 32127 9)
+Point (33030 32122 9)
+Point (33030 32123 8)
+Point (33028 32119 8)
+Point (33027 32115 8)
+Point (33024 32112 8)
+Point (33019 32112 8)
+Point (33015 32113 8)
+Point (33013 32110 8)
+Point (33013 32110 9)
+Point (33011 32114 9)
+Point (33007 32116 9)
+Point (33003 32118 9)
+Point (33007 32116 9)
+Point (33011 32114 9)
+Point (33012 32111 9)
+Point (33013 32111 8)
+Point (33018 32111 8)
+Point (33022 32113 8)
+Point (33025 32110 8)
+Point (33030 32109 8)
+Point (33035 32109 8)
+Point (33036 32104 8)
+Point (33036 32100 8)
+Point (33034 32096 8)
+Point (33031 32093 8)
+@M:838662136155698087481797342
+HUD.Advancements=-1
+HUD.AmmoCounter=-1
+HUD.AutoShowStatistics=-1
+HUD.CreatureLevels=-1
+HUD.ExpGainInformations=-1
+HUD.ExpInformations=-1
+HUD.LootHUD=-1
+HUD.MagicWalls=-1
+HUD.PlayerGroupCount=-1
+HUD.Spells=-1
+HUD.XRay=-1
+Healer.Spell.Low.Enable=-1
+Killer.Enable=-1
+Killer.Targets=@M:332864814289000696720012499
+Slime:2:3:0:::
+Rotworm:0:1:0:::
+Carrion Worm:1:1:0:::
+Centipede:0:1:0:::
+@M:332864814289000696720012499
+Looter.Looter.Eat=-1
+Looter.Looter.Enable=-1
+Looter.Looter.Items=3577:1:0:1:0
+Looter.OpenCorpses.Priority=1
+Macros.AutoEnable=-1
+Macros.Items=@M:84685361676917695485719891
+1000 {Low Throwing Stars alert} Misc.ItemCountEx(3287)<10 Misc.Alert(Low Ammo)
+@M:84685361676917695485719891
+ManaTools.ManaDrinker.Low.Enable=-1
+ManaTools.ManaDrinker.Low.FromMana=20
+ManaTools.ManaDrinker.Low.Percent=-1
+ManaTools.ManaDrinker.Low.ToMana=40
+ManaTools.ManaTrainer.Enable=-1
+ManaTools.ManaTrainer.FromMana=90
+ManaTools.ManaTrainer.Percent=-1
+ManaTools.ManaTrainer.ToMana=70
+Protector.Items=@M:40108156291002105001700530873
+Message@2@7@0@0@0@0@0@0@0@0@0@0@0@1@0@0@@@@@@0
+Attacked@12@7@0@0@0@0@0@0@0@0@0@0@0@1@0@0@@@@@@0
+@M:40108156291002105001700530873
+ReUser.Ammo=-1
+ReUser.LeftHand=-1

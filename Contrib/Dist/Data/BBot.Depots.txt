@@ -1,0 +1,17 @@
+22797 -> I Thais
+22798 -> II Carlin
+22799 -> III Kazordoon
+22800 -> IV Ab'Dendriel
+22801 -> V Edron
+22802 -> VI Darashia
+22803 -> VII Venore
+22804 -> VIII Ankrahmun
+22805 -> IX Port Hope
+22806 -> X Liberty Bay
+22807 -> XI Svargrond
+22808 -> XII Yalahar
+22809 -> XIII Travora
+22810 -> XIV Farmine
+22811 -> XV Gray Beach
+22812 -> XVI Roshamuul
+22813 -> XVII Rathleton

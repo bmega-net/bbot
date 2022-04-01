@@ -1,0 +1,431 @@
+object KillerFrame: TKillerFrame
+  Left = 0
+  Top = 0
+  Width = 649
+  Height = 371
+  Color = 16707048
+  ParentBackground = False
+  ParentColor = False
+  TabOrder = 0
+  object Label18: TLabel
+    Left = 9
+    Top = 255
+    Width = 58
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Double-Click'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object Label41: TLabel
+    Left = 72
+    Top = 254
+    Width = 84
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'edit selected item'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label50: TLabel
+    Left = 72
+    Top = 270
+    Width = 96
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'delete selected item'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label48: TLabel
+    Left = 7
+    Top = 269
+    Width = 61
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Shift+Delete'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object Label84: TLabel
+    Left = 564
+    Top = 84
+    Width = 19
+    Height = 13
+    Caption = 'sqm'
+  end
+  object Label83: TLabel
+    Left = 447
+    Top = 63
+    Width = 34
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Priority'
+  end
+  object Label79: TLabel
+    Left = 438
+    Top = 37
+    Width = 43
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Creature'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label35: TLabel
+    Left = 506
+    Top = 16
+    Width = 64
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'New Target'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object GoAdvancedAttack: TLabel
+    Left = 181
+    Top = 349
+    Width = 251
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Caption = 'Configure Advanced Attacks - Spells, runes...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+    OnClick = GoAdvancedAttackClick
+    OnMouseEnter = GoAdvancedAttackMouseEnter
+    OnMouseLeave = GoAdvancedAttackMouseLeave
+  end
+  object chkKillerAttackAll: TCheckBox
+    Tag = 1
+    Left = 7
+    Top = 3
+    Width = 162
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Attacker'
+    TabOrder = 0
+    OnClick = ApplySettings
+  end
+  object chkKillerAllowAttackPlayers: TCheckBox
+    Tag = 1
+    Left = 7
+    Top = 26
+    Width = 127
+    Height = 24
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Allow attack players'
+    TabOrder = 1
+    OnClick = ApplySettings
+  end
+  object chkAvoidKS: TCheckBox
+    Tag = 1
+    Left = 7
+    Top = 48
+    Width = 68
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Avoid KS'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    OnClick = ApplySettings
+  end
+  object lstKillerTargets: TListBox
+    Tag = 1
+    Left = 192
+    Top = 4
+    Width = 228
+    Height = 341
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = lbOwnerDrawVariable
+    ItemHeight = 18
+    TabOrder = 3
+    OnDblClick = lstKillerTargetsDblClick
+    OnDrawItem = lstKillerTargetsDrawItem
+    OnKeyDown = lstKillerTargetsKeyDown
+  end
+  object cmbKillerNewMacroStop: TComboBox
+    Left = 434
+    Top = 248
+    Width = 208
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csDropDownList
+    Enabled = False
+    TabOrder = 4
+    OnCloseUp = MacroCloseUp
+    OnDropDown = MacroList
+  end
+  object chkKillerNewMacroStop: TCheckBox
+    Left = 434
+    Top = 223
+    Width = 78
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'After Attack'
+    TabOrder = 5
+    OnClick = MacroSetup
+  end
+  object cmbKillerNewMacroStart: TComboBox
+    Left = 434
+    Top = 200
+    Width = 208
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csDropDownList
+    Enabled = False
+    TabOrder = 6
+    OnCloseUp = MacroCloseUp
+    OnDropDown = MacroList
+  end
+  object chkKillerNewMacroStart: TCheckBox
+    Left = 434
+    Top = 175
+    Width = 78
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'On Attack'
+    TabOrder = 7
+    OnClick = MacroSetup
+  end
+  object cmbKillerNewMacroAuto: TComboBox
+    Left = 434
+    Top = 152
+    Width = 208
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csDropDownList
+    Enabled = False
+    TabOrder = 8
+    OnCloseUp = MacroCloseUp
+    OnDropDown = MacroList
+  end
+  object chkKillerNewMacroAuto: TCheckBox
+    Left = 434
+    Top = 127
+    Width = 78
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Auto Macro'
+    TabOrder = 9
+    OnClick = MacroSetup
+  end
+  object chkKillerNewDiagonal: TCheckBox
+    Left = 434
+    Top = 102
+    Width = 91
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Avoid Waves'
+    TabOrder = 10
+  end
+  object KillerNewTargetKeepDistance: TCheckBox
+    Left = 434
+    Top = 79
+    Width = 91
+    Height = 17
+    Caption = 'Keep distance'
+    Checked = True
+    State = cbChecked
+    TabOrder = 11
+    OnClick = KillerNewTargetKeepDistanceClick
+  end
+  object numKillerNewDist: TMemo
+    Left = 532
+    Top = 80
+    Width = 28
+    Height = 20
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Lines.Strings = (
+      '1')
+    MaxLength = 1
+    TabOrder = 12
+    WantReturns = False
+    WordWrap = False
+    OnChange = numKillerNewDistChange
+  end
+  object cmbKillerNewPriority: TComboBox
+    Left = 485
+    Top = 54
+    Width = 157
+    Height = 24
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csOwnerDrawVariable
+    ItemHeight = 18
+    TabOrder = 13
+    OnDrawItem = cmbKillerNewPriorityDrawItem
+  end
+  object cmbKillerNewName: TComboBox
+    Left = 485
+    Top = 31
+    Width = 157
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    TabOrder = 14
+    Text = 'Troll'
+    OnDropDown = cmbKillerNewNameDropDown
+  end
+  object btnKillerNewAdd: TButton
+    Left = 493
+    Top = 271
+    Width = 91
+    Height = 25
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Save'
+    TabOrder = 15
+    OnClick = btnKillerNewAddClick
+  end
+  object AvoidAOERamps: TCheckBox
+    Tag = 1
+    Left = 7
+    Top = 71
+    Width = 182
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Avoid AOE in ladders, ramps...'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 16
+    OnClick = ApplySettings
+  end
+  object AttackNotReachable: TCheckBox
+    Tag = 1
+    Left = 7
+    Top = 95
+    Width = 182
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Attack not reachable creatures'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 17
+    OnClick = ApplySettings
+  end
+end

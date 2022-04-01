@@ -1,0 +1,150 @@
+BBOT
+AdvancedAttack=@M:330337300041236693901265659482
+Exori Mas San@Data={"name":"Exori Mas San","action":"Exevo mas san","creatures":["Demon","Fire Elemental"],"type":"AreaSpell","minCreatures":2,"radius":4}
+Exori San@Data={"name":"Exori San","action":"Exori San","creatures":["Demon"],"type":"Single"}
+@M:330337300041236693901265659482
+AttackSequences=@M:6533675591345903395843362263
+{Exori San}$ 0 0 100 0 Check  ECheck:exori san;
+{Exevo mas san}$ 0 0 100 0 Check  ECheck:exevo mas san;! 0 0 100 10000 Check  ECheck:;
+@M:6533675591345903395843362263
+BasicFeatures.AutoDropVials=-1
+BasicFeatures.AutoOpenBackpacks=-1
+Cavebot.WalkFields=0
+Cavebot.Waypoint=@M:26367108781137172691290494046
+Point (32880 31046 10)
+Point (32880 31051 10)
+Point (32884 31053 10)
+Point (32889 31053 10)
+Point (32893 31054 10)
+Point (32896 31057 10)
+Point (32900 31059 10)
+Point (32903 31062 10)
+Point (32905 31066 10)
+Point (32908 31069 10)
+Point (32912 31068 10)
+Point (32913 31063 10)
+Point (32913 31058 10)
+Point (32912 31053 10)
+Point (32910 31049 10)
+Point (32907 31046 10)
+Point (32904 31043 10)
+Point (32903 31038 10)
+Point (32898 31037 10)
+Point (32893 31036 10)
+Point (32889 31034 10)
+Point (32884 31034 10)
+Point (32880 31036 10)
+@M:26367108781137172691290494046
+HUD.AmmoCounter=-1
+HUD.XRay=-1
+Healer.Item.High.HP=60
+Healer.Item.High.Item=@Item 7642
+Healer.Item.High.Percent=-1
+Helaer.Item.Mid.Enable=-1
+Healer.Item.Mid.HP=50
+Healer.Item.Mid.Item=@Item 7642
+Healer.Item.Mid.Percent=-1
+Healer.Spell.Mid.Enable=-1
+Healer.Spell.Mid.HP=80
+Healer.Spell.High.Enable=-1
+Healer.Spell.High.HP=60
+Healer.Spell.High.Spell=exura gran san
+Killer.Enable=-1
+Killer.Targets=@M:251912697948073473734301868
+Demon:2:3:0:::
+Fire Elemental:7:0:0:::
+@M:251912697948073473734301868
+Looter.Looter.Enable=-1
+Looter.Looter.Items=3035:1:0:1:0
+Looter.OpenCorpses.Enable=-1
+Looter.OpenCorpses.Priority=1
+Looter.Skinner.Enable=-1
+Looter.Skinner.List=@M:48160109825025357992300652695
+Blessed Wooden Stake@Demon
+@M:48160109825025357992300652695
+ManaTools.ManaDrinker.High.Enable=-1
+ManaTools.ManaDrinker.High.FromMana=40
+ManaTools.ManaDrinker.High.Percent=-1
+ManaTools.ManaDrinker.High.ToMana=70
+ManaTools.ManaDrinker.High.UseItem=@Item 7642
+ManaTools.ManaDrinker.Low.Enable=-1
+ManaTools.ManaDrinker.Low.FromMana=70
+ManaTools.ManaDrinker.Low.Percent=-1
+ManaTools.ManaDrinker.Low.ToMana=90
+ManaTools.ManaDrinker.Low.UseItem=@Item 237
+ReUser.Ammo=-1
+ReUser.Haste=-1
+SpecialSQMs.HUDEnable=-1
+SpecialSQMs.Items=@M:355346624230293933882681034282
+3:1@32883 31048 10
+3:1@32883 31051 10
+3:1@32884 31052 10
+3:1@32886 31052 10
+3:1@32888 31051 10
+3:1@32889 31049 10
+3:1@32889 31047 10
+3:1@32888 31045 10
+3:1@32886 31043 10
+3:1@32887 31044 10
+3:1@32884 31043 10
+3:1@32882 31044 10
+3:1@32881 31046 10
+3:1@32881 31047 10
+3:1@32897 31055 10
+3:1@32898 31056 10
+3:1@32899 31057 10
+3:1@32899 31057 10
+3:1@32900 31058 10
+3:1@32902 31058 10
+3:1@32904 31059 10
+3:1@32903 31059 10
+3:1@32906 31059 10
+3:1@32906 31057 10
+3:1@32904 31056 10
+3:0@32903 31054 10
+3:0@32902 31054 10
+3:0@32901 31054 10
+3:0@32900 31054 10
+3:0@32900 31053 10
+3:0@32899 31053 10
+3:0@32898 31053 10
+3:0@32897 31053 10
+3:2@32908 31067 10
+3:2@32909 31069 10
+3:1@32912 31068 10
+3:1@32912 31066 10
+3:1@32910 31064 10
+3:1@32908 31064 10
+3:0@32903 31042 10
+3:0@32903 31041 10
+3:0@32903 31040 10
+3:0@32903 31039 10
+3:0@32901 31039 10
+3:0@32900 31039 10
+3:0@32900 31040 10
+3:0@32900 31041 10
+3:0@32900 31042 10
+3:0@32900 31043 10
+3:0@32900 31044 10
+3:0@32900 31045 10
+3:0@32901 31045 10
+3:0@32901 31046 10
+3:0@32902 31047 10
+3:0@32903 31047 10
+3:0@32901 31047 10
+3:0@32904 31047 10
+3:0@32904 31046 10
+3:0@32904 31045 10
+3:0@32904 31044 10
+3:0@32904 31043 10
+3:0@32904 31042 10
+3:0@32902 31039 10
+3:2@32883 31032 10
+3:2@32885 31034 10
+@M:355346624230293933882681034282
+Variables=@M:294537886455664367177830554
+# Available on FullCheck/Macros
+# This is a comment
+One=1
+
+@M:294537886455664367177830554

@@ -1,0 +1,42 @@
+BBOT
+Cavebot.Enable=-1
+Cavebot.Waypoint=@M:65194907336229888112368078191
+Fixed (32467 30984 7)
+FullCheck (32467 30984 7:237<10)
+Fixed (32467 30985 7)
+Macro (32467 30985 7:Move East)
+Point (33126 32819 4)
+Point (33131 32818 4)
+Point (33134 32817 4)
+Point (33134 32817 5)
+Point (33132 32813 5)
+Say (33130 32813 5:hi)
+NPCSay (33130 32813 5:trade)
+Buy (33130 32813 5:237 160)
+Point (33133 32816 5)
+Point (33134 32815 4)
+Point (33129 32816 4)
+Point (33126 32819 4)
+Fixed (33127 32820 4)
+Macro (33127 32820 4:Move West)
+Point (32467 30981 7)
+@M:65194907336229888112368078191
+HUD.AutoShowStatistics=-1
+Healer.Spell.Low.Enable=-1
+Healer.Spell.Mid.Enable=-1
+Healer.Spell.High.Enable=-1
+Macros.AutoEnable=-1
+Macros.Items=@M:427848923922458662903073083098
+0 {Move East} Self.MoveE()
+0 {Move West} Self.MoveW()
+1000 {Mana Train on Position} Self.Mana%()>50 Self.PositionIn(32467, 30984, 7, 32467, 30984, 7)==1 Self.Say(exura vita) 
+1000 {Alert low amount of crystal coins} Misc.ItemCountEx(3043)<5 Self.Logout() Cavebot.Stop() Misc.Alert(Fodeu) Exit()
+@M:427848923922458662903073083098
+ManaTools.ManaDrinker.High.Enable=-1
+ManaTools.ManaDrinker.High.FromMana=60
+ManaTools.ManaDrinker.High.Percent=-1
+ManaTools.ManaDrinker.High.ToMana=60
+ManaTools.ManaTrainer.FromMana=50
+ManaTools.ManaTrainer.Percent=-1
+ManaTools.ManaTrainer.Spell=exura vita
+ManaTools.ManaTrainer.ToMana=50

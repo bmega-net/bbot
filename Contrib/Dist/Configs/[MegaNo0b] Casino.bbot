@@ -1,0 +1,67 @@
+BBOT
+BasicFeatures.AutoOpenBackpacks=-1
+BasicFeatures.AutoStackItems=-1
+Macros.AutoEnable=-1
+Macros.Items=@M:2278163950296033898537404934
+2000 {Announcer} Casino.NextAnnounce:=Cooldown.Rest(Casino.Announcement) Cooldown.UnBlocked(Casino.Announcement)==:True Casino.NextAnnounce:=Misc.Random(!Casino.Announce.MinDelay, !Casino.Announce.MaxDelay) Cooldown.Create(Casino.Announcement, !Casino.NextAnnounce) Str.Equals(!Casino.Announce.Mode, yell)==:False [DoYell] Str.Equals(!Casino.Announce.Mode, say)==:False [DoSay] Str.Equals(!Casino.Announce.Mode, both)==:False [DoBoth] Exit()  {DoYell} Self.Yell(!Casino.Announce.Message) Exit()  {DoSay} Self.Say(!Casino.Announce.Message) Exit()  {DoBoth} Self.Yell(!Casino.Announce.Message) Delay:=Misc.Random(400, 1600) Macro.Wait(!Delay) Self.Say(!Casino.Announce.Message) Exit()
+1000 {Depot Detector} ItemID_Depot_North:=3499 ItemID_Depot_South:=3497 ItemID_Depot_West:=3498 ItemID_Depot_East:=3500  {Cache from previous position} !Casino.Locker.Last.X==:X [StartDetection] !Casino.Locker.Last.Y==:Y [StartDetection] !Casino.Locker.Last.Z==:Z [StartDetection] Exit()  {StartDetection} Casino.Locker.Last.X:=:X Casino.Locker.Last.Y:=:Y Casino.Locker.Last.Z:=:Z Casino.Locker.ID:=Misc.SystemTime.Epooch()  {Reset} Casino.Locker.Valid:=:False Casino.Locker.Y:=0 Casino.Locker.X:=0 Casino.Locker.Z:=0 Casino.Locker.Share.X:=:False Casino.Locker.Share.Y:=:False  {TryNorth} Map.Find(!ItemID_Depot_North, :X, :Y, :Z, 1, :False)==:True [TrySouth] Casino.Locker.Share.Y:=:True GoLabel(SaveLockerPosition)  {TrySouth} Map.Find(!ItemID_Depot_South, :X, :Y, :Z, 1, :False)==:True [TryEast] Casino.Locker.Share.Y:=:True GoLabel(SaveLockerPosition)  {TryEast} Map.Find(!ItemID_Depot_East, :X, :Y, :Z, 1, :False)==:True [TryWest] Casino.Locker.Share.X:=:True GoLabel(SaveLockerPosition)  {TryWest} Map.Find(!ItemID_Depot_West, :X, :Y, :Z, 1, :False)==:True [NotFound] Casino.Locker.Share.X:=:True GoLabel(SaveLockerPosition)  {SaveLockerPosition} Casino.Locker.Valid:=:True Casino.Locker.X:=!Found.X Casino.Locker.Y:=!Found.Y Casino.Locker.Z:=!Found.Z HUD.Display(Locker found at !Found.X !Found.Y !Found.Z) Exit()
+0 {Roll Die} ItemID_Dice_1:=5792 ItemID_Dice_2:=5793 ItemID_Dice_3:=5794 ItemID_Dice_4:=5795 ItemID_Dice_5:=5796 ItemID_Dice_6:=5797  {Try Dices} Container.Find(!ItemID_Dice_1)==:False [Found] Container.Find(!ItemID_Dice_2)==:False [Found] Container.Find(!ItemID_Dice_3)==:False [Found] Container.Find(!ItemID_Dice_4)==:False [Found] Container.Find(!ItemID_Dice_5)==:False [Found] Container.Find(!ItemID_Dice_6)==:False [Found] Exit()  {Found} Container.Item.Use(!Found.Container, !Found.Slot)
+0 {Count Valuables inside Main} Casino.Bet.MainTotal:=0 Slots:=Container.Items(!Casino.Container.Main) Slot:=0  {Loop} !Slot<!Slots [Finished] ID:=Container.Item.ID(!Casino.Container.Main, !Slot) Str.Set(ValuableVarName, Casino.Currency.!ID) HasVar(!ValuableVarName)==:True Value:=VarGet(!ValuableVarName)  {Add this slot to the validation total} Count:=Container.Item.Count(!Casino.Container.Main, !Slot) VarMult(Value, !Count) VarAdd(Casino.Bet.MainTotal, !Value)  {Continue} VarAdd(Slot, 1) GoLabel(Loop)  {Finished} Exit()
+1 {Bet 1. High and Low message detector} Str.Set(Casino.State, Idle) Str.Set(Casino.MessagePattern, ^\(low|high\)$) When.PlayerMessage(AcceptSay, !Casino.MessagePattern) When.PrivateMessage(AcceptPrivate, !Casino.MessagePattern) Exit()  {AcceptSay} !Casino.Accept.Say==:True GoLabel(PlayCasino)  {AcceptPrivate} !Casino.Accept.PrivateMessage==:True GoLabel(PlayCasino)  {PlayCasino} Str.Set(Casino.State, Idle) !Casino.Locker.Valid==:True Casino.Player.ID:=Creature.ByName(!Message.Author.Name) !Casino.Player.ID<>:False Str.Set(Casino.Player.Name, !Message.Author.Name) Str.Set(Casino.Bet, !Message.Text) Casino.Player.X:=Creature.X(!Casino.Player.ID) Casino.Player.Y:=Creature.Y(!Casino.Player.ID)  {Trigger next step} Str.Set(Casino.State, MessageReceived) Macro.Run(Bet 2. When a bet message is detected)
+0 {Bet 2. When a bet message is detected} Creature.DistanceToSelf(!Casino.Player.ID)==2 Casino.Bet.X:=!Casino.Locker.X Casino.Bet.Y:=!Casino.Locker.Y Comment(The following math will calculate the position of the middle between the two players, where the gold should be placed)  {SharingX} !Casino.Locker.Share.X==:True [SharingY] :X==!Casino.Player.X Casino.Bet.Y:=Sub(!Casino.Player.Y, :Y) VarDiv(Casino.Bet.Y, 2) VarAdd(Casino.Bet.Y, :Y) GoLabel(Continue)  {SharingY} !Casino.Locker.Share.Y==:True :Y==!Casino.Player.Y Casino.Bet.X:=Sub(!Casino.Player.X, :X) VarDiv(Casino.Bet.X, 2) VarAdd(Casino.Bet.X, :X) GoLabel(Continue)  {Continue} HUD.Display(A bet has been placed by !Casino.Player.Name for !Casino.Bet numbers at position !Casino.Player.X and !Casino.Player.Y and the Bet should be placed at !Casino.Bet.X / !Casino.Bet.Y) Macro.Run(Bet 3. Count the bet in the locker)
+0 {Bet 3. Count the bet in the locker} Casino.Bet.Value:=0 Items:=Map.ItemsOnTile(!Casino.Bet.X, !Casino.Bet.Y, :Z) Index:=0  {Loop} !Index<!Items [Finished] ID:=Map.Item.ID(!Casino.Bet.X, !Casino.Bet.Y, :Z, !Index)  {Check if ID is valuable} Str.Set(ValuableVarName, Casino.Currency.!ID) HasVar(!ValuableVarName)==:True [Continue] Value:=VarGet(!ValuableVarName)  {Add this stack item value to the total} Count:=Map.Item.Count(!Casino.Bet.X, !Casino.Bet.Y, :Z, !Index) VarMult(Value, !Count) VarAdd(Casino.Bet.Value, !Value)  {Continue} VarAdd(Index, 1) GoLabel(Loop)  {AmountError} Str.Set(Casino.State, Idle) !Casino.Accept.Amount.SendMessage==:True Self.PrivateMessage(!Casino.Player.Name, !Casino.Accept.Amount.Message) Exit()  {MainNotEmpty} HUD.Display(Main container is not empty) Exit()  {Finished} !Casino.Bet.Value>=!Casino.Accept.Amount.Minimum [AmountError] !Casino.Bet.Value<=!Casino.Accept.Amount.Maximum [AmountError] HUD.Display(The bet amount is !Casino.Bet.Value)  {Check Main is Empty} Container.Items(!Casino.Container.Main)==0 [MainNotEmpty] Str.Set(Casino.State, PushingItems) Exit()
+200 {Bet 4. Push the bet from the locker into Casino.Main} Str.Equals(!Casino.State, PushingItems)==:True ID:=Map.ItemOnTop.ID(!Casino.Bet.X, !Casino.Bet.Y, :Z)  {Check if ID is valuable} Str.Set(ValuableVarName, Casino.Currency.!ID) HasVar(!ValuableVarName)==:True [Finished] Map.PickUp(!ID, -1, !Casino.Container.Main, !Casino.Bet.X, !Casino.Bet.Y, :Z) Exit()  {Finished} Macro.Run(Count Valuables inside Main) Macro.Run(Bet 5. Validate the Casino.Main amount)
+0 {Bet 5. Validate the Casino.Main amount} HUD.Display(Main contains !Casino.Bet.MainTotal expected is !Casino.Bet.Value) !Casino.Bet.MainTotal==!Casino.Bet.Value [BetMismatch] Str.Set(Casino.State, RollDice) Exit()  {BetMismatch} HUD.Display(Error reverting bet..) Str.Set(Casino.State, DeliverPrize)
+1200 {Bet 6. Roll the Die} Str.Equals(!Casino.State, RollDice)==:True Macro.Run(Roll Die)
+1 {Bet 7. Die Result detector} When.AnyMessage(whenDie, .*(\d).*) Exit()  {whenDie} !Message.IsPositional==:True Str.Equals(!Casino.State, RollDice)==:True Str.Equals(!Casino.Die.Position, player)==:True [locker] GoLabel(Player)  {Player} !Message.Pos.X==:X !Message.Pos.Y==:Y !Message.Pos.Z==:Z GoLabel(ValidateBetNumber)   {Locker} !Message.Pos.X==!Casino.Locker.X !Message.Pos.Y==!Casino.Locker.Y !Message.Pos.Z==!Casino.Locker.Z GoLabel(ValidateBetNumber)   {ValidateBetNumber} Casino.Bet.Die:=!Str.Match.1 !Casino.Bet.Die<4 [BiggerThan3] GoLabel(SmallerThan3)  {SmallerThan3} Str.Set(Casino.Bet.Result, low) GoLabel(Trigger next step)  {BiggerThan3} Str.Set(Casino.Bet.Result, high) GoLabel(Trigger next step)  {Trigger next step} Casino.Player.Winner:=Str.VarEquals(Casino.Bet, Casino.Bet.Result) !Casino.Player.Winner==:False [PlayerWon] HUD.Display(We won lets grab our prize) Str.Set(Casino.State, GrabPrize) Exit()  {PlayerWon} HUD.Display(We lost.. double and give the prize) Casino.Bet.MainTotal:=0 Macro.Run(Count Valuables inside Main) Str.Set(Casino.State, DoublePrize)
+200 {Won 1. Move Prize from Casino.Main to Casino.Storage} Str.Equals(!Casino.State, GrabPrize)==:True Container.Items(!Casino.Container.Main)<>0 [Finished] MoveCount:=Container.Item.Count(!Casino.Container.Main, 0) Container.Item.Move(!Casino.Container.Main, 0, !Casino.Container.Storage, !MoveCount) Exit()  {Finished} Str.Set(Casino.State, Idle)
+200 {Lost 1. Double the Prize} Str.Equals(!Casino.State, DoublePrize)==:True Casino.Bet.MainTotalGoal:=Mult(!Casino.Bet.Value, !Casino.Prize.Ratio) VarDiv(Casino.Bet.MainTotalGoal, 100) !Casino.Bet.MainTotal<>!Casino.Bet.MainTotalGoal [Validate] !Casino.Bet.MainTotal<!Casino.Bet.MainTotalGoal [RemoveFromMain] GoLabel(AddToMain)  {AddToMain} Amount:=Sub(!Casino.Bet.MainTotalGoal, !Casino.Bet.MainTotal) MoveFrom:=!Casino.Container.Storage MoveTo:=!Casino.Container.Main GoLabel(Move)  {RemoveFromMain} Amount:=Sub(!Casino.Bet.MainTotal, !Casino.Bet.MainTotalGoal) MoveFrom:=!Casino.Container.Main MoveTo:=!Casino.Container.Storage GoLabel(Move)  {Move} Slot:=Container.Items(!MoveFrom)  {Loop} !Slot>=0 [CantMoveMore] ID:=Container.Item.ID(!MoveFrom, !Slot) Str.Set(ValuableVarName, Casino.Currency.!ID) HasVar(!ValuableVarName)==:True [Continue] Value:=VarGet(!ValuableVarName)  {Check if can balance with this coin} !MoveFrom==!Casino.Container.Storage [ExchangeValuables] !Value<=!Amount [Continue]  {ExchangeValuables} Wanted:=Div(!Amount, !Value) AvailableAtSlot:=Container.Item.Count(!MoveFrom, !Slot) MoveCount:=Smallest(!Wanted, !AvailableAtSlot) MoveCount:=Greatest(!MoveCount, 1) Container.Item.Move(!MoveFrom, !Slot, !MoveTo, !MoveCount) GoLabel(Validate) Exit()  {CantMoveMore} HUD.Display(Error cant balance prize) Exit()  {Continue} VarSub(Slot, 1) GoLabel(Loop)  {Validate} Casino.Bet.MainTotal:=0 Str.Set(Casino.State, ValidateDoubledPrize) 
+800 {Lost 2. Validate Double Prize} Str.Equals(!Casino.State, ValidateDoubledPrize)==:True !Casino.Bet.MainTotal<>0 [Count] Casino.Bet.MainTotalGoal:=Mult(!Casino.Bet.Value, !Casino.Prize.Ratio) VarDiv(Casino.Bet.MainTotalGoal, 100) !Casino.Bet.MainTotal<>!Casino.Bet.MainTotalGoal [Finished] Str.Set(Casino.State, DoublePrize)  {Count} Casino.Bet.MainTotal:=0 Macro.Run(Count Valuables inside Main) Exit()  {Finished} Str.Set(Casino.State, DeliverPrize)
+200 {Lost 3. Deliver the Prize} Str.Equals(!Casino.State, DeliverPrize)==:True Container.Items(!Casino.Container.Main)<>0 [Finished] Container.Item.MoveToPos(!Casino.Container.Main, 0, !Casino.Bet.X, !Casino.Bet.Y, :Z) Exit()  {Finished} Str.Set(Casino.State, Idle)
+@M:2278163950296033898537404934
+Variables=@M:43426986138806273384046739671
+##################################
+############# CA$$$$$INO
+######################## by Mega
+
+# Bet accept from
+#########
+Casino.Accept.Say=1
+Casino.Accept.PrivateMessage=1
+Casino.Accept.Amount.Minimum=10000
+Casino.Accept.Amount.Maximum=10000000
+Casino.Accept.Amount.SendMessage=1
+Casino.Accept.Amount.Message=Min is 10k and max is 10kk!
+
+# Currencies and their values
+Casino.Currency.3031=1 # Gold Coin
+#########
+Casino.Currency.3035=100 # Platinum Coin
+Casino.Currency.3043=10000 # Crystal Coin
+
+# Announcer
+#########
+Casino.Announce.Mode=say # none | say | yell | both
+Casino.Announce.Message=..:: Come to Casino ::..
+Casino.Announce.MinDelay=60000
+Casino.Announce.MaxDelay=1800000
+
+# Prize (in percentage)
+#   100 = 100% the bet value
+#   150 = 150% of bet value
+#   200 = 200% double bet
+#########
+Casino.Prize.Ratio=190
+
+# Containers
+#########
+Casino.Container.Storage=0
+Casino.Container.Main=1
+
+# Die
+#########
+Casino.Die.Position=player # player | depot
+#  where the die message will appear?
+#   if the die is inside the depot: depot
+#   otherwise: player
+@M:43426986138806273384046739671

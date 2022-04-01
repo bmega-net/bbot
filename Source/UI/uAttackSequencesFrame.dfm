@@ -1,0 +1,511 @@
+object AttackSequencesFrame: TAttackSequencesFrame
+  Left = 0
+  Top = 0
+  Width = 784
+  Height = 557
+  Color = 16772841
+  ParentBackground = False
+  ParentColor = False
+  TabOrder = 0
+  object Label94: TLabel
+    Left = 9
+    Top = 9
+    Width = 151
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Current Attack Sequences:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label93: TLabel
+    Left = 272
+    Top = 9
+    Width = 32
+    Height = 13
+    Caption = 'Name'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label63: TLabel
+    Left = 533
+    Top = 100
+    Width = 80
+    Height = 13
+    Caption = 'Requirements'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label123: TLabel
+    Left = 597
+    Top = 122
+    Width = 26
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Mana'
+  end
+  object Label133: TLabel
+    Left = 556
+    Top = 147
+    Width = 67
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Min Target HP'
+  end
+  object Label135: TLabel
+    Left = 695
+    Top = 170
+    Width = 11
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = '%'
+  end
+  object Label71: TLabel
+    Left = 533
+    Top = 217
+    Width = 36
+    Height = 13
+    Caption = 'Action'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label126: TLabel
+    Left = 272
+    Top = 446
+    Width = 61
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Shift+Delete'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object Label127: TLabel
+    Left = 272
+    Top = 461
+    Width = 96
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'delete selected item'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label129: TLabel
+    Left = 272
+    Top = 491
+    Width = 107
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'move up selected item'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label128: TLabel
+    Left = 272
+    Top = 476
+    Width = 43
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Shift+Up'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object Label130: TLabel
+    Left = 272
+    Top = 506
+    Width = 57
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Shift+Down'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsUnderline]
+    ParentFont = False
+  end
+  object Label131: TLabel
+    Left = 272
+    Top = 521
+    Width = 121
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'move down selected item'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label51: TLabel
+    Left = 272
+    Top = 53
+    Width = 42
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Actions'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 695
+    Top = 147
+    Width = 11
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = '%'
+  end
+  object Label2: TLabel
+    Left = 552
+    Top = 170
+    Width = 71
+    Height = 13
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Max Target HP'
+  end
+  object Label3: TLabel
+    Left = 533
+    Top = 72
+    Width = 119
+    Height = 16
+    Caption = 'Create new action'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lstAttackSequences: TListBox
+    Tag = 1
+    Left = 6
+    Top = 28
+    Width = 243
+    Height = 414
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = lbOwnerDrawVariable
+    ItemHeight = 18
+    TabOrder = 0
+    OnDblClick = lstAttackSequencesDblClick
+    OnDrawItem = lstAttackSequencesDrawItem
+    OnKeyDown = lstAttackSequencesKeyDown
+  end
+  object btnAtkSeqDone: TButton
+    Left = 24
+    Top = 450
+    Width = 197
+    Height = 84
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Back'
+    TabOrder = 1
+    OnClick = btnAtkSeqDoneClick
+  end
+  object edtAtkSeq: TEdit
+    Left = 272
+    Top = 28
+    Width = 256
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    TabOrder = 2
+  end
+  object btnAtkSeqSave: TButton
+    Left = 460
+    Top = 455
+    Width = 166
+    Height = 58
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Save attack sequence'
+    TabOrder = 3
+    OnClick = btnAtkSeqSaveClick
+  end
+  object lstEditAtkSeq: TListBox
+    Left = 272
+    Top = 72
+    Width = 256
+    Height = 370
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = lbOwnerDrawVariable
+    ItemHeight = 18
+    TabOrder = 4
+    OnDblClick = lstEditAtkSeqDblClick
+    OnDrawItem = lstEditAtkSeqDrawItem
+    OnKeyDown = lstEditAtkSeqKeyDown
+  end
+  object numAtkSeqMana: TMemo
+    Left = 624
+    Top = 118
+    Width = 67
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Lines.Strings = (
+      '0')
+    MaxLength = 5
+    TabOrder = 5
+    WantReturns = False
+    WordWrap = False
+  end
+  object numAtkSeqHPMin: TMemo
+    Left = 624
+    Top = 143
+    Width = 67
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Lines.Strings = (
+      '0')
+    MaxLength = 5
+    TabOrder = 6
+    WantReturns = False
+    WordWrap = False
+  end
+  object chkAtkSeqVariableCheck: TCheckBox
+    Left = 557
+    Top = 194
+    Width = 66
+    Height = 17
+    Caption = 'FullCheck'
+    TabOrder = 7
+    OnClick = chkAtkSeqVariableCheckClick
+  end
+  object edtAtkSeqVariable: TEdit
+    Left = 624
+    Top = 192
+    Width = 144
+    Height = 21
+    Enabled = False
+    TabOrder = 8
+  end
+  object numAtkSeqHPMax: TMemo
+    Left = 624
+    Top = 166
+    Width = 67
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Lines.Strings = (
+      '100')
+    MaxLength = 5
+    TabOrder = 9
+    WantReturns = False
+    WordWrap = False
+  end
+  object numAtkSeqWait: TMemo
+    Left = 591
+    Top = 236
+    Width = 67
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Alignment = taCenter
+    Lines.Strings = (
+      '0')
+    MaxLength = 5
+    TabOrder = 10
+    WantReturns = False
+    WordWrap = False
+  end
+  object cmbAtkSeqMacro: TComboBox
+    Left = 591
+    Top = 262
+    Width = 177
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csDropDownList
+    Enabled = False
+    TabOrder = 11
+    OnCloseUp = cmbAtkSeqMacroCloseUp
+    OnDropDown = cmbAtkSeqMacroDropDown
+  end
+  object edtAtkSeqSpell: TEdit
+    Left = 591
+    Top = 328
+    Width = 177
+    Height = 21
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Enabled = False
+    TabOrder = 12
+  end
+  object cmbAtkSeqRune: TComboBox
+    Left = 591
+    Top = 286
+    Width = 177
+    Height = 38
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Style = csOwnerDrawVariable
+    Enabled = False
+    ItemHeight = 32
+    TabOrder = 13
+  end
+  object SelectWaitAction: TRadioButton
+    Left = 537
+    Top = 236
+    Width = 53
+    Height = 21
+    Caption = 'Wait'
+    Checked = True
+    TabOrder = 14
+    TabStop = True
+    OnClick = ActionSelectionClick
+  end
+  object SelectMacroAction: TRadioButton
+    Left = 537
+    Top = 262
+    Width = 53
+    Height = 21
+    Caption = 'Macro'
+    TabOrder = 15
+    OnClick = ActionSelectionClick
+  end
+  object SelectItemAction: TRadioButton
+    Left = 537
+    Top = 295
+    Width = 53
+    Height = 21
+    Caption = 'Item'
+    TabOrder = 16
+    OnClick = ActionSelectionClick
+  end
+  object SelectSpellAction: TRadioButton
+    Left = 537
+    Top = 328
+    Width = 53
+    Height = 21
+    Caption = 'Spell'
+    TabOrder = 17
+    OnClick = ActionSelectionClick
+  end
+  object SaveAction: TButton
+    Left = 624
+    Top = 353
+    Width = 112
+    Height = 32
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Add action'
+    TabOrder = 18
+    OnClick = SaveActionClick
+  end
+end

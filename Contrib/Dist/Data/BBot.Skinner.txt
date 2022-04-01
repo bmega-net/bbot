@@ -1,0 +1,66 @@
+@With Fishing Rod -> 3483
+@MaxDistance 4
+@WaitOpenCorpses
+Water Elemental -> 9582
+
+@With Kitchen Knife -> 3469
+@MaxDistance 2
+Rabbit -> 4173 
+
+@With Blessed Wooden Stake -> 5942
+@MaxDistance 2
+Vampire -> 4137
+Vampire Bride -> 8738
+Vampire Viscount -> 18958
+Demon -> 4097
+
+@Version 10.90
+Vampire -> 6006
+Vampire Bride -> 8744
+Vampire Viscount -> 18961
+Demon -> 5995
+
+@With Obsidian Knife -> 5908
+@MaxDistance 2
+Behemoth -> 4112
+Bonebeast -> 4212
+Clomp -> 22743
+Dragon -> 4025
+Dragon Lord -> 4062
+Minotaur -> 4011
+Minotaur Archer -> 4052
+Minotaur Guard -> 4057
+Minotaur Mage -> 4047
+Minotaur Hunter -> 21096 
+Worm Priestess -> 21100 
+Mooh'Tah Warrior -> 21092 
+Execowtioner -> 21005 
+Lizard Templar -> 4321
+Lizard Sentinel -> 4324
+Lizard Snakecharmer -> 4327
+Lizard High Guard -> 10352 
+Lizard Legionnaire -> 10356 
+Lizard Dragon Priest -> 10360 
+Lizard Chosen -> 10368 
+
+@Version 10.90
+Behemoth -> 5999
+Bonebeast -> 6030
+Clomp -> 22742
+Dragon -> 5973
+Dragon Lord -> 5984
+Minotaur -> 5969 
+Minotaur Archer -> 5982 
+Minotaur Guard -> 5983 
+Minotaur Mage -> 5981 
+Minotaur Hunter -> 21095 
+Worm Priestess -> 21099 
+Mooh'Tah Warrior -> 21091 
+Execowtioner -> 21004 
+Lizard Templar -> 4239
+Lizard Sentinel -> 6040
+Lizard Snakecharmer -> 6041
+Lizard High Guard -> 10355 
+Lizard Legionnaire -> 10359 
+Lizard Dragon Priest -> 10363 
+Lizard Chosen -> 10371 

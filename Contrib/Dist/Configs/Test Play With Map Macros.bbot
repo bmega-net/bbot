@@ -1,0 +1,4 @@
+BBOT
+Macros.Items=@M:2480382147736585114640578452
+0 {Play with Macros} Index:=0 Items:=Map.ItemsOnTile(:X, :Y, :Z)  {ReadItemAgain} ID:=Map.Item.ID(:X, :Y, :Z, !Index) Count:=Map.Item.Count(:X, :Y, :Z, !Index) Debug.Log(:X :Y :Z Index=!Index ID=!ID Count=!Count)  !Index<!Items [Leave] VarAdd(Index, 1) GoLabel(ReadItemAgain) {Leave}  ItemOnTopID:=Map.ItemOnTop.ID(:X, :Y, :Z) ItemOnTopCount:=Map.ItemOnTop.Count(:X, :Y, :Z) CreatureOnTop:=Map.CreatureOnTop.ID(:X, :Y, :Z)  Debug.Log(On Top ID=!ItemOnTopID Count=!ItemOnTopCount Creature=!CreatureOnTop)
+@M:2480382147736585114640578452

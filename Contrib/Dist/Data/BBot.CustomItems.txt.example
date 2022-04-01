@@ -1,0 +1,30 @@
+# BBot items file
+# Bot flags
+# @Teleport
+# @Shovel
+# @Rope
+# @Sewer
+# @Ladder
+# @RampUp
+# @RampDown
+# @NaturalFields
+# @Furnitures
+# @Depot
+# @HostileExhaust
+# @DefensiveExhaust
+# @PotionExhaust
+# @Food
+# @Rings # pair of IDs: NormalRing UsingRing
+# Tibia flags
+# ID,Flags,Weight,NPCBuyPrice,NPCSellValue,Name
+# Flags:
+#  1. Pickupable
+#  2. Stackable
+#  4. Countable
+#  8. Container
+#  16. Immoveable
+#  32. BlockWalk
+#  64. BlockMissiles
+#  128. Ground
+@TibiaVersion 8.50
+3031,7,1,0,0,GoldCustom

@@ -1,0 +1,466 @@
+BBOT
+BasicFeatures.AutoEat=-1
+BasicFeatures.AutoOpenBackpacks=-1
+BasicFeatures.AutoScreenshot=-1
+Cavebot.Enable=-1
+Cavebot.WalkFields=1
+Cavebot.WalkFurnitures=1
+Cavebot.WalkPlayers=1
+Cavebot.Waypoint=@M:19307547458306588231844526700
+Point (32419 32040 9)
+Point (32419 32036 9)
+Point (32419 32032 9)
+Point (32419 32028 9)
+Point (32419 32024 9)
+Point (32417 32023 9)
+Point (32416 32023 10)
+Point (32412 32020 10)
+Point (32409 32016 10)
+Point (32406 32012 10)
+Point (32406 32008 10)
+Point (32411 32005 10)
+Point (32416 32002 10)
+Point (32418 31998 10)
+Point (32420 31994 10)
+Point (32418 31990 10)
+Point (32415 31986 10)
+Point (32411 31982 10)
+Point (32411 31978 10)
+Point (32409 31974 10)
+Point (32407 31970 10)
+Point (32406 31966 10)
+Point (32403 31970 10)
+Point (32398 31972 10)
+Point (32393 31973 10)
+Point (32388 31974 10)
+Point (32383 31974 10)
+Point (32378 31976 10)
+Point (32374 31980 10)
+Point (32373 31984 10)
+Point (32374 31988 10)
+Point (32375 31992 10)
+Point (32375 31996 10)
+Point (32375 32000 10)
+Point (32371 32004 10)
+Point (32366 32005 10)
+FullCheckLabel (32364 32006 10:Full OnSF Else AfterSF Code !SecondFloor!==1)
+Label (32364 32006 10:OnSF)
+Point (32362 32007 10)
+Point (32361 32007 11)
+Point (32359 32011 11)
+Point (32359 32015 11)
+Point (32359 32019 11)
+Point (32358 32023 11)
+Point (32356 32027 11)
+Point (32361 32028 11)
+Point (32363 32032 11)
+Point (32366 32036 11)
+Point (32371 32036 11)
+Point (32371 32040 11)
+Point (32369 32044 11)
+Point (32370 32048 11)
+Point (32371 32052 11)
+Point (32376 32054 11)
+Point (32381 32052 11)
+Point (32383 32048 11)
+Point (32388 32047 11)
+Point (32393 32044 11)
+Point (32398 32042 11)
+Point (32402 32046 11)
+Point (32407 32049 11)
+Point (32412 32049 11)
+Point (32412 32045 11)
+Point (32412 32041 11)
+Point (32417 32039 11)
+Point (32419 32035 11)
+Point (32423 32031 11)
+Point (32425 32027 11)
+Point (32425 32023 11)
+Point (32423 32019 11)
+Point (32418 32018 11)
+Point (32413 32015 11)
+Point (32408 32013 11)
+Point (32405 32017 11)
+Point (32400 32018 11)
+Point (32395 32018 11)
+Point (32390 32016 11)
+Point (32390 32012 11)
+Point (32389 32008 11)
+Point (32389 32004 11)
+Point (32392 32000 11)
+Point (32392 31996 11)
+Point (32394 31992 11)
+Point (32397 31988 11)
+Point (32397 31984 11)
+Point (32397 31980 11)
+Point (32396 31976 11)
+Point (32389 31976 11)
+Point (32384 31976 11)
+Point (32379 31974 11)
+Point (32374 31972 11)
+Point (32369 31972 11)
+Point (32368 31976 11)
+Point (32367 31980 11)
+Point (32366 31984 11)
+Point (32365 31988 11)
+Point (32364 31992 11)
+Point (32363 31996 11)
+Point (32362 32000 11)
+Point (32361 32004 11)
+Point (32361 32008 11)
+Point (32360 32008 11)
+Point (32361 32008 10)
+Label (32364 32006 10:AfterSF)
+Point (32365 32006 10)
+Point (32370 32005 10)
+Point (32375 32005 10)
+Point (32380 32007 10)
+Point (32385 32010 10)
+Point (32390 32012 10)
+Point (32394 32016 10)
+Point (32396 32020 10)
+Point (32395 32024 10)
+Point (32390 32027 10)
+Point (32385 32027 10)
+Point (32380 32029 10)
+Point (32378 32033 10)
+Point (32378 32037 10)
+Point (32383 32040 10)
+Point (32388 32042 10)
+Point (32391 32046 10)
+Point (32392 32050 10)
+Point (32392 32054 10)
+Point (32392 32058 10)
+Point (32394 32062 10)
+Point (32399 32062 10)
+Point (32404 32062 10)
+Point (32409 32062 10)
+Point (32414 32061 10)
+Point (32419 32058 10)
+Point (32424 32055 10)
+Point (32429 32053 10)
+Point (32434 32051 10)
+Point (32439 32049 10)
+Point (32444 32046 10)
+Point (32449 32046 10)
+Point (32452 32042 10)
+Point (32453 32038 10)
+Point (32453 32034 10)
+Point (32452 32030 10)
+Point (32450 32026 10)
+Point (32445 32023 10)
+Point (32440 32023 10)
+Point (32437 32027 10)
+Point (32432 32029 10)
+Point (32427 32031 10)
+Point (32422 32031 10)
+Point (32417 32028 10)
+Point (32416 32024 10)
+Point (32416 32024 9)
+Point (32418 32028 9)
+Point (32419 32032 9)
+Point (32419 32036 9)
+FullCheck (32419 32039 9:Cap<!GoCityOnCap!;Mana Potion<!GoCityOnManaPotions!)
+Point (32418 32040 9)
+Point (32418 32042 8)
+Point (32418 32044 8)
+Point (32419 32048 8)
+Point (32420 32052 8)
+Point (32420 32056 8)
+Point (32420 32060 8)
+Point (32425 32063 8)
+Point (32430 32066 8)
+Point (32435 32068 8)
+Point (32440 32070 8)
+Point (32445 32070 8)
+Point (32448 32070 8)
+Point (32449 32069 7)
+Point (32453 32069 7)
+Point (32458 32071 7)
+Point (32462 32075 7)
+Point (32463 32079 7)
+Point (32463 32083 7)
+Point (32465 32087 7)
+Point (32466 32091 7)
+Point (32467 32095 7)
+Point (32462 32097 7)
+Point (32457 32101 7)
+Point (32452 32102 7)
+Point (32447 32103 7)
+Point (32445 32107 7)
+Point (32449 32111 7)
+Point (32449 32115 7)
+Point (32449 32119 7)
+Point (32448 32123 7)
+Point (32447 32127 7)
+Point (32447 32131 7)
+Point (32446 32135 7)
+Point (32441 32137 7)
+Point (32436 32137 7)
+Point (32431 32140 7)
+Point (32426 32142 7)
+Point (32423 32146 7)
+Point (32418 32147 7)
+Point (32413 32150 7)
+Point (32411 32154 7)
+Point (32409 32158 7)
+Point (32404 32161 7)
+Point (32399 32161 7)
+Point (32394 32161 7)
+Point (32389 32162 7)
+Point (32384 32163 7)
+Point (32379 32163 7)
+Point (32374 32163 7)
+Point (32369 32163 7)
+Point (32369 32167 7)
+Point (32369 32171 7)
+Point (32369 32175 7)
+Point (32367 32179 7)
+Point (32369 32183 7)
+Point (32369 32187 7)
+Point (32369 32191 7)
+Point (32369 32195 7)
+Point (32369 32199 7)
+Point (32369 32203 7)
+Point (32369 32207 7)
+Point (32369 32211 7)
+Point (32369 32215 7)
+Point (32364 32215 7)
+Point (32359 32215 7)
+Point (32354 32215 7)
+Point (32349 32215 7)
+Point (32345 32219 7)
+Point (32345 32223 7)
+Point (32347 32227 7)
+Say (32344 32228 7:hi)
+NPCSay (32344 32228 7:deposit all)
+NPCSay (32344 32228 7:yes)
+Point (32347 32230 7)
+Point (32347 32232 8)
+Point (32346 32226 8)
+Depositer (32348 32225 8)
+Point (32346 32230 8)
+Point (32347 32232 8)
+Point (32347 32230 7)
+Point (32346 32228 7)
+Say (32344 32229 7:hi)
+NPCSay (32344 32229 7:withdraw)
+Withdraw (32344 32229 7:268 50 !TotalManaPotions!)
+NPCSay (32344 32229 7:yes)
+Point (32344 32229 7)
+Point (32346 32225 7)
+Point (32346 32221 7)
+Point (32347 32216 7)
+Point (32352 32216 7)
+Point (32357 32216 7)
+Point (32362 32217 7)
+Point (32367 32216 7)
+Point (32372 32216 7)
+Point (32377 32216 7)
+Point (32382 32216 7)
+Point (32387 32215 7)
+Point (32392 32215 7)
+Point (32397 32215 7)
+MapTool (32400 32216 7:Target: 1632 Use: 0 Pos: 32400 32217 7)
+Point (32400 32219 7)
+Say (32399 32220 7:hi)
+NPCSay (32399 32220 7:trade)
+Sell (32399 32220 7:285)
+Buy (32399 32220 7:268 !TotalManaPotions!)
+MapTool (32400 32218 7:Target: 1632 Use: 0 Pos: 32400 32217 7)
+Point (32400 32215 7)
+Point (32395 32215 7)
+Point (32390 32214 7)
+Point (32385 32214 7)
+Point (32380 32214 7)
+Point (32375 32214 7)
+Point (32370 32214 7)
+Point (32369 32210 7)
+Point (32368 32206 7)
+Point (32369 32202 7)
+Point (32368 32198 7)
+Point (32368 32194 7)
+Point (32368 32190 7)
+Point (32368 32186 7)
+Point (32368 32182 7)
+Point (32369 32178 7)
+Point (32369 32174 7)
+Point (32369 32170 7)
+Point (32369 32166 7)
+Point (32369 32162 7)
+Point (32374 32161 7)
+Point (32379 32161 7)
+Point (32384 32161 7)
+Point (32389 32161 7)
+Point (32394 32161 7)
+Point (32399 32160 7)
+Point (32404 32159 7)
+Point (32409 32158 7)
+Point (32412 32154 7)
+Point (32412 32150 7)
+Point (32412 32146 7)
+Point (32412 32142 7)
+Point (32412 32138 7)
+Point (32412 32134 7)
+Point (32412 32130 7)
+Point (32412 32126 7)
+Point (32412 32122 7)
+Point (32412 32118 7)
+Point (32416 32114 7)
+Point (32416 32110 7)
+Point (32416 32106 7)
+Point (32421 32103 7)
+Point (32426 32103 7)
+Point (32431 32103 7)
+Point (32436 32104 7)
+Point (32441 32104 7)
+Point (32446 32103 7)
+Point (32451 32103 7)
+Point (32456 32102 7)
+Point (32458 32098 7)
+Point (32463 32097 7)
+Point (32467 32093 7)
+Point (32466 32089 7)
+Point (32465 32085 7)
+Point (32463 32081 7)
+Point (32460 32077 7)
+Point (32460 32073 7)
+Point (32455 32072 7)
+Point (32450 32069 7)
+Point (32449 32069 7)
+Point (32447 32069 8)
+Point (32444 32070 8)
+Point (32439 32071 8)
+Point (32434 32069 8)
+Point (32429 32066 8)
+Point (32424 32064 8)
+Point (32420 32060 8)
+Point (32420 32056 8)
+Point (32420 32052 8)
+Point (32420 32048 8)
+Point (32419 32044 8)
+Point (32418 32042 8)
+Point (32418 32041 9)
+@M:19307547458306588231844526700
+HUD.Advancements=-1
+HUD.AutoShowStatistics=-1
+HUD.CreatureLevels=-1
+HUD.ExpGainInformations=-1
+HUD.ExpInformations=-1
+HUD.LootHUD=-1
+HUD.MagicWalls=-1
+HUD.Spells=-1
+HUD.XRay=-1
+Healer.Item.Exhaust=300
+Healer.Spell.Exhaust=300
+Healer.Item.High.Item=0
+Healer.Item.Low.HP=30
+Healer.Item.Low.Percent=-1
+Healer.Spell.Low.Enable=-1
+Healer.Spell.Low.Mana=40
+Healer.Spell.Low.Spell=exura ico
+Healer.Spell.Mid.HP=600
+Healer.Spell.Mid.Percent=0
+Healer.Spell.Mid.Spell=Exura Gran
+Healer.Spell.High.HP=400
+Healer.Spell.High.Percent=0
+Healer.Spell.High.Spell=Exura Vita
+Killer.Enable=-1
+Killer.Targets=@M:411913465419395139052510190299
+Skeleton:0:1:0:::
+Ghost:6:1:0:::
+Bonelord:2:1:0:::
+Crypt Shambler:4:1:0:::
+Mummy:1:1:0:::
+Ghoul:1:1:0:::
+Cyclops:0:1:0:::
+Cyclops Drone:0:1:0:::
+Cyclops Smith:0:1:0:::
+@M:411913465419395139052510190299
+Looter.Looter.Eat=-1
+Looter.Looter.Enable=-1
+Looter.Looter.Items=@M:782087684861030816230841144
+5914:1:0:1:0
+5940:2:0:1:0
+3012:2:0:1:0
+3065:2:0:1:0
+236:1:0:1:0
+7452:2:0:1:0
+11512:1:0:1:0
+3028:1:0:1:0
+3054:2:0:1:0
+10291:1:0:1:0
+11484:1:0:1:0
+11481:1:0:1:0
+10290:1:0:1:0
+268:1:0:0:0
+3052:1:0:1:0
+3330:2:0:1:0
+266:1:0:0:0
+10283:1:0:1:0
+3269:2:0:1:0
+3031:2:0:0:0
+11467:1:0:1:0
+11466:1:0:1:0
+3384:2:0:1:0
+7398:2:0:1:0
+9657:2:0:1:0
+6093:2:0:1:0
+3007:2:0:1:0
+12600:1:0:1:0
+3093:2:0:1:0
+5913:1:0:1:0
+3418:2:0:1:0
+5898:1:0:1:0
+3338:2:0:1:0
+3429:2:0:1:0
+3027:1:0:1:0
+3305:2:0:1:0
+3266:2:0:1:0
+@M:782087684861030816230841144
+Looter.OpenCorpses.Enable=-1
+Looter.RareItems.Words=Loot1, Loot2, Loot3
+ManaTools.ManaDrinker.High.FromMana=10
+ManaTools.ManaDrinker.High.Percent=-1
+ManaTools.ManaDrinker.High.ToMana=30
+ManaTools.ManaDrinker.High.UseItem=0
+ManaTools.ManaDrinker.Low.Enable=-1
+ManaTools.ManaDrinker.Low.FromMana=40
+ManaTools.ManaDrinker.Low.Percent=-1
+ManaTools.ManaDrinker.Low.ToMana=50
+ManaTools.ManaTrainer.Enable=-1
+ManaTools.ManaTrainer.FromMana=@M:300061653961501837378761525
+100
+
+@M:300061653961501837378761525
+ManaTools.ManaTrainer.Percent=-1
+ManaTools.ManaTrainer.Spell=exura ico
+ManaTools.ManaTrainer.ToMana=@M:31616353126251786582031616120
+70
+
+@M:31616353126251786582031616120
+ReUSer.CureParalyzeSpell=Exura Ico
+ReUser.CureParalyze=-1
+ReUser.CurePatalyzeMana=40
+SimpleReconnect.Enable=-1
+Variables=@M:38540739534984651451839250958
+# Should the Bot go on the second floor?
+# Note: crypt shamblers / mummys
+# Recommended for high-levels
+SecondFloor=1
+
+# Go to city to refill / deposit
+
+# On cap lower than:
+GoCityOnCap=100
+
+# On Mana Potions lower than:
+GoCityOnManaPotions=60
+
+# How many mana potionss the Bot will keep
+TotalManaPotions=200
+
+@M:38540739534984651451839250958
+War.Combo.MagicWords=-1
+War.Combo.ParalyzedEnemies=-1
+War.Combo.SetTarget=-1
