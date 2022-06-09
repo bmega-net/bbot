@@ -41,7 +41,7 @@ uses
   uTibiaProcess;
 
 const
-  _PacketBufferTibiaSize = 65536;
+  _PacketBufferTibiaSize = 4194304;
   _PacketBufferBotSize = 16384;
 
   _PacketBufferIDLE = 1;

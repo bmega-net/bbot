@@ -35,7 +35,7 @@ implementation
 uses uDLL, uDllHookNET;
 
 const
-  _PacketBufferTibiaSize = 65536;
+  _PacketBufferTibiaSize = 4194304;
   _PacketBufferBotSize = 16384;
 
   _PacketBufferIDLE = 1;
@@ -63,8 +63,6 @@ procedure TBBotPacketQueue.AddPacketData(Data: BPtr; Size, IO: BInt32);
 var
   PData: _PPacketData;
 begin
-  if Size >= 16384 then
-    Exit; // Too much big
   if TibiaPackets.Count > 100 then
     Exit;
   New(PData);
