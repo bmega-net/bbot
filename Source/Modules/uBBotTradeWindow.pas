@@ -59,8 +59,8 @@ type
     property IgnoreCap: BBool read FIgnoreCap write FIgnoreCap;
     property BuyInBackpacks: BBool read FBuyInBackpacks write FBuyInBackpacks;
 
-    function Buy(const ID, BuyCount: BUInt32): BBool;
-    function Sell(const ID, SellCount: BUInt32): BBool;
+    function Buy(const ID: BUInt32; const BuyCount: BInt32): BBool;
+    function Sell(const ID: BUInt32; const SellCount: BInt32): BBool;
     function SellAll(const ID: BUInt32): BBool;
 
     procedure AddItem(const AName: BStr; const AID, AAmount, AWeight, ASellPrice, ABuyPrice: BInt32);
@@ -115,7 +115,7 @@ begin
       [AID, AName, AWeight, ASellPrice, ABuyPrice, AAmount]));
 end;
 
-function TBBotTradeWindow.Buy(const ID, BuyCount: BUInt32): BBool;
+function TBBotTradeWindow.Buy(const ID: BUInt32; const BuyCount: BInt32): BBool;
 var
   Count: BInt32;
   Cost: BUInt64;
@@ -136,7 +136,7 @@ begin
     AddDebug(BFormat('Buying item %d is not buyable in current NPC', [ID]));
     Exit;
   end;
-  Cost := BuyCount * Cardinal(Itemm^.BuyPrice);
+  Cost := BuyCount * Itemm^.BuyPrice;
   if Money < Cost then begin
     AddDebug(BFormat('Buying with no enought money for id %d (wanted buy: %d, current money: %d, cost: %d)',
       [ID, BuyCount, Money, Cost]));
@@ -148,7 +148,7 @@ begin
   Count := BuyCount;
   while Count > 0 do begin
     if Debug then
-      AddDebug(BFormat('Buying %d of id %d (%d/%d)', [BMin(100, Count), ID, BuyCount - Cardinal(Count), BuyCount]));
+      AddDebug(BFormat('Buying %d of id %d (%d/%d)', [BMin(100, Count), ID, BuyCount - Count, BuyCount]));
     BBot.PacketSender.NPCBuy(ID, BMin(100, Count), Itemm^.Amount, IgnoreCap, BuyInBackpacks);
     Dec(Count, 100);
     SleepBetweenCommand;
@@ -156,7 +156,7 @@ begin
   Exit(True);
 end;
 
-function TBBotTradeWindow.Sell(const ID, SellCount: BUInt32): BBool;
+function TBBotTradeWindow.Sell(const ID: BUInt32; const SellCount: BInt32): BBool;
 var
   Count: BInt32;
   Itemm: TBBotTradeWindowItems.It;
@@ -186,7 +186,7 @@ begin
   Count := SellCount;
   while Count > 0 do begin
     if Debug then
-      AddDebug(BFormat('Selling %d of id %d (%d/%d)', [BMin(100, Count), ID, SellCount - Cardinal(Count), SellCount]));
+      AddDebug(BFormat('Selling %d of id %d (%d/%d)', [BMin(100, Count), ID, SellCount - Count, SellCount]));
     BBot.PacketSender.NPCSell(ID, BMin(100, Count), Itemm^.Amount);
     Dec(Count, 100);
     SleepBetweenCommand;

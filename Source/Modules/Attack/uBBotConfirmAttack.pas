@@ -1,5 +1,5 @@
 unit uBBotConfirmAttack;
-
+
 interface
 
 uses

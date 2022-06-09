@@ -1,5 +1,5 @@
 unit uBBotTrainer;
-
+
 interface
 
 uses

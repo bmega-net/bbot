@@ -1,5 +1,5 @@
 unit uBBotAutoStack;
-
+
 interface
 
 uses

@@ -46,7 +46,7 @@ object VariablesFrame: TVariablesFrame
   object Label1: TLabel
     Left = 652
     Top = 4
-    Width = 27
+    Width = 24
     Height = 13
     Caption = 'Filter'
   end

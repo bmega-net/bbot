@@ -1,6 +1,5 @@
 unit uItemLoader;
 
-
 interface
 
 uses
@@ -35,7 +34,8 @@ uses
 
 procedure AddItemBotFlag(const AID: BUInt32; AFlag: TTibiaItemBotFlags); inline;
 begin
-  if BInRange(AID, 0, TibiaMaxItems) then begin
+  if BInRange(AID, 0, TibiaMaxItems) then
+  begin
     TibiaItems[AID].BotFlags := TibiaItems[AID].BotFlags + AFlag;
     TibiaLastItem := BMax(TibiaLastItem, AID);
   end
@@ -48,14 +48,17 @@ var
   I: BUInt32;
 begin
   I := Low(AIDs);
-  while I < BUInt32(High(AIDs)) do begin
-    if BInRange(AIDs[I], BUInt32(0), TibiaMaxItems) then begin
+  while I < BUInt32(High(AIDs)) do
+  begin
+    if BInRange(AIDs[I], BUInt32(0), TibiaMaxItems) then
+    begin
       AddItemBotFlag(AIDs[I], [idfRing]);
       TibiaItems[AIDs[I]].RingID := AIDs[I + 1];
       Inc(I, 2);
     end
     else
-      raise BException.Create(BFormat('Item ID out of range in AIR(%d)', [AIDs[I]]));
+      raise BException.Create(BFormat('Item ID out of range in AIR(%d)',
+        [AIDs[I]]));
   end;
 end;
 
@@ -65,7 +68,8 @@ var
   I, ID: BUInt32;
 begin
   if BStrSplit(Items, ' ', Text) > 0 then
-    for I := 0 to High(Items) do begin
+    for I := 0 to High(Items) do
+    begin
       ID := BStrToU32(Items[I], 0);
       if ID <> 0 then
         Action(ID);
@@ -95,7 +99,8 @@ begin
   ReadItemIDs(Text,
     procedure(ID: BUInt32)
     begin
-      AddItemBotFlag(ID, [idfChangeLevelShovel, idfChangeLevelDown, idfChangeLevel]);
+      AddItemBotFlag(ID, [idfChangeLevelShovel, idfChangeLevelDown,
+        idfChangeLevel]);
     end);
 end;
 
@@ -104,7 +109,8 @@ begin
   ReadItemIDs(Text,
     procedure(ID: BUInt32)
     begin
-      AddItemBotFlag(ID, [idfChangeLevelHole, idfChangeLevelDown, idfChangeLevel]);
+      AddItemBotFlag(ID, [idfChangeLevelHole, idfChangeLevelDown,
+        idfChangeLevel]);
     end);
 end;
 
@@ -122,7 +128,8 @@ begin
   ReadItemIDs(Text,
     procedure(ID: BUInt32)
     begin
-      AddItemBotFlag(ID, [idfChangeLevelRope, idfChangeLevelUP, idfChangeLevel]);
+      AddItemBotFlag(ID, [idfChangeLevelRope, idfChangeLevelUP,
+        idfChangeLevel]);
     end);
 end;
 
@@ -131,7 +138,8 @@ begin
   ReadItemIDs(Text,
     procedure(ID: BUInt32)
     begin
-      AddItemBotFlag(ID, [idfChangeLevelLadder, idfChangeLevelUP, idfChangeLevel]);
+      AddItemBotFlag(ID, [idfChangeLevelLadder, idfChangeLevelUP,
+        idfChangeLevel]);
     end);
 end;
 
@@ -206,11 +214,13 @@ var
   IDs: array of BUInt32;
   I: BUInt32;
 begin
-  if BStrSplit(Items, ' ', Text) > 0 then begin
+  if BStrSplit(Items, ' ', Text) > 0 then
+  begin
     if (Length(Items) mod 2) <> 0 then
       raise BException.Create('Ring lines must have pairs of values');
     SetLength(IDs, Length(Items));
-    for I := 0 to High(Items) do begin
+    for I := 0 to High(Items) do
+    begin
       IDs[I] := BStrToU32(Items[I], 0);
       if IDs[I] = 0 then
         raise BException.Create('Unable to read Ring');
@@ -224,7 +234,8 @@ var
   ID: BUInt32;
   Item: BStrArray;
 begin
-  if BStrSplit(Item, ',', Text) = 6 then begin
+  if BStrSplit(Item, ',', Text) = 6 then
+  begin
     try
       ID := BStrToU32(Item[0]);
       BUInt32(TibiaItems[ID].DatFlags) := BStrToU32(Item[1]);
@@ -235,7 +246,9 @@ begin
       TibiaItems[ID].SellValue := BStrTo32(Item[4]);
       TibiaItems[ID].Name := BTrim(Item[5]);
       TibiaLastItem := BMax(TibiaLastItem, ID);
-    except raise BException.CreateFmt('Error reading ItemProperties on line %d: %s', [Line, Text]);
+    except
+      raise BException.CreateFmt('Error reading ItemProperties on line %d: %s',
+        [Line, Text]);
     end;
   end
 end;
@@ -264,12 +277,15 @@ begin
     Reset(FileHandle);
     LineNum := 0;
     Reader := nil;
-    while not EOF(FileHandle) do begin
+    while not EOF(FileHandle) do
+    begin
       Inc(LineNum);
       ReadLn(FileHandle, LineText);
       LineText := BTrim(LineText);
-      if (LineText <> '') and (LineText[1] <> '#') then begin
-        if LineText[1] = '@' then begin
+      if (LineText <> '') and (LineText[1] <> '#') then
+      begin
+        if LineText[1] = '@' then
+        begin
           LineSection := LineText;
           if BStrStartSensitive(LineSection, '@Teleport') then
             Reader := ReadItemTeleport
@@ -304,12 +320,16 @@ begin
           else if BStrStartSensitive(LineSection, '@TibiaVersion') then
             Reader := GetTibiaReaderForVersion(LineText)
           else
-            raise BException.Create('Unknown Properties section: ' + LineSection);
-        end else if Assigned(Reader) then
-          try Reader(LineNum, LineText);
+            raise BException.Create('Unknown Properties section: ' +
+              LineSection);
+        end
+        else if Assigned(Reader) then
+          try
+            Reader(LineNum, LineText);
           except
             on E: Exception do
-              raise BException.CreateFmt('Error on loading properties %s at line %d (%s): %s',
+              raise BException.CreateFmt
+                ('Error on loading properties %s at line %d (%s): %s',
                 [LineSection, LineNum, LineText, E.Message]);
           end;
       end;
@@ -317,7 +337,8 @@ begin
     CloseFile(FileHandle);
   except
     on E: Exception do
-      raise BException.Create('Error loading BBot.Items:' + BStrLine + E.Message);
+      raise BException.Create('Error loading BBot.Items:' + BStrLine +
+        E.Message);
   end;
 end;
 
@@ -342,14 +363,15 @@ begin
   ZeroMemory(@TibiaItems, SizeOf(TibiaItems));
   TibiaLastItem := 0;
   LoadItemsFile;
-  for I := 0 to TibiaMaxItems do begin
+  for I := 0 to TibiaMaxItems do
+  begin
     if idfPickupable in TibiaItems[I].DatFlags then
       if TibiaItems[I].Name = '' then
         TibiaItems[I].Name := BFormat('zzzzz~id:%d', [I]);
   end;
   TibiaItems[ItemID_Creature].Name := 'Creature';
-  TibiaItems[ItemID_Creature].Weight := 0;   
-  TibiaItems[ItemID_Creature].BuyPrice := 0;
+  TibiaItems[ItemID_Creature].Weight := 0;
+   TibiaItems[ItemID_Creature].BuyPrice := 0;
   TibiaItems[ItemID_Creature].SellValue := 0;
   TibiaItems[ItemID_Creature].DatFlags := [];
   TibiaItems[ItemID_Creature].BotFlags := [];
@@ -357,7 +379,8 @@ begin
   TibiaItems[ItemID_Unknown].Name := '???';
 
   if TibiaLastItem < 1000 then
-    raise Exception.Create('Database (BBot.Items.txt) error, please reinstall.');
+    raise Exception.Create
+      ('Database (BBot.Items.txt) error, please reinstall.');
 
   SetItemsWalkable([ItemID_Creature], iwNotWalkable);
   SetItemsWalkable(ItemsFirePoison, iwNotWalkable);
@@ -365,4 +388,3 @@ begin
 end;
 
 end.
-

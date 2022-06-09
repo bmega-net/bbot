@@ -139,16 +139,14 @@ begin
 end;
 
 procedure BBotEngine_MainLoop(Data: Pointer);
-var
 {$IFDEF BotExceptions}
+var
   E: TObject;
   HUD: TBBotHUD;
 {$ENDIF}
-  ErrorsSent: BBool;
 begin
 {$IFNDEF Release}setThisThreadName('BBot.Engine'); {$ENDIF}
   Randomize();
-  ErrorsSent := False;
 {$IFDEF BotExceptions} try {$ENDIF}
     EngineLoad := elRunning;
     while EngineLoad <> elDestroying do begin

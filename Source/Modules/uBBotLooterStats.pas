@@ -1,5 +1,5 @@
 unit uBBotLooterStats;
-
+
 interface
 
 uses

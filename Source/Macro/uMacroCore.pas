@@ -1,5 +1,5 @@
 unit uMacroCore;
-
+
 interface
 
 uses

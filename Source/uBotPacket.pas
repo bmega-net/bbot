@@ -1,5 +1,5 @@
 unit uBotPacket;
-
+
 {$IFDEF FPC}{$MODE DELPHI}{$ENDIF}
 
 interface

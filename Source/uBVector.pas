@@ -1,5 +1,5 @@
 unit uBVector;
-
+
 interface
 
 uses
@@ -366,7 +366,7 @@ begin
 end;
 
 { BVectorIterator<T> }
-
+
 function BVectorIterator<T>.Clone: BVectorIterator<T>;
 begin
   Result.Vector := Self.Vector;

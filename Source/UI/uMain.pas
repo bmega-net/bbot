@@ -417,6 +417,7 @@ type
     procedure sMacroCPPaintItem(Sender: TObject; Index: Integer; TargetCanvas: TCanvas; ItemRect: TRect;
       var CustomDraw: Boolean);
     procedure Label4Click(Sender: TObject);
+    procedure lstSBDblClick(Sender: TObject);
   private
     BChecked: Boolean;
     CallbackOnOk: TOnOkConfig;
@@ -2054,6 +2055,19 @@ begin
       if Selected <> -1 then
         lstProtectors.Items.Delete(Selected);
     end;
+end;
+
+procedure TFMain.lstSBDblClick(Sender: TObject);
+var
+  S: BStr;
+  I: BInt32;
+  Lst: TListBox;
+begin
+  S := '';
+  Lst := Sender as TListBox;
+  for I := 0 to Lst.Items.Count - 1 do
+    S := S + Lst.Items.Strings[I] + BStrLine;
+  SetClipboard(S);
 end;
 
 procedure TFMain.ProtectorTextFields(Sender: TObject);

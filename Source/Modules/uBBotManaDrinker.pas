@@ -1,5 +1,5 @@
 unit uBBotManaDrinker;
-
+
 interface
 
 uses

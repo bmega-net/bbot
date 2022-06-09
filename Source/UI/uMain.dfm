@@ -867,6 +867,7 @@ object FMain: TFMain
         'Client')
       ParentFont = False
       TabOrder = 0
+      OnDblClick = lstSBDblClick
     end
     object lstSS: TListBox
       Left = 3
@@ -888,6 +889,7 @@ object FMain: TFMain
         'Server')
       ParentFont = False
       TabOrder = 2
+      OnDblClick = lstSBDblClick
     end
     object lstSB: TListBox
       Left = 3
@@ -909,6 +911,7 @@ object FMain: TFMain
         'Bot')
       ParentFont = False
       TabOrder = 1
+      OnDblClick = lstSBDblClick
     end
   end
   object gbHUD: TPanel

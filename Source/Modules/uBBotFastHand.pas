@@ -1,5 +1,5 @@
 unit uBBotFastHand;
-
+
 interface
 
 uses

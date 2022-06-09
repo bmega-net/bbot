@@ -1,5 +1,5 @@
 unit uBBotOTMoney;
-
+
 interface
 
 uses

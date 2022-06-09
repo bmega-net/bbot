@@ -1,5 +1,5 @@
 unit uBBotIgnoreAttack;
-
+
 interface
 
 uses

@@ -1,5 +1,5 @@
 unit uBBotTradeWatcher;
-
+
 interface
 
 uses

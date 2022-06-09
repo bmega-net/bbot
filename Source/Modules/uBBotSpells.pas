@@ -1,5 +1,5 @@
 unit uBBotSpells;
-
+
 interface
 
 uses
