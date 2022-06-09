@@ -96,7 +96,6 @@ uses
   uBBotSummonDetector, uBBotSuperFollow;
 
 var
-  Loginsad: BInt32 = 0;
   BotPath: BStr = '';
 
 type
@@ -186,8 +185,6 @@ type
     FEvents: TBBotEvents;
     FSummonDetector: TBBotSummonDetector;
   public
-    OTEnabled: BBool;
-
     _nextAction: BLock;
     _bAnAd: BLock;
     constructor Create;
@@ -554,7 +551,6 @@ begin
   Me := TTibiaSelf.Create;
   FMacros := BMacroEngine.Create;
 
-  OTEnabled := False;
   vCheckShootPath := True;
   vHUDMagicWalls := True;
   vHUDSpells := True;
@@ -631,7 +627,6 @@ begin
   HUD.Line;
 
   HUD.Free;
-  OTEnabled := True;
 end;
 
 procedure TBBot.Execute;

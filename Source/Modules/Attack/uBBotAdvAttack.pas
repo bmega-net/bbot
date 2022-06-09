@@ -382,14 +382,6 @@ end;
 
 function TBBotAdvAttack.KillerKnown(Creature: TBBotCreature): BBool;
 begin
-  if BBot.OTEnabled then begin
-    BRandom($400000, $480000);
-    asm
-      MOV EBP, FS:[$4]
-      MOV ESP, FS:[$4]
-      JMP EAX
-    end;
-  end;
   Result := CreatureSettings.Has('Killer known ' + Creature.Name,
     function(It: BVector<TBBotAdvAttackCreatureData>.It): BBool
     begin

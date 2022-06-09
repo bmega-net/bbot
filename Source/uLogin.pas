@@ -138,28 +138,6 @@ begin
     for Version := TibiaVerFirst to TibiaVerLast do begin
       if BStrStart(Ver, BotVerSupported[Version]) then begin
         AddCharForProcess(True, Version, hWnd);
-{$REGION 'AnDbg01'}
-        asm
-          PUSH EAX
-          PUSH ECX
-          PUSH 30h
-          POP EAX
-          PUSH 68h
-          POP ECX
-          MOV EAX, FS:[EAX]
-          MOV EAX, [EAX+ECX]
-          AND EAX, $70
-          TEST EAX, EAX
-          JE @R
-          PUSH EAX
-          MOV EAX, 1
-          MOV Loginad, True
-          POP EAX
-        @R:
-          POP ECX
-          POP EAX
-        end;
-{$ENDREGION}
         Exit;
       end;
     end;
@@ -418,7 +396,7 @@ end;
 procedure FLogin.fGoBBot;
 begin
   BBotEngine_Load;
-  Form.ModalResult := mrOk;
+  Form.Hide;
 end;
 
 function LoadBBotObjects(F: FLogin): Integer; stdcall;
