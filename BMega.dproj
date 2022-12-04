@@ -221,7 +221,7 @@
         <DCCReference Include="Source\Modules\uBBotRareLootAlarm.pas"/>
         <DCCReference Include="Source\Modules\Reconnect\uBBotReconnect.pas"/>
         <DCCReference Include="Source\Modules\Reconnect\uBBotReconnectManager.pas"/>
-        <DCCReference Include="Source\Modules\uBBotReuser.pas"/>
+        <DCCReference Include="Source\Modules\uBBotReUser.pas"/>
         <DCCReference Include="Source\Modules\uBBotRunners.pas"/>
         <DCCReference Include="Source\Modules\uBBotServerSave.pas"/>
         <DCCReference Include="Source\Modules\uBBotSkillsStats.pas"/>

@@ -10,16 +10,25 @@ uses
   uTibiaDeclarations;
 
 {$IFNDEF Release}
-{ .$DEFINE ExportDat }
+{ .$DEFINE ExportDat}
 { .$DEFINE ExportSprites }
 {$ENDIF}
 
 const
-  AdrDatPtr: BInt32 = $400000 + $70A130;
-  // 1000N9: Pointer Scan -> First Item Name, max distance: 16; max jumps: 2
+  AdrDatPtr: BInt32 = $400000 + $0070A130;
+  // How to dump items:
+  // 1. Open Tibia.exe in CheatEngine
+  // 2. Find the first item, search 'white flower' text
+  // 3. When found 'white flower', click on its address and browse the region memory
+  // 4. A bit above it, there will be a 'unknown' item, that's the first item
+  // 5. Add that 'unknown' item to the address list
+  // 6. Do a pointer scan on that address, set it so:
+  //    * max offset/distance: 32
+  //    * max jumps: 2
+  // 7. Get the address you found and replace in the line above
   SprTransparent = $FFFFFF;
   ItemMapColorFloor = 210;
-  ItemsProperties = '../Tools/Properties.txt';
+  ItemsProperties = '../Contrib/Scripts/Properties.txt';
   ItemsSprite = 'C:/TibiaSprites/%s.jpeg';
 
 type

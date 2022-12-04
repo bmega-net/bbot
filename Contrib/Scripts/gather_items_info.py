@@ -60,12 +60,15 @@ def loadItem(id, flags, name, outFile):
 	else:
 		itemData = getItemData(getItemHtml(name))
 		weight = getItemWeight(itemData)
+		out = ''
 		if itemData != '' and weight != '-':
 			price = getItemPrice(itemData)
 			value = getItemValue(itemData)
-			outFile.write('%s,%s,%s,%s,%s,%s\n' % (id, flags, weight, price, value, name))
+			out = '%s,%s,%s,%s,%s,%s\n' % (id, flags, weight, price, value, name)
 		else:
-			outFile.write('%s,%s,%s,%s,%s,%s\n' % (id, flags, '???', '???', '???', name))
+			out = '%s,%s,%s,%s,%s,%s\n' % (id, flags, '???', '???', '???', name)
+		print(out)
+		outFile.write(out)
 
 outf = open('OutProperties.txt', 'w')
 inf = open('Properties.txt', 'r')
@@ -75,7 +78,11 @@ for row in infCvs:
 	flags = row[1]
 	name = row[2]
 	print('Loading %s with name %s (%s)' % (id, name, flags))
-	loadItem(id, flags, name, outf)
-	
+	try:
+		loadItem(id, flags, name, outf)
+	except Exception as e:
+		print('Error')
+		print(e)
+
 inf.close()
 outf.close()
