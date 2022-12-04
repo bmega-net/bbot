@@ -17,7 +17,7 @@ type
   TBBotTradeWindowItem = record
     ID: BUInt32;
     Name: BStr;
-    Amount: BInt32;
+    Amount: BUInt32;
     Weight: BInt32;
     SellPrice: BInt32;
     BuyPrice: BInt32;
@@ -37,7 +37,7 @@ type
     FIgnoreCap: BBool;
     FBuyInBackpacks: BBool;
     procedure SetOpen(const Value: BBool);
-    function GetItem(const AID, AAmount: BUInt32; CanAdd: BBool): TBBotTradeWindowItems.It;
+    function GetItem(const AID: BUInt32; const AAmount: BUInt32; const CanAdd: BBool): TBBotTradeWindowItems.It;
     procedure Clear;
   protected
     WaitingBalance: BBool;
@@ -63,8 +63,8 @@ type
     function Sell(const ID: BUInt32; const SellCount: BInt32): BBool;
     function SellAll(const ID: BUInt32): BBool;
 
-    procedure AddItem(const AName: BStr; const AID, AAmount, AWeight, ASellPrice, ABuyPrice: BInt32);
-    procedure AddHaveCount(const AID, AAmount, AHaveCount: BInt32);
+    procedure AddItem(const AName: BStr; const AID, AAmount: BUInt32; const AWeight, ASellPrice, ABuyPrice: BInt32);
+    procedure AddHaveCount(const AID, AAmount, AHaveCount: BUInt32);
 
     function ItemInfo(const AID, AAmount: BUInt32): TBBotTradeWindowItems.It; overload;
     function ItemInfo(const AID: BUInt32): TBBotTradeWindowItems.It; overload;
@@ -91,7 +91,7 @@ const
   AnyAmountMessagePattern: BStr = '(\b[\d.,]+\b)';
   NotValidAmount = BUInt32(999999999);
 
-procedure TBBotTradeWindow.AddHaveCount(const AID, AAmount, AHaveCount: BInt32);
+procedure TBBotTradeWindow.AddHaveCount(const AID, AAmount, AHaveCount: BUInt32);
 var
   Add: TBBotTradeWindowItems.It;
 begin
@@ -101,7 +101,7 @@ begin
     AddDebug(BFormat('HaveCount: %d for ID: %d with amount: %d', [AHaveCount, AID, AAmount]));
 end;
 
-procedure TBBotTradeWindow.AddItem(const AName: BStr; const AID, AAmount, AWeight, ASellPrice, ABuyPrice: BInt32);
+procedure TBBotTradeWindow.AddItem(const AName: BStr; const AID, AAmount: BUInt32; const AWeight, ASellPrice, ABuyPrice: BInt32);
 var
   Add: TBBotTradeWindowItems.It;
 begin
@@ -136,14 +136,16 @@ begin
     AddDebug(BFormat('Buying item %d is not buyable in current NPC', [ID]));
     Exit;
   end;
+  if BuyCount < 0 then begin
+    Exit(True);
+  end;
   Cost := BuyCount * Itemm^.BuyPrice;
   if Money < Cost then begin
     AddDebug(BFormat('Buying with no enought money for id %d (wanted buy: %d, current money: %d, cost: %d)',
       [ID, BuyCount, Money, Cost]));
     NewBuyCount := BFloor(BBot.TradeWindow.Money / Itemm^.BuyPrice);
     AddDebug(BFormat('Buying trying again %d with new Buy Count: %d (old: %d)', [ID, BuyCount, NewBuyCount]));
-    Buy(ID, NewBuyCount);
-    Exit;
+    Exit(Buy(ID, NewBuyCount));
   end;
   Count := BuyCount;
   while Count > 0 do begin
@@ -246,12 +248,12 @@ begin
   inherited;
 end;
 
-function TBBotTradeWindow.GetItem(const AID, AAmount: BUInt32; CanAdd: BBool): TBBotTradeWindowItems.It;
+function TBBotTradeWindow.GetItem(const AID: BUInt32; const AAmount: BUInt32; const CanAdd: BBool): TBBotTradeWindowItems.It;
 begin
   Result := Items.Find('Trade Window - Get Item',
     function(It: TBBotTradeWindowItems.It): BBool
     begin
-      Result := (It^.ID = AID) and ((Cardinal(It^.Amount) = AAmount) or (AAmount = NotValidAmount))
+      Result := (It^.ID = AID) and ((It^.Amount = AAmount) or (AAmount = NotValidAmount))
     end);
   if (Result = nil) and CanAdd and (AAMount <> NotValidAmount) then begin
     Result := Items.Add;

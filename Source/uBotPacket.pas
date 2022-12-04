@@ -46,6 +46,7 @@ type
     function GetBInt16: BInt16;
     function GetBUInt16: BUInt16;
     function GetBInt32: BInt32;
+    function GetBUInt32: BUInt32;
     function GetBInt64: BInt64;
     function GetBStr16: BStr;
     function GetBStr32: BStr;
@@ -168,6 +169,11 @@ begin
 end;
 
 function TBBotPacket.GetBInt32: BInt32;
+begin
+  ReadBuffer(@Result, 4);
+end;
+
+function TBBotPacket.GetBUInt32: BUInt32;
 begin
   ReadBuffer(@Result, 4);
 end;

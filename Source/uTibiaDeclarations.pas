@@ -10,7 +10,7 @@ uses
   uTibiaState;
 
 const
-  BotVer: BStr = '88.1';
+  BotVer: BStr = '88.2';
   BotVerInt: cardinal = 123456789;
   BotVerSupported: array [TibiaVerFirst .. TibiaVerLast] of BStr = ('8.50', '8.52', '8.53', '8.54', '8.55', '8.56',
     '8.57', '8.60', '8.61', '8.62', '8.70', '8.71', '8.72', '8.73', '8.74', '9.00', '9.10', '9.20', '9.31', '9.40',

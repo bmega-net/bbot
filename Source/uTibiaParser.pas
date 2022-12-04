@@ -1008,8 +1008,8 @@ procedure TTibiaPackerParser.ParseShop;
 var
   Items: BInt32;
   NPCName: BStr;
-  ID: BInt32;
-  ItemAmount: BInt32;
+  ID: BUInt32;
+  ItemAmount: BUInt32;
   Name: BStr;
   Weight: BInt32;
   BuyPrice: BInt32;
