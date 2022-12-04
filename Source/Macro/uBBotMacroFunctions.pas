@@ -1335,7 +1335,7 @@ begin
           Exit(BMacroTrue);
       Exit(BMacroFalse);
     end);
-  Registry.AddFunc('Party.CanShared', '', 'Return if the party is sharing exp',
+  Registry.AddFunc('Party.CanShared', '', 'Return if the party can share exp',
     function(M: BMacro): BInt32
     begin
       if BBot.Creatures.Player <> nil then
