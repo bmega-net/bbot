@@ -32,7 +32,8 @@ type
     DebugWalkerFocus: TEdit;
     procedure ListEventsDblClick(Sender: TObject);
     procedure DebugWalkerEnabledClick(Sender: TObject);
-    procedure ListEventsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ListEventsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   protected
     FMain: TForm;
     Current: TBBotGUIMessagePathFinderFinished;
@@ -67,7 +68,8 @@ var
   TileScoreMapJson: TJsonArray;
   EventsJson: TJsonArray;
 begin
-  if Current <> nil then begin
+  if Current <> nil then
+  begin
     FormatSettings.DecimalSeparator := '.';
     Json := TJson.Create;
     Json.Values['name'].AsString := Current.Name;
@@ -123,19 +125,22 @@ begin
     Json.Parse(TFMain(FMain).GetClipboard);
     Name := '[Pasted] ' + Json.Values['name'].AsString;
     JsonArray := Json.Values['tilescoremap'].AsArray;
-    for I := 0 to JsonArray.Count - 1 do begin
+    for I := 0 to JsonArray.Count - 1 do
+    begin
       JsonObj := JsonArray.Items[I].AsObject;
       TileScoreMapIt := TileScoreMap.Add;
       TileScoreMapIt^.Pos := BPos(JsonObj.Values['position'].AsString);
       TileScoreMapIt^.Score := JsonObj.Values['score'].AsNumber;
     end;
     JsonArray := Json.Values['events'].AsArray;
-    for I := 0 to JsonArray.Count - 1 do begin
+    for I := 0 to JsonArray.Count - 1 do
+    begin
       JsonObj := JsonArray.Items[I].AsObject;
       EventsIt := Events.Add;
       EventsIt^.Pos := BPos(JsonObj.Values['position'].AsString);
       EventsIt^.Time := JsonObj.Values['time'].AsInteger;
-      EventsIt^.Kind := TBBotPathFinderNodeKind(JsonObj.Values['kind'].AsInteger);
+      EventsIt^.Kind := TBBotPathFinderNodeKind
+        (JsonObj.Values['kind'].AsInteger);
       EventsIt^.Dir := StrToDir(JsonObj.Values['direction'].AsString);
       EventsIt^.TotalCost := JsonObj.Values['totalcost'].AsNumber;
       EventsIt^.Heuristic := JsonObj.Values['heuristic'].AsNumber;
@@ -180,8 +185,8 @@ end;
 
 procedure TDebugWalkerFrame.Draw;
 const
-  ColorTileGradient: array [0 .. 9] of TColor = ($FFB81F, $EFAC1B, $E0A018, $D19514, $C18911, $B27E0D, $A3720A, $936706,
-    $845B03, $755000);
+  ColorTileGradient: array [0 .. 9] of TColor = ($FFB81F, $EFAC1B, $E0A018,
+    $D19514, $C18911, $B27E0D, $A3720A, $936706, $845B03, $755000);
   ColorNotWalkable = $000000;
   ColorOrigin = $30FF30;
   ColorTarget = $0000FF;
@@ -202,8 +207,10 @@ begin
   C.Brush.Color := ColorNotWalkable;
   C.FillRect(C.ClipRect);
   CharHeight := C.TextHeight('|') + 1;
-  if (Current <> nil) and (Current.Events.Count > 0) then begin
-    DebugWalkerFocus.Text := BFormat('Step %d/%d', [Step + 1, Current.Events.Count]);
+  if (Current <> nil) and (Current.Events.Count > 0) then
+  begin
+    DebugWalkerFocus.Text := BFormat('Step %d/%d',
+      [Step + 1, Current.Events.Count]);
 
     TargetX := 0;
     TargetY := 0;
@@ -216,11 +223,14 @@ begin
     Current.Events.Has('Walker debugger - calculating target',
       function(AIter: BVector<TBBotPathFinderDebugEvent>.It): BBool
       begin
-        if AIter^.Kind = bpfnkTarget then begin
+        if AIter^.Kind = bpfnkTarget then
+        begin
           TargetX := AIter^.Pos.X;
           TargetX := AIter^.Pos.X;
           Exit(True);
-        end else begin
+        end
+        else
+        begin
           Exit(False);
         end;
       end);
@@ -228,7 +238,8 @@ begin
     Current.TileScoreMap.ForEach(
       procedure(AIter: BVector<TBBotPathFinderDebugTile>.It)
       begin
-        if AIter^.Score < TileCost_NotWalkable then begin
+        if AIter^.Score < TileCost_NotWalkable then
+        begin
           BestTileScore := BMin(BestTileScore, AIter^.Score);
           WorstTileScore := BMax(WorstTileScore, AIter^.Score);
         end;
@@ -239,44 +250,58 @@ begin
       var
         ColorStrength: BFloat;
       begin
-        if AIter^.Score < TileCost_NotWalkable then begin
+        if AIter^.Score < TileCost_NotWalkable then
+        begin
           R.Left := (AIter^.Pos.X - DrawOriginX) * TILE_SIZE;
           R.Right := R.Left + TILE_SIZE;
           R.Top := (AIter^.Pos.Y - DrawOriginY) * TILE_SIZE;
           R.Bottom := R.Top + TILE_SIZE;
-          if (AIter^.Pos.X = TargetX) and (AIter^.Pos.Y = TargetY) then begin
+          if (AIter^.Pos.X = TargetX) and (AIter^.Pos.Y = TargetY) then
+          begin
             C.Brush.Color := ColorTarget;
-          end else begin
+          end
+          else
+          begin
             if WorstTileScore <> BestTileScore then
-              ColorStrength := ((AIter^.Score - BestTileScore) / (WorstTileScore - BestTileScore))
+              ColorStrength := ((AIter^.Score - BestTileScore) /
+                (WorstTileScore - BestTileScore))
             else
               ColorStrength := 1.0;
-            C.Brush.Color := ColorTileGradient[BCeil(ColorStrength * High(ColorTileGradient))];
+            C.Brush.Color := ColorTileGradient
+              [BCeil(ColorStrength * High(ColorTileGradient))];
           end;
           C.FillRect(R);
           InflateRect(R, -4, -4);
-          C.TextOut(R.Left + 2, R.Top + ((R.Bottom - R.Top) div 2) - (CharHeight div 2), BFormatNum(AIter^.Score));
+          C.TextOut(R.Left + 2, R.Top + ((R.Bottom - R.Top) div 2) -
+            (CharHeight div 2), BFormatNum(AIter^.Score));
           InflateRect(R, 4, 4);
         end;
       end);
 
-    for I := 0 to Step do begin
+    for I := 0 to Step do
+    begin
       Event := Current.Events.Item[I];
       R.Left := (Event^.Pos.X - DrawOriginX) * TILE_SIZE;
       R.Right := R.Left + TILE_SIZE;
       R.Top := (Event^.Pos.Y - DrawOriginY) * TILE_SIZE;
       R.Bottom := R.Top + TILE_SIZE;
-      if I = Step then begin
+      if I = Step then
+      begin
         C.Brush.Color := ColorFocused;
         C.FillRect(R);
       end;
       InflateRect(R, -2, -2);
       case Event^.Kind of
-      bpfnkOrigin: C.Brush.Color := ColorOrigin;
-      bpfnkTarget: C.Brush.Color := ColorTarget;
-      bpfnkPath: C.Brush.Color := ColorPath;
-      bpfnkDone: C.Brush.Color := ColorDone;
-      bpfnkOther: C.Brush.Color := ColorOther;
+        bpfnkOrigin:
+          C.Brush.Color := ColorOrigin;
+        bpfnkTarget:
+          C.Brush.Color := ColorTarget;
+        bpfnkPath:
+          C.Brush.Color := ColorPath;
+        bpfnkDone:
+          C.Brush.Color := ColorDone;
+        bpfnkOther:
+          C.Brush.Color := ColorOther;
       end;
 
       C.FillRect(R);
@@ -286,13 +311,16 @@ begin
       C.TextOut(R.Left, R.Top + (CharHeight * 2), BFormatNum(Event^.TileCost));
     end;
   end;
-  MainBuffer.Canvas.CopyRect(BackBuffer.ClientRect, BackBuffer.Canvas, BackBuffer.ClientRect);
+  MainBuffer.Canvas.CopyRect(BackBuffer.ClientRect, BackBuffer.Canvas,
+    BackBuffer.ClientRect);
 end;
 
 procedure TDebugWalkerFrame.init;
 begin
-  BackBuffer.SetBounds(ListEvents.BoundsRect.Right + 3, ListEvents.Top, TILE_SIZE * 15, TILE_SIZE * 11);
-  MainBuffer.SetBounds(BackBuffer.Left, BackBuffer.Top, BackBuffer.Width, BackBuffer.Height);
+  BackBuffer.SetBounds(ListEvents.BoundsRect.Right + 3, ListEvents.Top,
+    TILE_SIZE * 15, TILE_SIZE * 11);
+  MainBuffer.SetBounds(BackBuffer.Left, BackBuffer.Top, BackBuffer.Width,
+    BackBuffer.Height);
   Width := BackBuffer.Width + BackBuffer.Left + 3;
   Height := BackBuffer.Height + BackBuffer.Top + 3;
   Draw;
@@ -300,17 +328,22 @@ end;
 
 procedure TDebugWalkerFrame.ListEventsDblClick(Sender: TObject);
 begin
-  if ListEvents.ItemIndex <> -1 then begin
-    Current := TBBotGUIMessagePathFinderFinished(ListEvents.Items.Objects[ListEvents.ItemIndex]);
+  if ListEvents.ItemIndex <> -1 then
+  begin
+    Current := TBBotGUIMessagePathFinderFinished
+      (ListEvents.Items.Objects[ListEvents.ItemIndex]);
     Step := Current.Events.Count - 1;
     Draw;
   end;
 end;
 
-procedure TDebugWalkerFrame.ListEventsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDebugWalkerFrame.ListEventsKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 begin
-  if Current <> nil then begin
-    if (Key = VK_RIGHT) or (Key = VK_LEFT) then begin
+  if Current <> nil then
+  begin
+    if (Key = VK_RIGHT) or (Key = VK_LEFT) then
+    begin
       if (Key = VK_RIGHT) and (Step < Current.Events.Count - 1) then
         Inc(Step)
       else if (Key = VK_LEFT) and (Step > 0) then
@@ -318,24 +351,28 @@ begin
       Key := 0;
       Draw;
     end;
-    if (Key = Ord('C')) and (ssCtrl in Shift) then begin
+    if (Key = Ord('C')) and (ssCtrl in Shift) then
+    begin
       CopyCurrent;
       Key := 0;
     end;
   end;
-  if (Key = Ord('V')) and (ssCtrl in Shift) then begin
+  if (Key = Ord('V')) and (ssCtrl in Shift) then
+  begin
     Paste;
     Key := 0;
   end;
 end;
 
-procedure TDebugWalkerFrame.Open(const AMessage: TBBotGUIMessagePathFinderFinished);
+procedure TDebugWalkerFrame.Open(const AMessage
+  : TBBotGUIMessagePathFinderFinished);
 begin
   BListUpdate(ListEvents,
     procedure
     begin
       ListEvents.Items.InsertObject(0, AMessage.Name, AMessage.Clone);
-      while ListEvents.Items.Count > 100 do begin
+      while ListEvents.Items.Count > 100 do
+      begin
         ListEvents.Items.Objects[ListEvents.Items.Count - 1].Free;
         ListEvents.Items.Delete(ListEvents.Items.Count - 1);
       end;

@@ -117,7 +117,8 @@ begin
     TFMain(FMain).MacrosFrame.chkMacroAutos.Checked := False;
   if AUserError.DisableEnchanter then
     TFMain(FMain).chkEnchanter.Checked := False;
-  if AUserError.DisableReconnectManager then begin
+  if AUserError.DisableReconnectManager then
+  begin
     TFMain(FMain).chkReconnect.Checked := False;
     TFMain(FMain).ReconnectManagerFrame.BotManagerEnabled.Checked := False;
   end;
@@ -133,7 +134,8 @@ end;
 
 procedure TUserErrorFrame.pauseBotClick(Sender: TObject);
 begin
-  if TFMain(FMain).MutexAcquire then begin
+  if TFMain(FMain).MutexAcquire then
+  begin
     BBot.Menu.PauseLevel := bplAll;
     TFMain(FMain).MutexRelease;
   end;

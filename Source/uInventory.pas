@@ -1,5 +1,5 @@
 unit uInventory;
-
+
 interface
 
 uses
@@ -144,18 +144,30 @@ end;
 function TTibiaInventory.GetSlot(Slot: TTibiaSlot): TTibiaItem;
 begin
   case Slot of
-  SlotHead: Result := Head;
-  SlotAmulet: Result := Necklace;
-  SlotBackpack: Result := Backpack;
-  SlotArmor: Result := Armor;
-  SlotRight: Result := Right;
-  SlotLeft: Result := Left;
-  SlotLegs: Result := Legs;
-  SlotBoots: Result := Feet;
-  SlotRing: Result := Ring;
-  SlotAmmo: Result := Ammo;
-  SlotLastClicked: Result := LastClicked;
-else Result := nil;
+    SlotHead:
+      Result := Head;
+    SlotAmulet:
+      Result := Necklace;
+    SlotBackpack:
+      Result := Backpack;
+    SlotArmor:
+      Result := Armor;
+    SlotRight:
+      Result := Right;
+    SlotLeft:
+      Result := Left;
+    SlotLegs:
+      Result := Legs;
+    SlotBoots:
+      Result := Feet;
+    SlotRing:
+      Result := Ring;
+    SlotAmmo:
+      Result := Ammo;
+    SlotLastClicked:
+      Result := LastClicked;
+  else
+    Result := nil;
   end;
 end;
 
@@ -281,4 +293,4 @@ begin
 end;
 
 end.
-
+

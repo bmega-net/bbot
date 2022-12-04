@@ -1,5 +1,5 @@
 unit uBBotSpecialSQMs;
-
+
 interface
 
 uses
@@ -16,8 +16,9 @@ const
   BBotSpecialSQMBlockAttempsVar = 'BBot.SpecialSQMs.AutoBlockAttemps';
 
 type
-  TBBotSpecialSQMKind = (sskFirst = 0, sskNone = sskFirst, sskAutoBlock, sskAvoid, sskLike, sskAvoidAttacking,
-    sskLikeAttacking, sskBlock, sskAvoidAOE, sskLast = sskAvoidAOE);
+  TBBotSpecialSQMKind = (sskFirst = 0, sskNone = sskFirst, sskAutoBlock,
+    sskAvoid, sskLike, sskAvoidAttacking, sskLikeAttacking, sskBlock,
+    sskAvoidAOE, sskLast = sskAvoidAOE);
 
   TBBotSpecialSQMs = class(TBBotAction)
   private type
@@ -64,8 +65,10 @@ type
 
     property AutoBlockAttemps: BUInt32 read FAutoBlockAttemps;
     property AutoBlockTime: BUInt32 read FAutoBlockTime;
-    property ShowOnGameScreen: BBool read FShowOnGameScreen write FShowOnGameScreen;
-    property ShowEditorOnGameScreen: BBool read FShowEditorOnGameScreen write FShowEditorOnGameScreen;
+    property ShowOnGameScreen: BBool read FShowOnGameScreen
+      write FShowOnGameScreen;
+    property ShowEditorOnGameScreen: BBool read FShowEditorOnGameScreen
+      write FShowEditorOnGameScreen;
 
     property InsideAttackingLike: BBool read FInsideAttackingLike;
     property AttackingLikeCenters: BVector<BPos> read FAttackingLikeCenters;
@@ -89,7 +92,8 @@ type
   end;
 
 const
-  BBotSpecialSQMsHUDSettings: array [sskFirst .. sskLast] of TBBotSpecialSQMsHUD = (
+  BBotSpecialSQMsHUDSettings: array [sskFirst .. sskLast]
+    of TBBotSpecialSQMsHUD = (
     { sskNone } (Name: 'None'; Mark: 'N'; Color: $FFFFFF),
     { sskAutoBlock } (Name: 'AutoBlock'; Mark: 'AB'; Color: $99FFFF),
     { sskAvoid } (Name: 'Avoid'; Mark: 'A'; Color: $9999FF),
@@ -117,12 +121,18 @@ begin
   P^.Radius := BStrTo32(ACode[3], 0);
   P^.Center := BPos(BStrRight(ACode, '@'));
   case ACode[1] of
-  '0': P^.Kind := sskAvoid;
-  '1': P^.Kind := sskLike;
-  '2': P^.Kind := sskAvoidAttacking;
-  '3': P^.Kind := sskLikeAttacking;
-  '4': P^.Kind := sskBlock;
-  '5': P^.Kind := sskAvoidAOE;
+    '0':
+      P^.Kind := sskAvoid;
+    '1':
+      P^.Kind := sskLike;
+    '2':
+      P^.Kind := sskAvoidAttacking;
+    '3':
+      P^.Kind := sskLikeAttacking;
+    '4':
+      P^.Kind := sskBlock;
+    '5':
+      P^.Kind := sskAvoidAOE;
   end;
   P^.X1 := P^.Center.X - P^.Radius;
   P^.X2 := P^.Center.X + P^.Radius;
@@ -142,9 +152,14 @@ begin
     begin
       if AIt^.Kind = sskAvoidAOE then
         if Me.Position.Z = AIt^.Center.Z then
-          if Me.DistanceTo(AIt^.Center) <= AIt^.Radius + 20 then begin
-            for X := AIt^.Center.X - AIt^.Radius to AIt^.Center.X + AIt^.Radius do begin
-              for Y := AIt^.Center.Y - AIt^.Radius to AIt^.Center.Y + AIt^.Radius do begin
+          if Me.DistanceTo(AIt^.Center) <= AIt^.Radius + 20 then
+          begin
+            for X := AIt^.Center.X - AIt^.Radius to AIt^.Center.X +
+              AIt^.Radius do
+            begin
+              for Y := AIt^.Center.Y - AIt^.Radius to AIt^.Center.Y +
+                AIt^.Radius do
+              begin
                 APositions.Add(BPosXYZ(X, Y, Me.Position.Z));
               end;
             end;
@@ -203,10 +218,12 @@ begin
   for I := 0 to Data.Count - 1 do
     if Data[I].Center.Z = AZ then
       if BInRange(AX, Data[I].X1, Data[I].X2) then
-        if BInRange(AY, Data[I].Y1, Data[I].Y2) then begin
+        if BInRange(AY, Data[I].Y1, Data[I].Y2) then
+        begin
           if Data[I].Kind = sskAvoidAOE then
             Continue;
-          if ((not Me.IsAttacking) and ((Data[I].Kind = sskAvoidAttacking) or (Data[I].Kind = sskLikeAttacking))) then
+          if ((not Me.IsAttacking) and ((Data[I].Kind = sskAvoidAttacking) or
+            (Data[I].Kind = sskLikeAttacking))) then
             Continue;
           Result := Data[I].Kind;
           if (Result = sskAutoBlock) or (Result = sskBlock) then
@@ -219,12 +236,14 @@ begin
   BBot.Events.OnMenu.Add(OnMenu);
   BBot.Events.OnWalk.Add(OnWalk);
 
-  BBot.Macros.Registry.CreateSystemVariable(BBotSpecialSQMBlockAttempsVar, BBotSpecialSQMBlockAttempsDefault).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotSpecialSQMBlockAttempsVar,
+    BBotSpecialSQMBlockAttempsDefault).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FAutoBlockAttemps := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotSpecialSQMBlockTimeVar, BBotSpecialSQMBlockTimeDefault).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotSpecialSQMBlockTimeVar,
+    BBotSpecialSQMBlockTimeDefault).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FAutoBlockTime := AValue;
@@ -238,18 +257,25 @@ var
 begin
   if ClickID <> BBotSpecialSQMHUDID then
     Exit;
-  if Data = BBotSpecialSQMHUDAddID then begin
+  if Data = BBotSpecialSQMHUDAddID then
+  begin
     MsgAdd := TBBotGUIMessageSpecialSQMsAdd.Create;
     MsgAdd.Kind := SelectedKind - BBotSpecialSQMHUDKindID;
     MsgAdd.Range := SelectedRange - BBotSpecialSQMHUDRangeID;
     FMain.AddBBotMessage(MsgAdd);
-  end else if Data = BBotSpecialSQMHUDRemoveID then begin
+  end
+  else if Data = BBotSpecialSQMHUDRemoveID then
+  begin
     MsgRemove := TBBotGUIMessageSpecialSQMsRemove.Create;
     MsgRemove.Position := Me.Position;
     FMain.AddBBotMessage(MsgRemove);
-  end else if Data >= BBotSpecialSQMHUDRangeID then begin
+  end
+  else if Data >= BBotSpecialSQMHUDRangeID then
+  begin
     SelectedRange := Data;
-  end else begin
+  end
+  else
+  begin
     SelectedKind := Data;
   end;
   ShowHUDEditor;
@@ -257,7 +283,8 @@ end;
 
 procedure TBBotSpecialSQMs.OnWalk(AFrom: BPos);
 begin
-  FInsideAttackingLike := Kind(Me.Position.X, Me.Position.Y, Me.Position.Z) = sskLikeAttacking;
+  FInsideAttackingLike := Kind(Me.Position.X, Me.Position.Y, Me.Position.Z)
+    = sskLikeAttacking;
 end;
 
 procedure TBBotSpecialSQMs.Run;
@@ -267,10 +294,12 @@ begin
     begin
       Result := (It^.Expire <> 0) and (It^.Expire < Tick);
     end);
-  if ShowEditorOnGameScreen then begin
+  if ShowEditorOnGameScreen then
+  begin
     ShowHUDEditor;
   end;
-  if ShowOnGameScreen then begin
+  if ShowOnGameScreen then
+  begin
     ShowHUDSQMs;
   end;
 end;
@@ -285,20 +314,27 @@ begin
   HUD := TBBotHUD.Create(bhgSpecialSQMs);
   HUD.Expire := 2000;
   HUD.AlignTo(bhaRight, bhaBottom);
-  for K := sskFirst to sskLast do begin
+  for K := sskFirst to sskLast do
+  begin
     HUD.Color := BBotSpecialSQMsHUDSettings[K].Color;
-    HUD.Print(BFormat('[%s] %s', [BBotSpecialSQMsHUDSettings[K].Mark, BBotSpecialSQMsHUDSettings[K].Name]));
+    HUD.Print(BFormat('[%s] %s', [BBotSpecialSQMsHUDSettings[K].Mark,
+      BBotSpecialSQMsHUDSettings[K].Name]));
   end;
-  for I := 0 to Data.Count - 1 do begin
+  for I := 0 to Data.Count - 1 do
+  begin
     K := Data[I].Kind;
     if Data[I].Center.Z = Me.Position.Z then
-      for X := Data[I].Center.X - Data[I].Radius to Data[I].Center.X + Data[I].Radius do
-        for Y := Data[I].Center.Y - Data[I].Radius to Data[I].Center.Y + Data[I].Radius do begin
+      for X := Data[I].Center.X - Data[I].Radius to Data[I].Center.X +
+        Data[I].Radius do
+        for Y := Data[I].Center.Y - Data[I].Radius to Data[I].Center.Y +
+          Data[I].Radius do
+        begin
           HUD.SetPosition(BPosXYZ(X, Y, Me.Position.Z));
           HUD.Color := BBotSpecialSQMsHUDSettings[K].Color;
           HUD.Text := BBotSpecialSQMsHUDSettings[K].Mark;
           if (X = Data[I].Center.X) and (Y = Data[I].Center.Y) then
-            HUD.Text := BFormat('[%s %dx%1:d]', [HUD.Text, Data[I].Radius * 2 + 1]);
+            HUD.Text := BFormat('[%s %dx%1:d]',
+              [HUD.Text, Data[I].Radius * 2 + 1]);
           HUD.Print;
         end;
   end;
@@ -307,12 +343,16 @@ end;
 
 procedure TBBotSpecialSQMs.RegisterWalkAttemp(ADir: TTibiaDirection);
 begin
-  if (Me.Position = WalkAttemp.FromPos) and (ADir = WalkAttemp.ToDir) then begin
-    if Tick > WalkAttemp.StepTimeout then begin
+  if (Me.Position = WalkAttemp.FromPos) and (ADir = WalkAttemp.ToDir) then
+  begin
+    if Tick > WalkAttemp.StepTimeout then
+    begin
       AutoBlock(PosAddDir(Me.Position, ADir));
       Me.Stop;
     end;
-  end else begin
+  end
+  else
+  begin
     WalkAttemp.FromPos := Me.Position;
     WalkAttemp.ToDir := ADir;
     WalkAttemp.StepTimeout := Tick + (Me.StepDelay * AutoBlockAttemps);
@@ -337,13 +377,16 @@ begin
   HUD.OnClickData := HUD.OnClickData + 1;
   HUD.Print('Like', Bif(SelectedKind = HUD.OnClickData, clGreen, clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('Attacking Avoid', Bif(SelectedKind = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('Attacking Avoid', Bif(SelectedKind = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('Attacking Like', Bif(SelectedKind = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('Attacking Like', Bif(SelectedKind = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
   HUD.Print('Block', Bif(SelectedKind = HUD.OnClickData, clGreen, clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('Area Spells Avoid', Bif(SelectedKind = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('Area Spells Avoid', Bif(SelectedKind = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.Line;
   HUD.RelativeX := 0;
   HUD.Print('Range', clMoneyGreen);
@@ -351,11 +394,14 @@ begin
   HUD.OnClickData := BBotSpecialSQMHUDRangeID;
   HUD.Print('1 sqm', Bif(SelectedRange = HUD.OnClickData, clGreen, clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('3x3 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('3x3 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('5x5 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('5x5 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.OnClickData := HUD.OnClickData + 1;
-  HUD.Print('7x7 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen, clLtGray));
+  HUD.Print('7x7 sqms', Bif(SelectedRange = HUD.OnClickData, clGreen,
+    clLtGray));
   HUD.Line;
   HUD.OnClickData := BBotSpecialSQMHUDAddID;
   HUD.Print('[ADD]');
@@ -363,7 +409,8 @@ begin
     function(AIt: BVector<TBBotSpecialSQM>.It): BBool
     begin
       Exit(AIt^.Center = Me.Position);
-    end) then begin
+    end) then
+  begin
     HUD.Line;
     HUD.OnClickData := BBotSpecialSQMHUDRemoveID;
     HUD.Print('[REMOVE]');
@@ -372,4 +419,4 @@ begin
 end;
 
 end.
-
+

@@ -20,7 +20,8 @@ type
     function GetCreatureBufferSize: BUInt32; override;
     function GetCreatureBufferCount: BUInt32; override;
   public
-    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr; ASize: BUInt32); override;
+    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr;
+      ASize: BUInt32); override;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -72,7 +73,8 @@ type
 
   PBBotCreature1057Buffer = ^TBBotCreature1057Buffer;
 
-  TBBotCreatureList1057Buffer = array [0 .. TibiaCreatureListSize - 1] of TBBotCreature1057Buffer;
+  TBBotCreatureList1057Buffer = array [0 .. TibiaCreatureListSize - 1]
+    of TBBotCreature1057Buffer;
   PBBotCreatureList1057Buffer = ^TBBotCreatureList1057Buffer;
 
   { TBBotCreature1057 }
@@ -118,7 +120,8 @@ type
     procedure SetOutfit(const Value: TTibiaOutfit); override;
     procedure SetWalking(const Value: BBool); override;
   public
-    constructor Create(AIndex: BInt32; ABuffer: PBBotCreature1057Buffer; ACreatures: TBBotCreatures);
+    constructor Create(AIndex: BInt32; ABuffer: PBBotCreature1057Buffer;
+      ACreatures: TBBotCreatures);
   end;
 
 function TBBotCreature1057.GetID: BUInt32;
@@ -234,7 +237,8 @@ begin
     raise BException.Create('Unable to load creature npc kind in 1057');
 end;
 
-constructor TBBotCreature1057.Create(AIndex: BInt32; ABuffer: PBBotCreature1057Buffer; ACreatures: TBBotCreatures);
+constructor TBBotCreature1057.Create(AIndex: BInt32;
+  ABuffer: PBBotCreature1057Buffer; ACreatures: TBBotCreatures);
 begin
   inherited Create(AIndex);
   Buffer := ABuffer;
@@ -369,7 +373,8 @@ begin
   Result := TibiaCreatureListSize;
 end;
 
-procedure TBBotCreatures1057.Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr; ASize: BUInt32);
+procedure TBBotCreatures1057.Write(ACreature: BUInt32; AOffset: BUInt32;
+  AValue: BPtr; ASize: BUInt32);
 var
   Offset: BUInt32;
 begin
@@ -387,7 +392,8 @@ begin
   inherited Create;
   New(BufferList);
   Buffer := BufferList;
-  for I := 0 to GetCreatureBufferCount - 1 do begin
+  for I := 0 to GetCreatureBufferCount - 1 do
+  begin
     Add := CreatureList.Add;
     Add^.First := False;
     Add^.Second := TBBotCreature1057.Create(I, @BufferList[I], Self);
@@ -416,7 +422,8 @@ type
     function GetTargetID: BUInt32; override;
     function GetCreatureBufferSize: BUInt32; override;
     function GetCreatureBufferCount: BUInt32; override;
-    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr; ASize: BUInt32); override;
+    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr;
+      ASize: BUInt32); override;
   public
     constructor Create;
     destructor Destroy; override;
@@ -465,9 +472,11 @@ begin
   Result := TibiaCreatureListSize;
 end;
 
-procedure TBBotCreatures1057Mock.Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr; ASize: BUInt32);
+procedure TBBotCreatures1057Mock.Write(ACreature: BUInt32; AOffset: BUInt32;
+  AValue: BPtr; ASize: BUInt32);
 begin
-  Move(AValue^, BPtr(BUInt32(Buffer) + GetCreatureOffset(ACreature) + AOffset)^, ASize);
+  Move(AValue^, BPtr(BUInt32(Buffer) + GetCreatureOffset(ACreature) +
+    AOffset)^, ASize);
 end;
 
 constructor TBBotCreatures1057Mock.Create;
@@ -480,7 +489,8 @@ begin
   inherited Create;
   New(BufferList);
   Buffer := BufferList;
-  for I := 0 to GetCreatureBufferCount - 1 do begin
+  for I := 0 to GetCreatureBufferCount - 1 do
+  begin
     Add := CreatureList.Add;
     Add^.First := False;
     Add^.Second := TBBotCreature1057.Create(I, @BufferList[I], Self);

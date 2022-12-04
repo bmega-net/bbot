@@ -106,7 +106,8 @@ begin
           if Dash_KeyDown(wParam) then
             Exit;
         end
-      else;
+    else
+      ;
     end;
     Dash_Run;
   end;

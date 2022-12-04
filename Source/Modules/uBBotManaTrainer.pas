@@ -1,5 +1,5 @@
 unit uBBotManaTrainer;
-
+
 interface
 
 uses
@@ -82,11 +82,13 @@ begin
   Mana := MyMana;
   if not BInRange(Mana, 1, MaxMyMana) then
     SetManaNext;
-  if (FWorking) and (Mana <= NextManaTo) then begin
+  if (FWorking) and (Mana <= NextManaTo) then
+  begin
     FWorking := False;
     SetManaNext;
   end;
-  if (not FWorking) and (Mana >= NextManaFrom) then begin
+  if (not FWorking) and (Mana >= NextManaFrom) then
+  begin
     FWorking := True;
     SetManaNext;
   end;
@@ -95,7 +97,8 @@ end;
 
 procedure TBBotManaTrainer.Run;
 begin
-  if Enabled and (not BBot.Exhaust.Defensive) and Working then begin
+  if Enabled and (not BBot.Exhaust.Defensive) and Working then
+  begin
     Me.Say(Spell);
     Exit;
   end;
@@ -119,4 +122,4 @@ begin
 end;
 
 end.
-
+

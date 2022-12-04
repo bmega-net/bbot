@@ -1,5 +1,5 @@
 unit uBBotOpenCorpses;
-
+
 interface
 
 uses
@@ -90,8 +90,10 @@ end;
 
 procedure TBBotOpenCorpses.NewCorpseTask(Position: BPos);
 begin
-  if Enabled then begin
-    if not HasCorpseOnPosition(Position) then begin
+  if Enabled then
+  begin
+    if not HasCorpseOnPosition(Position) then
+    begin
       Tasks.Add(TBBotOpenCorpsesTask.Create(Self, Position));
     end;
   end;
@@ -147,9 +149,11 @@ procedure TBBotOpenCorpses.OnContainerOpen(CT: TTibiaContainer);
 var
   Task: TBBotOpenCorpsesTask;
 begin
-  if CT.Open and (BBot.Walker.Task is TBBotOpenCorpsesTask) then begin
+  if CT.Open and (BBot.Walker.Task is TBBotOpenCorpsesTask) then
+  begin
     Task := TBBotOpenCorpsesTask(BBot.Walker.Task);
-    if Task.UsedContainer then begin
+    if Task.UsedContainer then
+    begin
       if Debug then
         AddDebug('removing corpse, container opened ' + BStr(Task.Position));
       Task.Success := True;
@@ -159,11 +163,16 @@ end;
 
 procedure TBBotOpenCorpses.OnCreatureDie(Creature: TBBotCreature);
 begin
-  if (Creature.ID = Me.LastAttackedID) or (not Creature.IsKillSteal) or (Me.DistanceTo(Creature) < 3) then
-    if BBot.Cavebot.IsOpenningCorpse then begin
-      if not IsIgnored(Creature.Name) then begin
+  if (Creature.ID = Me.LastAttackedID) or (not Creature.IsKillSteal) or
+    (Me.DistanceTo(Creature) < 3) then
+    if BBot.Cavebot.IsOpenningCorpse then
+    begin
+      if not IsIgnored(Creature.Name) then
+      begin
         NewCorpseTask(Creature.Position)
-      end else if Debug then begin
+      end
+      else if Debug then
+      begin
         AddDebug('ignoring creature by name ' + Creature.Name);
       end;
       if BBot.ConfirmAttack.RecentlyAttacked(Creature) then
@@ -192,16 +201,20 @@ var
   Task: TBBotOpenCorpsesTask;
 begin
   Task := nil;
-  if BBot.Walker.Task is TBBotOpenCorpsesTask then begin
+  if BBot.Walker.Task is TBBotOpenCorpsesTask then
+  begin
     Task := TBBotOpenCorpsesTask(BBot.Walker.Task);
-    if (AMessageData.Text = BBotOpenCorpseNotOwner) and Task.UsedContainer then begin
+    if (AMessageData.Text = BBotOpenCorpseNotOwner) and Task.UsedContainer then
+    begin
       if Debug then
         AddDebug('removing corpse, not owner ' + BStr(Task.Position));
       Task.Success := True;
     end;
   end;
-  if (((Tasks.Count = 1) xor (Task <> nil)) and BStrStartSensitive(AMessageData.Text, BBotOpenCorpseNothingStart) and
-    BStrEndSensitive(AMessageData.Text, BBotOpenCorpseNothingEnd)) then begin
+  if (((Tasks.Count = 1) xor (Task <> nil)) and
+    BStrStartSensitive(AMessageData.Text, BBotOpenCorpseNothingStart) and
+    BStrEndSensitive(AMessageData.Text, BBotOpenCorpseNothingEnd)) then
+  begin
     if Debug then
       AddDebug('removing corpse, nothing message');
     if Task <> nil then
@@ -217,7 +230,8 @@ function TBBotOpenCorpses.OpenNextCorpse: BBool;
   end;
   function RunningOpenCorpseTask: BBool;
   begin
-    Exit((BBot.Walker.Task <> nil) and (BBot.Walker.Task is TBBotOpenCorpsesTask));
+    Exit((BBot.Walker.Task <> nil) and
+      (BBot.Walker.Task is TBBotOpenCorpsesTask));
   end;
   function SelectNewTask: BBool;
   begin
@@ -225,7 +239,8 @@ function TBBotOpenCorpses.OpenNextCorpse: BBool;
   end;
 
 begin
-  Result := Enabled and (RunningOpenCorpseTask or SelectNewTask or CreatureRecentlyDied);
+  Result := Enabled and (RunningOpenCorpseTask or SelectNewTask or
+    CreatureRecentlyDied);
 end;
 
 procedure TBBotOpenCorpses.Run;
@@ -237,7 +252,8 @@ var
   BestIt: BVector<TBBotWalkerTask>.It;
   Best: TBBotOpenCorpsesTask;
 begin
-  if BBot.Walker.Task = nil then begin
+  if BBot.Walker.Task = nil then
+  begin
     Best := nil;
     BestIt := nil;
     Tasks.ForEach(
@@ -246,12 +262,15 @@ begin
         Task: TBBotOpenCorpsesTask;
       begin
         Task := TBBotOpenCorpsesTask(It^);
-        if Task.Runnable and ((Best = nil) or (Task.Heuristic < Best.Heuristic)) then begin
+        if Task.Runnable and ((Best = nil) or (Task.Heuristic < Best.Heuristic))
+        then
+        begin
           BestIt := It;
           Best := Task;
         end;
       end);
-    if Best <> nil then begin
+    if Best <> nil then
+    begin
       BBot.Walker.Task := Best;
       Tasks.Remove(BestIt);
       Exit(True);
@@ -269,4 +288,4 @@ begin
 end;
 
 end.
-
+

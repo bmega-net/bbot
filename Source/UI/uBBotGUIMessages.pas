@@ -88,7 +88,8 @@ type
     FTileScoreMap: BVector<TBBotPathFinderDebugTile>;
     FName: BStr;
   public
-    constructor Create(const AName: BStr; const AEvents: BVector<TBBotPathFinderDebugEvent>;
+    constructor Create(const AName: BStr;
+      const AEvents: BVector<TBBotPathFinderDebugEvent>;
       const ATileScoreMap: BVector<TBBotPathFinderDebugTile>);
     destructor Destroy; override;
 
@@ -112,7 +113,8 @@ implementation
 
 function TBBotGUIMessageOnPacket.AddToList(Lst: TListBox): BStr;
 begin
-  Lst.Items.Insert(1, BFormat('[%s] %d %s', [FormatDateTime('hh:nn:ss.zzz', Self.Time), Size, Data]));
+  Lst.Items.Insert(1, BFormat('[%s] %d %s', [FormatDateTime('hh:nn:ss.zzz',
+    Self.Time), Size, Data]));
   while Lst.Items.Count > 30 do
     Lst.Items.Delete(Lst.Items.Count - 1);
 end;
@@ -134,13 +136,15 @@ end;
 
 { TBBotGUIMessagePathFinderFinished }
 
-function TBBotGUIMessagePathFinderFinished.Clone: TBBotGUIMessagePathFinderFinished;
+function TBBotGUIMessagePathFinderFinished.Clone
+  : TBBotGUIMessagePathFinderFinished;
 begin
   Exit(TBBotGUIMessagePathFinderFinished.Create(Name, Events, TileScoreMap));
 end;
 
 constructor TBBotGUIMessagePathFinderFinished.Create(const AName: BStr;
-  const AEvents: BVector<TBBotPathFinderDebugEvent>; const ATileScoreMap: BVector<TBBotPathFinderDebugTile>);
+  const AEvents: BVector<TBBotPathFinderDebugEvent>;
+  const ATileScoreMap: BVector<TBBotPathFinderDebugTile>);
 begin
   FName := AName;
   FEvents := BVector<TBBotPathFinderDebugEvent>.Create;

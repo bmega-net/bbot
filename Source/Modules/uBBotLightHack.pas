@@ -1,5 +1,5 @@
 unit uBBotLightHack;
-
+
 interface
 
 uses
@@ -51,7 +51,8 @@ end;
 
 procedure TBBotLightHack.Run;
 begin
-  if (Power > 0) or (PowerChanged) then begin
+  if (Power > 0) or (PowerChanged) then
+  begin
     SetLightPower;
     PowerChanged := False;
   end;
@@ -71,4 +72,4 @@ begin
 end;
 
 end.
-
+

@@ -1,5 +1,5 @@
 unit uBBotWalkState;
-
+
 interface
 
 uses
@@ -43,13 +43,16 @@ end;
 
 procedure TBBotWalkState.Run;
 begin
-  if Priority = wspOpenCorpses then begin
+  if Priority = wspOpenCorpses then
+  begin
     if not BBot.OpenCorpses.OpenNextCorpse then
       if not BBot.Looter.IsLooting then
         if not BBot.Attacker.AttackRun then
           if not Me.IsAttacking then
             BBot.Cavebot.RunPoint;
-  end else begin
+  end
+  else
+  begin
     if not BBot.Attacker.AttackRun then
       if not BBot.OpenCorpses.OpenNextCorpse then
         if not Me.IsAttacking then
@@ -58,4 +61,4 @@ begin
 end;
 
 end.
-
+

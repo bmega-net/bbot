@@ -1,5 +1,5 @@
 unit uBBotAvoidWaves;
-
+
 interface
 
 uses
@@ -47,17 +47,24 @@ var
   MinusScore, PlusScore: BFloat;
   Creature: TBBotCreature;
 begin
-  if EnableForID <> 0 then begin
-    if not BBot.Walker.Waiting then begin
+  if EnableForID <> 0 then
+  begin
+    if not BBot.Walker.Waiting then
+    begin
       Creature := BBot.Creatures.Target;
-      if (Creature <> nil) and (Creature.ID = EnableForID) and (Creature.IsAlive) then begin
+      if (Creature <> nil) and (Creature.ID = EnableForID) and (Creature.IsAlive)
+      then
+      begin
         DX := BAbs(Creature.Position.Y - Me.Position.Y);
         DY := BAbs(Creature.Position.X - Me.Position.X);
-        if (DX = 0) or (DY = 0) then begin
+        if (DX = 0) or (DY = 0) then
+        begin
           DX := BMin(DX, 1);
           DY := BMin(DY, 1);
-          MinusScore := BBot.Walker.WalkableCost((DX * -1) + Me.Position.X, (DY * -1) + Me.Position.Y, Me.Position.Z);
-          PlusScore := BBot.Walker.WalkableCost(DX + Me.Position.X, DY + Me.Position.Y, Me.Position.Z);
+          MinusScore := BBot.Walker.WalkableCost((DX * -1) + Me.Position.X,
+            (DY * -1) + Me.Position.Y, Me.Position.Z);
+          PlusScore := BBot.Walker.WalkableCost(DX + Me.Position.X,
+            DY + Me.Position.Y, Me.Position.Z);
           if BMin(MinusScore, PlusScore) < TileCost_ExtremeAvoid then
             if MinusScore < PlusScore then
               BBot.Walker.Step(DX * -1, DY * -1)
@@ -77,4 +84,4 @@ begin
 end;
 
 end.
-
+

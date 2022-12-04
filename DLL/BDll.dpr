@@ -32,4 +32,5 @@ uses
 begin
   DllProc := DllMain;
   DllProc(DLL_PROCESS_ATTACH);
+
 end.

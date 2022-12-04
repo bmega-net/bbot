@@ -1,5 +1,5 @@
 unit uTibiaState;
-
+
 interface
 
 uses
@@ -7,7 +7,8 @@ uses
 
 type
 {$I VERSIONS.inc}
-  TTibiaKeyState = (bksDown, bksPressed, bksCallOff, bksCallOffShift, bksCallOffCtrl);
+  TTibiaKeyState = (bksDown, bksPressed, bksCallOff, bksCallOffShift,
+    bksCallOffCtrl);
   TTibiaKeyStates = set of TTibiaKeyState;
 
 const
@@ -30,7 +31,8 @@ type
     Items: array [0 .. ContainerStateItems] of TTibiaContainerStateItem;
   end;
 
-  TTibiaContainerState = array [0 .. ContainerStateCount] of TTibiaContainerStateContainer;
+  TTibiaContainerState = array [0 .. ContainerStateCount]
+    of TTibiaContainerStateContainer;
 
   TTibiaStateScreen = record
     PixelScale: BDbl;
@@ -101,29 +103,50 @@ procedure InitTibiaState;
 var
   I: BInt32;
 begin
-  TibiaState := CreateSharedMemory('bsm' + IntToStr(TibiaProcess.PID), SizeOf(TTibiaState));
+  TibiaState := CreateSharedMemory('bsm' + IntToStr(TibiaProcess.PID),
+    SizeOf(TTibiaState));
   TibiaState^.Version := AdrSelected;
   TibiaState^.hWnd := TibiaProcess.hWnd;
   TibiaState^.PID := TibiaProcess.PID;
-  TibiaState^.Addresses.PrintTextFunc := TibiaProcess.GetAddress(TibiaAddresses.acPrintText);
-  TibiaState^.Addresses.PrintNameCall := TibiaProcess.GetAddress(TibiaAddresses.acPrintName);
-  TibiaState^.Addresses.PrintFPSCall := TibiaProcess.GetAddress(TibiaAddresses.acPrintFPS);
-  TibiaState^.Addresses.PrintFPSNop := TibiaProcess.GetAddress(TibiaAddresses.acNopFPS);
-  TibiaState^.Addresses.PrintFPSEnabled := TibiaProcess.GetAddress(TibiaAddresses.acShowFPS);
-  TibiaState^.Addresses.PrintMapCall := TibiaProcess.GetAddress(TibiaAddresses.acPrintMap);
-  TibiaState^.Addresses.SendPacketFunc := TibiaProcess.GetAddress(TibiaAddresses.acSendFunction);
-  TibiaState^.Addresses.SendPacketBuffer := TibiaProcess.GetAddress(TibiaAddresses.acSendBuffer) + 8;
-  TibiaState^.Addresses.SendPacketSize := TibiaProcess.GetAddress(TibiaAddresses.acSendBufferSize);
-  TibiaState^.Addresses.GetPacketFunc := TibiaProcess.GetAddress(TibiaAddresses.acGetNextPacket);
-  TibiaState^.Addresses.GetPacketBuffer := TibiaProcess.GetAddress(TibiaAddresses.acRecvStream);
-  TibiaState^.Addresses.GetPacketPos := TibiaProcess.GetAddress(TibiaAddresses.acRecvStream) + 8;
-  TibiaState^.Addresses.GetPacketSize := TibiaProcess.GetAddress(TibiaAddresses.acRecvStream) + 4;
-  TibiaState^.Addresses.AdrLastClickID := TibiaProcess.GetAddress(TibiaAddresses.AdrLastSeeID);
-  TibiaState^.Addresses.ContainerPtr := TibiaProcess.GetAddress(TibiaAddresses.AdrContainer);
-  if TibiaAddresses.AdrAcc <> 0 then begin
-    TibiaState^.Addresses.AccountPtr := TibiaProcess.GetAddress(TibiaAddresses.AdrAcc);
-    TibiaState^.Addresses.PasswordPtr := TibiaProcess.GetAddress(TibiaAddresses.AdrPass);
-  end else begin
+  TibiaState^.Addresses.PrintTextFunc := TibiaProcess.GetAddress
+    (TibiaAddresses.acPrintText);
+  TibiaState^.Addresses.PrintNameCall := TibiaProcess.GetAddress
+    (TibiaAddresses.acPrintName);
+  TibiaState^.Addresses.PrintFPSCall := TibiaProcess.GetAddress
+    (TibiaAddresses.acPrintFPS);
+  TibiaState^.Addresses.PrintFPSNop := TibiaProcess.GetAddress
+    (TibiaAddresses.acNopFPS);
+  TibiaState^.Addresses.PrintFPSEnabled :=
+    TibiaProcess.GetAddress(TibiaAddresses.acShowFPS);
+  TibiaState^.Addresses.PrintMapCall := TibiaProcess.GetAddress
+    (TibiaAddresses.acPrintMap);
+  TibiaState^.Addresses.SendPacketFunc :=
+    TibiaProcess.GetAddress(TibiaAddresses.acSendFunction);
+  TibiaState^.Addresses.SendPacketBuffer :=
+    TibiaProcess.GetAddress(TibiaAddresses.acSendBuffer) + 8;
+  TibiaState^.Addresses.SendPacketSize :=
+    TibiaProcess.GetAddress(TibiaAddresses.acSendBufferSize);
+  TibiaState^.Addresses.GetPacketFunc := TibiaProcess.GetAddress
+    (TibiaAddresses.acGetNextPacket);
+  TibiaState^.Addresses.GetPacketBuffer :=
+    TibiaProcess.GetAddress(TibiaAddresses.acRecvStream);
+  TibiaState^.Addresses.GetPacketPos := TibiaProcess.GetAddress
+    (TibiaAddresses.acRecvStream) + 8;
+  TibiaState^.Addresses.GetPacketSize := TibiaProcess.GetAddress
+    (TibiaAddresses.acRecvStream) + 4;
+  TibiaState^.Addresses.AdrLastClickID :=
+    TibiaProcess.GetAddress(TibiaAddresses.AdrLastSeeID);
+  TibiaState^.Addresses.ContainerPtr := TibiaProcess.GetAddress
+    (TibiaAddresses.AdrContainer);
+  if TibiaAddresses.AdrAcc <> 0 then
+  begin
+    TibiaState^.Addresses.AccountPtr := TibiaProcess.GetAddress
+      (TibiaAddresses.AdrAcc);
+    TibiaState^.Addresses.PasswordPtr := TibiaProcess.GetAddress
+      (TibiaAddresses.AdrPass);
+  end
+  else
+  begin
     TibiaState^.Addresses.AccountPtr := 0;
     TibiaState^.Addresses.PasswordPtr := 0;
   end;
@@ -143,4 +166,4 @@ begin
 end;
 
 end.
-
+

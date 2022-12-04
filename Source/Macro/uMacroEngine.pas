@@ -1,6 +1,5 @@
 unit uMacroEngine;
 
-
 interface
 
 uses
@@ -32,7 +31,8 @@ type
     property AutoExecute: BBool read FAutoExecute write FAutoExecute;
     property Registry: BMacroRegistry read FRegistry;
 
-    procedure FormatMacro(AICode: BStr; var AName: BStr; var ADelay: BInt32; var ACode: BStr);
+    procedure FormatMacro(AICode: BStr; var AName: BStr; var ADelay: BInt32;
+      var ACode: BStr);
 
     procedure ClearMacros;
     procedure AddMacro(ACode: BStr);
@@ -63,7 +63,8 @@ uses
 
 const
   cOperators = ['=', '>', '<', ':'];
-  ckOperators = [bmoEqual, bmoNotEqual, bmoBigger, bmoBiggerEqual, bmoSmaller, bmoSmallerEqual, bmoVar];
+  ckOperators = [bmoEqual, bmoNotEqual, bmoBigger, bmoBiggerEqual, bmoSmaller,
+    bmoSmallerEqual, bmoVar];
 
   { BMacroEngine }
 
@@ -83,7 +84,8 @@ procedure BMacroEngine.ClearMacros;
 var
   I: BInt32;
 begin
-  for I := High(ListMacros) downto 0 do begin
+  for I := High(ListMacros) downto 0 do
+  begin
     ListMacros[I].Next.Free;
     ListMacros[I].Macro.Free;
   end;
@@ -156,7 +158,8 @@ begin
   if AName = '' then
     Exit;
   for I := 0 to High(ListMacros) do
-    if AnsiSameText(AName, ListMacros[I].Name) then begin
+    if AnsiSameText(AName, ListMacros[I].Name) then
+    begin
       if ALabel <> '' then
         ListMacros[I].Macro.Execute(ALabel)
       else
@@ -172,7 +175,8 @@ begin
   if AutoExecute then
     for I := 0 to High(ListMacros) do
       if ListMacros[I].Delay <> 0 then
-        if not ListMacros[I].Next.Locked then begin
+        if not ListMacros[I].Next.Locked then
+        begin
           ListMacros[I].Macro.Execute;
           ListMacros[I].Next.Lock;
           if ListMacros[I].Delay = 1 then
@@ -188,7 +192,8 @@ var
 begin
   Result := BVector<BStr>.Create;
   Iter := Registry.AllVariables.GetEnumerator;
-  while Iter.MoveNext do begin
+  while Iter.MoveNext do
+  begin
     IterVar := Iter.Current.Value;
     Value := IterVar.ValueAsString;
     Result.Add(BFormat('%s=%s', [Iter.Current.Value.Name, Value]));
@@ -198,7 +203,8 @@ begin
     function(A, B: BVector<BStr>.It): BInt32
     begin
       Result := AnsiStrings.StrComp(PAnsiChar(@A^[1]), PAnsiChar(@B^[1]));
-      if BStrStartSensitive(A^, 'BBot.') xor BStrStartSensitive(B^, 'BBot.') then
+      if BStrStartSensitive(A^, 'BBot.') xor BStrStartSensitive(B^, 'BBot.')
+      then
         if BStrStartSensitive(A^, 'BBot.') then
           Exit(+1)
         else
@@ -206,14 +212,17 @@ begin
     end);
 end;
 
-function applyVariablesDict(const AText: BStr; const AChange: BFunc < BPair < BStr, BStr >> ): BStr;
+function applyVariablesDict(const AText: BStr;
+const AChange: BFunc < BPair < BStr, BStr >> ): BStr;
 var
   Change: BPair<BStr, BStr>;
 begin
   Result := AText;
   Change := AChange();
-  while Change.First <> '' do begin
-    Result := StringReplace(Result, Change.First, Change.Second, [rfReplaceAll, rfIgnoreCase]);
+  while Change.First <> '' do
+  begin
+    Result := StringReplace(Result, Change.First, Change.Second,
+      [rfReplaceAll, rfIgnoreCase]);
     Change := AChange();
   end;
 end;
@@ -233,12 +242,14 @@ begin
       MacroVar: BMacroVariable;
     begin
       if First then
-        if not VarIter.MoveNext then begin
+        if not VarIter.MoveNext then
+        begin
           Result.First := '';
           Result.Second := '';
           Exit;
         end;
-      if Registry.VariablesTryGet(VarIter.Current, MacroVar) then begin
+      if Registry.VariablesTryGet(VarIter.Current, MacroVar) then
+      begin
         Result.First := '!' + MacroVar.Name + BIf(First, '!', '');
         Result.Second := MacroVar.ValueAsString;
         First := not First;
@@ -252,12 +263,14 @@ begin
     var
       ConstVal: BFunc<BInt32>;
     begin
-      if not ConstIter.MoveNext then begin
+      if not ConstIter.MoveNext then
+      begin
         Result.First := '';
         Result.Second := '';
         Exit;
       end;
-      if Registry.AllConstants.TryGetValue(ConstIter.Current, ConstVal) then begin
+      if Registry.AllConstants.TryGetValue(ConstIter.Current, ConstVal) then
+      begin
         Result.First := ':' + ConstIter.Current;
         Result.Second := IntToStr(ConstVal());
       end;
@@ -265,7 +278,8 @@ begin
   ConstIter.Free;
 end;
 
-procedure BMacroEngine.FormatMacro(AICode: BStr; var AName: BStr; var ADelay: BInt32; var ACode: BStr);
+procedure BMacroEngine.FormatMacro(AICode: BStr; var AName: BStr;
+var ADelay: BInt32; var ACode: BStr);
 var
   BM: BMacroCore;
 begin
@@ -286,4 +300,3 @@ begin
 end;
 
 end.
-

@@ -21,7 +21,6 @@ type
     procedure OnFollow(ACreature: TBBotCreature);
     procedure OnCreatureWalk(ACreature: TBBotCreature; APrevPos: BPos);
 
-
     procedure SuperFollow(const ACreatureID: BInt32);
   end;
 
@@ -36,7 +35,8 @@ begin
   inherited Create('SuperFollow', 20);
 end;
 
-procedure TBBotSuperFollow.OnCreatureWalk(ACreature: TBBotCreature; APrevPos: BPos);
+procedure TBBotSuperFollow.OnCreatureWalk(ACreature: TBBotCreature;
+  APrevPos: BPos);
 begin
   if (FCreatureID <> 0) and (ACreature <> nil) then
     if ACreature.ID = FCreatureID then
@@ -68,13 +68,15 @@ var
   Creature: TBBotCreature;
 begin
   inherited;
-  if FCreatureID <> 0 then begin
+  if FCreatureID <> 0 then
+  begin
     Creature := BBot.Creatures.Find(FCreatureID);
     if Creature = nil then
-      Creature := BBot.Creatures.RawFind(function(AIt: TBBotCreature): BBool
-      begin
-        Exit((AIt.ID = FCreatureID) and (AIt.IsVisible) and (AIt.IsAlive));
-      end);
+      Creature := BBot.Creatures.RawFind(
+        function(AIt: TBBotCreature): BBool
+        begin
+          Exit((AIt.ID = FCreatureID) and (AIt.IsVisible) and (AIt.IsAlive));
+        end);
     if Creature <> nil then
       Creature.SuperFollow;
   end;

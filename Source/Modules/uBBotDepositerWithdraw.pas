@@ -1,6 +1,5 @@
 unit uBBotDepositerWithdraw;
 
-
 interface
 
 uses
@@ -120,7 +119,8 @@ uses
   uTibiaDeclarations,
   uUserError;
 
-procedure TBBotWithdraw.AddState(const AState, AOnFail, AOnSuccess: TBBotActionState);
+procedure TBBotWithdraw.AddState(const AState, AOnFail,
+  AOnSuccess: TBBotActionState);
 var
   State: BVector<TBBotWithdrawState>.It;
 begin
@@ -179,14 +179,15 @@ begin
   Items.Clear;
   if BStrSplit(R, ';', ACode) > 0 then
     for I := 0 to High(R) do
-      if BStrSplit(R[I], ' ', SID, SWant) then begin
+      if BStrSplit(R[I], ' ', SID, SWant) then
+      begin
         Item := Items.Add;
         try
           Item^.ID := BStrTo32(SID);
           Item^.Want := BStrTo32(SWant);
         except
-          Error('Invalid withdraw expression (should be <ID QUANTITY> numbers) "' + R[I] +
-            '". Possible reason: variable not set.');
+          Error('Invalid withdraw expression (should be <ID QUANTITY> numbers) "'
+            + R[I] + '". Possible reason: variable not set.');
           Items.Remove(Item);
         end;
       end;
@@ -253,7 +254,8 @@ var
 begin
   LastCT := nil;
   CT := ContainerLast;
-  while (CT <> nil) and (CT.Container = DepotContainer) do begin
+  while (CT <> nil) and (CT.Container = DepotContainer) do
+  begin
     if (CT.IsContainer) and (LastCT = nil) then
       LastCT := CT;
     if Withdraw.Items.Has('Withdraw push items from DP to BP',
@@ -261,41 +263,52 @@ begin
       var
         MoveCount: BInt32;
       begin
-        if (CT.ID = BUInt32(It^.ID)) and (It^.Needed > 0) then begin
+        if (CT.ID = BUInt32(It^.ID)) and (It^.Needed > 0) then
+        begin
           MoveCount := BMin(It^.Needed, BMax(CT.Count, 1));
-          if (CT.Weight * MoveCount) <= Me.Capacity then begin
+          if (CT.Weight * MoveCount) <= Me.Capacity then
+          begin
             case ContainerAt(0).PullHere(CT, BMin(MoveCount, CT.Count)) of
-            bcpsError:
-                Withdraw.Error(BFormat('Unable to push item %d (%d/%d), full backpack', [It^.ID, It^.Want - It^.Needed,
-                It^.Want]));
-            bcpsTryAgain: Exit(True);
-            bcpsSuccess: begin
-                if CT <> LastPushed then begin
-                  It^.Needed := It^.Needed - MoveCount;
-                  LastPushed := CT;
-                end;
+              bcpsError:
+                Withdraw.Error
+                  (BFormat('Unable to push item %d (%d/%d), full backpack',
+                  [It^.ID, It^.Want - It^.Needed, It^.Want]));
+              bcpsTryAgain:
                 Exit(True);
-              end;
+              bcpsSuccess:
+                begin
+                  if CT <> LastPushed then
+                  begin
+                    It^.Needed := It^.Needed - MoveCount;
+                    LastPushed := CT;
+                  end;
+                  Exit(True);
+                end;
             end;
           end
           else
-            Withdraw.Error(BFormat('Unable to push item %d (%d/%d), no capacity', [It^.ID, It^.Want - It^.Needed,
-              It^.Want]));
+            Withdraw.Error
+              (BFormat('Unable to push item %d (%d/%d), no capacity',
+              [It^.ID, It^.Want - It^.Needed, It^.Want]));
         end;
         Exit(False);
       end) then
       Exit;
     CT := CT.Prev;
   end;
-  if LastCT <> nil then begin
+  if LastCT <> nil then
+  begin
     LastCT.Use;
     LastPushed := nil;
-  end else begin
+  end
+  else
+  begin
     Withdraw.Items.ForEach(
       procedure(It: BVector<TBBotWithdraw.TBBotWithdrawItems>.It)
       begin
         if It^.Needed <> 0 then
-          Withdraw.Error(BFormat('A item was not full withdrawed %d (want: %d need: %d)',
+          Withdraw.Error
+            (BFormat('A item was not full withdrawed %d (want: %d need: %d)',
             [It^.ID, It^.Want, It^.Needed]));
       end);
     doSuccess;
@@ -311,7 +324,8 @@ begin
   CT := ContainerFind(ItemID_Locker);
   if CT <> nil then
     CT.Use
-  else begin
+  else
+  begin
     CT := ContainerAt(DepotContainer, 0);
     if not CT.Open then
       doFail
@@ -348,7 +362,8 @@ end;
 procedure TBBotWithdrawBeforePush.Run;
 begin
   BBot.Walker.WaitLock('Withdrawing before push', BBotWithdrawWaitLock);
-  if not BBot.Backpacks.isWorking then begin
+  if not BBot.Backpacks.isWorking then
+  begin
     Withdraw.Items.ForEach(
       procedure(It: BVector<TBBotWithdraw.TBBotWithdrawItems>.It)
       begin
@@ -379,4 +394,3 @@ begin
 end;
 
 end.
-

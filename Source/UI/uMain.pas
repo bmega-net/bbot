@@ -1,6 +1,5 @@
 unit uMain;
 
-
 interface
 
 uses
@@ -347,11 +346,13 @@ type
     procedure edtComboSpellClick(Sender: TObject);
     procedure HideBBot1Click(Sender: TObject);
     procedure HideTibia1Click(Sender: TObject);
-    procedure lstCommMeasureItem(Control: TWinControl; Index: Integer; var Height: BInt32);
+    procedure lstCommMeasureItem(Control: TWinControl; Index: Integer;
+      var Height: BInt32);
     procedure lstConfigsClick(Sender: TObject);
     procedure lstConfigsDblClick(Sender: TObject);
     procedure lstTrainersClickCheck(Sender: TObject);
-    procedure lstTrainersDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure lstTrainersDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure ShowBBot1Click(Sender: TObject);
     procedure ShowTibia1Click(Sender: TObject);
     procedure lblEnemiesAndAlliesClick(Sender: TObject);
@@ -359,15 +360,19 @@ type
     procedure OnKeyPressNumOnly(Sender: TObject; var Key: Char);
     procedure Label100Click(Sender: TObject);
     procedure Label101Click(Sender: TObject);
-    procedure vstMenuBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
-      Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
-    procedure vstMenuDrawText(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-      const Text: String; const CellRect: TRect; var DefaultDraw: Boolean);
+    procedure vstMenuBeforeCellPaint(Sender: TBaseVirtualTree;
+      TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+      CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
+    procedure vstMenuDrawText(Sender: TBaseVirtualTree; TargetCanvas: TCanvas;
+      Node: PVirtualNode; Column: TColumnIndex; const Text: String;
+      const CellRect: TRect; var DefaultDraw: Boolean);
     procedure vstMenuChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure vstMenuCollapsing(Sender: TBaseVirtualTree; Node: PVirtualNode; var Allowed: Boolean);
-    procedure vstMenuMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure vstMenuMeasureItem(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
-      var NodeHeight: Integer);
+    procedure vstMenuCollapsing(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      var Allowed: Boolean);
+    procedure vstMenuMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure vstMenuMeasureItem(Sender: TBaseVirtualTree;
+      TargetCanvas: TCanvas; Node: PVirtualNode; var NodeHeight: Integer);
     procedure Label112Click(Sender: TObject);
     procedure lblMacroEditorCopyClick(Sender: TObject);
     procedure btnMacroBackClick(Sender: TObject);
@@ -380,8 +385,10 @@ type
     procedure MacroCloseUp(Sender: TObject);
     procedure Label53Click(Sender: TObject);
     procedure btnProtectorClick(Sender: TObject);
-    procedure lstProtectorsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure lstProtectorsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstProtectorsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure lstProtectorsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure ProtectorTextFields(Sender: TObject);
     procedure cmbProtectorKindCloseUp(Sender: TObject);
     procedure Label121Click(Sender: TObject);
@@ -407,15 +414,17 @@ type
     procedure memoRateReviewChange(Sender: TObject);
     procedure btnRateSendClick(Sender: TObject);
     procedure tmrDeleteTimer(Sender: TObject);
-    procedure lvProfilersCompare(Sender: TObject; Item1, Item2: TListItem; Data: Integer; var Compare: Integer);
+    procedure lvProfilersCompare(Sender: TObject; Item1, Item2: TListItem;
+      Data: Integer; var Compare: Integer);
     procedure AdvancedAttackManageAtkSequencesClick(Sender: TObject);
     procedure LinkEnter(Sender: TObject);
     procedure LinkLeave(Sender: TObject);
     procedure MacroList(Sender: TObject);
-    function ValidateItemCheckbox(const ID: BInt32; const CheckBox: TCheckBox): BBool;
+    function ValidateItemCheckbox(const ID: BInt32;
+      const CheckBox: TCheckBox): BBool;
     procedure sMacroCPShow(Sender: TObject);
-    procedure sMacroCPPaintItem(Sender: TObject; Index: Integer; TargetCanvas: TCanvas; ItemRect: TRect;
-      var CustomDraw: Boolean);
+    procedure sMacroCPPaintItem(Sender: TObject; Index: Integer;
+      TargetCanvas: TCanvas; ItemRect: TRect; var CustomDraw: Boolean);
     procedure Label4Click(Sender: TObject);
     procedure lstSBDblClick(Sender: TObject);
   private
@@ -427,7 +436,8 @@ type
     SaveLoadExt: BStr;
     TrayData: TNotifyIconData;
     FTrayIconEnabled: BBool;
-    procedure AskConfigFile(Sender: TObject; Title, Ext: BStr; OnOk: TOnOkConfig);
+    procedure AskConfigFile(Sender: TObject; Title, Ext: BStr;
+      OnOk: TOnOkConfig);
     function CheckFileSave(FileName: BStr): Boolean;
     procedure OnLoadConfigOk(FileName: BStr);
     procedure OnPopupClose(Sender: TObject);
@@ -476,7 +486,8 @@ type
     HealerFrame: THealerFrame;
     VariablesFrame: TVariablesFrame;
 
-    property TrayIconEnabled: BBool read FTrayIconEnabled write SetTrayIconEnabled;
+    property TrayIconEnabled: BBool read FTrayIconEnabled
+      write SetTrayIconEnabled;
 
     procedure OnTrayClick(var Msg: TMessage); message WM_TRAYCLICK;
 
@@ -498,7 +509,8 @@ type
     procedure MacroEditorCreate;
     procedure MacroEditorLoad(SCode: BStr);
 
-    procedure CheckInt(AMemo: TMemo; ACheck: TCheckBox; APercent: BBool); overload;
+    procedure CheckInt(AMemo: TMemo; ACheck: TCheckBox;
+      APercent: BBool); overload;
     procedure CheckInt(AMemo: TMemo; AMessage: BStr; APercent: BBool); overload;
 
     function MutexAcquire: BBool;
@@ -546,19 +558,25 @@ uses
 
 procedure TFMain.InitializeFrames;
 begin
-  AdvancedAttackFrame := TAdvancedAttackFrame(InsertFrame(gbAdvancedAttack, TAdvancedAttackFrame));
+  AdvancedAttackFrame := TAdvancedAttackFrame(InsertFrame(gbAdvancedAttack,
+    TAdvancedAttackFrame));
   CavebotFrame := TCavebotFrame(InsertFrame(gbCavebot, TCavebotFrame));
   DebugFrame := TDebugFrame(InsertFrame(gbDebug, TDebugFrame));
-  ReconnectManagerFrame := TReconnectManagerFrame(InsertFrame(gbBotManager, TReconnectManagerFrame));
+  ReconnectManagerFrame := TReconnectManagerFrame(InsertFrame(gbBotManager,
+    TReconnectManagerFrame));
   UserErrorFrame := TUserErrorFrame(InsertFrame(gbUserError, TUserErrorFrame));
   MacrosFrame := TMacrosFrame(InsertFrame(gbMacros, TMacrosFrame));
   LooterFrame := TLooterFrame(InsertFrame(gbLooter, TLooterFrame));
   WarNetFrame := TWarNetFrame(InsertFrame(gbWarNet, TWarNetFrame));
-  DebugWalkerFrame := TDebugWalkerFrame(InsertFrame(gbDebugWalker, TDebugWalkerFrame));
+  DebugWalkerFrame := TDebugWalkerFrame(InsertFrame(gbDebugWalker,
+    TDebugWalkerFrame));
   KillerFrame := TKillerFrame(InsertFrame(gbKiller, TKillerFrame));
-  SpecialSQMsFrame := TSpecialSQMsFrame(InsertFrame(gbSpecialSQMs, TSpecialSQMsFrame));
-  FriendHealerFrame := TFriendHealerFrame(InsertFrame(gbFriendHealer, TFriendHealerFrame));
-  AttackSequencesFrame := TAttackSequencesFrame(InsertFrame(gbAtkSequences, TAttackSequencesFrame));
+  SpecialSQMsFrame := TSpecialSQMsFrame(InsertFrame(gbSpecialSQMs,
+    TSpecialSQMsFrame));
+  FriendHealerFrame := TFriendHealerFrame(InsertFrame(gbFriendHealer,
+    TFriendHealerFrame));
+  AttackSequencesFrame := TAttackSequencesFrame(InsertFrame(gbAtkSequences,
+    TAttackSequencesFrame));
   ManaToolsFrame := TManaToolsFrame(InsertFrame(gbManaTools, TManaToolsFrame));
   HealerFrame := THealerFrame(InsertFrame(gbHealer, THealerFrame));
   VariablesFrame := TVariablesFrame(InsertFrame(gbVariables, TVariablesFrame));
@@ -581,11 +599,14 @@ end;
 
 function TFMain.MutexScopped(const AProc: BProc): BBool;
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     AProc();
     MutexRelease;
     Exit(True);
-  end else begin
+  end
+  else
+  begin
     Exit(False);
   end;
 end;
@@ -600,7 +621,8 @@ begin
   DebugFrame.Add(AText);
 end;
 
-procedure TFMain.AddProfilerData(const AParent: BStr; const AAction: TBBotAction);
+procedure TFMain.AddProfilerData(const AParent: BStr;
+  const AAction: TBBotAction);
 var
   Name: BStr;
   Profiler: BProfiler;
@@ -616,7 +638,8 @@ begin
   Item.SubItems.Add(BFormat('%.4f', [Profiler.Avg]));
   Item.SubItems.Add(BFormat('%.4f', [Profiler.Max]));
   if AAction is TBBotActions then
-    (AAction as TBBotActions).Actions.ForEach(procedure(It: BVector<TBBotAction>.It)begin AddProfilerData(Name,
+    (AAction as TBBotActions).Actions.ForEach
+      (procedure(It: BVector<TBBotAction>.It)begin AddProfilerData(Name,
       It^); end);
 end;
 
@@ -624,7 +647,8 @@ procedure TFMain.ResizeToBox(GB: TPanel);
 begin
   GB.Top := 3;
   GB.Left := vstMenu.ClientWidth + 3 + GetSystemMetrics(SM_CXVSCROLL);
-  Self.ClientHeight := Max(GB.ClientHeight, gbCavebot.ClientHeight) + 6 + GB.Top;
+  Self.ClientHeight := Max(GB.ClientHeight, gbCavebot.ClientHeight) + 6
+    + GB.Top;
   vstMenu.ClientHeight := Self.ClientHeight;
   Self.ClientWidth := GB.Left + GB.ClientWidth + 10;
 end;
@@ -638,14 +662,16 @@ var
 begin
   I := Length(FileMask);
   ExtLen := I;
-  while (I > 0) and (not((FileMask[I] = '/') or (FileMask[I] = '\'))) do begin
+  while (I > 0) and (not((FileMask[I] = '/') or (FileMask[I] = '\'))) do
+  begin
     if FileMask[I] = '.' then
       ExtLen := I;
     Dec(I);
   end;
   ExtLen := Length(FileMask) - ExtLen + 1;
   IsFound := FindFirst(FileMask, faAnyFile - faDirectory, SR) = 0;
-  while IsFound do begin
+  while IsFound do
+  begin
     FileName := SR.Name;
     List.Add(BStrLeft(FileName, Length(FileName) - ExtLen));
     IsFound := FindNext(SR) = 0;
@@ -666,7 +692,8 @@ begin
   FindClose(SR);
 end;
 
-procedure TFMain.AskConfigFile(Sender: TObject; Title, Ext: BStr; OnOk: TOnOkConfig);
+procedure TFMain.AskConfigFile(Sender: TObject; Title, Ext: BStr;
+  OnOk: TOnOkConfig);
 begin
   SaveLoadExt := Ext;
   lblSettingsTitle.Caption := Title;
@@ -693,7 +720,8 @@ procedure TFMain.BasicToolsSettings(Sender: TObject);
     BBot.Backpacks.Enabled := chkAutoOpenBP.Checked;
     BBot.Backpacks.Minimizer := chkAutoMinimizeBP.Checked;
     BBot.Backpacks.InventoryMinimized := chkAutoMinimizeBPsInventory.Checked;
-    BBot.Backpacks.GetPremiumMinimized := chkAutoMinimizeBPsMinimizedGetPremium.Checked;
+    BBot.Backpacks.GetPremiumMinimized :=
+      chkAutoMinimizeBPsMinimizedGetPremium.Checked;
     BBot.Reconnect.Enabled := chkReconnect.Checked;
     BBot.ServerSave.Hour := BStrTo32(numSSLogoutHH.Text, 0);
     BBot.ServerSave.Minute := BStrTo32(numSSLogoutMM.Text, 0);
@@ -742,22 +770,29 @@ begin
   CheckInt(numSSLogoutMM, chkServerSaveLogout, False);
   if Length(edtTHwatch.Text) < 2 then
     chkTHwatch.Checked := False;
-  if Length(edtTHmsg.Text) < 2 then begin
+  if Length(edtTHmsg.Text) < 2 then
+  begin
     chkTHmsg.Checked := False;
     chkTHmsgyell.Checked := False;
   end;
-  edtTHmsg.Enabled := not(chkTHmsg.Checked or chkTHmsgyell.Checked or chkTHmsgsay.Checked);
+  edtTHmsg.Enabled := not(chkTHmsg.Checked or chkTHmsgyell.Checked or
+    chkTHmsgsay.Checked);
   edtTHwatch.Enabled := not chkTHwatch.Checked;
-  if (Sender = chkLevelSpy) and (chkLevelSpy.Checked) and (AdrSelected >= TibiaVer1021) then begin
+  if (Sender = chkLevelSpy) and (chkLevelSpy.Checked) and
+    (AdrSelected >= TibiaVer1021) then
+  begin
     ShowMessage('Level spy is disabled for this version.');
     chkLevelSpy.Checked := False;
   end;
-  if (Sender = chkAutoMinimizeBPsInventory) and (chkAutoMinimizeBPsInventory.Checked) and (AdrSelected >= TibiaVer1000)
-  then
-    ShowMessage('Warning!' + BStrLine + 'Please minimize your inventory otherwise' + BStrLine +
-      'the BBot may active a wrong PVP mode making' + BStrLine + 'you be a red skull and losing items.');
+  if (Sender = chkAutoMinimizeBPsInventory) and
+    (chkAutoMinimizeBPsInventory.Checked) and (AdrSelected >= TibiaVer1000) then
+    ShowMessage('Warning!' + BStrLine +
+      'Please minimize your inventory otherwise' + BStrLine +
+      'the BBot may active a wrong PVP mode making' + BStrLine +
+      'you be a red skull and losing items.');
   OTSafe(Sender);
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     SetBasicFeatures;
     SetHUDInformations;
     SetProtectors;
@@ -786,9 +821,13 @@ var
   end;
 
 begin
-  if cmbRateStars.ItemIndex > 0 then begin
-    if MessageDlg(BFormat('Please review your message:\nStars: %d\nMessage:\n%s',
-      [cmbRateStars.ItemIndex, memoRateReview.Text]), mtConfirmation, mbOKCancel, 0, mbCancel) = mrOk then begin
+  if cmbRateStars.ItemIndex > 0 then
+  begin
+    if MessageDlg
+      (BFormat('Please review your message:\nStars: %d\nMessage:\n%s',
+      [cmbRateStars.ItemIndex, memoRateReview.Text]), mtConfirmation,
+      mbOKCancel, 0, mbCancel) = mrOk then
+    begin
       S := '';
       AddPostData('id', BFormat('%d', [0]));
       AddPostData('stars', BFormat('%d', [cmbRateStars.ItemIndex]));
@@ -805,7 +844,8 @@ end;
 
 procedure TFMain.btnResetStatistics(Sender: TObject);
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.Stats.ResetStatistics;
     MutexRelease;
   end;
@@ -816,8 +856,9 @@ begin
   Result := False;
   if not FileExists(FileName) then
     Result := True
-  else if MessageDlg('The file already exists. Do you want to overwrite it?', mtConfirmation, [mbYes, mbNo], 0) = mrYes
-  then begin
+  else if MessageDlg('The file already exists. Do you want to overwrite it?',
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
     Result := True;
   end;
 end;
@@ -839,14 +880,18 @@ end;
 procedure TFMain.AutomationToolsSettings(Sender: TObject);
   procedure SetEnchanter;
   begin
-    BBot.Enchanter.Use := BIf(rbEnchanterUseBlank.Checked, ItemID_BlankRune, ItemID_Spear);
+    BBot.Enchanter.Use := BIf(rbEnchanterUseBlank.Checked, ItemID_BlankRune,
+      ItemID_Spear);
     BBot.Enchanter.Spell := txtEnchanterSpell.Text;
     BBot.Enchanter.Mana := BStrTo32(numEnchanterMana.Text, 0);
     BBot.Enchanter.Soul := BStrTo32(numEnchanterSoul.Text, 0);
     case cmbEnchanterHand.ItemIndex of
-    0: BBot.Enchanter.Hand := SlotLeft;
-    1: BBot.Enchanter.Hand := SlotRight;
-  else BBot.Enchanter.Hand := SlotLastClicked;
+      0:
+        BBot.Enchanter.Hand := SlotLeft;
+      1:
+        BBot.Enchanter.Hand := SlotRight;
+    else
+      BBot.Enchanter.Hand := SlotLastClicked;
     end;
     BBot.Enchanter.Enabled := chkEnchanter.Checked;
   end;
@@ -870,7 +915,8 @@ begin
     chkSlimeTrain.Checked := False;
   if (Sender = chkSlimeTrain) and (chkSlimeTrain.Checked) then
     chkHPTrain.Checked := False;
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     SetEnchanter;
     SetTrainers;
     KillerFrame.SetAttacker;
@@ -889,7 +935,8 @@ begin
   TrainerHPMin.Enabled := not BBot.Trainer.HP;
 end;
 
-function TFMain.ValidateItemCheckbox(const ID: BInt32; const CheckBox: TCheckBox): BBool;
+function TFMain.ValidateItemCheckbox(const ID: BInt32;
+  const CheckBox: TCheckBox): BBool;
   function ValidateItem(const ID: BInt32): BBool;
   begin
     Result := BInRange(ID, TibiaMinItems, TibiaLastItem);
@@ -898,14 +945,17 @@ function TFMain.ValidateItemCheckbox(const ID: BInt32; const CheckBox: TCheckBox
 var
   OriginalOnClick: TNotifyEvent;
 begin
-  if CheckBox.Checked then begin
+  if CheckBox.Checked then
+  begin
     Result := ValidateItem(ID);
-    if not Result then begin
+    if not Result then
+    begin
       OriginalOnClick := CheckBox.OnClick;
       CheckBox.OnClick := nil;
       CheckBox.Checked := False;
       CheckBox.OnClick := OriginalOnClick;
-      ShowMessage('Warning! Detected error with item usage for "' + CheckBox.Caption +
+      ShowMessage('Warning! Detected error with item usage for "' +
+        CheckBox.Caption +
         '". The selected item is not availabled for the selected Tibia version.');
     end;
   end
@@ -949,7 +999,8 @@ procedure TFMain.HealingToolsSettings(Sender: TObject);
 begin
   CheckInt(numCureParalyzeMana, chkCureParalyze, False);
 
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     HealerFrame.SetHealer;
     FriendHealerFrame.SetFriendHealer;
     TManaToolsFrame(ManaToolsFrame).SetManaDrinker;
@@ -968,12 +1019,14 @@ procedure TFMain.cmdTreClick(Sender: TObject);
 var
   I: BInt32;
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     lstTrainers.Clear;
     BBot.Creatures.Traverse(
       procedure(Creature: TBBotCreature)
       begin
-        if Creature.IsAlive and (not Creature.IsSelf) and Creature.IsOnScreen then
+        if Creature.IsAlive and (not Creature.IsSelf) and Creature.IsOnScreen
+        then
           lstTrainers.AddItem(Creature.Name, TObject(Creature.ID));
       end);
     for I := 0 to lstTrainers.Items.Count - 1 do
@@ -985,7 +1038,8 @@ end;
 
 procedure TFMain.btnMacroGetPosClick(Sender: TObject);
 begin
-  MessageDlg('Your position is:' + #13#10 + BStr(Me.Position), mtInformation, [mbOK], 0);
+  MessageDlg('Your position is:' + #13#10 + BStr(Me.Position), mtInformation,
+    [mbOK], 0);
 end;
 
 procedure TFMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -996,7 +1050,8 @@ end;
 
 procedure TFMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := (EngineLoad = elDestroying) or (MessageDlg('Are you sure?'#13'This action will close the bot',
+  CanClose := (EngineLoad = elDestroying) or
+    (MessageDlg('Are you sure?'#13'This action will close the bot',
     mtInformation, [mbYes, mbNo], 0) = mrYes);
 end;
 
@@ -1010,9 +1065,11 @@ procedure TFMain.FormCreate(Sender: TObject);
         MM: TMemo;
         onChange: TNotifyEvent;
       begin
-        if C is TMemo then begin
+        if C is TMemo then
+        begin
           MM := C as TMemo;
-          if InRange(MM.MaxLength, 1, 10) then begin
+          if InRange(MM.MaxLength, 1, 10) then
+          begin
             onChange := MM.onChange;
             MM.onChange := nil;
             MM.Text := IntToStr(StrToInt(MM.Lines[0]));
@@ -1041,7 +1098,8 @@ procedure TFMain.FormCreate(Sender: TObject);
     I: TBBotProtectorKind;
   begin
     for I := bpkFirst to bpkLast do
-      cmbProtectorKind.Items.AddObject(BBot.Protectors.KindToStr(I), TObject(I));
+      cmbProtectorKind.Items.AddObject(BBot.Protectors.KindToStr(I),
+        TObject(I));
     cmbProtectorKind.ItemIndex := 0;
   end;
 
@@ -1094,7 +1152,8 @@ begin
   BBotItemSelector.Free;
 end;
 
-procedure TFMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFMain.FormKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 begin
   if (Key = Ord('D')) and (ssShift in Shift) and (ssCtrl in Shift) then
     ShowGroupBox(gbDebug);
@@ -1110,7 +1169,8 @@ begin
   ShowWindow(TibiaProcess.hWnd, SW_HIDE);
 end;
 
-procedure TFMain.lstCommMeasureItem(Control: TWinControl; Index: Integer; var Height: BInt32);
+procedure TFMain.lstCommMeasureItem(Control: TWinControl; Index: Integer;
+var Height: BInt32);
 begin
   Height := lstAddHeight;
 end;
@@ -1123,7 +1183,8 @@ end;
 
 procedure TFMain.lstConfigsDblClick(Sender: TObject);
 begin
-  if lstConfigs.ItemIndex <> -1 then begin
+  if lstConfigs.ItemIndex <> -1 then
+  begin
     edtConfig.Text := lstConfigs.Items.Strings[lstConfigs.ItemIndex];
     btnConfigClick(btnConfig);
   end;
@@ -1134,10 +1195,12 @@ var
   ID: BInt32;
   Checked: Boolean;
 begin
-  if lstTrainers.ItemIndex <> -1 then begin
+  if lstTrainers.ItemIndex <> -1 then
+  begin
     ID := BInt32(lstTrainers.Items.Objects[lstTrainers.ItemIndex]);
     Checked := lstTrainers.Checked[lstTrainers.ItemIndex];
-    if MutexAcquire then begin
+    if MutexAcquire then
+    begin
       if Checked then
         BBot.Trainer.Add(ID)
       else
@@ -1147,7 +1210,8 @@ begin
   end;
 end;
 
-procedure TFMain.lstTrainersDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TFMain.lstTrainersDrawItem(Control: TWinControl; Index: Integer;
+Rect: TRect; State: TOwnerDrawState);
 var
   CreatureID: BUInt32;
   Text: BStr;
@@ -1166,18 +1230,21 @@ begin
   HPCor := HPColor(HP);
   Text := Text + ' (' + IntToStr(HP) + '%)';
 
-  if odSelected in State then begin
+  if odSelected in State then
+  begin
     lstTrainers.Canvas.Brush.Color := clHighlight;
     lstTrainers.Canvas.Font.Color := clHighlightText;
-  end else begin
+  end
+  else
+  begin
     lstTrainers.Canvas.Brush.Color := lstTrainers.Color;
     lstTrainers.Canvas.Font.Color := lstTrainers.Font.Color;
   end;
   lstTrainers.Canvas.FillRect(Rect);
   InflateRect(Rect, -2, -2);
   lstTrainers.Canvas.Font.Color := HPCor;
-  lstTrainers.Canvas.TextOut(((Rect.Right - Rect.Left) div 2) - (lstTrainers.Canvas.TextWidth(Text) div 2),
-    Rect.Top + 1, Text);
+  lstTrainers.Canvas.TextOut(((Rect.Right - Rect.Left) div 2) -
+    (lstTrainers.Canvas.TextWidth(Text) div 2), Rect.Top + 1, Text);
 
   Rect.Top := Rect.Top + lstTrainers.Canvas.TextHeight('|');
   InflateRect(Rect, -25, -1);
@@ -1191,7 +1258,8 @@ begin
   lstTrainers.Canvas.FillRect(Rect);
 end;
 
-procedure TFMain.lvProfilersCompare(Sender: TObject; Item1, Item2: TListItem; Data: Integer; var Compare: Integer);
+procedure TFMain.lvProfilersCompare(Sender: TObject; Item1, Item2: TListItem;
+Data: Integer; var Compare: Integer);
 var
   A, B: BFloat;
 begin
@@ -1203,7 +1271,8 @@ end;
 procedure TFMain.OnLoadConfigOk(FileName: BStr);
 begin
   IgnoreOTWarning := True;
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     SettingsManager.LoadFromFile(FileName);
     LoadMigrations();
     BasicToolsSettings(Self);
@@ -1235,7 +1304,8 @@ end;
 
 procedure TFMain.OnSaveConfigOk(FileName: BStr);
 begin
-  if CheckFileSave(FileName) then begin
+  if CheckFileSave(FileName) then
+  begin
     mmLooter.Lines.Text := FLootItems.Save;
     SettingsManager.SaveToFile(FileName);
   end;
@@ -1246,14 +1316,17 @@ var
   P: TPoint;
 begin
   case Msg.LParam of
-  WM_LBUTTONDOWN: ShowTibia1Click(nil);
-  WM_MBUTTONDOWN:;
-  WM_RBUTTONDOWN: begin
-      SetForegroundWindow(Handle);
-      GetCursorPos(P);
-      PopTray.Popup(P.X, P.Y);
-      PostMessage(Handle, WM_NULL, 0, 0);
-    end;
+    WM_LBUTTONDOWN:
+      ShowTibia1Click(nil);
+    WM_MBUTTONDOWN:
+      ;
+    WM_RBUTTONDOWN:
+      begin
+        SetForegroundWindow(Handle);
+        GetCursorPos(P);
+        PopTray.Popup(P.X, P.Y);
+        PostMessage(Handle, WM_NULL, 0, 0);
+      end;
   end;
 end;
 
@@ -1272,7 +1345,8 @@ begin
 
   ResizeToBox(GB);
 
-  if Assigned(gbCurrent) and (gbCurrent <> GB) then begin
+  if Assigned(gbCurrent) and (gbCurrent <> GB) then
+  begin
     gbCurrent.Left := Self.Width + 20;
     gbCurrent.Visible := False;
   end;
@@ -1327,7 +1401,8 @@ end;
 
 procedure TFMain.SetTrayIconEnabled(const Value: BBool);
 begin
-  if FTrayIconEnabled <> Value then begin
+  if FTrayIconEnabled <> Value then
+  begin
     FTrayIconEnabled := Value;
     TrayData.cbSize := SizeOf(TrayData);
     TrayData.Wnd := Handle;
@@ -1352,11 +1427,14 @@ var
 begin
   if IgnoreOTWarning then
     Exit;
-  if (Sender is TCheckBox) then begin
+  if (Sender is TCheckBox) then
+  begin
     Chk := Sender as TCheckBox;
     if (Pos('[OT]', Chk.Caption) > 0) and Chk.Checked then
-      if MessageDlg('Warning!' + #13#10 + 'This feature is a [OTserver] only feature!' + #13#10 + #13#10 + 'Continue?',
-        mtConfirmation, [mbYes, mbNo], 0) = mrNo then begin
+      if MessageDlg('Warning!' + #13#10 +
+        'This feature is a [OTserver] only feature!' + #13#10 + #13#10 +
+        'Continue?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      begin
         SaveOnClick := Chk.OnClick;
         Chk.OnClick := nil;
         Chk.Checked := False;
@@ -1405,13 +1483,17 @@ procedure TFMain.WarToolsSettings(Sender: TObject);
   end;
 
 begin
-  if chkDash.Checked and (AdrSelected = TibiaVerLast) then begin
-    if MessageDlg('Confirmation,' + BStrLine + 'The Dash feature is highly detectable.' + BStrLine +
-      'Are you sure you want to enable this option and run the risk ' + BStrLine +
-      'of losing your account in the game?', mtConfirmation, mbYesNo, 0) = mrNo then
+  if chkDash.Checked and (AdrSelected = TibiaVerLast) then
+  begin
+    if MessageDlg('Confirmation,' + BStrLine +
+      'The Dash feature is highly detectable.' + BStrLine +
+      'Are you sure you want to enable this option and run the risk ' + BStrLine
+      + 'of losing your account in the game?', mtConfirmation, mbYesNo, 0) = mrNo
+    then
       chkDash.Checked := False;
   end;
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     SetWarbot;
     MutexRelease;
   end;
@@ -1473,8 +1555,8 @@ begin
 end;
 
 procedure TFMain.CreateMenu;
-  function AddMenuItem(Parent: PVirtualNode; Text: BStr; Hint: BStr; Panel: TPanel; Image: BInt32 = -1;
-  Link: BBool = False): PVirtualNode;
+  function AddMenuItem(Parent: PVirtualNode; Text: BStr; Hint: BStr;
+  Panel: TPanel; Image: BInt32 = -1; Link: BBool = False): PVirtualNode;
   var
     I: BInt32;
   begin
@@ -1517,13 +1599,15 @@ begin
   AddMenuItem(Node, 'Killer', 'Destroy the creatures', gbKiller, 2);
   AddMenuItem(Node, 'Cavebot', 'Get over your opponents', gbCavebot, 10);
   AddMenuItem(Node, 'Looter', 'Be quick', gbLooter, 5);
-  AddMenuItem(Node, 'Reconnect Manager', 'To manage multiple characters', gbBotManager, 24);
+  AddMenuItem(Node, 'Reconnect Manager', 'To manage multiple characters',
+    gbBotManager, 24);
 
   Node := nil;
   Node := AddMenuItem(Node, '-', 'War Tools', nil, -1);
   AddMenuItem(Node, 'Basic War', 'Kill them', gbWarbot, 12);
   AddMenuItem(Node, 'War.NET', 'Co-Op with your friends', gbWarNet, 18);
-  AddMenuItem(Node, 'Allies && Enemies', 'They are different', gbAlliesAndEnemies, 22);
+  AddMenuItem(Node, 'Allies && Enemies', 'They are different',
+    gbAlliesAndEnemies, 22);
 
   Node := nil;
   Node := AddMenuItem(Node, '-', 'Advanced Tools', nil, -1);
@@ -1555,8 +1639,9 @@ begin
   vstMenu.EndUpdate;
 end;
 
-procedure TFMain.vstMenuBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
-Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
+procedure TFMain.vstMenuBeforeCellPaint(Sender: TBaseVirtualTree;
+TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
 const
   mnuGradientA = $FEE6CB;
   mnuGradientB = $F3D7B7;
@@ -1573,41 +1658,55 @@ begin
   TargetCanvas.Brush.Style := bsSolid;
   TargetCanvas.Brush.Color := vstMenu.Color;
   TargetCanvas.FillRect(CellRect);
-  if Node.Parent <> vstMenu.RootNode then begin
-    if vsSelected in Node.States then begin
-      sRgn := CreateRoundRectRgn(CellRect.Left + 2, CellRect.Top, CellRect.Right - 2, CellRect.Bottom, 6, 6);
+  if Node.Parent <> vstMenu.RootNode then
+  begin
+    if vsSelected in Node.States then
+    begin
+      sRgn := CreateRoundRectRgn(CellRect.Left + 2, CellRect.Top,
+        CellRect.Right - 2, CellRect.Bottom, 6, 6);
       SelectClipRgn(TargetCanvas.Handle, sRgn);
       R := CellRect;
       Dec(R.Bottom, H div 2);
-      FillGradient(TargetCanvas.Handle, R, 256, mnuGradientA, mnuGradientB, gdVertical);
+      FillGradient(TargetCanvas.Handle, R, 256, mnuGradientA, mnuGradientB,
+        gdVertical);
       Inc(R.Bottom, H div 2);
       Inc(R.Top, H div 2);
-      FillGradient(TargetCanvas.Handle, R, 256, mnuGradientB, mnuGradientA, gdVertical);
+      FillGradient(TargetCanvas.Handle, R, 256, mnuGradientB, mnuGradientA,
+        gdVertical);
       SelectClipRgn(TargetCanvas.Handle, 0);
       TargetCanvas.Pen.Color := mnuGradientB;
       TargetCanvas.Brush.Style := bsClear;
-      TargetCanvas.RoundRect(CellRect.Left + 2, CellRect.Top, CellRect.Right - 2, CellRect.Bottom, 6, 6);
+      TargetCanvas.RoundRect(CellRect.Left + 2, CellRect.Top,
+        CellRect.Right - 2, CellRect.Bottom, 6, 6);
     end;
     if FMainBBotMenu[Data^].Text <> '-' then
-      imgMenu.Draw(TargetCanvas, CellRect.Left + 5, CellRect.Top + Round(((CellRect.Bottom - CellRect.Top) / 2) -
+      imgMenu.Draw(TargetCanvas, CellRect.Left + 5,
+        CellRect.Top + Round(((CellRect.Bottom - CellRect.Top) / 2) -
         (imgMenu.Height / 2)), FMainBBotMenu[Data^].Image);
-  end else begin
-    if Node.ChildCount <> 0 then begin
-      sRgn := CreateRoundRectRgn(CellRect.Left + 2, CellRect.Top, CellRect.Right - 2, CellRect.Bottom, 2, 2);
+  end
+  else
+  begin
+    if Node.ChildCount <> 0 then
+    begin
+      sRgn := CreateRoundRectRgn(CellRect.Left + 2, CellRect.Top,
+        CellRect.Right - 2, CellRect.Bottom, 2, 2);
       SelectClipRgn(TargetCanvas.Handle, sRgn);
       R := CellRect;
       Dec(R.Bottom, H div 2);
-      FillGradient(TargetCanvas.Handle, R, 256, mnusGradientA, mnusGradientB, gdVertical);
+      FillGradient(TargetCanvas.Handle, R, 256, mnusGradientA, mnusGradientB,
+        gdVertical);
       Inc(R.Bottom, H div 2);
       Inc(R.Top, H div 2);
-      FillGradient(TargetCanvas.Handle, R, 256, mnusGradientB, mnusGradientA, gdVertical);
+      FillGradient(TargetCanvas.Handle, R, 256, mnusGradientB, mnusGradientA,
+        gdVertical);
       SelectClipRgn(TargetCanvas.Handle, 0);
     end;
   end;
 end;
 
-procedure TFMain.vstMenuDrawText(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
-Column: TColumnIndex; const Text: String; const CellRect: TRect; var DefaultDraw: Boolean);
+procedure TFMain.vstMenuDrawText(Sender: TBaseVirtualTree;
+TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+const Text: String; const CellRect: TRect; var DefaultDraw: Boolean);
 var
   Data: BPInt32;
   R: TRect;
@@ -1623,20 +1722,26 @@ begin
   TargetCanvas.Font.Color := clBlack;
   if Node = vstMenu.HotNode then
     TargetCanvas.Font.Style := TargetCanvas.Font.Style + [fsUnderline];
-  if FMainBBotMenu[Data^].Text <> '-' then begin
+  if FMainBBotMenu[Data^].Text <> '-' then
+  begin
     Dec(R.Bottom, H div 2);
-    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Text[1]), Length(FMainBBotMenu[Data^].Text), R,
-      DT_LEFT or DT_EXTERNALLEADING or DT_TOP);
+    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Text[1]),
+      Length(FMainBBotMenu[Data^].Text), R, DT_LEFT or
+      DT_EXTERNALLEADING or DT_TOP);
     Inc(R.Bottom, H div 2);
     Inc(R.Top, H div 2);
     TargetCanvas.Font.Style := [];
-    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Hint[1]), Length(FMainBBotMenu[Data^].Hint), R,
-      DT_LEFT or DT_EXTERNALLEADING or DT_TOP);
-  end else begin
+    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Hint[1]),
+      Length(FMainBBotMenu[Data^].Hint), R, DT_LEFT or
+      DT_EXTERNALLEADING or DT_TOP);
+  end
+  else
+  begin
     if FMainBBotMenu[Data^].Link then
       TargetCanvas.Font.Color := clBlue;
-    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Hint[1]), Length(FMainBBotMenu[Data^].Hint), R,
-      DT_LEFT or DT_EXTERNALLEADING or DT_TOP);
+    DrawText(TargetCanvas.Handle, BPChar(@FMainBBotMenu[Data^].Hint[1]),
+      Length(FMainBBotMenu[Data^].Hint), R, DT_LEFT or
+      DT_EXTERNALLEADING or DT_TOP);
   end;
 end;
 
@@ -1644,14 +1749,18 @@ procedure TFMain.vstMenuChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
   Data: BPInt32;
 begin
-  if Assigned(Node) then begin
+  if Assigned(Node) then
+  begin
     Data := vstMenu.GetNodeData(Node);
     if Assigned(FMainBBotMenu[Data^].Panel) then
       ShowGroupBox(FMainBBotMenu[Data^].Panel)
-    else if FMainBBotMenu[Data^].Text = '-' then begin
+    else if FMainBBotMenu[Data^].Text = '-' then
+    begin
       case FMainBBotMenu[Data^].Image of
-      001: AskConfigFile(Sender, 'Load Settings', 'bbot', OnLoadConfigOk);
-      002: AskConfigFile(Sender, 'Save Settings', 'bbot', OnSaveConfigOk);
+        001:
+          AskConfigFile(Sender, 'Load Settings', 'bbot', OnLoadConfigOk);
+        002:
+          AskConfigFile(Sender, 'Save Settings', 'bbot', OnSaveConfigOk);
       end;
     end;
   end;
@@ -1670,12 +1779,14 @@ begin
   Canvas.Polyline([Point(R.Left, R.Top), Point(R.Left + 2, R.Bottom)]);
 end;
 
-procedure TFMain.vstMenuCollapsing(Sender: TBaseVirtualTree; Node: PVirtualNode; var Allowed: Boolean);
+procedure TFMain.vstMenuCollapsing(Sender: TBaseVirtualTree; Node: PVirtualNode;
+var Allowed: Boolean);
 begin
   Allowed := (Node <> LinksNode);
 end;
 
-procedure TFMain.vstMenuMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: BInt32);
+procedure TFMain.vstMenuMouseDown(Sender: TObject; Button: TMouseButton;
+Shift: TShiftState; X, Y: BInt32);
 var
   Data: BPInt32;
   Node: PVirtualNode;
@@ -1683,15 +1794,22 @@ begin
   if Button <> mbLeft then
     Exit;
   Node := vstMenu.HotNode;
-  if Assigned(Node) then begin
+  if Assigned(Node) then
+  begin
     Data := vstMenu.GetNodeData(Node);
-    if FMainBBotMenu[Data^].Text = '-' then begin
+    if FMainBBotMenu[Data^].Text = '-' then
+    begin
       case FMainBBotMenu[Data^].Image of
-      100: DoOpenURL('https://bbot.bmega.net/');
-      101: DoOpenURL('https://wiki.bmega.net/');
-      103: DoOpenURL('https://forums.bmega.net/');
-      104: BBotClientToolsPopup(X, Y, Self);
-      109: DoOpenURL('https://bbot.bmega.net/telegram.html');
+        100:
+          DoOpenURL('https://bbot.bmega.net/');
+        101:
+          DoOpenURL('https://wiki.bmega.net/');
+        103:
+          DoOpenURL('https://forums.bmega.net/');
+        104:
+          BBotClientToolsPopup(X, Y, Self);
+        109:
+          DoOpenURL('https://bbot.bmega.net/telegram.html');
       end;
     end;
   end;
@@ -1702,14 +1820,16 @@ begin
   Result := BStr(Clipboard.AsText);
 end;
 
-procedure TFMain.vstMenuMeasureItem(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
-var NodeHeight: BInt32);
+procedure TFMain.vstMenuMeasureItem(Sender: TBaseVirtualTree;
+TargetCanvas: TCanvas; Node: PVirtualNode; var NodeHeight: BInt32);
 var
   Data: BPInt32;
 begin
-  if (Node <> nil) and (Node <> vstMenu.RootNode) then begin
+  if (Node <> nil) and (Node <> vstMenu.RootNode) then
+  begin
     Data := vstMenu.GetNodeData(Node);
-    if Data <> nil then begin
+    if Data <> nil then
+    begin
       if FMainBBotMenu[Data^].Text <> '-' then
         NodeHeight := vstMenu.DefaultNodeHeight * 2
       else
@@ -1742,20 +1862,24 @@ var
   D: BInt32;
 begin
   D := 0;
-  if rdMacroAuto.Checked then begin
+  if rdMacroAuto.Checked then
+  begin
     D := BStrTo32(numMacroEditorDelay.Text, -1);
-    if (D = 0) or (D = 1) then begin
+    if (D = 0) or (D = 1) then
+    begin
       ShowMessage('The delay cannot be 0 or 1 for auto-macros.');
       Exit;
     end;
-  end else if rdMacroOnce.Checked then
+  end
+  else if rdMacroOnce.Checked then
     D := 1
   else if rdMacroManual.Checked then
     D := 0;
   Code := '';
   for I := 0 to sMacro.Lines.Count - 1 do
     Code := Code + ' ' + Trim(sMacro.Lines.Strings[I]);
-  edtMacroEditorCode.Text := Format('%d {%s}%s', [D, edtMacroEditorName.Text, Code]);
+  edtMacroEditorCode.Text := Format('%d {%s}%s',
+    [D, edtMacroEditorName.Text, Code]);
 end;
 
 procedure TFMain.edtMacroEditorNameChange(Sender: TObject);
@@ -1770,32 +1894,48 @@ begin
   Msg := TBBotGUIMessage(AMsg.wParam);
   if Msg is TBBotGUIMessageAddCavebotPoint then
     CavebotFrame.WaypointAddPoint(TBBotGUIMessageAddCavebotPoint(Msg).Position)
-  else if Msg is TBBotGUIMessageDebug then begin
+  else if Msg is TBBotGUIMessageDebug then
+  begin
     AddDebug(TBBotGUIMessageDebug(Msg).Text);
-  end else if Msg is TBBotGUIMessageAddEnemy then begin
+  end
+  else if Msg is TBBotGUIMessageAddEnemy then
+  begin
     memoEnemies.Lines.Add(TBBotGUIMessageAddEnemy(Msg).Enemy);
     WarToolsSettings(Self);
-  end else if Msg is TBBotGUIMessageDll then begin
+  end
+  else if Msg is TBBotGUIMessageDll then
+  begin
     tmrEngine.OnTimer := tmrOnDll;
-  end else if Msg is TBBotGUIMessageAddAlly then begin
+  end
+  else if Msg is TBBotGUIMessageAddAlly then
+  begin
     memoAllies.Lines.Add(TBBotGUIMessageAddAlly(Msg).Ally);
     WarToolsSettings(Self);
-  end else if Msg is TBBotGUIMessageOnPacketServer then
+  end
+  else if Msg is TBBotGUIMessageOnPacketServer then
     TBBotGUIMessageOnPacketClient(Msg).AddToList(lstSS)
   else if Msg is TBBotGUIMessageOnPacketClient then
     TBBotGUIMessageOnPacketServer(Msg).AddToList(lstSC)
   else if Msg is TBBotGUIMessageOnPacketBot then
     TBBotGUIMessageOnPacketBot(Msg).AddToList(lstSB)
-  else if Msg is TBBotGUIMessageSpecialSQMsAdd then begin
-    SpecialSQMsFrame.AddSpecialSQM(TBBotGUIMessageSpecialSQMsAdd(Msg).Kind, TBBotGUIMessageSpecialSQMsAdd(Msg).Range,
-      Me.Position);
+  else if Msg is TBBotGUIMessageSpecialSQMsAdd then
+  begin
+    SpecialSQMsFrame.AddSpecialSQM(TBBotGUIMessageSpecialSQMsAdd(Msg).Kind,
+      TBBotGUIMessageSpecialSQMsAdd(Msg).Range, Me.Position);
     AdvancedToolsSettings(nil);
-  end else if Msg is TBBotGUIMessageSpecialSQMsRemove then begin
-    SpecialSQMsFrame.RemoveSpecialSQM(TBBotGUIMessageSpecialSQMsRemove(Msg).Position);
+  end
+  else if Msg is TBBotGUIMessageSpecialSQMsRemove then
+  begin
+    SpecialSQMsFrame.RemoveSpecialSQM(TBBotGUIMessageSpecialSQMsRemove(Msg)
+      .Position);
     AdvancedToolsSettings(nil);
-  end else if Msg is TBBotGUIMessageUserError then begin
+  end
+  else if Msg is TBBotGUIMessageUserError then
+  begin
     UserErrorFrame.Open(TBBotGUIMessageUserError(Msg).UserError);
-  end else if Msg is TBBotGUIMessagePathFinderFinished then begin
+  end
+  else if Msg is TBBotGUIMessagePathFinderFinished then
+  begin
     DebugWalkerFrame.Open(TBBotGUIMessagePathFinderFinished(Msg));
   end;
   Msg.Free;
@@ -1829,11 +1969,13 @@ end;
 
 function ValidShareStr(S: BStr): BBool;
 const
-  ValidSS = [#13, #10, '!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5',
-    '6', '7', '8', '9', ':', ';', '<', '=', '>', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\', ']', '^', '_', '?', 'a', 'b', 'c', 'd',
-    'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{',
-    '|', '}', '~', ' '];
+  ValidSS = [#13, #10, '!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-',
+    '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
+    '=', '>', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+    'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[',
+    '\', ']', '^', '_', '?', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+    'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+    'z', '{', '|', '}', '~', ' '];
 var
   I: BInt32;
 begin
@@ -1870,16 +2012,20 @@ procedure TFMain.tmrEngineTimer(Sender: TObject);
   end;
   procedure _tmrEngine;
   begin
-    if Engine.SetFMainTitle and (BBot.Uptime > 4000) then begin
-      Caption := 'BBot ' + BotVer + ' - ' + IfThen(Me.Connected, Me.Name, 'Not Connected');
+    if Engine.SetFMainTitle and (BBot.Uptime > 4000) then
+    begin
+      Caption := 'BBot ' + BotVer + ' - ' + IfThen(Me.Connected, Me.Name,
+        'Not Connected');
       Application.Title := Caption;
       Engine.SetFMainTitle := False;
     end;
-    if Engine.ToggleFMain then begin
+    if Engine.ToggleFMain then
+    begin
       Visible := not Visible;
       Engine.ToggleFMain := False;
     end;
-    if Engine.LoadSettings <> '' then begin
+    if Engine.LoadSettings <> '' then
+    begin
       OnLoadConfigOk(BotPath + 'Configs/' + Engine.LoadSettings + '.bbot');
       Engine.LoadSettings := '';
     end;
@@ -1891,7 +2037,8 @@ procedure TFMain.tmrEngineTimer(Sender: TObject);
     _PopupEvery = 20 * 60 * 1000;
   begin
     Inc(AutoPopup);
-    if AutoPopup > (_PopupEvery div tmrEngine.Interval) then begin
+    if AutoPopup > (_PopupEvery div tmrEngine.Interval) then
+    begin
       AutoPopup := 0;
       if BRandom(0, 100) < 2 then
         ShowGroupBox(gbReview);
@@ -1899,7 +2046,8 @@ procedure TFMain.tmrEngineTimer(Sender: TObject);
   end;
   procedure _tmrProfilers;
   begin
-    if ProfilersNextShow < Tick then begin
+    if ProfilersNextShow < Tick then
+    begin
       ProfilersNextShow := Tick + 3000;
       lvProfilers.Items.BeginUpdate;
       lvProfilers.Items.Clear;
@@ -1911,7 +2059,8 @@ procedure TFMain.tmrEngineTimer(Sender: TObject);
 begin
   if EngineLoad = elDestroying then
     Close
-  else if EngineLoad = elRunning then begin
+  else if EngineLoad = elRunning then
+  begin
     _tmrEngine;
     _tmrCheckDll;
     _tmrPopup;
@@ -1946,10 +2095,13 @@ var
   R: BStrArray;
 begin
   AutoPopup := 0;
-  if BSimpleRegex('([^\w\s!?:])', memoRateReview.Text, R) then begin
+  if BSimpleRegex('([^\w\s!?:])', memoRateReview.Text, R) then
+  begin
     btnRateSend.Enabled := False;
     btnRateSend.Caption := 'Not allowed: ' + R[High(R)];
-  end else begin
+  end
+  else
+  begin
     btnRateSend.Enabled := True;
     btnRateSend.Caption := 'Send review';
   end;
@@ -1968,7 +2120,8 @@ end;
 
 procedure TFMain.AdvancedToolsSettings(Sender: TObject);
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     MacrosFrame.SetMacros;
     SpecialSQMsFrame.setSpecialSQMs;
     MutexRelease;
@@ -1984,21 +2137,29 @@ procedure TFMain.btnProtectorClick(Sender: TObject);
 var
   I: BInt32;
 begin
-  if edtProtectorName.Text = '' then begin
+  if edtProtectorName.Text = '' then
+  begin
     ShowMessage('Invalid protector name !');
     Exit;
   end;
   for I := 0 to lstProtectors.Items.Count - 1 do
-    if BStrStartSensitive(lstProtectors.Items[I], edtProtectorName.Text + '@') then
+    if BStrStartSensitive(lstProtectors.Items[I], edtProtectorName.Text + '@')
+    then
       lstProtectors.Items.Delete(I);
-  lstProtectors.AddItem(Format('%s@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%s@%s@%s@%s@%s@%d',
-    [edtProtectorName.Text, BInt32(ComboSelectedObj(cmbProtectorKind)), Ord(bplAll) + cmbProtectorPause.ItemIndex, 0, 0,
-    0, 0, 0, 0, IfThen(chkProtectorCloseTibia.Checked, 1, 0), IfThen(chkProtectorLogout.Checked, 1, 0),
-    IfThen(chkProtectorShutdown.Checked, 1, 0), IfThen(chkProtectorScreenshot.Checked, 1, 0),
-    IfThen(chkProtectorGoLabel.Checked, 1, 0), IfThen(chkProtectorSound.Checked, 1, 0),
-    IfThen(chkProtectorMacro.Checked, 1, 0), IfThen(chkProtectorPrivateMessage.Checked, 1, 0),
-    edtProtectorPrivateMessageTo.Text, edtProtectorPrivateMessageText.Text, cmbProtectorMacro.Text,
-    cmbProtectorSoundfile.Text, edtProtectorGoLabel.Text, BStrTo32(numProtector.Text, 0)]), nil);
+  lstProtectors.AddItem
+    (Format('%s@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%d@%s@%s@%s@%s@%s@%d',
+    [edtProtectorName.Text, BInt32(ComboSelectedObj(cmbProtectorKind)),
+    Ord(bplAll) + cmbProtectorPause.ItemIndex, 0, 0, 0, 0, 0, 0,
+    IfThen(chkProtectorCloseTibia.Checked, 1, 0),
+    IfThen(chkProtectorLogout.Checked, 1, 0),
+    IfThen(chkProtectorShutdown.Checked, 1, 0),
+    IfThen(chkProtectorScreenshot.Checked, 1, 0),
+    IfThen(chkProtectorGoLabel.Checked, 1, 0), IfThen(chkProtectorSound.Checked,
+    1, 0), IfThen(chkProtectorMacro.Checked, 1, 0),
+    IfThen(chkProtectorPrivateMessage.Checked, 1, 0),
+    edtProtectorPrivateMessageTo.Text, edtProtectorPrivateMessageText.Text,
+    cmbProtectorMacro.Text, cmbProtectorSoundfile.Text,
+    edtProtectorGoLabel.Text, BStrTo32(numProtector.Text, 0)]), nil);
 end;
 
 procedure TFMain.lstProtectorsDblClick(Sender: TObject);
@@ -2007,9 +2168,12 @@ var
 begin
   if lstProtectors.ItemIndex = -1 then
     Exit;
-  if BStrSplit(R, '@', lstProtectors.Items.Strings[lstProtectors.ItemIndex]) = 23 then begin
+  if BStrSplit(R, '@', lstProtectors.Items.Strings[lstProtectors.ItemIndex]) = 23
+  then
+  begin
     edtProtectorName.Text := R[0];
-    cmbProtectorKind.ItemIndex := cmbProtectorKind.Items.IndexOfObject(TObject(BStrTo32(R[1])));
+    cmbProtectorKind.ItemIndex := cmbProtectorKind.Items.IndexOfObject
+      (TObject(BStrTo32(R[1])));
     if BInRange(BStrTo32(R[2], Ord(bplNone)), Ord(bplAll), Ord(bplNone)) then
       cmbProtectorPause.ItemIndex := BStrTo32(R[2], Ord(bplNone)) - Ord(bplAll)
     else
@@ -2031,26 +2195,30 @@ begin
   end;
 end;
 
-procedure TFMain.lstProtectorsDrawItem(Control: TWinControl; Index: BInt32; Rect: TRect; State: TOwnerDrawState);
+procedure TFMain.lstProtectorsDrawItem(Control: TWinControl; Index: BInt32;
+Rect: TRect; State: TOwnerDrawState);
 var
   A: BStr;
   B: BStr;
 begin
   BStrSplit(lstProtectors.Items[Index], '@', A, B);
   B := BStrLeft(B, '@');
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     B := BBot.Protectors.KindToStr(TBBotProtectorKind(BStrTo32(B, 1)));
     MutexRelease;
   end;
   BListDrawItem(lstProtectors.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TFMain.lstProtectorsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFMain.lstProtectorsKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 var
   Selected: BInt32;
 begin
   if ssShift in Shift then
-    if Key = VK_DELETE then begin
+    if Key = VK_DELETE then
+    begin
       Selected := lstProtectors.ItemIndex;
       if Selected <> -1 then
         lstProtectors.Items.Delete(Selected);
@@ -2084,7 +2252,8 @@ var
   K: TBBotProtectorKind;
 begin
   K := TBBotProtectorKind(ComboSelectedObj(cmbProtectorKind));
-  numProtector.Enabled := (K in BBotProtectorLowerParam) or (K in BBotProtectorGreaterParam);
+  numProtector.Enabled := (K in BBotProtectorLowerParam) or
+    (K in BBotProtectorGreaterParam);
 end;
 
 procedure TFMain.Label121Click(Sender: TObject);
@@ -2128,8 +2297,8 @@ begin
   MacroEditorGenerateCode;
 end;
 
-procedure TFMain.sMacroCPPaintItem(Sender: TObject; Index: Integer; TargetCanvas: TCanvas; ItemRect: TRect;
-var CustomDraw: Boolean);
+procedure TFMain.sMacroCPPaintItem(Sender: TObject; Index: Integer;
+TargetCanvas: TCanvas; ItemRect: TRect; var CustomDraw: Boolean);
 const
   ReturnMark: BStr = ' -> ';
 var
@@ -2137,8 +2306,10 @@ var
   Left: BInt32;
 begin
   CustomDraw := True;
-  if BStrSplit(R, '||', sMacroCP.ItemList[Index]) = 3 then begin
-    if BStrPos(ReturnMark, R[2]) > 0 then begin
+  if BStrSplit(R, '||', sMacroCP.ItemList[Index]) = 3 then
+  begin
+    if BStrPos(ReturnMark, R[2]) > 0 then
+    begin
       R[1] := R[1] + ' -> ' + BStrRight(R[2], ReturnMark);
       R[2] := BStrLeft(R[2], ReturnMark);
     end;
@@ -2205,9 +2376,11 @@ begin
       ClearVariables(sMacroCP.ItemList);
       ClearVariables(sMacroCP.InsertList);
       AddVariables;
-    finally sMacroCP.InsertList.EndUpdate;
+    finally
+      sMacroCP.InsertList.EndUpdate;
     end;
-  finally sMacroCP.ItemList.EndUpdate;
+  finally
+    sMacroCP.ItemList.EndUpdate;
   end;
 end;
 
@@ -2225,9 +2398,12 @@ begin
   BBot.Macros.FormatMacro(SCode, Name, Delay, Code);
   edtMacroEditorName.Text := Name;
   case Delay of
-  0: rdMacroManual.Checked := True;
-  1: rdMacroOnce.Checked := True;
-else rdMacroAuto.Checked := True;
+    0:
+      rdMacroManual.Checked := True;
+    1:
+      rdMacroOnce.Checked := True;
+  else
+    rdMacroAuto.Checked := True;
   end;
   numMacroEditorDelay.Text := IntToStr(Delay);
   sMacro.Text := Code;
@@ -2259,7 +2435,8 @@ var
 begin
   cmbProtectorSoundfile.Items.Clear;
   IsFound := FindFirst(BotPath + 'Data/*.wav', faAnyFile - faDirectory, SR) = 0;
-  while IsFound do begin
+  while IsFound do
+  begin
     cmbProtectorSoundfile.Items.Add(BStrLeft(SR.Name, '.wav'));
     IsFound := FindNext(SR) = 0;
   end;
@@ -2275,4 +2452,3 @@ begin
 end;
 
 end.
-

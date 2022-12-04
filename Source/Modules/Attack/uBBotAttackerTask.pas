@@ -37,7 +37,8 @@ type
     property Distance: BUInt32 read GetDistance;
     property PriorityHeuristic: BUInt32 read GetPriorityHeuristic;
     property HealthHeuristic: BUInt32 read GetHealthHeuristic;
-    property AlreadyAttackingHeuristic: BUInt32 read GetAlreadyAttackingHeuristic;
+    property AlreadyAttackingHeuristic: BUInt32
+      read GetAlreadyAttackingHeuristic;
 
     property IsPlayer: BBool read GetIsPlayer;
 
@@ -80,7 +81,8 @@ end;
 
 procedure TBBotAttackerTask.Execute;
 begin
-  if not Next.Locked then begin
+  if not Next.Locked then
+  begin
     Next.Lock;
     Inc(FTries);
     Attack;
@@ -92,7 +94,8 @@ var
   Creature: TBBotCreature;
 begin
   Creature := GetCreature;
-  Result := (Creature <> nil) and (Creature.IsAlive) and (Creature.IsOnScreen) and (Creature.IsReachable or BBot.Attacker.AttackNotReachable);
+  Result := (Creature <> nil) and (Creature.IsAlive) and (Creature.IsOnScreen)
+    and (Creature.IsReachable or BBot.Attacker.AttackNotReachable);
 end;
 
 function TBBotAttackerTask.GetAlreadyAttackingHeuristic: BUInt32;
@@ -116,7 +119,8 @@ var
 begin
   Creature := GetCreature;
   if Creature <> nil then
-    Result := SQMDistance(Creature.Position.X, Creature.Position.Y, Me.Position.X, Me.Position.Y)
+    Result := SQMDistance(Creature.Position.X, Creature.Position.Y,
+      Me.Position.X, Me.Position.Y)
   else
     Result := 0;
 end;
@@ -135,7 +139,8 @@ end;
 
 function TBBotAttackerTask.GetHeuristic: BUInt32;
 begin
-  Result := HealthHeuristic + Distance + PriorityHeuristic + AlreadyAttackingHeuristic;
+  Result := HealthHeuristic + Distance + PriorityHeuristic +
+    AlreadyAttackingHeuristic;
 end;
 
 function TBBotAttackerTask.GetIsPlayer: BBool;
@@ -145,7 +150,9 @@ end;
 
 function TBBotAttackerTask.GetPriorityHeuristic: BUInt32;
 begin
-  if (FPriority <> BBotAdvAttackIgnore) and (FPriority <> BBotAdvAttackAvoid) then begin
+  if (FPriority <> BBotAdvAttackIgnore) and (FPriority <> BBotAdvAttackAvoid)
+  then
+  begin
     Result := FPriority;
   end
   else

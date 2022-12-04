@@ -1,5 +1,5 @@
 unit uEventCounter;
-
+
 interface
 
 uses
@@ -43,7 +43,8 @@ var
   ExpireTick: BUInt32;
 begin
   ExpireTick := Tick - Expire;
-  if Tick > NextClear then begin
+  if Tick > NextClear then
+  begin
     NextClear := Tick + ClearDelay;
     Data.Delete(
       function(AIter: BVector<TEventCounterData>.It): BBool
@@ -51,13 +52,15 @@ begin
         Result := AIter^.Time < ExpireTick;
       end);
   end;
-  if Unique then begin
+  if Unique then
+  begin
     D := Data.Find('EventCounter Unique Find 1 for ' + BToStr(AValue),
       function(AIter: BVector<TEventCounterData>.It): BBool
       begin
         Result := AIter^.Value = AValue;
       end);
-    if D <> nil then begin
+    if D <> nil then
+    begin
       D^.Time := Tick;
       Exit;
     end;
@@ -102,4 +105,4 @@ begin
 end;
 
 end.
-
+

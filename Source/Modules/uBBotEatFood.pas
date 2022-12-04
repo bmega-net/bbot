@@ -1,5 +1,5 @@
 unit uBBotEatFood;
-
+
 interface
 
 uses
@@ -39,10 +39,13 @@ var
   CT: TTibiaContainer;
   I, J: BInt32;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     CT := ContainerFirst;
-    while CT <> nil do begin
-      if CT.IsFood then begin
+    while CT <> nil do
+    begin
+      if CT.IsFood then
+      begin
         J := Min(BRandom(4), CT.Count);
         for I := 1 to J do
           CT.Use;
@@ -56,4 +59,4 @@ begin
 end;
 
 end.
-
+

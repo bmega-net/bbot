@@ -1,5 +1,5 @@
 unit uBBotSupliesStats;
-
+
 interface
 
 uses
@@ -24,7 +24,8 @@ type
   protected
     FWaste: BInt32;
     Data: BVector<TSupliesStatsData>;
-    function GetSupply(AItem: BStr; AInitialCount: BInt32): BVector<TSupliesStatsData>.It;
+    function GetSupply(AItem: BStr; AInitialCount: BInt32)
+      : BVector<TSupliesStatsData>.It;
   public
     constructor Create(AStats: TBBotStats);
     destructor Destroy; override;
@@ -50,7 +51,8 @@ var
 begin
   if AValue = '' then
     Exit(AValue)
-  else begin
+  else
+  begin
     if BStrPos(' (', AValue) > 0 then
       S := BStrLeft(AValue, ' (')
     else
@@ -58,7 +60,8 @@ begin
     Result := '';
     C := @S[1];
     E := @S[Length(S)];
-    while C <= E do begin
+    while C <= E do
+    begin
       if not CharInSet(C^, ['s', 'i', 'e', 'y']) then
         Result := Result + C^;
       Inc(C);
@@ -92,7 +95,8 @@ begin
   inherited;
 end;
 
-function TBBotSupliesStats.GetSupply(AItem: BStr; AInitialCount: BInt32): BVector<TSupliesStatsData>.It;
+function TBBotSupliesStats.GetSupply(AItem: BStr; AInitialCount: BInt32)
+  : BVector<TSupliesStatsData>.It;
 var
   Supply: BVector<TSupliesStatsData>.It;
   ID: BUInt32;
@@ -104,11 +108,13 @@ begin
     begin
       Result := BStrEqual(Iter^.Name, StrippedName);
     end);
-  if Supply = nil then begin
+  if Supply = nil then
+  begin
     Supply := Data.Add;
     Supply^.Item := @TibiaItems[ItemID_Unknown];
     for ID := TibiaMinItems to TibiaLastItem do
-      if BStrEqual(BStrStripInflaction(TibiaItems[ID].Name), StrippedName) then begin
+      if BStrEqual(BStrStripInflaction(TibiaItems[ID].Name), StrippedName) then
+      begin
         Supply^.Item := @TibiaItems[ID];
         Break;
       end;
@@ -135,18 +141,22 @@ var
 begin
   HUD := CreateHUD(bhgSupliesStats, 'Suplies Statistics', $FFFF00);
   TotalWaste := 0;
-  if Data.Count > 0 then begin
+  if Data.Count > 0 then
+  begin
     PerHourFactor := Stats.PerHourFactor;
     Data.ForEach(
       procedure(Iter: BVector<TSupliesStatsData>.It)
       begin
         S := BFormat('%dx %s', [Iter^.Count, Iter^.Item.Name]);
-        if Iter^.Wasted <> 0 then begin
+        if Iter^.Wasted <> 0 then
+        begin
           S := BFormat('%s: -%d', [S, Iter^.Wasted]);
-          if Iter^.Item.BuyPrice <> 0 then begin
+          if Iter^.Item.BuyPrice <> 0 then
+          begin
             Value := Iter^.Wasted * Iter^.Item.BuyPrice;
             Inc(TotalWaste, Value);
-            S := BFormat('%s (-%dg -%dg/hour)', [S, Value, BFloor(Value * PerHourFactor)]);
+            S := BFormat('%s (-%dg -%dg/hour)',
+              [S, Value, BFloor(Value * PerHourFactor)]);
           end;
         end;
         HUD.PrintGray(S);
@@ -166,7 +176,8 @@ begin
   Supply := Data.Find('SupliesStats query [' + AItem + ']',
     function(Iter: BVector<TSupliesStatsData>.It): BBool
     begin
-      Result := BStrEqual(BStrStripInflaction(Iter^.Item.Name), BStrStripInflaction(AItem));
+      Result := BStrEqual(BStrStripInflaction(Iter^.Item.Name),
+        BStrStripInflaction(AItem));
     end);
   Result := -1;
   if Supply <> nil then
@@ -194,4 +205,4 @@ if BStrStripInflaction('gold coins') <> 'gold con' then
   raise Exception.Create('Error Message');
 
 end.
-
+

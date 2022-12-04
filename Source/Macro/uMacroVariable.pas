@@ -54,7 +54,8 @@ type
   end;
 
 const
-  BMacroVariableKindNames: array [BMacroVariableKind] of BStr = ('bmvkInt', 'bmvkStr');
+  BMacroVariableKindNames: array [BMacroVariableKind] of BStr = ('bmvkInt',
+    'bmvkStr');
 
 implementation
 
@@ -63,8 +64,10 @@ implementation
 procedure BMacroVariable.CheckKind(const ExpectedKind: BMacroVariableKind);
 begin
   if FKind <> ExpectedKind then
-    raise BMacroVariableException.CreateFmt('Macro Variable Kind Exception - expected %s received %s for variable %s',
-      [BMacroVariableKindNames[ExpectedKind], BMacroVariableKindNames[FKind], FName]);
+    raise BMacroVariableException.CreateFmt
+      ('Macro Variable Kind Exception - expected %s received %s for variable %s',
+      [BMacroVariableKindNames[ExpectedKind],
+      BMacroVariableKindNames[FKind], FName]);
 end;
 
 constructor BMacroVariable.Create(const AName: BStr);
@@ -104,7 +107,8 @@ end;
 
 procedure BMacroVariable.SetValueInt(const Value: BInt32);
 begin
-  if (FValueInt <> Value) or (FKind <> bmvkInt) then begin
+  if (FValueInt <> Value) or (FKind <> bmvkInt) then
+  begin
     FValueInt := Value;
     FKind := bmvkInt;
     WatchersInt.ForEach(
@@ -117,7 +121,8 @@ end;
 
 procedure BMacroVariable.SetValueStr(const Value: BStr);
 begin
-  if (FValueStr <> Value) or (FKind <> bmvkStr) then begin
+  if (FValueStr <> Value) or (FKind <> bmvkStr) then
+  begin
     FValueStr := Value;
     FKind := bmvkStr;
     WatchersStr.ForEach(
@@ -153,7 +158,8 @@ end;
 
 { BMacroSystemVariable }
 
-constructor BMacroSystemVariable.Create(const AName: BStr; ADefaultValue: BInt32);
+constructor BMacroSystemVariable.Create(const AName: BStr;
+ADefaultValue: BInt32);
 
 begin
   inherited Create(AName);

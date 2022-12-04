@@ -35,7 +35,8 @@ type
     procedure SendQuery;
     procedure ReceiveData;
   public
-    constructor Create(const AIP: BStr; const APort: BInt32; const AOfficial: BBool);
+    constructor Create(const AIP: BStr; const APort: BInt32;
+      const AOfficial: BBool);
     destructor Destroy; override;
 
     property Name: BStr read FName;
@@ -120,24 +121,29 @@ procedure TBBotWarNetServersQuery.Execute;
 var
   ShouldReload: BBool;
 begin
-  while (EngineLoad <> elDestroying) and (not Terminated) do begin
+  while (EngineLoad <> elDestroying) and (not Terminated) do
+  begin
     try
       ShouldReload := False;
       Mutex.WaitFor(50);
       try
-        if RefreshRequested then begin
+        if RefreshRequested then
+        begin
           ShouldReload := True;
           RefreshRequested := False;
         end;
-      finally Mutex.Release;
+      finally
+        Mutex.Release;
       end;
 
-      if HasTasks then begin
+      if HasTasks then
+      begin
         HasTasks := False;
         Servers.ForEach(
           procedure(AIt: TServerIt)
           begin
-            if not AIt^.Finished then begin
+            if not AIt^.Finished then
+            begin
               AIt^.Process;
               HasTasks := True;
             end;
@@ -146,7 +152,8 @@ begin
           onReloadCompleted;
       end;
 
-      if ShouldReload then begin
+      if ShouldReload then
+      begin
         Reload;
         HasTasks := True;
       end;
@@ -162,17 +169,22 @@ end;
 procedure TBBotWarNetServersQuery.Refresh;
 begin
   Mutex.WaitFor(500);
-  try RefreshRequested := True;
-  finally Mutex.Release;
+  try
+    RefreshRequested := True;
+  finally
+    Mutex.Release;
   end;
 end;
 
 procedure TBBotWarNetServersQuery.Reload;
 begin
-  if not MasterRequested then begin
+  if not MasterRequested then
+  begin
     MasterRequested := True;
     ReloadMaster;
-  end else begin
+  end
+  else
+  begin
     ReloadServers;
   end;
 end;
@@ -182,7 +194,8 @@ begin
   DownloadURL(BBotApiUrl('war'), '', OnMasterLoaded, nil);
 end;
 
-procedure TBBotWarNetServersQuery.OnMasterLoaded(State: TLoadURLState; Data: BStr);
+procedure TBBotWarNetServersQuery.OnMasterLoaded(State: TLoadURLState;
+Data: BStr);
 var
   Json: TJson;
   Serverss: TJsonArray;
@@ -196,7 +209,8 @@ begin
   try
     Json.Parse(Data);
     Serverss := Json.JsonArray;
-    for I := 0 to Serverss.Count - 1 do begin
+    for I := 0 to Serverss.Count - 1 do
+    begin
       Serverr := Serverss.Items[I].AsObject;
       IP := Serverr.Values['ip'].AsString;
       Port := Serverr.Values['port'].AsInteger;
@@ -209,7 +223,8 @@ begin
         Servers.Add(TBBotWarNetServer.Create(IP, Port, Official));
     end;
     ReloadServers;
-  finally Json.Free;
+  finally
+    Json.Free;
   end;
 end;
 
@@ -232,15 +247,20 @@ var
   Cmd: BInt8;
 begin
   Data := Sock.Recv;
-  if Data <> nil then begin
+  if Data <> nil then
+  begin
     Cmd := Data.GetBInt8;
-    if Cmd = CMD_SERVER_HELLO then begin
+    if Cmd = CMD_SERVER_HELLO then
+    begin
       SendQuery;
-    end else if Cmd = CMD_SERVER_ROOMS then begin
+    end
+    else if Cmd = CMD_SERVER_ROOMS then
+    begin
       FPing := Tick - RefreshStart;
       FName := Data.GetBStr16;
       Count := Data.GetBInt16;
-      while Count > 0 do begin
+      while Count > 0 do
+      begin
         Room := Rooms.Add;
         Room^.Name := Data.GetBStr16;
         Room^.Players := Data.GetBInt16;
@@ -253,7 +273,8 @@ begin
   end;
 end;
 
-constructor TBBotWarNetServer.Create(const AIP: BStr; const APort: BInt32; const AOfficial: BBool);
+constructor TBBotWarNetServer.Create(const AIP: BStr; const APort: BInt32;
+const AOfficial: BBool);
 begin
   FName := '?';
   FIP := AIP;

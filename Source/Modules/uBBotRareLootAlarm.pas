@@ -1,5 +1,5 @@
 unit uBBotRareLootAlarm;
-
+
 interface
 
 uses
@@ -57,10 +57,12 @@ var
 begin
   if Enabled then
     if BStrStart(AMessageData.Text, 'Loot') then
-      for I := 0 to High(FKeywords) do begin
+      for I := 0 to High(FKeywords) do
+      begin
         K := Trim(FKeywords[I]);
         if K <> '' then
-          if AnsiPos(K, AMessageData.Text) > 0 then begin
+          if AnsiPos(K, AMessageData.Text) > 0 then
+          begin
             HUD := TBBotHUD.Create(bhgAny);
             HUD.Expire := 120000;
             HUD.AlignTo(bhaLeft, bhaBottom);
@@ -92,4 +94,4 @@ begin
 end;
 
 end.
-
+

@@ -1,5 +1,5 @@
 unit uBBotBagLootKicker;
-
+
 interface
 
 uses
@@ -50,8 +50,10 @@ procedure TBBotLootBagKicker.Run;
 var
   Map: TTibiaTiles;
 begin
-  if Enabled then begin
-    if Me.DistanceTo(KickFrom) <> 0 then begin
+  if Enabled then
+  begin
+    if Me.DistanceTo(KickFrom) <> 0 then
+    begin
       if Me.DistanceTo(KickFrom) = 1 then
         if Tiles(Map, KickFrom.X, KickFrom.Y) then
           if Map.IsContainer then
@@ -62,4 +64,4 @@ begin
 end;
 
 end.
-
+

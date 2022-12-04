@@ -46,16 +46,17 @@ begin
           @TibiaTemporaryState.Container[C].Name[0], 32);
         TibiaTemporaryState.Container[C].Capacity :=
           BMinMax(TibiaContainer943^[C].Capacity, 0, 60);
-        TibiaTemporaryState.Container[C].Count := BMinMax(TibiaContainer943^[C].Count, 0,
+        TibiaTemporaryState.Container[C].Count :=
+          BMinMax(TibiaContainer943^[C].Count, 0,
           TibiaTemporaryState.Container[C].Capacity);
         for S := 0 to TibiaTemporaryState.Container[C].Count - 1 do
         begin
           TibiaTemporaryState.Container[C].Items[S].ID := TibiaContainer943^[C]
             .Items[S].ID;
-          TibiaTemporaryState.Container[C].Items[S].Count := TibiaContainer943^[C]
-            .Items[S].Count;
-          TibiaTemporaryState.Container[C].Items[S].Amount := TibiaContainer943^[C].Items
-            [S].Amount;
+          TibiaTemporaryState.Container[C].Items[S].Count :=
+            TibiaContainer943^[C].Items[S].Count;
+          TibiaTemporaryState.Container[C].Items[S].Amount :=
+            TibiaContainer943^[C].Items[S].Amount;
         end;
       end;
     end;

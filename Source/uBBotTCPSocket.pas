@@ -69,7 +69,8 @@ end;
 procedure TBBotTCPSocket.Connect;
 begin
   if (FIP <> '') and (FPort <> 0) then
-    if Mutex.WaitFor(1000) = wrSignaled then begin
+    if Mutex.WaitFor(1000) = wrSignaled then
+    begin
       FState := bwnssConnecting;
       Data.Clear;
       Mutex.Release;
@@ -104,7 +105,8 @@ end;
 
 procedure TBBotTCPSocket.Disconnect;
 begin
-  if Mutex.WaitFor(1000) = wrSignaled then begin
+  if Mutex.WaitFor(1000) = wrSignaled then
+  begin
     FState := bwnssDisconnected;
     Data.Clear;
     Mutex.Release;
@@ -114,12 +116,17 @@ end;
 procedure TBBotTCPSocket.Execute;
 begin
   inherited;
-  while (EngineLoad <> elDestroying) and (not Terminated) do begin
-    if Mutex.WaitFor(100) = wrSignaled then begin
+  while (EngineLoad <> elDestroying) and (not Terminated) do
+  begin
+    if Mutex.WaitFor(100) = wrSignaled then
+    begin
       case FState of
-      bwnssDisconnected: StateDisconnected;
-      bwnssConnecting: StateConnecting;
-      bwnssConnected: StateConnected;
+        bwnssDisconnected:
+          StateDisconnected;
+        bwnssConnecting:
+          StateConnecting;
+        bwnssConnected:
+          StateConnected;
       end;
       Mutex.Release;
     end;
@@ -138,15 +145,20 @@ var
   Packet: TBBotPacket;
   Waiting: BUInt32;
 begin
-  if Sock.LastError = 0 then begin
+  if Sock.LastError = 0 then
+  begin
     Waiting := Sock.WaitingData;
-    if (Waiting > 4) and (Sock.RecvBuffer(@Header, 4) = 4) then begin
+    if (Waiting > 4) and (Sock.RecvBuffer(@Header, 4) = 4) then
+    begin
       L := Header[0];
       C := Header[1];
-      if (L < BBOT_TCP_PACKET_ALLOC_SIZE) and (Sock.WaitingData >= L) then begin
+      if (L < BBOT_TCP_PACKET_ALLOC_SIZE) and (Sock.WaitingData >= L) then
+      begin
         GetMem(Buffer, L);
-        if Sock.RecvBuffer(Buffer, L) = L then begin
-          if Fletcher16(Buffer, L) = C then begin
+        if Sock.RecvBuffer(Buffer, L) = L then
+        begin
+          if Fletcher16(Buffer, L) = C then
+          begin
             Packet := TBBotPacket.CreateReader(Buffer, L);
             Data.Add(Packet);
           end
@@ -167,7 +179,8 @@ begin
   CloseSocket;
   Sock.SetTimeout(FTimeout);
   Sock.Connect(FIP, BFormat('%d', [FPort]));
-  if (Sock.LastError = 0) and (Sock.Socket <> -1) then begin
+  if (Sock.LastError = 0) and (Sock.Socket <> -1) then
+  begin
     FState := bwnssConnected;
   end
   else
@@ -187,7 +200,8 @@ end;
 function TBBotTCPSocket.Recv: TBBotPacket;
 begin
   Result := nil;
-  if Mutex.WaitFor(50) = wrSignaled then begin
+  if Mutex.WaitFor(50) = wrSignaled then
+  begin
     if not Data.Empty then
       Result := Data.Extract(0);
     Mutex.Release;
@@ -198,8 +212,10 @@ procedure TBBotTCPSocket.Send(const APacket: TBBotPacket);
 var
   Buffer: array of BInt8;
 begin
-  if Mutex.WaitFor(1000) = wrSignaled then begin
-    if FState = bwnssConnected then begin
+  if Mutex.WaitFor(1000) = wrSignaled then
+  begin
+    if FState = bwnssConnected then
+    begin
       SetLength(Buffer, APacket.Size + 4);
       BPUInt16(@Buffer[0])^ := APacket.Size;
       BPUInt16(@Buffer[2])^ := Fletcher16(BPInt8(APacket.Buffer), APacket.Size);

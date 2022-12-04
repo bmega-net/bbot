@@ -6,7 +6,8 @@ uses uBTypes;
 
 procedure InitNETHook;
 
-var SendPacket: procedure(Packet: BPtr; Size: BInt32);
+var
+  SendPacket: procedure(Packet: BPtr; Size: BInt32);
 
 implementation
 

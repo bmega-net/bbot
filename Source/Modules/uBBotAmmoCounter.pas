@@ -1,5 +1,5 @@
 unit uBBotAmmoCounter;
-
+
 interface
 
 uses
@@ -36,7 +36,8 @@ var
 begin
   inherited Create('Ammo Counter', 1000);
   FEnabled := False;
-  for I := SlotFirst to SlotLast do begin
+  for I := SlotFirst to SlotLast do
+  begin
     LastSlotItem[I].ID := 0;
     LastSlotItem[I].Count := 0;
   end;
@@ -48,27 +49,32 @@ var
   Item: TTibiaItem;
   HUD: TBBotHUD;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     HUDRemoveGroup(bhgAmmoCounter);
     HUD := TBBotHUD.Create(bhgAmmoCounter);
     HUD.AlignTo(bhaRight, bhaBottom);
     HUD.Color := $A7F3F7;
     HUD.Expire := 2000;
-    for Slot := SlotHead to SlotAmmo do begin
+    for Slot := SlotHead to SlotAmmo do
+    begin
       Item := Me.Inventory.GetSlot(Slot);
       if Item.IsStackable then
         HUD.Print(Item.Name + ': ' + IntToStr(Item.Count));
     end;
     HUD.Free;
   end;
-  for Slot := SlotHead to SlotAmmo do begin
+  for Slot := SlotHead to SlotAmmo do
+  begin
     Item := Me.Inventory.GetSlot(Slot);
-    if Item.IsStackable and (LastSlotItem[Slot].ID = Item.ID) and (LastSlotItem[Slot].Count > Item.Count) then
-      BBot.SupliesStats.AddWaste(Item.Name, LastSlotItem[Slot].Count - Item.Count);
+    if Item.IsStackable and (LastSlotItem[Slot].ID = Item.ID) and
+      (LastSlotItem[Slot].Count > Item.Count) then
+      BBot.SupliesStats.AddWaste(Item.Name, LastSlotItem[Slot].Count -
+        Item.Count);
     LastSlotItem[Slot].ID := Item.ID;
     LastSlotItem[Slot].Count := Item.Count;
   end;
 end;
 
 end.
-
+

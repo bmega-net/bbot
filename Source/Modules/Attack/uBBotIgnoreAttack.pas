@@ -1,5 +1,5 @@
 unit uBBotIgnoreAttack;
-
+
 interface
 
 uses
@@ -39,7 +39,8 @@ var
   It: BVector<TBBotIgnoreAttackData>.It;
 begin
   if BBot.Attacker.Debug then
-    AddDebug(BFormat('ignoring creature %d for %d ms reason: %s', [ID, Expire, Reason]));
+    AddDebug(BFormat('ignoring creature %d for %d ms reason: %s',
+      [ID, Expire, Reason]));
   It := Data.Add;
   It^.ID := ID;
   It^.Expire := Tick + Expire;
@@ -81,4 +82,4 @@ begin
 end;
 
 end.
-
+

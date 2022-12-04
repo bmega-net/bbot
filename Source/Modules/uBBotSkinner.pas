@@ -1,5 +1,5 @@
 unit uBBotSkinner;
-
+
 interface
 
 uses
@@ -72,7 +72,8 @@ begin
   for Version := TibiaVerFirst to TibiaVerLast do
     if BStrEqual(VersionName, BotVerSupported[Version]) then
       Exit(Version <= AdrSelected);
-  raise Exception.Create('Error checking version for BBot.Skinner: ' + ALine + ' not found.');
+  raise Exception.Create('Error checking version for BBot.Skinner: ' + ALine +
+    ' not found.');
 end;
 
 constructor TBBotSkinner.Create;
@@ -113,7 +114,8 @@ begin
       Skins.Remove(I);
 
   SetLength(Result, Skins.Count);
-  for I := 0 to Skins.Count - 1 do begin
+  for I := 0 to Skins.Count - 1 do
+  begin
     Result[I] := Skins.Item[I]^;
   end;
 
@@ -124,7 +126,8 @@ function TBBotSkinner.LoadItem(const ALine: BStr): BPair<BInt32, BStr>;
 var
   ID, Name: BStr;
 begin
-  if BStrSplit(ALine, '->', Name, ID) then begin
+  if BStrSplit(ALine, '->', Name, ID) then
+  begin
     Result.First := BStrTo32(ID);
     Result.Second := Name;
   end
@@ -150,22 +153,33 @@ begin
     ValidVersion := True;
     WaitOpenCorpses := False;
     MaxDistance := 2;
-    while not EOF(FileHandle) do begin
+    while not EOF(FileHandle) do
+    begin
       Readln(FileHandle, Line);
       Line := BTrim(Line);
-      if Length(Line) > 0 then begin
-        if BStrStartSensitive(Line, '@With') then begin
+      if Length(Line) > 0 then
+      begin
+        if BStrStartSensitive(Line, '@With') then
+        begin
           ValidVersion := True;
           MaxDistance := 2;
           WaitOpenCorpses := False;
           SkinWith := LoadItem(BStrRight(Line, '@With'));
-        end else if BStrStartSensitive(Line, '@MaxDistance') then begin
+        end
+        else if BStrStartSensitive(Line, '@MaxDistance') then
+        begin
           MaxDistance := BStrTo32(BTrim(BStrRight(Line, '@MaxDistance')))
-        end else if BStrStartSensitive(Line, '@WaitOpenCorpses') then begin
+        end
+        else if BStrStartSensitive(Line, '@WaitOpenCorpses') then
+        begin
           WaitOpenCorpses := True;
-        end else if BStrStartSensitive(Line, '@Version') then begin
+        end
+        else if BStrStartSensitive(Line, '@Version') then
+        begin
           ValidVersion := CheckVersion(Line)
-        end else if ValidVersion then begin
+        end
+        else if ValidVersion then
+        begin
           Item := LoadItem(Line);
           SkinData := Data.Add;
           SkinData^.WithName := SkinWith.Second;
@@ -181,7 +195,8 @@ begin
     CloseFile(FileHandle);
   except
     on E: Exception do
-      raise BException.Create('Error loading BBot.Skinner:' + BStrLine + E.Message);
+      raise BException.Create('Error loading BBot.Skinner:' + BStrLine +
+        E.Message);
   end;
 end;
 
@@ -202,10 +217,14 @@ begin
       SkinData: BVector<TSkinData>.It;
     begin
       Result := False;
-      if (Map.Position <> LastSkin) or (LastSkinTry < 3) then begin
-        if EnableMap.TryGetValue(Map.ID, SkinData) then begin
-          if SkinData^.WaitOpenCorpses then begin
-            if BBot.OpenCorpses.Enabled and BBot.OpenCorpses.HasCorpseOnPosition(Map.Position) then
+      if (Map.Position <> LastSkin) or (LastSkinTry < 3) then
+      begin
+        if EnableMap.TryGetValue(Map.ID, SkinData) then
+        begin
+          if SkinData^.WaitOpenCorpses then
+          begin
+            if BBot.OpenCorpses.Enabled and BBot.OpenCorpses.HasCorpseOnPosition
+              (Map.Position) then
               Exit;
             if BBot.Looter.Enabled and BBot.Looter.IsLooting then
               Exit;
@@ -222,7 +241,8 @@ end;
 
 procedure TBBotSkinner.SetLastSkin(const Value: BPos);
 begin
-  if FLastSkin <> Value then begin
+  if FLastSkin <> Value then
+  begin
     FLastSkin := Value;
     FLastSkinTry := 0;
   end
@@ -240,7 +260,8 @@ begin
     begin
       AIt^.Enabled := False;
       for I := 0 to High(ACreatures) do
-        if BStrEqual(AIt^.GetSkinID, ACreatures[I]) then begin
+        if BStrEqual(AIt^.GetSkinID, ACreatures[I]) then
+        begin
           AIt^.Enabled := True;
           EnableMap.Add(AIt^.ID, AIt);
         end;
@@ -255,4 +276,4 @@ begin
 end;
 
 end.
-
+

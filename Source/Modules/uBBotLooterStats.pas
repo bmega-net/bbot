@@ -1,5 +1,5 @@
 unit uBBotLooterStats;
-
+
 interface
 
 uses
@@ -62,13 +62,14 @@ begin
   PerHourFactor := Stats.PerHourFactor;
 
   for ID := TibiaMinItems to TibiaLastItem do
-    if TibiaItems[ID].Loot.Looted > 0 then begin
+    if TibiaItems[ID].Loot.Looted > 0 then
+    begin
       Looted := TibiaItems[ID].Loot.Looted;
       Value := Looted * TibiaItems[ID].SellValue;
       Inc(TotalItems, Looted);
       Inc(TotalValue, Value);
-      HUD.PrintGray(BFormat('%dx %s: %dg (%dg/hour)', [Looted, TibiaItems[ID].Name, Value,
-        BFloor(Value * PerHourFactor)]));
+      HUD.PrintGray(BFormat('%dx %s: %dg (%dg/hour)',
+        [Looted, TibiaItems[ID].Name, Value, BFloor(Value * PerHourFactor)]));
     end;
   if TotalItems = 0 then
     HUD.PrintGray('None');
@@ -80,4 +81,4 @@ begin
 end;
 
 end.
-
+

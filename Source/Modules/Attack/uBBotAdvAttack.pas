@@ -1,5 +1,5 @@
 unit uBBotAdvAttack;
-
+
 interface
 
 uses
@@ -130,7 +130,8 @@ type
     FKeepDiagonal: BBool;
     FKeepDistance: BUInt32;
     FAutoMacro: BStr;
-    function GetCreatureSettings(ACreature: TBBotCreature): BVector<TBBotAdvAttackCreatureData>.It;
+    function GetCreatureSettings(ACreature: TBBotCreature)
+      : BVector<TBBotAdvAttackCreatureData>.It;
     procedure ClearCurrentCreatureSetting;
   public
     constructor Create;
@@ -165,7 +166,8 @@ type
     property StopMacro: BStr read FStopMacro;
     property KeepDistance: BUInt32 read FKeepDistance;
     property KeepDiagonal: BBool read FKeepDiagonal;
-    property AvoidChangeFloorAOE: BBool read FAvoidChangeFloorAOE write FAvoidChangeFloorAOE;
+    property AvoidChangeFloorAOE: BBool read FAvoidChangeFloorAOE
+      write FAvoidChangeFloorAOE;
 
     property History: BVector<BPos> read FHistory;
     procedure OnWalk(FromPos: BPos);
@@ -183,20 +185,23 @@ uses
   Declaracoes,
   uTiles;
 
-function TBBotAdvAttack.AddSequence(const ACode: BStr): BVector<TBBotAttackSequence>.It;
+function TBBotAdvAttack.AddSequence(const ACode: BStr)
+  : BVector<TBBotAttackSequence>.It;
 begin
   Result := Sequences.Add;
   Result^ := TBBotAttackSequence.Create;
   Result^.Load(ACode);
 end;
 
-procedure TBBotAdvAttack.AddChangeFloorUnsafePositions(const APositions: BVector<BPos>);
+procedure TBBotAdvAttack.AddChangeFloorUnsafePositions(const APositions
+  : BVector<BPos>);
 var
   X, Y: BInt32;
   Pos: BPos;
 begin
   for X := -8 to +8 do
-    for Y := -6 to +6 do begin
+    for Y := -6 to +6 do
+    begin
       Pos := BPosXYZ(Me.Position.X + X, Me.Position.Y + Y, Me.Position.Z);
       if ChangeFloors.Get(Pos) then
         APositions.Add(Pos);
@@ -238,7 +243,8 @@ begin
   P^.MacroOnAttack := R[5];
   P^.MacroOnStop := R[6];
   if BStrPos(':Atk@', ACreatureSetting) > 0 then
-    raise BException.Create('Warning, Atk@ present while adding creature settings');
+    raise BException.Create
+      ('Warning, Atk@ present while adding creature settings');
 end;
 
 function TBBotAdvAttack.AttackablePriority(Creature: TBBotCreature): BBool;
@@ -247,10 +253,12 @@ var
 begin
   Result := True;
   It := GetCreatureSettings(Creature);
-  if It <> nil then begin
+  if It <> nil then
+  begin
     if It^.Priority = BBotAdvAttackIgnore then
       Exit(False)
-    else if (It^.Priority = BBotAdvAttackAvoid) and (BBot.StandTime < AvoidTime) then
+    else if (It^.Priority = BBotAdvAttackAvoid) and (BBot.StandTime < AvoidTime)
+    then
       Exit(False);
   end;
 end;
@@ -329,12 +337,14 @@ begin
   inherited;
 end;
 
-function TBBotAdvAttack.GetAttackSequence(const ACode: BStr): TBBotAttackSequence;
+function TBBotAdvAttack.GetAttackSequence(const ACode: BStr)
+  : TBBotAttackSequence;
 var
   AtkSeq: BVector<TBBotAttackSequence>.It;
 begin
   Result := nil;
-  if ACode <> '' then begin
+  if ACode <> '' then
+  begin
     AtkSeq := Sequences.Find('Attack Sequences cache for ' + ACode,
       function(Its: BVector<TBBotAttackSequence>.It): BBool
       begin
@@ -347,7 +357,8 @@ begin
   end;
 end;
 
-function TBBotAdvAttack.GetAttackSequenceByName(const AName: BStr): TBBotAttackSequence;
+function TBBotAdvAttack.GetAttackSequenceByName(const AName: BStr)
+  : TBBotAttackSequence;
 var
   AtkSeq: BVector<TBBotAttackSequence>.It;
 begin
@@ -361,7 +372,8 @@ begin
     Result := AtkSeq^;
 end;
 
-function TBBotAdvAttack.GetCreatureSettings(ACreature: TBBotCreature): BVector<TBBotAdvAttackCreatureData>.It;
+function TBBotAdvAttack.GetCreatureSettings(ACreature: TBBotCreature)
+  : BVector<TBBotAdvAttackCreatureData>.It;
   procedure InternalFindCreatureSetting(AName: BStr);
   begin
     Result := CreatureSettings.Find('Attack Settings - get by name ' + AName,
@@ -385,7 +397,8 @@ begin
   Result := CreatureSettings.Has('Killer known ' + Creature.Name,
     function(It: BVector<TBBotAdvAttackCreatureData>.It): BBool
     begin
-      Result := BStrEqual(It^.Name, Creature.Name) and (It^.Priority <> BBotAdvAttackIgnore) and
+      Result := BStrEqual(It^.Name, Creature.Name) and
+        (It^.Priority <> BBotAdvAttackIgnore) and
         ((It^.Priority <> BBotAdvAttackAvoid) or (BBot.StandTime > AvoidTime));
     end);
 end;
@@ -405,7 +418,8 @@ begin
   BBot.Events.OnTarget.Add(OnTarget);
   BBot.Events.OnWalk.Add(OnWalk);
 
-  BBot.Macros.Registry.CreateSystemVariable(BBotAdvAttackAvoidTimeVar, BBotAdvAttackAvoidTimeDefault).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotAdvAttackAvoidTimeVar,
+    BBotAdvAttackAvoidTimeDefault).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       AvoidTime := BUInt32(AValue);
@@ -418,9 +432,11 @@ var
 begin
   BBot.Macros.Execute(StopMacro);
   ClearCurrentCreatureSetting;
-  if Me.IsAttacking then begin
+  if Me.IsAttacking then
+  begin
     AdvIt := GetCreatureSettings(BBot.Creatures.Target);
-    if AdvIt <> nil then begin
+    if AdvIt <> nil then
+    begin
       BBot.Macros.Execute(AdvIt^.MacroOnAttack);
       FStopMacro := AdvIt^.MacroOnStop;
       FAutoMacro := AdvIt^.Macro;
@@ -432,8 +448,10 @@ end;
 
 procedure TBBotAdvAttack.OnWalk(FromPos: BPos);
 begin
-  if (not Me.IsAttacking) and ((Me.Position.Z <> LastHistory.Z) or (SQMDistance(Me.Position.X, Me.Position.Y,
-    LastHistory.X, LastHistory.Y) < 3)) then begin
+  if (not Me.IsAttacking) and ((Me.Position.Z <> LastHistory.Z) or
+    (SQMDistance(Me.Position.X, Me.Position.Y, LastHistory.X, LastHistory.Y)
+    < 3)) then
+  begin
     Inc(FHistoryIndex);
     FHistoryIndex := FHistoryIndex mod BBotWalkerHistoryCount;
     FHistory.Item[FHistoryIndex]^ := FromPos;
@@ -460,15 +478,18 @@ begin
         end);
       Exit(Res);
     end);
-  if Me.IsAttacking then begin
-    if KeepDistance <> 0 then begin
+  if Me.IsAttacking then
+  begin
+    if KeepDistance <> 0 then
+    begin
       BExecuteInSafeScope('AdvancedAttack:KeepDistance',
         procedure
         begin
           BBot.Creatures.Target.KeepDistance(KeepDistance);
         end);
     end;
-    if KeepDiagonal then begin
+    if KeepDiagonal then
+    begin
       BExecuteInSafeScope('AdvancedAttack:KeepDiagonal',
         procedure
         begin
@@ -537,8 +558,10 @@ var
   Err: BUserError;
 begin
   Result := AdvAttack.GetAttackSequenceByName(AttackSequence);
-  if Result = nil then begin
-    Err := BUserError.Create(AdvAttack, BFormat('Missing attack sequence "%s" required by "%s" advanced attack.',
+  if Result = nil then
+  begin
+    Err := BUserError.Create(AdvAttack,
+      BFormat('Missing attack sequence "%s" required by "%s" advanced attack.',
       [AttackSequence, Name]));
     Err.DisableCavebot := True;
     Err.Actions := [uraEditAdvancedAttack];
@@ -546,7 +569,8 @@ begin
   end;
 end;
 
-function TBBotAdvancedAttackBase.IncludesCreature(ACreature: TBBotCreature): BBool;
+function TBBotAdvancedAttackBase.IncludesCreature
+  (ACreature: TBBotCreature): BBool;
 
 begin
   if ACreature.IsPlayer and BBot.Attacker.NeverAttackPlayers then
@@ -554,8 +578,9 @@ begin
   Exit(Creatures.Has('AdvancedAttack:IncludesCreature ' + ACreature.Name,
     function(AIt: BVector<BStr>.It): BBool
     begin
-      Result := BStrEqual(AIt^, '%Any') or BStrEqual(AIt^, ACreature.Name) or (BStrEqual(AIt^, '%Players') and
-        (ACreature.IsPlayer)) or (BStrEqual(AIt^, '%Monsters') and (ACreature.IsNPC));
+      Result := BStrEqual(AIt^, '%Any') or BStrEqual(AIt^, ACreature.Name) or
+        (BStrEqual(AIt^, '%Players') and (ACreature.IsPlayer)) or
+        (BStrEqual(AIt^, '%Monsters') and (ACreature.IsNPC));
     end));
 end;
 
@@ -586,7 +611,8 @@ function TBBotAdvancedAttackSingle.Execute: BBool;
 var
   Seq: TBBotAttackSequence;
 begin
-  if Me.IsAttacking and IncludesCreature(BBot.Creatures.Target) then begin
+  if Me.IsAttacking and IncludesCreature(BBot.Creatures.Target) then
+  begin
     Seq := GetAttackSequence;
     if (Seq <> nil) and (Seq.CanExecute) then
       Exit(Seq.Execute);
@@ -628,7 +654,9 @@ begin
   UnsafePositions := AdvAttack.GenerateUnsafePositions;
   Shooter.OptimalWave(IncludedCreatures, ExcludedCreatures, UnsafePositions);
   UnsafePositions.Free;
-  if Shooter.Allowed and (BUInt32(Shooter.CreaturesOnTarget.Count) >= MinCreatures) then begin
+  if Shooter.Allowed and (BUInt32(Shooter.CreaturesOnTarget.Count) >=
+    MinCreatures) then
+  begin
     Seq := GetAttackSequence;
     if (Seq <> nil) and (Seq.CanExecute) then
       if Me.Direction <> Shooter.Direction then
@@ -661,7 +689,8 @@ begin
   BBot.Creatures.Traverse(
     procedure(C: TBBotCreature)
     begin
-      if (not C.IsSelf) and InAreaRange(C.Position) and (C.IsAlive) then begin
+      if (not C.IsSelf) and InAreaRange(C.Position) and (C.IsAlive) then
+      begin
         if IncludesCreature(C) then
           Inc(ValidTargets)
         else
@@ -701,7 +730,8 @@ function TBBotAdvancedAttackSelfArea.Execute: BBool;
 var
   Seq: TBBotAttackSequence;
 begin
-  if CanShoot then begin
+  if CanShoot then
+  begin
     Seq := GetAttackSequence;
     if (Seq <> nil) and (Seq.CanExecute) then
       Exit(Seq.Execute(Me.Position));
@@ -737,8 +767,10 @@ begin
   UnsafePositions := AdvAttack.GenerateUnsafePositions;
   Shooter.OptimalShoot(IncludedCreatures, ExcludedCreatures, UnsafePositions);
   UnsafePositions.Free;
-  if Shooter.Allowed and (Shooter.CreaturesOnTarget >= MinCreatures) then begin
-    if BBot.Walker.WalkableCost(Shooter.Target) < TileCost_NotWalkable then begin
+  if Shooter.Allowed and (Shooter.CreaturesOnTarget >= MinCreatures) then
+  begin
+    if BBot.Walker.WalkableCost(Shooter.Target) < TileCost_NotWalkable then
+    begin
       Seq := GetAttackSequence;
       if (Seq <> nil) and (Seq.CanExecute) then
         Exit(Seq.Execute(Shooter.Target));
@@ -748,4 +780,4 @@ begin
 end;
 
 end.
-
+

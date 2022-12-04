@@ -1,5 +1,5 @@
 unit uBBotProtector;
-
+
 interface
 
 uses
@@ -14,9 +14,11 @@ const
   BBotProtectorClickID = 1002;
 
 type
-  TBBotProtectorKind = (bpkFirst = 1, bpkMoved = bpkFirst, bpkMessaged, bpkPrivateMessage, bpkDisconnected, bpkNoFood,
-    bpkGameMaster, bpkFurnitureonScreen, bpkCreatureonScreen, bpkPlayeronScreen, bpkPlayeronScreenwithSkull,
-    bpkAttacked, bpkAttackedbyPlayer, bpkElementalDamage, bpkStucked,
+  TBBotProtectorKind = (bpkFirst = 1, bpkMoved = bpkFirst, bpkMessaged,
+    bpkPrivateMessage, bpkDisconnected, bpkNoFood, bpkGameMaster,
+    bpkFurnitureonScreen, bpkCreatureonScreen, bpkPlayeronScreen,
+    bpkPlayeronScreenwithSkull, bpkAttacked, bpkAttackedbyPlayer,
+    bpkElementalDamage, bpkStucked,
     // (Param:N>)
     bpkDamagedBy, // (Param:N>)
     bpkHighLevelonScreen, // (Param:N>)
@@ -40,12 +42,14 @@ type
     bpkLast = bpkLowGreatManaPotion);
 
 const
-  BBotProtectorGreaterParam: set of TBBotProtectorKind = [bpkStucked, bpkDamagedBy, bpkHighLevelonScreen,
-    bpkLevelGreater];
-  BBotProtectorLowerParam: set of TBBotProtectorKind = [bpkLowHealth, bpkLowMana, bpkLowHealthPotions,
-    bpkLowManaPotions, bpkLowSoul, bpkLowStamina, bpkLowCapacity, bpkLowSmallHealthPotion, bpkLowStrongHealthPotion,
-    bpkLowNormalHealthPotion, bpkLowGreatHealthPotion, bpkLowUltimateHealthPotion, bpkLowGreatSpiritPotion,
-    bpkLowNormalManaPotion, bpkLowStrongManaPotion, bpkLowGreatManaPotion];
+  BBotProtectorGreaterParam: set of TBBotProtectorKind = [bpkStucked,
+    bpkDamagedBy, bpkHighLevelonScreen, bpkLevelGreater];
+  BBotProtectorLowerParam: set of TBBotProtectorKind = [bpkLowHealth,
+    bpkLowMana, bpkLowHealthPotions, bpkLowManaPotions, bpkLowSoul,
+    bpkLowStamina, bpkLowCapacity, bpkLowSmallHealthPotion,
+    bpkLowStrongHealthPotion, bpkLowNormalHealthPotion, bpkLowGreatHealthPotion,
+    bpkLowUltimateHealthPotion, bpkLowGreatSpiritPotion, bpkLowNormalManaPotion,
+    bpkLowStrongManaPotion, bpkLowGreatManaPotion];
 
 type
   TBBotProtector = class
@@ -94,8 +98,10 @@ type
     property MacroName: String read FMacroName write FMacroName;
     property SoundName: String read FSoundName write FSoundName;
     property LabelName: String read FLabelName write FLabelName;
-    property PrivateMessageTo: String read FPrivateMessageTo write FPrivateMessageTo;
-    property PrivateMessageText: String read FPrivateMessageText write FPrivateMessageText;
+    property PrivateMessageTo: String read FPrivateMessageTo
+      write FPrivateMessageTo;
+    property PrivateMessageText: String read FPrivateMessageText
+      write FPrivateMessageText;
 
     property ParamN: BInt32 read FParamN write FParamN;
 
@@ -217,9 +223,11 @@ var
   Ret: BStrArray;
   P: BInt32;
 begin
-  if BStrSplit(Ret, '@', Data) = 23 then begin
+  if BStrSplit(Ret, '@', Data) = 23 then
+  begin
     Name := Ret[0];
-    Kind := TBBotProtectorKind(EnsureRange(StrToIntDef(Ret[1], 0), Ord(bpkFirst), Ord(bpkLast)));
+    Kind := TBBotProtectorKind(EnsureRange(StrToIntDef(Ret[1], 0),
+      Ord(bpkFirst), Ord(bpkLast)));
     P := BStrTo32(Ret[2], 0);
     if BInRange(P, Ord(bplAll), Ord(bplNone)) then
       FPauseLevel := TBBotActionPauseLevel(P)
@@ -236,8 +244,10 @@ begin
     PrivateMessage := Ret[16] = '1';
     PrivateMessageTo := Ret[17];
     PrivateMessageText := Ret[18];
-    if PrivateMessage and ((Length(PrivateMessageTo) < 3) or (Length(PrivateMessageText) < 3)) then
-      raise Exception.Create('Protector with invalid Private Message properties ' + Name);
+    if PrivateMessage and ((Length(PrivateMessageTo) < 3) or
+      (Length(PrivateMessageText) < 3)) then
+      raise Exception.Create
+        ('Protector with invalid Private Message properties ' + Name);
     MacroName := Ret[19];
     SoundName := Ret[20];
     LabelName := Ret[21];
@@ -254,7 +264,8 @@ begin
   HUD.AlignTo(bhaCenter, bhaTop);
   HUD.Color := clRed;
   HUD.Print('[Protector] ' + BBot.Protectors.KindToStr(Kind) + ' ' + Name);
-  HUD.Print('You can stop the Protector Sound by pressing Shift+Pause/Break or Shift+Insert (on your keyboard) or');
+  HUD.Print(
+    'You can stop the Protector Sound by pressing Shift+Pause/Break or Shift+Insert (on your keyboard) or');
   HUD.OnClick := BBotProtectorClickID;
   HUD.Print('[ click here ]');
   HUD.Free;
@@ -310,40 +321,74 @@ end;
 function TBBotProtectors.KindToStr(Kind: TBBotProtectorKind): String;
 begin
   case Kind of
-  bpkMoved: Result := 'Moved';
-  bpkMessaged: Result := 'Messaged';
-  bpkPrivateMessage: Result := 'Private Message';
-  bpkDisconnected: Result := 'Disconnected';
-  bpkNoFood: Result := 'No Food';
-  bpkGameMaster: Result := 'GameMaster';
-  bpkFurnitureonScreen: Result := 'Furniture on Screen';
-  bpkCreatureonScreen: Result := 'Creature on Screen';
-  bpkPlayeronScreen: Result := 'Player on Screen';
-  bpkPlayeronScreenwithSkull: Result := 'Player on Screen Skull';
-  bpkAttacked: Result := 'Attacked';
-  bpkAttackedbyPlayer: Result := 'Attacked by Player';
-  bpkElementalDamage: Result := 'Elemental Damage';
-  bpkStucked: Result := 'Stucked';
-  bpkDamagedBy: Result := 'Damaged By';
-  bpkHighLevelonScreen: Result := 'HighLevel on Screen';
-  bpkEnemyPlayerOnScreen: Result := 'Enemy On Screen';
-  bpkLowHealth: Result := 'Low Health';
-  bpkLowMana: Result := 'Low Mana';
-  bpkLowHealthPotions: Result := 'Low Health Potions';
-  bpkLowManaPotions: Result := 'Low Mana Potions';
-  bpkLowSoul: Result := 'Low Soul';
-  bpkLowStamina: Result := 'Low Stamina Min';
-  bpkLowCapacity: Result := 'Low Capacity';
-  bpkLevelGreater: Result := 'Level Greater';
-  bpkLowSmallHealthPotion: Result := 'Low Small Health Potion';
-  bpkLowStrongHealthPotion: Result := 'Low Strong Health Potion';
-  bpkLowNormalHealthPotion: Result := 'Low Normal Health Potion';
-  bpkLowGreatHealthPotion: Result := 'Low Great Health Potion';
-  bpkLowUltimateHealthPotion: Result := 'Low Ultimate Health Potion';
-  bpkLowGreatSpiritPotion: Result := 'Low Great Spirit Potion';
-  bpkLowNormalManaPotion: Result := 'Low Normal Mana Potion';
-  bpkLowStrongManaPotion: Result := 'Low Strong Mana Potion';
-  bpkLowGreatManaPotion: Result := 'Low Great Mana Potion';
+    bpkMoved:
+      Result := 'Moved';
+    bpkMessaged:
+      Result := 'Messaged';
+    bpkPrivateMessage:
+      Result := 'Private Message';
+    bpkDisconnected:
+      Result := 'Disconnected';
+    bpkNoFood:
+      Result := 'No Food';
+    bpkGameMaster:
+      Result := 'GameMaster';
+    bpkFurnitureonScreen:
+      Result := 'Furniture on Screen';
+    bpkCreatureonScreen:
+      Result := 'Creature on Screen';
+    bpkPlayeronScreen:
+      Result := 'Player on Screen';
+    bpkPlayeronScreenwithSkull:
+      Result := 'Player on Screen Skull';
+    bpkAttacked:
+      Result := 'Attacked';
+    bpkAttackedbyPlayer:
+      Result := 'Attacked by Player';
+    bpkElementalDamage:
+      Result := 'Elemental Damage';
+    bpkStucked:
+      Result := 'Stucked';
+    bpkDamagedBy:
+      Result := 'Damaged By';
+    bpkHighLevelonScreen:
+      Result := 'HighLevel on Screen';
+    bpkEnemyPlayerOnScreen:
+      Result := 'Enemy On Screen';
+    bpkLowHealth:
+      Result := 'Low Health';
+    bpkLowMana:
+      Result := 'Low Mana';
+    bpkLowHealthPotions:
+      Result := 'Low Health Potions';
+    bpkLowManaPotions:
+      Result := 'Low Mana Potions';
+    bpkLowSoul:
+      Result := 'Low Soul';
+    bpkLowStamina:
+      Result := 'Low Stamina Min';
+    bpkLowCapacity:
+      Result := 'Low Capacity';
+    bpkLevelGreater:
+      Result := 'Level Greater';
+    bpkLowSmallHealthPotion:
+      Result := 'Low Small Health Potion';
+    bpkLowStrongHealthPotion:
+      Result := 'Low Strong Health Potion';
+    bpkLowNormalHealthPotion:
+      Result := 'Low Normal Health Potion';
+    bpkLowGreatHealthPotion:
+      Result := 'Low Great Health Potion';
+    bpkLowUltimateHealthPotion:
+      Result := 'Low Ultimate Health Potion';
+    bpkLowGreatSpiritPotion:
+      Result := 'Low Great Spirit Potion';
+    bpkLowNormalManaPotion:
+      Result := 'Low Normal Mana Potion';
+    bpkLowStrongManaPotion:
+      Result := 'Low Strong Mana Potion';
+    bpkLowGreatManaPotion:
+      Result := 'Low Great Mana Potion';
   end;
 end;
 
@@ -362,16 +407,21 @@ end;
 
 procedure TBBotProtectors.OnCreatureTick(Creature: TBBotCreature);
 begin
-  if IntIn(Creature.Outfit.Outfit, TibiaGMOutfits) or (Pos('GM', Creature.Name) > 0) or (Pos('CM', Creature.Name) > 0)
-    or (Pos('GOD', Creature.Name) > 0) then
+  if IntIn(Creature.Outfit.Outfit, TibiaGMOutfits) or
+    (Pos('GM', Creature.Name) > 0) or (Pos('CM', Creature.Name) > 0) or
+    (Pos('GOD', Creature.Name) > 0) then
     OnProtector(bpkGameMaster, 0);
-  if Creature.IsSelf then begin
+  if Creature.IsSelf then
+  begin
     OnProtector(bpkLowStamina, Me.Stamina);
     OnProtector(bpkLowCapacity, Me.Capacity div 100);
     OnProtector(bpkLowSoul, Me.Soul);
-  end else if not Creature.IsAlly then begin
+  end
+  else if not Creature.IsAlly then
+  begin
     OnProtector(bpkCreatureonScreen, 0);
-    if Creature.IsPlayer then begin
+    if Creature.IsPlayer then
+    begin
       OnProtector(bpkHighLevelonScreen, Creature.Level);
       OnProtector(bpkPlayeronScreen, 0);
       if Creature.IsEnemy then
@@ -417,16 +467,22 @@ end;
 
 procedure TBBotProtectors.OnMessage(AMessageData: TTibiaMessage);
 begin
-  if (AMessageData.Mode in [MESSAGE_GAMEMASTER_BROADCAST, MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM,
-    MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_ADMIN]) or (Pos('GM', AMessageData.Author) = 1) or
-    (Pos('CM', AMessageData.Author) = 1) or (Pos('GOD', AMessageData.Author) = 1) then
-    if not BStrStartSensitive(AMessageData.Text, 'Server is saving game in') then
+  if (AMessageData.Mode in [MESSAGE_GAMEMASTER_BROADCAST,
+    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM,
+    MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_ADMIN]) or
+    (Pos('GM', AMessageData.Author) = 1) or (Pos('CM', AMessageData.Author) = 1)
+    or (Pos('GOD', AMessageData.Author) = 1) then
+    if not BStrStartSensitive(AMessageData.Text, 'Server is saving game in')
+    then
       OnProtector(bpkGameMaster, 0);
-  if (AMessageData.Level = 1) and (Me.Level > 15) and (AMessageData.Mode in [MESSAGE_SAY, MESSAGE_WHISPER]) then
+  if (AMessageData.Level = 1) and (Me.Level > 15) and
+    (AMessageData.Mode in [MESSAGE_SAY, MESSAGE_WHISPER]) then
     OnProtector(bpkGameMaster, 0);
-  if (AMessageData.Mode in [MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL, MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO]) then
+  if (AMessageData.Mode in [MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL,
+    MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO]) then
     if not BBot.WarBot.IsAlly(AMessageData.Author) then
-      if BBot.Spells.Spell(AMessageData.Text) = nil then begin
+      if BBot.Spells.Spell(AMessageData.Text) = nil then
+      begin
         OnProtector(bpkMessaged, 0);
         if AMessageData.Mode in [MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO] then
           OnProtector(bpkPrivateMessage, 0);
@@ -438,9 +494,11 @@ var
   I: BInt32;
   P: TBBotProtector;
 begin
-  for I := 0 to List.Count - 1 do begin
+  for I := 0 to List.Count - 1 do
+  begin
     P := List[I]^;
-    if P.Kind = Kind then begin
+    if P.Kind = Kind then
+    begin
       if not P.Enabled then
         Continue;
       if (Kind in BBotProtectorGreaterParam) and (ParamN < P.ParamN) then
@@ -455,7 +513,8 @@ end;
 
 procedure TBBotProtectors.OnStatus;
 begin
-  if (tsBurning in Me.Status) or (tsPoisoned in Me.Status) or (tsElectrified in Me.Status) then
+  if (tsBurning in Me.Status) or (tsPoisoned in Me.Status) or
+    (tsElectrified in Me.Status) then
     OnProtector(bpkElementalDamage, 0);
 end;
 
@@ -482,44 +541,53 @@ begin
   MP := BBot.SupliesStats.Suplies('Mana Potion');
   SMP := BBot.SupliesStats.Suplies('Strong Mana Potion');
   GMP := BBot.SupliesStats.Suplies('Great Mana Potion');
-  if SSHP <> -1 then begin
+  if SSHP <> -1 then
+  begin
     OnProtector(bpkLowSmallHealthPotion, SSHP);
     OnProtector(bpkLowHealthPotions, SSHP);
   end;
-  if HP <> -1 then begin
+  if HP <> -1 then
+  begin
     OnProtector(bpkLowNormalHealthPotion, HP);
     OnProtector(bpkLowHealthPotions, HP);
   end;
-  if SHP <> -1 then begin
+  if SHP <> -1 then
+  begin
     OnProtector(bpkLowStrongHealthPotion, SHP);
     OnProtector(bpkLowHealthPotions, SHP);
   end;
-  if GHP <> -1 then begin
+  if GHP <> -1 then
+  begin
     OnProtector(bpkLowGreatHealthPotion, GHP);
     OnProtector(bpkLowHealthPotions, GHP);
   end;
-  if UHP <> -1 then begin
+  if UHP <> -1 then
+  begin
     OnProtector(bpkLowUltimateHealthPotion, UHP);
     OnProtector(bpkLowHealthPotions, UHP);
   end;
-  if GSP <> -1 then begin
+  if GSP <> -1 then
+  begin
     OnProtector(bpkLowGreatSpiritPotion, GSP);
     OnProtector(bpkLowHealthPotions, GSP);
     OnProtector(bpkLowManaPotions, GSP);
   end;
-  if MP <> -1 then begin
+  if MP <> -1 then
+  begin
     OnProtector(bpkLowNormalManaPotion, MP);
     OnProtector(bpkLowManaPotions, MP);
   end;
-  if SMP <> -1 then begin
+  if SMP <> -1 then
+  begin
     OnProtector(bpkLowStrongManaPotion, SMP);
     OnProtector(bpkLowManaPotions, SMP);
   end;
-  if GMP <> -1 then begin
+  if GMP <> -1 then
+  begin
     OnProtector(bpkLowGreatManaPotion, GMP);
     OnProtector(bpkLowManaPotions, GMP);
   end;
 end;
 
 end.
-
+

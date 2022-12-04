@@ -1,5 +1,5 @@
 unit uBBotFishing;
-
+
 interface
 
 uses
@@ -48,10 +48,12 @@ begin
     if (Capacity * 100) < Me.Capacity then
       if (Worms and (CountItem(ItemID_Worm) > 0)) or (not Worms) then
         for Tries := 0 to 5 do
-          if Tiles(Map, Me.Position.X + BRandom(-7, +7), Me.Position.Y + BRandom(-5, 5)) then
+          if Tiles(Map, Me.Position.X + BRandom(-7, +7),
+            Me.Position.Y + BRandom(-5, 5)) then
             if Map.ItemsOnTile = 1 then
               if BInRange(Map.ID, ItemID_Water1From, ItemID_Water1To) or
-                BInRange(Map.ID, ItemID_Water2From, ItemID_Water2To) then begin
+                BInRange(Map.ID, ItemID_Water2From, ItemID_Water2To) then
+              begin
                 Map.UseOn(ItemID_FishingRod);
                 Exit;
               end;
@@ -59,4 +61,4 @@ begin
 end;
 
 end.
-
+

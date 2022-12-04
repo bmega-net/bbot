@@ -1,5 +1,5 @@
 unit uBBotFastHand;
-
+
 interface
 
 uses
@@ -38,18 +38,23 @@ var
   Map: TTibiaTiles;
   X, Y: BInt32;
 begin
-  if Enabled then begin
-    if Me.Position = LastSelfPosition then begin
+  if Enabled then
+  begin
+    if Me.Position = LastSelfPosition then
+    begin
       for X := -1 to +1 do
         for Y := -1 to +1 do
           if Tiles(Map, Me.Position.X + X, Me.Position.Y + Y) then
             if Map.IsPickupable then
               Map.ToGround(LastDepotPosition);
-    end else begin
+    end
+    else
+    begin
       for X := -1 to +1 do
         for Y := -1 to +1 do
           if Tiles(Map, Me.Position.X + X, Me.Position.Y + Y) then
-            if Map.IsDepot then begin
+            if Map.IsDepot then
+            begin
               LastSelfPosition := Me.Position;
               LastDepotPosition := Map.Position;
             end;
@@ -58,4 +63,4 @@ begin
 end;
 
 end.
-
+

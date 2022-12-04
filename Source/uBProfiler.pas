@@ -1,6 +1,5 @@
 unit uBProfiler;
 
-
 interface
 
 uses
@@ -104,4 +103,3 @@ begin
 end;
 
 end.
-

@@ -89,8 +89,10 @@ type
     BotManagerRunTask: TLabel;
     LoadProfileMonitor: TTimer;
     procedure BotManagerCharsDblClick(Sender: TObject);
-    procedure BotManagerCharsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure BotManagerCharsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BotManagerCharsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure BotManagerCharsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure BotManagerDeleteAccountClick(Sender: TObject);
     procedure BotManagerEnabledClick(Sender: TObject);
     procedure BotManagerScheduleDeleteItemClick(Sender: TObject);
@@ -100,13 +102,15 @@ type
     procedure BotManagerRunTaskClick(Sender: TObject);
     procedure BotManagerSaveAccClick(Sender: TObject);
     procedure BotManagerScheduleDblClick(Sender: TObject);
-    procedure BotManagerScheduleDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure BotManagerScheduleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BotManagerScheduleDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure BotManagerScheduleKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure BotManagerScheduleSaveClick(Sender: TObject);
     procedure BotManagerScheduleScriptDropDown(Sender: TObject);
     procedure SchedulerKindChange(Sender: TObject);
-    procedure BotManagerScheduleCharacterDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-      State: TOwnerDrawState);
+    procedure BotManagerScheduleCharacterDrawItem(Control: TWinControl;
+      Index: Integer; Rect: TRect; State: TOwnerDrawState);
     procedure BotManagerScheduleCharacterDropDown(Sender: TObject);
     procedure BotManagerStatusCurrentClick(Sender: TObject);
     procedure BotManagerStatusTimeClick(Sender: TObject);
@@ -179,49 +183,60 @@ begin
   if Index <> -1 then
     if Index = BotManagerChars.Items.Count - 1 then
       BotManagerChars.Items.Insert(Index,
-        BFormat('%d:%s', [Tick, InputBox('New character name', 'Bot Manager character', '')]))
-    else begin
+        BFormat('%d:%s', [Tick, InputBox('New character name',
+        'Bot Manager character', '')]))
+    else
+    begin
       BStrSplit(BotManagerChars.Items[Index], ':', A, B);
-      BotManagerChars.Items[Index] := A + ':' + InputBox('Change character name', 'Bot Manager character', B);
+      BotManagerChars.Items[Index] := A + ':' +
+        InputBox('Change character name', 'Bot Manager character', B);
     end;
 end;
 
-procedure TReconnectManagerFrame.BotManagerCharsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-State: TOwnerDrawState);
+procedure TReconnectManagerFrame.BotManagerCharsDrawItem(Control: TWinControl;
+Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   V: BStrArray;
   A, B: BStr;
   ID: BUInt32;
   Char: TBBotReconnectCharacter;
 begin
-  if (Index <> -1) and (BStrSplit(V, ':', BotManagerChars.Items[Index]) = 2) then begin
+  if (Index <> -1) and (BStrSplit(V, ':', BotManagerChars.Items[Index]) = 2)
+  then
+  begin
     B := V[1];
     if Index = BotManagerChars.Items.Count - 1 then
       A := V[0]
-    else begin
+    else
+    begin
       A := BFormat('%d', [Index + 1]);
       ID := BUInt32(BStrTo32(V[0], 0));
       Char := BBot.ReconnectManager.CharacterByID(ID);
       if (Char <> nil) and (Char.getBlocked) then
         Char.getBlockDate
     end;
-  end else begin
+  end
+  else
+  begin
     B := '';
     A := '';
   end;
   BListDrawItem(BotManagerChars.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TReconnectManagerFrame.BotManagerCharsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TReconnectManagerFrame.BotManagerCharsKeyDown(Sender: TObject;
+var Key: Word; Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
 end;
 
 procedure TReconnectManagerFrame.BotManagerDeleteAccountClick(Sender: TObject);
 begin
-  if MessageDlg('Are you sure you want to delete this account?', TMsgDlgType.mtConfirmation, mbYesNoCancel, 0) = mrYes
-  then begin
-    if MutexAcquire then begin
+  if MessageDlg('Are you sure you want to delete this account?',
+    TMsgDlgType.mtConfirmation, mbYesNoCancel, 0) = mrYes then
+  begin
+    if MutexAcquire then
+    begin
       BBot.ReconnectManager.LoadProfile;
       BBot.ReconnectManager.UpdateAccounts(
         procedure()
@@ -240,7 +255,8 @@ end;
 
 procedure TReconnectManagerFrame.BotManagerEnabledClick(Sender: TObject);
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.ReconnectManager.Enabled := BotManagerEnabled.Checked;
     MutexRelease;
   end;
@@ -248,7 +264,8 @@ end;
 
 procedure TReconnectManagerFrame.BotManagerLoadClick(Sender: TObject);
 begin
-  if Length(BotManagerProfile.Text) >= 3 then begin
+  if Length(BotManagerProfile.Text) >= 3 then
+  begin
     BBot.ReconnectManager.LoadProfile(BotManagerProfile.Text);
     LoadReconnectManager;
   end
@@ -275,21 +292,25 @@ begin
   BotManagerPass.Text := '';
   BotManagerChars.Items.Clear;
   BotManagerDeleteAccount.Enabled := False;
-  if Menu.Tag <> -1 then begin
+  if Menu.Tag <> -1 then
+  begin
     BotManagerEditingID := Menu.Tag;
-    Acc := BBot.ReconnectManager.Accounts.Find('Reconnect Manager - updating account',
+    Acc := BBot.ReconnectManager.Accounts.Find
+      ('Reconnect Manager - updating account',
       function(It: BVector<TBBotReconnectAccount>.It): BBool
       begin
         Result := It^.ID = BotManagerEditingID;
       end);
-    if Acc <> nil then begin
+    if Acc <> nil then
+    begin
       BotManagerDeleteAccount.Enabled := True;
       BotManagerAcc.Text := Acc^.Name;
       BotManagerPass.Text := Acc^.Password;
       Acc^.Characters.ForEach(
         procedure(It: BVector<TBBotReconnectCharacter>.It)
         begin
-          BotManagerChars.Items.Insert(It^.Index, BFormat('%d:%s', [It^.ID, It^.Name]));
+          BotManagerChars.Items.Insert(It^.Index, BFormat('%d:%s',
+            [It^.ID, It^.Name]));
         end);
     end;
   end;
@@ -310,8 +331,10 @@ end;
 
 procedure TReconnectManagerFrame.BotManagerRunTaskClick(Sender: TObject);
 begin
-  if MutexAcquire then begin
-    BBot.ReconnectManager.Current := BBot.ReconnectManager.ScheduleByID(BotManagerEditingID);
+  if MutexAcquire then
+  begin
+    BBot.ReconnectManager.Current := BBot.ReconnectManager.ScheduleByID
+      (BotManagerEditingID);
     MutexRelease;
   end;
   LoadReconnectManager;
@@ -330,7 +353,8 @@ end;
 procedure TReconnectManagerFrame.BotManagerSaveAccClick(Sender: TObject);
 begin
   BotManagerDeleteAccount.Enabled := True;
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.ReconnectManager.LoadProfile;
     BBot.ReconnectManager.UpdateAccounts(
       procedure()
@@ -341,22 +365,27 @@ begin
         A, B: BStr;
       begin
         Acc := nil;
-        if BotManagerEditingID <> 0 then begin
-          Acc := BBot.ReconnectManager.Accounts.Find('Reconnect Manager - updating account 2',
+        if BotManagerEditingID <> 0 then
+        begin
+          Acc := BBot.ReconnectManager.Accounts.Find
+            ('Reconnect Manager - updating account 2',
             function(It: BVector<TBBotReconnectAccount>.It): BBool
             begin
               Result := It^.ID = BotManagerEditingID;
             end);
         end;
         if Acc = nil then
-          Acc := BBot.ReconnectManager.Accounts.Add(TBBotReconnectAccount.Create(BBot.ReconnectManager));
+          Acc := BBot.ReconnectManager.Accounts.Add(TBBotReconnectAccount.Create
+            (BBot.ReconnectManager));
         BotManagerEditingID := Acc^.ID;
         Acc^.Name := BotManagerAcc.Text;
         Acc^.Password := BotManagerPass.Text;
         Acc^.Characters.Clear;
         for I := 0 to BotManagerChars.Items.Count - 2 do
-          if BStrSplit(BotManagerChars.Items[I], ':', A, B) then begin
-            Char := Acc^.Characters.Add(TBBotReconnectCharacter.Create(BBot.ReconnectManager, Acc^));
+          if BStrSplit(BotManagerChars.Items[I], ':', A, B) then
+          begin
+            Char := Acc^.Characters.Add(TBBotReconnectCharacter.Create
+              (BBot.ReconnectManager, Acc^));
             Char^.ID := BStrTo32(A);
             Char^.Name := B;
             Char^.Index := I;
@@ -367,28 +396,34 @@ begin
   BotManagerShowAdditionalBox(nil);
 end;
 
-procedure TReconnectManagerFrame.OnKeyPressNumOnly(Sender: TObject; var Key: Char);
+procedure TReconnectManagerFrame.OnKeyPressNumOnly(Sender: TObject;
+var Key: Char);
 begin
   TFMain(FMain).OnKeyPressNumOnly(Sender, Key);
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleCharacterDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-State: TOwnerDrawState);
+procedure TReconnectManagerFrame.BotManagerScheduleCharacterDrawItem
+  (Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
   V: BStrArray;
 begin
-  if BStrSplit(V, '/', BotManagerScheduleCharacter.Items[Index]) = 4 then begin
+  if BStrSplit(V, '/', BotManagerScheduleCharacter.Items[Index]) = 4 then
+  begin
     A := V[1];
     B := V[3];
-  end else begin
+  end
+  else
+  begin
     A := 'Error';
     B := '??';
   end;
-  BListDrawItem(BotManagerScheduleCharacter.Canvas, Index, odSelected in State, Rect, A, B);
+  BListDrawItem(BotManagerScheduleCharacter.Canvas, Index, odSelected in State,
+    Rect, A, B);
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleCharacterDropDown(Sender: TObject);
+procedure TReconnectManagerFrame.BotManagerScheduleCharacterDropDown
+  (Sender: TObject);
 begin
   BotManagerScheduleCharacter.Items.Clear;
   BBot.ReconnectManager.Accounts.ForEach(
@@ -397,7 +432,8 @@ begin
       Acc^.Characters.ForEach(
         procedure(Char: BVector<TBBotReconnectCharacter>.It)
         begin
-          BotManagerScheduleCharacter.Items.Add(BFormat('%d/%s/%d/%s', [Char^.ID, Char^.Name, Acc^.ID, Acc^.Name]));
+          BotManagerScheduleCharacter.Items.Add(BFormat('%d/%s/%d/%s',
+            [Char^.ID, Char^.Name, Acc^.ID, Acc^.Name]));
         end);
     end);
 end;
@@ -408,7 +444,8 @@ var
   Schd: TBBotReconnectScheduleItem;
   SchdOn: TBBotReconnectScheduleOnlineItem;
 begin
-  if Length(BotManagerProfile.Text) < 3 then begin
+  if Length(BotManagerProfile.Text) < 3 then
+  begin
     ShowMessage('Please type a profile name with at least 3 characters');
     Exit;
   end;
@@ -426,24 +463,34 @@ begin
   BotManagerScheduleScript.ItemIndex := -1;
   BotManagerScheduleDeleteItem.Enabled := False;
   BotManagerEditingID := 0;
-  if (BotManagerSchedule.ItemIndex <> -1) and (BotManagerSchedule.ItemIndex <> BotManagerSchedule.Count - 1) then begin
-    if BStrSplit(BotManagerSchedule.Items.Strings[BotManagerSchedule.ItemIndex], '/', A, B) then begin
+  if (BotManagerSchedule.ItemIndex <> -1) and
+    (BotManagerSchedule.ItemIndex <> BotManagerSchedule.Count - 1) then
+  begin
+    if BStrSplit(BotManagerSchedule.Items.Strings[BotManagerSchedule.ItemIndex],
+      '/', A, B) then
+    begin
       BotManagerEditingID := BStrTo32(A);
       BotManagerRunTask.Enabled := True;
       Schd := BBot.ReconnectManager.ScheduleByID(BotManagerEditingID);
       BotManagerScheduleDeleteItem.Enabled := True;
       BotManagerScheduleEnabled.Checked := Schd.Enabled;
-      BotManagerScheduleHour.Text := BFormat('%d', [Schd.Duration div (60 * 60)]);
-      BotManagerScheduleMinute.Text := BFormat('%d', [(Schd.Duration mod (60 * 60)) div 60]);
+      BotManagerScheduleHour.Text :=
+        BFormat('%d', [Schd.Duration div (60 * 60)]);
+      BotManagerScheduleMinute.Text :=
+        BFormat('%d', [(Schd.Duration mod (60 * 60)) div 60]);
       BotManagerScheduleVariation.Text := BFormat('%d', [Schd.Variation]);
-      if Schd is TBBotReconnectScheduleOnlineItem then begin
+      if Schd is TBBotReconnectScheduleOnlineItem then
+      begin
         SchdOn := TBBotReconnectScheduleOnlineItem(Schd);
         BotManagerScheduleOnline.Checked := True;
-        BotManagerScheduleBlockCharHours.Text := BFormat('%d', [SchdOn.BlockCharacter div (60 * 60)]);
-        BotManagerScheduleBlockCharMinutes.Text := BFormat('%d', [(SchdOn.BlockCharacter mod (60 * 60)) div 60]);
+        BotManagerScheduleBlockCharHours.Text :=
+          BFormat('%d', [SchdOn.BlockCharacter div (60 * 60)]);
+        BotManagerScheduleBlockCharMinutes.Text :=
+          BFormat('%d', [(SchdOn.BlockCharacter mod (60 * 60)) div 60]);
         BotManagerScheduleCharacter.Items.Clear;
-        BotManagerScheduleCharacter.AddItem(BFormat('%d/%s/%d/%s', [SchdOn.Character.ID, SchdOn.Character.Name,
-          SchdOn.Account.ID, SchdOn.Account.Name]), nil);
+        BotManagerScheduleCharacter.AddItem(BFormat('%d/%s/%d/%s',
+          [SchdOn.Character.ID, SchdOn.Character.Name, SchdOn.Account.ID,
+          SchdOn.Account.Name]), nil);
         BotManagerScheduleCharacter.ItemIndex := 0;
         BotManagerScheduleScript.Items.Clear;
         BotManagerScheduleScript.AddItem(SchdOn.Script, nil);
@@ -458,11 +505,14 @@ begin
   BotManagerShowAdditionalBox(gbBotManagerScheduleManagement);
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleDeleteItemClick(Sender: TObject);
+procedure TReconnectManagerFrame.BotManagerScheduleDeleteItemClick
+  (Sender: TObject);
 begin
-  if MessageDlg('Are you sure you want to delete this schedule item?', TMsgDlgType.mtConfirmation, mbYesNoCancel, 0) = mrYes
-  then begin
-    if MutexAcquire then begin
+  if MessageDlg('Are you sure you want to delete this schedule item?',
+    TMsgDlgType.mtConfirmation, mbYesNoCancel, 0) = mrYes then
+  begin
+    if MutexAcquire then
+    begin
       BBot.ReconnectManager.LoadProfile;
       BBot.ReconnectManager.UpdateSchedule(
         procedure()
@@ -480,67 +530,82 @@ begin
   end;
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-State: TOwnerDrawState);
+procedure TReconnectManagerFrame.BotManagerScheduleDrawItem
+  (Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   V: BStrArray;
   A, B, CurrID: BStr;
 begin
-  if EngineLoad = elRunning then begin
+  if EngineLoad = elRunning then
+  begin
     CurrID := BFormat('%d', [BBot.ReconnectManager.CurrentID]);
-    if (Index <> -1) and (BStrSplit(V, '/', BotManagerSchedule.Items[Index]) = 3) then begin
+    if (Index <> -1) and (BStrSplit(V, '/', BotManagerSchedule.Items[Index]) = 3)
+    then
+    begin
       A := V[1];
       B := V[2];
       if (V[0] = CurrID) and (CurrID <> '0') then
         A := '[Current] ' + A;
-    end else begin
+    end
+    else
+    begin
       A := '';
       B := '';
     end;
-    BListDrawItem(BotManagerSchedule.Canvas, Index, odSelected in State, Rect, A, B);
+    BListDrawItem(BotManagerSchedule.Canvas, Index, odSelected in State,
+      Rect, A, B);
   end;
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TReconnectManagerFrame.BotManagerScheduleKeyDown(Sender: TObject;
+var Key: Word; Shift: TShiftState);
 var
   Selected: BInt32;
   List: TListBox;
 begin
   List := TListBox(Sender);
-  if ssShift in Shift then begin
+  if ssShift in Shift then
+  begin
     Selected := List.ItemIndex;
-    if (Selected <> -1) and (Selected <> List.Items.Count - 1) then begin
+    if (Selected <> -1) and (Selected <> List.Items.Count - 1) then
+    begin
       case Key of
-      VK_UP: begin
-          if Selected > 0 then begin
-            if MutexAcquire then begin
-              BBot.ReconnectManager.LoadProfile;
-              BBot.ReconnectManager.UpdateSchedule(
-                procedure()
-                begin
-                  BBot.ReconnectManager.Schedule.Swap(Selected - 1, Selected);
-                end);
-              MutexRelease;
+        VK_UP:
+          begin
+            if Selected > 0 then
+            begin
+              if MutexAcquire then
+              begin
+                BBot.ReconnectManager.LoadProfile;
+                BBot.ReconnectManager.UpdateSchedule(
+                  procedure()
+                  begin
+                    BBot.ReconnectManager.Schedule.Swap(Selected - 1, Selected);
+                  end);
+                MutexRelease;
+              end;
+              LoadReconnectManager;
+              BotManagerSchedule.ItemIndex := Selected;
             end;
-            LoadReconnectManager;
-            BotManagerSchedule.ItemIndex := Selected;
           end;
-        end;
-      VK_DOWN: begin
-          if Selected < (List.Items.Count - 2) then begin
-            if MutexAcquire then begin
-              BBot.ReconnectManager.LoadProfile;
-              BBot.ReconnectManager.UpdateSchedule(
-                procedure()
-                begin
-                  BBot.ReconnectManager.Schedule.Swap(Selected + 1, Selected);
-                end);
-              MutexRelease;
+        VK_DOWN:
+          begin
+            if Selected < (List.Items.Count - 2) then
+            begin
+              if MutexAcquire then
+              begin
+                BBot.ReconnectManager.LoadProfile;
+                BBot.ReconnectManager.UpdateSchedule(
+                  procedure()
+                  begin
+                    BBot.ReconnectManager.Schedule.Swap(Selected + 1, Selected);
+                  end);
+                MutexRelease;
+              end;
+              LoadReconnectManager;
+              BotManagerSchedule.ItemIndex := Selected;
             end;
-            LoadReconnectManager;
-            BotManagerSchedule.ItemIndex := Selected;
           end;
-        end;
       end;
     end;
   end;
@@ -548,17 +613,21 @@ end;
 
 procedure TReconnectManagerFrame.BotManagerScheduleSaveClick(Sender: TObject);
 begin
-  if BotManagerScheduleOnline.Checked then begin
-    if BotManagerScheduleCharacter.ItemIndex = -1 then begin
+  if BotManagerScheduleOnline.Checked then
+  begin
+    if BotManagerScheduleCharacter.ItemIndex = -1 then
+    begin
       ShowMessage('Please select a character!');
       Exit;
     end;
-    if BotManagerScheduleScript.ItemIndex = -1 then begin
+    if BotManagerScheduleScript.ItemIndex = -1 then
+    begin
       ShowMessage('Please select a script!');
       Exit;
     end;
   end;
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.ReconnectManager.LoadProfile;
     BBot.ReconnectManager.UpdateSchedule(
       procedure()
@@ -571,24 +640,33 @@ begin
         Online := nil;
         if BotManagerEditingID <> 0 then
           Sched := BBot.ReconnectManager.ScheduleByID(BotManagerEditingID);
-        if BotManagerScheduleOffline.Checked then begin
-          if Sched = nil then begin
-            Sched := TBBotReconnectScheduleOfflineItem.Create(BBot.ReconnectManager);
+        if BotManagerScheduleOffline.Checked then
+        begin
+          if Sched = nil then
+          begin
+            Sched := TBBotReconnectScheduleOfflineItem.Create
+              (BBot.ReconnectManager);
             BBot.ReconnectManager.Schedule.Add(Sched);
           end;
-        end else begin
-          if Sched = nil then begin
-            Sched := TBBotReconnectScheduleOnlineItem.Create(BBot.ReconnectManager);
+        end
+        else
+        begin
+          if Sched = nil then
+          begin
+            Sched := TBBotReconnectScheduleOnlineItem.Create
+              (BBot.ReconnectManager);
             BBot.ReconnectManager.Schedule.Add(Sched);
           end;
           Online := TBBotReconnectScheduleOnlineItem(Sched);
         end;
         Sched.Enabled := BotManagerScheduleEnabled.Checked;
-        Sched.Duration := (BStrTo32(BTrim(BotManagerScheduleHour.Text)) * 60 * 60) +
-          (BStrTo32(BTrim(BotManagerScheduleMinute.Text)) * 60);
+        Sched.Duration := (BStrTo32(BTrim(BotManagerScheduleHour.Text)) * 60 *
+          60) + (BStrTo32(BTrim(BotManagerScheduleMinute.Text)) * 60);
         Sched.Variation := BStrTo32(BTrim(BotManagerScheduleVariation.Text));
-        if BotManagerScheduleOnline.Checked then begin
-          Online.BlockCharacter := (BStrTo32(BTrim(BotManagerScheduleBlockCharHours.Text)) * 60 * 60) +
+        if BotManagerScheduleOnline.Checked then
+        begin
+          Online.BlockCharacter :=
+            (BStrTo32(BTrim(BotManagerScheduleBlockCharHours.Text)) * 60 * 60) +
             (BStrTo32(BTrim(BotManagerScheduleBlockCharMinutes.Text)) * 60);
           Online.Script := BotManagerScheduleScript.Text;
           BStrSplit(V, '/', BotManagerScheduleCharacter.Text);
@@ -602,7 +680,8 @@ begin
   BotManagerShowAdditionalBox(nil);
 end;
 
-procedure TReconnectManagerFrame.BotManagerScheduleScriptDropDown(Sender: TObject);
+procedure TReconnectManagerFrame.BotManagerScheduleScriptDropDown
+  (Sender: TObject);
 begin
   BotManagerScheduleScript.Clear;
   ListFilesToList(BotPath + 'Configs/*.bbot', BotManagerScheduleScript.Items);
@@ -614,15 +693,17 @@ var
 begin
   gbBotManagerAccountManagement.Visible := False;
   gbBotManagerScheduleManagement.Visible := False;
-  if Box <> nil then begin
-    Box.SetBounds(gbBotManagerSchedulerList.Left, gbBotManagerSchedulerList.Top + gbBotManagerSchedulerList.Height,
-      Box.Width, Box.Height);
+  if Box <> nil then
+  begin
+    Box.SetBounds(gbBotManagerSchedulerList.Left, gbBotManagerSchedulerList.Top
+      + gbBotManagerSchedulerList.Height, Box.Width, Box.Height);
     Box.Visible := True;
     BoxHeight := Box.Height;
   end
   else
     BoxHeight := 0;
-  SetBounds(0, 0, gbBotManagerSchedulerList.Width, gbBotManagerSchedulerList.Height + BoxHeight);
+  SetBounds(0, 0, gbBotManagerSchedulerList.Width,
+    gbBotManagerSchedulerList.Height + BoxHeight);
   Parent.SetBounds(Parent.Left, Parent.Top, Width, Height);
   TFMain(FMain).ResizeToBox(TFMain(FMain).gbBotManager);
 end;
@@ -634,10 +715,12 @@ var
   I: BInt32;
 begin
   Curr := BBot.ReconnectManager.Current;
-  if Curr <> nil then begin
+  if Curr <> nil then
+  begin
     Start := BFormat('%d/', [Curr.ID]);
     for I := 0 to BotManagerSchedule.Items.Count - 1 do
-      if BStrStart(BotManagerSchedule.Items.Strings[I], Start) then begin
+      if BStrStart(BotManagerSchedule.Items.Strings[I], Start) then
+      begin
         BotManagerSchedule.ItemIndex := I;
         BotManagerScheduleDblClick(Sender);
       end;
@@ -651,11 +734,15 @@ var
   D: BUInt32;
 begin
   Curr := BBot.ReconnectManager.Current;
-  if Curr <> nil then begin
-    Res := InputBox('Change finish duration', 'Change the finish duration of a task:', Curr.DurationStr);
-    if Res <> Curr.DurationStr then begin
+  if Curr <> nil then
+  begin
+    Res := InputBox('Change finish duration',
+      'Change the finish duration of a task:', Curr.DurationStr);
+    if Res <> Curr.DurationStr then
+    begin
       D := BotManagerStrToDur(Res);
-      if MutexAcquire then begin
+      if MutexAcquire then
+      begin
         BBot.ReconnectManager.UpdateSchedule(
           procedure()
           begin
@@ -680,12 +767,14 @@ end;
 procedure TReconnectManagerFrame.Init;
 begin
   BotManagerShowStatus := 0;
-  SetBounds(0, 0, gbBotManagerSchedulerList.Width, gbBotManagerSchedulerList.Height);
+  SetBounds(0, 0, gbBotManagerSchedulerList.Width,
+    gbBotManagerSchedulerList.Height);
 end;
 
 procedure TReconnectManagerFrame.LoadProfileMonitorTimer(Sender: TObject);
 begin
-  if Engine.LoadReconnectManagerProfile <> '' then begin
+  if Engine.LoadReconnectManagerProfile <> '' then
+  begin
     BotManagerProfile.Text := Engine.LoadReconnectManagerProfile;
     Engine.LoadReconnectManagerProfile := '';
     BBot.ReconnectManager.LoadProfile(BotManagerProfile.Text);
@@ -702,15 +791,19 @@ begin
   BBot.ReconnectManager.Schedule.ForEach(
     procedure(It: BVector<TBBotReconnectScheduleItem>.It)
     begin
-      BotManagerSchedule.AddItem(BFormat('%d/%s/%s', [It^.ID, It^.FormatListLeft, It^.FormatListRight]), nil);
+      BotManagerSchedule.AddItem(BFormat('%d/%s/%s',
+        [It^.ID, It^.FormatListLeft, It^.FormatListRight]), nil);
     end);
   BotManagerSchedule.AddItem('0/New/Double-Click to schedule', nil);
   BotManagerSchedule.Items.EndUpdate;
   Curr := BBot.ReconnectManager.Current;
-  if Curr <> nil then begin
+  if Curr <> nil then
+  begin
     BotManagerStatusCurrent.Caption := Curr.FormatListLeft;
     BotManagerStatusTime.Caption := Curr.DurationStr;
-  end else begin
+  end
+  else
+  begin
     BotManagerStatusCurrent.Caption := 'none';
     BotManagerStatusTime.Caption := 'done';
   end;
@@ -733,15 +826,18 @@ end;
 
 procedure TReconnectManagerFrame.TimerReconnectManager;
 begin
-  if BInRange(BotManagerShowAcc, 1, Tick) then begin
+  if BInRange(BotManagerShowAcc, 1, Tick) then
+  begin
     BotManagerAcc.PasswordChar := '*';
     BotManagerShowAcc := 0;
   end;
-  if BInRange(BotManagerShowPass, 1, Tick) then begin
+  if BInRange(BotManagerShowPass, 1, Tick) then
+  begin
     BotManagerPass.PasswordChar := '*';
     BotManagerShowPass := 0;
   end;
-  if BotManagerShowStatus < Tick then begin
+  if BotManagerShowStatus < Tick then
+  begin
     BotManagerShowStatus := Tick + 5000;
     LoadReconnectManager;
   end;
@@ -749,19 +845,28 @@ end;
 
 procedure TReconnectManagerFrame.ViewAccPass(Sender: TObject);
 begin
-  if Sender = BotManagerViewAcc then begin
-    if BotManagerShowAcc = 0 then begin
+  if Sender = BotManagerViewAcc then
+  begin
+    if BotManagerShowAcc = 0 then
+    begin
       BotManagerShowAcc := Tick() + 5000;
       BotManagerAcc.PasswordChar := #0;
-    end else begin
+    end
+    else
+    begin
       BotManagerShowAcc := 0;
       BotManagerAcc.PasswordChar := '*';
     end;
-  end else if Sender = BotManagerViewPass then begin
-    if BotManagerShowPass = 0 then begin
+  end
+  else if Sender = BotManagerViewPass then
+  begin
+    if BotManagerShowPass = 0 then
+    begin
       BotManagerShowPass := Tick() + 5000;
       BotManagerPass.PasswordChar := #0;
-    end else begin
+    end
+    else
+    begin
       BotManagerShowPass := 0;
       BotManagerPass.PasswordChar := '*';
     end;

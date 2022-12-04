@@ -1,6 +1,5 @@
 unit ucLogin;
 
-
 interface
 
 uses
@@ -26,25 +25,33 @@ type
     class function checksum(AInput: Binary): Binary;
   end;
 {$IFNDEF Release}
-{.$DEFINE TestCiphers }
+  { .$DEFINE TestCiphers }
 {$ENDIF}
 {$IFDEF TestCiphers}
 {$APPTYPE CONSOLE}
 {$ENDIF}
 
 const
-  CipherRandStrings: array [0 .. 59] of BStr = ('Rji0Sr7D8rVoK2v6', 'cxvsA7fZs3v62EdI', 'C5PaWRXDE7l0xHdm',
-    'G3GKtD5US7w8dZ6W', 'pxj6lnkkF5GQH3Lq', 'b1gKEtOaF94gQBn0', '4BJWG2bLYMPYKTrb', 'g45H6GD92q5FQ4BW',
-    '2mlnwflTish4GQTA', 'A4Bh4WxTeCdPU1xk', 'ujNJKo3nUDFCSArG', 'KlPNSPjGu65do6HJ', 'CaTgkG1bu1bogG9e',
-    'ODZpCbH6IODSSRF1', 'MQfqG47JEuBaqy3g', 'WyZuwyNhYuXEcwfG', 'ijr2WSvNEQ34uHnI', 'gzlmscnnsQFAe8h0',
-    'b7haM1tGiPtg5bvS', 'HVgm8d4mHb0J6fr7', 'AibgGCdTubzlSQDO', 'cYtCCa9ae7ZcI91f', '40qQdtcl1Em4Pmkl',
-    'fqyEz2g8psYs3GoJ', 'zvC27cSG9VSfHKu2', 'dzgR5hmF50CNJQSG', 'JYmPjdkp9TWf7xW6', 'Vt6ZfyArRe4oTUIO',
-    'HHcWv2grfWMMdw8V', 'LBYJnQUeLEcPbGQY', '1Lc8LauvBa8o94sY', 'JWSYHSuNresKjK4e', 'd5wczEYr7ZotR5oI',
-    'zog6RxGfb7Khr5aM', 'hRWi7GSdtVkS5W4T', 'VUsDz6uOJwmZbjS2', 'NtGfJJ8UxSoHJoyX', 'VdcbpRsddTUvPLIh',
-    'HWuBNKcqla65F80H', 'Ia7ZfIXFesLTHkhd', 'lGBtVCFjhaJnzEmj', 'uU6LRo2HdCPz4mHh', 'rsBbKciXTWzl2uSx',
-    'kGBvnGXL7e2rbwbx', 'Nwa3zwPb0HQ6fRYq', 'VOmd1cQIHkg55fgD', 'fsydzXggfhsx9QOj', 'T2IhbcOqXLciLe2S',
-    'toEF1roDNkWlH7I1', 'xHEkX0t6PrFAhFnA', 'Crs4UnjURJe2k3jO', 'hpM0pIu3bOrpAOxD', 'hAcv4qNP92RDZ2Nz',
-    'zaoXueMbBWCBuI65', 'QGUPWs4B6MIBqGIP', 'kAChQgC9gIX7kgDL', 'zaIPEU8vrYb9NIPd', '8a6NJY7NLQCdbQsL',
+  CipherRandStrings: array [0 .. 59] of BStr = ('Rji0Sr7D8rVoK2v6',
+    'cxvsA7fZs3v62EdI', 'C5PaWRXDE7l0xHdm', 'G3GKtD5US7w8dZ6W',
+    'pxj6lnkkF5GQH3Lq', 'b1gKEtOaF94gQBn0', '4BJWG2bLYMPYKTrb',
+    'g45H6GD92q5FQ4BW', '2mlnwflTish4GQTA', 'A4Bh4WxTeCdPU1xk',
+    'ujNJKo3nUDFCSArG', 'KlPNSPjGu65do6HJ', 'CaTgkG1bu1bogG9e',
+    'ODZpCbH6IODSSRF1', 'MQfqG47JEuBaqy3g', 'WyZuwyNhYuXEcwfG',
+    'ijr2WSvNEQ34uHnI', 'gzlmscnnsQFAe8h0', 'b7haM1tGiPtg5bvS',
+    'HVgm8d4mHb0J6fr7', 'AibgGCdTubzlSQDO', 'cYtCCa9ae7ZcI91f',
+    '40qQdtcl1Em4Pmkl', 'fqyEz2g8psYs3GoJ', 'zvC27cSG9VSfHKu2',
+    'dzgR5hmF50CNJQSG', 'JYmPjdkp9TWf7xW6', 'Vt6ZfyArRe4oTUIO',
+    'HHcWv2grfWMMdw8V', 'LBYJnQUeLEcPbGQY', '1Lc8LauvBa8o94sY',
+    'JWSYHSuNresKjK4e', 'd5wczEYr7ZotR5oI', 'zog6RxGfb7Khr5aM',
+    'hRWi7GSdtVkS5W4T', 'VUsDz6uOJwmZbjS2', 'NtGfJJ8UxSoHJoyX',
+    'VdcbpRsddTUvPLIh', 'HWuBNKcqla65F80H', 'Ia7ZfIXFesLTHkhd',
+    'lGBtVCFjhaJnzEmj', 'uU6LRo2HdCPz4mHh', 'rsBbKciXTWzl2uSx',
+    'kGBvnGXL7e2rbwbx', 'Nwa3zwPb0HQ6fRYq', 'VOmd1cQIHkg55fgD',
+    'fsydzXggfhsx9QOj', 'T2IhbcOqXLciLe2S', 'toEF1roDNkWlH7I1',
+    'xHEkX0t6PrFAhFnA', 'Crs4UnjURJe2k3jO', 'hpM0pIu3bOrpAOxD',
+    'hAcv4qNP92RDZ2Nz', 'zaoXueMbBWCBuI65', 'QGUPWs4B6MIBqGIP',
+    'kAChQgC9gIX7kgDL', 'zaIPEU8vrYb9NIPd', '8a6NJY7NLQCdbQsL',
     'oU11SKSXLcH95GIp', 'zIpRbqijGiCHyQ8d');
 
 implementation
@@ -137,8 +144,11 @@ begin
     WriteLn('Enc: ', cip.encrypt(AClear));
     WriteLn('Dec: ', cip.decrypt(cip.encrypt(AClear)));
     WriteLn('CRC: ', cip.encode(cip.checksum(AClear)));
-  end else begin
-    WriteLn('testCipherFromDelphi(''' + AClear + ''', ''' + APass + ''', ''' + CRC + ''');');
+  end
+  else
+  begin
+    WriteLn('testCipherFromDelphi(''' + AClear + ''', ''' + APass + ''', ''' +
+      CRC + ''');');
   end;
 end;
 
@@ -146,11 +156,14 @@ procedure Test;
 var
   AClearLen, I: BInt32;
   Pass, Clear, CRC: Binary;
-var cip: Cipher;
+var
+  cip: Cipher;
 begin
-  TestCipher('Hello World!', 'hadukem', 'aEhidVJqRzVzd3JDZFVzTzRNUitGaDAvY2t3PQ==');
+  TestCipher('Hello World!', 'hadukem',
+    'aEhidVJqRzVzd3JDZFVzTzRNUitGaDAvY2t3PQ==');
   for AClearLen := 5 to 50 do
-    for I := 0 to 2 do begin
+    for I := 0 to 2 do
+    begin
       Pass := BStrRandom(32, BStrAlphaNumeric);
       Clear := BStrRandom(AClearLen, BStrAlphaNumeric);
       cip := Cipher.Create(Pass);
@@ -165,4 +178,3 @@ Test;
 {$ENDIF}
 
 end.
-

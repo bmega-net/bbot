@@ -80,13 +80,15 @@ begin
   DosHeader := BPtr(Module);
   if DosHeader^.e_magic <> $5A4D then
     Exit(nil);
-  OptionalHeader := BPtr(BUInt32(Module + BUInt32(dosHeader^._lfanew) + 24));
+  OptionalHeader := BPtr(BUInt32(Module + BUInt32(DosHeader^._lfanew) + 24));
   if OptionalHeader^.Magic <> $10B then
     Exit(nil);
   if (OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].Size = 0) or
-  (OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress = 0) then
+    (OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT]
+    .VirtualAddress = 0) then
     Exit(nil);
-  Result := BPtr(Module + OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
+  Result := BPtr(Module + OptionalHeader.DataDirectory
+    [IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
 end;
 
 function GetIATAddress(Module: HMODULE; Name: BStr): BUInt32;
@@ -96,7 +98,7 @@ var
   Thunk: PIMAGE_THUNK_DATA32;
   ThunkFuncName: BPChar;
 begin
-  Descriptor := GetModuleImportTAble(Module);
+  Descriptor := GetModuleImportTable(Module);
   while Descriptor.FirstThunk <> 0 do
   begin
     N := 0;
@@ -116,7 +118,6 @@ begin
   end;
   Result := 0;
 end;
-
 
 procedure InjectIATHook(TargetModule: HMODULE; TargetFunction: BStr;
   RedirectAddress: BPtr; OriginalCall: BPtr);

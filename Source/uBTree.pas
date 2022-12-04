@@ -1,5 +1,5 @@
 unit uBTree;
-
+
 interface
 
 uses
@@ -20,10 +20,12 @@ type
     procedure FreeItem(AData: T);
     procedure FreeNode(Node: BBinaryTreeNode<T>);
   public
-    constructor Create(AFreeItem: BUnaryProc<T>; ACompareItems: BBinaryFunc<T, BBinaryTreeCompareResult>);
+    constructor Create(AFreeItem: BUnaryProc<T>;
+      ACompareItems: BBinaryFunc<T, BBinaryTreeCompareResult>);
     destructor Destroy; override;
     property Root: BBinaryTreeNode<T> read FRoot;
-    property CompareItems: BBinaryFunc<T, BBinaryTreeCompareResult> read FCompareItems;
+    property CompareItems: BBinaryFunc<T, BBinaryTreeCompareResult>
+      read FCompareItems;
     procedure ForEach(AIter: BUnaryProc<T>);
     procedure ForEachUntil(AIter: BUnaryFunc<T, BBool>);
     function Search(AData: T): BBinaryTreeNode<T>;
@@ -61,7 +63,8 @@ uses
 
 { BBinaryTree<T> }
 
-constructor BBinaryTree<T>.Create(AFreeItem: BUnaryProc<T>; ACompareItems: BBinaryFunc<T, BBinaryTreeCompareResult>);
+constructor BBinaryTree<T>.Create(AFreeItem: BUnaryProc<T>;
+  ACompareItems: BBinaryFunc<T, BBinaryTreeCompareResult>);
 begin
   FRoot := nil;
   FFreeItem := AFreeItem;
@@ -119,9 +122,11 @@ procedure BBinaryTree<T>.Remove(AData: T);
 var
   Node: BBinaryTreeNode<T>;
 begin
-  if FRoot <> nil then begin
+  if FRoot <> nil then
+  begin
     Node := FRoot.Search(AData);
-    if Node <> nil then begin
+    if Node <> nil then
+    begin
       if Node = FRoot then
         FRoot := nil
       else
@@ -145,7 +150,8 @@ end;
 
 procedure BBinaryTree<T>.Clear;
 begin
-  if FRoot <> nil then begin
+  if FRoot <> nil then
+  begin
     FreeNode(FRoot);
     FRoot := nil;
   end;
@@ -166,12 +172,15 @@ var
   R: BBinaryTreeCompareResult;
 begin
   R := FTree.CompareItems(ANode.Data, FData);
-  if R = btdBigger then begin
+  if R = btdBigger then
+  begin
     if FRight = nil then
       FRight := ANode
     else
       FRight.Add(ANode);
-  end else if R = btdSmaller then begin
+  end
+  else if R = btdSmaller then
+  begin
     if FLeft = nil then
       FLeft := ANode
     else
@@ -206,7 +215,8 @@ end;
 
 function BBinaryTreeNode<T>.ForEachUntil(AIter: BUnaryFunc<T, BBool>): BBool;
 begin
-  if FLeft <> nil then begin
+  if FLeft <> nil then
+  begin
     Result := FLeft.ForEachUntil(AIter);
     if Result then
       Exit;
@@ -214,7 +224,8 @@ begin
   Result := AIter(FData);
   if Result then
     Exit;
-  if FRight <> nil then begin
+  if FRight <> nil then
+  begin
     Result := FRight.ForEachUntil(AIter);
     if Result then
       Exit;
@@ -251,6 +262,7 @@ begin
 end;
 
 {$IFDEF TestBBinaryTree}
+
 type
   CBInt32 = class
   public
@@ -423,4 +435,4 @@ Halt;
 {$ENDIF}
 
 end.
-
+

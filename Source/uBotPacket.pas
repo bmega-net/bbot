@@ -1,5 +1,5 @@
 unit uBotPacket;
-
+
 {$IFDEF FPC}{$MODE DELPHI}{$ENDIF}
 
 interface
@@ -74,17 +74,21 @@ var
   SName: BStr;
 begin
   SName := AName + #0;
-  Handle := CreateFileMappingA($FFFFFFFF, nil, PAGE_READWRITE, 0, ASize, @SName[1]);
+  Handle := CreateFileMappingA($FFFFFFFF, nil, PAGE_READWRITE, 0, ASize,
+    @SName[1]);
   if Handle = 0 then
-    raise Exception.Create(String(BFormat('CSM Error 1 %d %s', [ASize, SName])));
+    raise Exception.Create(String(BFormat('CSM Error 1 %d %s',
+      [ASize, SName])));
   Result := MapViewOfFile(Handle, FILE_MAP_ALL_ACCESS, 0, 0, ASize);
   if Result = nil then
-    raise Exception.Create(String(BFormat('CSM Error 2 %d %s', [ASize, SName])));
+    raise Exception.Create(String(BFormat('CSM Error 2 %d %s',
+      [ASize, SName])));
 end;
 
 { TBBotPacket }
 
-class function  TBBotPacket.CreateReader(AFrom: BPtr; ASize: BUInt32): TBBotPacket;
+class function TBBotPacket.CreateReader(AFrom: BPtr; ASize: BUInt32)
+  : TBBotPacket;
 begin
   Result := TBBotPacket.Create;
   GetMem(Result._Buffer, ASize);
@@ -95,7 +99,8 @@ begin
   Move(AFrom^, Result._Buffer^, ASize);
 end;
 
-class function  TBBotPacket.CreateSharedMemory(Name: BStr; ASize: BUInt32): TBBotPacket;
+class function TBBotPacket.CreateSharedMemory(Name: BStr; ASize: BUInt32)
+  : TBBotPacket;
 begin
   Result := TBBotPacket.Create;
   BPtr(Result._Buffer) := uBotPacket.CreateSharedMemory(Name, ASize);
@@ -115,7 +120,8 @@ begin
   Result._FreeBuffer := True;
 end;
 
-class function  TBBotPacket.CreateWritterEx(APointer: Pointer; ASize: BUInt32): TBBotPacket;
+class function TBBotPacket.CreateWritterEx(APointer: Pointer; ASize: BUInt32)
+  : TBBotPacket;
 begin
   Result := TBBotPacket.Create;
   Result._Buffer := APointer;
@@ -134,15 +140,16 @@ end;
 
 function TBBotPacket.GetBufferString: BStr;
 const
-  sHexChars: array [0 .. 15] of BChar = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-    'E', 'F');
+  sHexChars: array [0 .. 15] of BChar = ('0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 var
   I: BInt32;
   C: BPInt8;
 begin
   Result := '';
   C := BPInt8(_Buffer);
-  for I := 1 to Size do begin
+  for I := 1 to Size do
+  begin
     Result := Result + sHexChars[C^ div 16] + sHexChars[C^ mod 16] + ' ';
     Inc(C);
   end;
@@ -183,7 +190,8 @@ var
   L: BInt32;
 begin
   L := GetBInt32;
-  if L > 0 then begin
+  if L > 0 then
+  begin
     SetLength(Result, L);
     ReadBuffer(@Result[1], L);
   end;
@@ -209,7 +217,8 @@ var
   L: BInt16;
 begin
   L := GetBInt16;
-  if L > 0 then begin
+  if L > 0 then
+  begin
     SetLength(Result, L);
     ReadBuffer(@Result[1], L);
   end;
@@ -217,7 +226,8 @@ end;
 
 procedure TBBotPacket.ReadBuffer(ABuffer: BPtr; ASize: BUInt32);
 begin
-  if (Position + ASize) > _Size then begin
+  if (Position + ASize) > _Size then
+  begin
     Position := Size + 1;
     Exit;
   end;
@@ -236,7 +246,8 @@ end;
 
 procedure TBBotPacket.WriteBuffer(ABuffer: BPtr; ASize: BUInt32);
 begin
-  if (Position + ASize) > _Size then begin
+  if (Position + ASize) > _Size then
+  begin
     Position := Size + 1;
     Exit;
   end;
@@ -280,4 +291,4 @@ begin
 end;
 
 end.
-
+

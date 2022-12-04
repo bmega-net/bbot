@@ -1,5 +1,5 @@
 unit uBBotHealer;
-
+
 interface
 
 uses
@@ -89,7 +89,8 @@ type
 
     procedure UpdateVariables;
 
-    property HealerPriority: TBBotHealerType read FHealerPriority write FHealerPriority;
+    property HealerPriority: TBBotHealerType read FHealerPriority
+      write FHealerPriority;
     property ItemHigh: TBBotHealerItem read FItemHigh;
     property ItemMid: TBBotHealerItem read FItemMid;
     property ItemLow: TBBotHealerItem read FItemLow;
@@ -103,8 +104,10 @@ type
     procedure BlockUseItem;
     procedure BlockUseSpell;
 
-    property DelayBetweenItems: BUInt32 read FDelayBetweenItems write FDelayBetweenItems;
-    property DelayBetweenSpells: BUInt32 read FDelayBetweenSpells write FDelayBetweenSpells;
+    property DelayBetweenItems: BUInt32 read FDelayBetweenItems
+      write FDelayBetweenItems;
+    property DelayBetweenSpells: BUInt32 read FDelayBetweenSpells
+      write FDelayBetweenSpells;
 
     procedure OnHP(OldHP: BInt32);
   end;
@@ -130,11 +133,13 @@ var
   Health: BInt32;
 begin
   Result := False;
-  if Enabled then begin
+  if Enabled then
+  begin
     Health := MyHealth;
     if not BInRange(Health, 1, MaxMyHealth) then
       SetNextHeal
-    else if (Health <= NextHeal) and Heal then begin
+    else if (Health <= NextHeal) and Heal then
+    begin
       SetNextHeal;
       Result := True;
     end;
@@ -203,22 +208,29 @@ end;
 
 procedure TBBotHealers.EnforceVariables(AName: BStr; AValue: BInt32);
 begin
-  BBot.Macros.Registry.Variables['BBot.Healers.ItemLow.ItemID'].Value := ItemLow.Item;
-  BBot.Macros.Registry.Variables['BBot.Healers.ItemMid.ItemID'].Value := ItemMid.Item;
-  BBot.Macros.Registry.Variables['BBot.Healers.ItemHeavy.ItemID'].Value := ItemHigh.Item;
+  BBot.Macros.Registry.Variables['BBot.Healers.ItemLow.ItemID'].Value :=
+    ItemLow.Item;
+  BBot.Macros.Registry.Variables['BBot.Healers.ItemMid.ItemID'].Value :=
+    ItemMid.Item;
+  BBot.Macros.Registry.Variables['BBot.Healers.ItemHeavy.ItemID'].Value :=
+    ItemHigh.Item;
 end;
 
 procedure TBBotHealers.Run;
 var
   Healed: BBool;
 begin
-  if Me.HP > 0 then begin
-    if HealerPriority = hutSpell then begin
-      Healed := SpellHigh.Execute or ItemHigh.Execute or SpellMid.Execute or ItemMid.Execute or SpellLow.Execute or
-        ItemLow.Execute;
-    end else begin
-      Healed := ItemHigh.Execute or SpellHigh.Execute or ItemMid.Execute or SpellMid.Execute or ItemLow.Execute or
-        SpellLow.Execute;
+  if Me.HP > 0 then
+  begin
+    if HealerPriority = hutSpell then
+    begin
+      Healed := SpellHigh.Execute or ItemHigh.Execute or SpellMid.Execute or
+        ItemMid.Execute or SpellLow.Execute or ItemLow.Execute;
+    end
+    else
+    begin
+      Healed := ItemHigh.Execute or SpellHigh.Execute or ItemMid.Execute or
+        SpellMid.Execute or ItemLow.Execute or SpellLow.Execute;
     end;
     if Healed then
       ActionNext.Lock(100);
@@ -250,9 +262,12 @@ begin
   inherited;
   BBot.Events.OnHP.Add(OnHP);
 
-  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemLow.ItemID', 0).Watch(EnforceVariables);
-  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemMid.ItemID', 0).Watch(EnforceVariables);
-  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemHeavy.ItemID', 0).Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemLow.ItemID', 0)
+    .Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemMid.ItemID', 0)
+    .Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.Healers.ItemHeavy.ItemID', 0)
+    .Watch(EnforceVariables);
 end;
 
 procedure TBBotHealers.BlockUseItem;
@@ -278,7 +293,8 @@ end;
 
 function TBBotHealerItem.Heal: BBool;
 begin
-  if FHealers.CanUseItem then begin
+  if FHealers.CanUseItem then
+  begin
     Me.UseOnMe(Item);
     FHealers.BlockUseItem;
     Result := True;
@@ -304,7 +320,8 @@ end;
 
 function TBBotHealerSpell.Heal: BBool;
 begin
-  if FHealers.CanUseSpell and (Me.Mana >= Mana) then begin
+  if FHealers.CanUseSpell and (Me.Mana >= Mana) then
+  begin
     Me.Say(Spell);
     FHealers.BlockUseSpell;
     Result := True;
@@ -314,4 +331,4 @@ begin
 end;
 
 end.
-
+

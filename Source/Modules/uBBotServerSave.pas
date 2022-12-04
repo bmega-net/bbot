@@ -1,5 +1,5 @@
 unit uBBotServerSave;
-
+
 interface
 
 uses
@@ -45,9 +45,11 @@ begin
   if not Enabled then
     Exit(False);
   if Me.Connected then
-    Result := (HourOf(Now) = Hour) and BInRange(MinuteOf(Now), Minute, Minute + 3)
+    Result := (HourOf(Now) = Hour) and BInRange(MinuteOf(Now), Minute,
+      Minute + 3)
   else
-    Result := (HourOf(Now) = Hour) and BInRange(MinuteOf(Now), Minute, Minute + 12);
+    Result := (HourOf(Now) = Hour) and BInRange(MinuteOf(Now), Minute,
+      Minute + 12);
 end;
 
 procedure TBBotServerSave.Run;
@@ -58,4 +60,4 @@ begin
 end;
 
 end.
-
+

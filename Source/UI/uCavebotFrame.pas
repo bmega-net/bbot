@@ -129,9 +129,11 @@ type
     procedure CopyCodes3Click(Sender: TObject);
     procedure UnselectClick(Sender: TObject);
     procedure PasteCodes4Click(Sender: TObject);
-    procedure lstCBWPTKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstCBWPTKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure Edit1Click(Sender: TObject);
-    procedure lstCBWPTDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure lstCBWPTDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure OpenCorpseOff1Click(Sender: TObject);
     procedure OpenCorpses1Click(Sender: TObject);
     procedure SpecialSQMsLinkClick(Sender: TObject);
@@ -179,9 +181,12 @@ procedure TCavebotFrame.SetCavebot;
     begin
       Result := iwNotWalkable;
       case cmb.ItemIndex of
-      0: Result := iwWalkable;
-      1: Result := iwAvoid;
-      2: Result := iwNotWalkable;
+        0:
+          Result := iwWalkable;
+        1:
+          Result := iwAvoid;
+        2:
+          Result := iwNotWalkable;
       end;
     end;
 
@@ -192,8 +197,10 @@ procedure TCavebotFrame.SetCavebot;
   end;
 
 begin
-  if MutexAcquire then begin
-    if chkCBa.Checked then begin
+  if MutexAcquire then
+  begin
+    if chkCBa.Checked then
+    begin
       if lstCBWPT.Count <= 1 then
         chkCBa.Checked := False;
       chkCBLearn.Checked := False;
@@ -201,22 +208,34 @@ begin
 
     BBot.Cavebot.WithdrawRounding := CavebotWithdrawRounding.ItemIndex;
     case cmbCBrope.ItemIndex of
-    0: BBot.Cavebot.Rope := ItemID_Rope;
-    1: BBot.Cavebot.Rope := ItemID_ElvenhairRope;
-    2: BBot.Cavebot.Rope := ItemID_BlueWhackingDrillerofFate;
-    3: BBot.Cavebot.Rope := ItemID_PinkSqueezingGearofGirlpower;
-    4: BBot.Cavebot.Rope := ItemID_RedSneakyStabberofEliteness;
+      0:
+        BBot.Cavebot.Rope := ItemID_Rope;
+      1:
+        BBot.Cavebot.Rope := ItemID_ElvenhairRope;
+      2:
+        BBot.Cavebot.Rope := ItemID_BlueWhackingDrillerofFate;
+      3:
+        BBot.Cavebot.Rope := ItemID_PinkSqueezingGearofGirlpower;
+      4:
+        BBot.Cavebot.Rope := ItemID_RedSneakyStabberofEliteness;
     end;
     case cmbCBshovel.ItemIndex of
-    0: BBot.Cavebot.Shovel := ItemID_Shovel;
-    1: BBot.Cavebot.Shovel := ItemID_LightShovel;
-    2: BBot.Cavebot.Shovel := ItemID_BlueWhackingDrillerofFate;
-    3: BBot.Cavebot.Shovel := ItemID_PinkSqueezingGearofGirlpower;
-    4: BBot.Cavebot.Shovel := ItemID_RedSneakyStabberofEliteness;
+      0:
+        BBot.Cavebot.Shovel := ItemID_Shovel;
+      1:
+        BBot.Cavebot.Shovel := ItemID_LightShovel;
+      2:
+        BBot.Cavebot.Shovel := ItemID_BlueWhackingDrillerofFate;
+      3:
+        BBot.Cavebot.Shovel := ItemID_PinkSqueezingGearofGirlpower;
+      4:
+        BBot.Cavebot.Shovel := ItemID_RedSneakyStabberofEliteness;
     end;
-    if BBot.Cavebot.Enabled <> chkCBa.Checked then begin
+    if BBot.Cavebot.Enabled <> chkCBa.Checked then
+    begin
       BBot.StandTime := Tick;
-      if chkCBa.Checked then begin
+      if chkCBa.Checked then
+      begin
         chkCBLearn.Checked := False;
         BBot.Cavebot.LoadWaypoint(lstCBWPT.Items);
         BBot.Cavebot.Enabled := (BBot.Cavebot.LoadErrorIndex = -1);
@@ -228,17 +247,22 @@ begin
     BBot.Cavebot.SmartMapClick := SmartMapClick.Checked;
     SetWalkables();
 
-    if chkCBa.Checked and (BBot.Cavebot.LoadErrorIndex <> -1) then begin
-      ShowMessage('Failed to load cavebot: ' + lstCBWPT.Items.Strings[BBot.Cavebot.LoadErrorIndex]);
+    if chkCBa.Checked and (BBot.Cavebot.LoadErrorIndex <> -1) then
+    begin
+      ShowMessage('Failed to load cavebot: ' + lstCBWPT.Items.Strings
+        [BBot.Cavebot.LoadErrorIndex]);
       chkCBa.Checked := False;
     end;
     chkCBLearn.Enabled := not BBot.Cavebot.Enabled;
     cmbCBrope.Enabled := not BBot.Cavebot.Enabled;
     cmbCBshovel.Enabled := not BBot.Cavebot.Enabled;
-    if BBot.Cavebot.Enabled then begin
+    if BBot.Cavebot.Enabled then
+    begin
       lstCBWPT.OnKeyDown := nil;
       lstCBWPT.PopupMenu := nil;
-    end else begin
+    end
+    else
+    begin
       lstCBWPT.OnKeyDown := lstCBWPTKeyDown;
       lstCBWPT.PopupMenu := popCB;
     end;
@@ -266,8 +290,10 @@ end;
 
 procedure TCavebotFrame.StartHere1Click(Sender: TObject);
 begin
-  if lstCBWPT.ItemIndex <> -1 then begin
-    if TFMain(FMain).MutexAcquire then begin
+  if lstCBWPT.ItemIndex <> -1 then
+  begin
+    if TFMain(FMain).MutexAcquire then
+    begin
       BBot.Cavebot.StartItemIndex := lstCBWPT.ItemIndex;
       TFMain(FMain).MutexRelease;
     end;
@@ -277,8 +303,10 @@ end;
 
 procedure TCavebotFrame.InsertHere1Click(Sender: TObject);
 begin
-  if lstCBWPT.ItemIndex <> -1 then begin
-    CavebotInsertIndex := BIf(lstCBWPT.ItemIndex = CavebotInsertIndex, -1, lstCBWPT.ItemIndex);
+  if lstCBWPT.ItemIndex <> -1 then
+  begin
+    CavebotInsertIndex := BIf(lstCBWPT.ItemIndex = CavebotInsertIndex, -1,
+      lstCBWPT.ItemIndex);
     lstCBWPT.Invalidate;
   end;
 end;
@@ -306,12 +334,14 @@ end;
 
 procedure TCavebotFrame.AddGoLabel1Click(Sender: TObject);
 begin
-  FastAddCB('GoLabel', InputBox('Add go label', 'Please type the label name:', 'MyLabel'));
+  FastAddCB('GoLabel', InputBox('Add go label', 'Please type the label name:',
+    'MyLabel'));
 end;
 
 procedure TCavebotFrame.GoRandomLabel1Click(Sender: TObject);
 begin
-  FastAddCB('GoRandomLabel', InputBox('Add go random label', 'Please type the label names separated by comma:',
+  FastAddCB('GoRandomLabel', InputBox('Add go random label',
+    'Please type the label names separated by comma:',
     'MyLabel1, MyLabel2, MyLabel3...'));
 end;
 
@@ -354,14 +384,16 @@ end;
 
 procedure TCavebotFrame.AddLabel1Click(Sender: TObject);
 begin
-  FastAddCB('Label', InputBox('Add Label', 'Please type the label name:', 'MyLabel'));
+  FastAddCB('Label', InputBox('Add Label', 'Please type the label name:',
+    'MyLabel'));
 end;
 
 procedure TCavebotFrame.AddNPCSay1Click(Sender: TObject);
 var
   Text: BStr;
 begin
-  Text := InputBox('Add NPC say', 'Please type what the bot will say in npc channel:', 'Hello!');
+  Text := InputBox('Add NPC say',
+    'Please type what the bot will say in npc channel:', 'Hello!');
   if Text <> '' then
     FastAddCB('NPCSay', Text);
 end;
@@ -397,7 +429,8 @@ var
   TargetID, UseID, TargetX, TargetY, TargetZ: BInt32;
   Pattern: BStr;
 begin
-  if not WikiGuideShownMapTool then begin
+  if not WikiGuideShownMapTool then
+  begin
     DoOpenURL('http://wiki.bmega.net/doku.php?id=add_types#map_tool');
     WikiGuideShownMapTool := True;
   end;
@@ -406,16 +439,20 @@ begin
   Text := Text + 'Y: ' + IntToStr(Me.Position.Y) + #10;
   Text := Text + 'Z: ' + IntToStr(Me.Position.Z) + #10;
   Text := Text + 'Read the Wiki for a tutorial!';
-  if GambitBox('Cavebot Map Tool', Text, 'TargetID, UseID, TargetX, TargetY, TargetZ', False, Ret) then begin
+  if GambitBox('Cavebot Map Tool', Text,
+    'TargetID, UseID, TargetX, TargetY, TargetZ', False, Ret) then
+  begin
     TargetID := BStrTo32(Ret[0], -1);
     UseID := BStrTo32(Ret[1], -1);
     TargetX := BStrTo32(Ret[2], -1);
     TargetY := BStrTo32(Ret[3], -1);
     TargetZ := BStrTo32(Ret[4], -1);
-    if (TargetID = -1) or (UseID = -1) or (TargetX = -1) or (TargetY = -1) or (TargetZ = -1) then
+    if (TargetID = -1) or (UseID = -1) or (TargetX = -1) or (TargetY = -1) or
+      (TargetZ = -1) then
       Exit;
     Pattern := 'Target: %d Use: %d Pos: %d %d %d';
-    FastAddCB('MapTool', BFormat(Pattern, [TargetID, UseID, TargetX, TargetY, TargetZ]));
+    FastAddCB('MapTool', BFormat(Pattern, [TargetID, UseID, TargetX, TargetY,
+      TargetZ]));
   end;
 end;
 
@@ -429,7 +466,8 @@ var
   Ret: BStrArray;
   Text: BStr;
 begin
-  if not WikiGuideShownFullCheck then begin
+  if not WikiGuideShownFullCheck then
+  begin
     DoOpenURL('http://wiki.bmega.net/doku.php?id=add_types#full_check');
     WikiGuideShownFullCheck := True;
   end;
@@ -465,7 +503,8 @@ begin
   C.Width := L.Width * 2;
   C.Height := 25;
   for I := 0 to TFMain(FMain).MacrosFrame.lstMacros.Items.Count - 1 do
-    C.Items.Add(BStrBetween(TFMain(FMain).MacrosFrame.lstMacros.Items.Strings[I], '{', '}'));
+    C.Items.Add(BStrBetween(TFMain(FMain).MacrosFrame.lstMacros.Items.Strings
+      [I], '{', '}'));
 
   B.Parent := F;
   B.Caption := 'Ok';
@@ -524,20 +563,25 @@ var
   Ret: BStrArray;
   Text: BStr;
 begin
-  if not WikiGuideShownFullCheck then begin
+  if not WikiGuideShownFullCheck then
+  begin
     DoOpenURL('http://wiki.bmega.net/doku.php?id=add_types#full_check_label');
     WikiGuideShownFullCheck := True;
   end;
   Text := 'Read the Wiki for a tutorial!';
-  if GambitBox('Cavebot Full Check', 'FullCheck Code', 'Code, Label On Full, Else', False, Ret) then
-    FastAddCB('FullCheck', BFormat('Full %s Else %s Code %s', [Ret[1], Ret[2], Ret[0]]));
+  if GambitBox('Cavebot Full Check', 'FullCheck Code',
+    'Code, Label On Full, Else', False, Ret) then
+    FastAddCB('FullCheck', BFormat('Full %s Else %s Code %s',
+      [Ret[1], Ret[2], Ret[0]]));
 end;
 
 procedure TCavebotFrame.Buy1Click(Sender: TObject);
 var
   Ret: BStrArray;
 begin
-  if GambitBox('Cavebot Buy', 'Setup for a BUY ITEM on a NPC TRADE.', 'ID, Total', False, Ret) then begin
+  if GambitBox('Cavebot Buy', 'Setup for a BUY ITEM on a NPC TRADE.',
+    'ID, Total', False, Ret) then
+  begin
     FastAddCBNPCHi();
     FastAddCB('NPCSay', 'trade');
     FastAddCB('Buy', Ret[0] + ' ' + Ret[1]);
@@ -548,7 +592,9 @@ procedure TCavebotFrame.Withdraw1Click(Sender: TObject);
 var
   Ret: BStrArray;
 begin
-  if GambitBox('Cavebot Bank Withdraw', 'Setup for a WITHDRAW.', 'ID, UnitPrice, Total', False, Ret) then begin
+  if GambitBox('Cavebot Bank Withdraw', 'Setup for a WITHDRAW.',
+    'ID, UnitPrice, Total', False, Ret) then
+  begin
     FastAddCBNPCHi();
     FastAddCB('NPCSay', 'withdraw');
     FastAddCB('Withdraw', Ret[0] + ' ' + Ret[1] + ' ' + Ret[2]);
@@ -565,7 +611,8 @@ procedure TCavebotFrame.Sell1Click(Sender: TObject);
 var
   Ret: BStrArray;
 begin
-  if GambitBox('Cavebot Sell', 'Setup for a item sell.', 'ID', False, Ret) then begin
+  if GambitBox('Cavebot Sell', 'Setup for a item sell.', 'ID', False, Ret) then
+  begin
     FastAddCBNPCHi();
     FastAddCB('NPCSay', 'trade');
     FastAddCB('Sell', Ret[0]);
@@ -577,12 +624,14 @@ var
   Ret: BStrArray;
   Text: BStr;
 begin
-  if not WikiGuideShownSuplies then begin
+  if not WikiGuideShownSuplies then
+  begin
     DoOpenURL('http://wiki.bmega.net/doku.php?id=add_types&#suplies_withdraw');
     WikiGuideShownSuplies := True;
   end;
   Text := 'Read the Wiki for a tutorial!';
-  if GambitBox('Cavebot Suplies Withdraw', 'SupliesWithdraw Code', 'Item List', False, Ret) then
+  if GambitBox('Cavebot Suplies Withdraw', 'SupliesWithdraw Code', 'Item List',
+    False, Ret) then
     FastAddCB('SupliesWithdraw', Ret[0]);
 end;
 
@@ -602,7 +651,8 @@ procedure TCavebotFrame.Clear1Click(Sender: TObject);
 var
   MRet: BInt32;
 begin
-  MRet := MessageDlg('Are you sure to clear the waypoint list?', mtConfirmation, [mbYes, mbNo], 0);
+  MRet := MessageDlg('Are you sure to clear the waypoint list?', mtConfirmation,
+    [mbYes, mbNo], 0);
   if MRet = mrYes then
     lstCBWPT.Clear;
 end;
@@ -644,16 +694,22 @@ procedure TCavebotFrame.FastAddCB(AText, AParam: BStr; APosition: BPos);
 var
   S: BStr;
 begin
-  S := BFormat('%s (%s%s)', [AText, BStr(APosition), BIf(AParam = '', '', ':' + AParam)]);
+  S := BFormat('%s (%s%s)', [AText, BStr(APosition), BIf(AParam = '', '',
+    ':' + AParam)]);
   if AText <> 'Point' then
-    if TFMain(FMain).MutexAcquire then begin
+    if TFMain(FMain).MutexAcquire then
+    begin
       BBot.Cavebot.LearnIgnoreNextFrom := True;
       TFMain(FMain).MutexRelease;
     end;
-  if (CavebotInsertIndex <> -1) and (CavebotInsertIndex < lstCBWPT.Items.Count) then begin
+  if (CavebotInsertIndex <> -1) and (CavebotInsertIndex < lstCBWPT.Items.Count)
+  then
+  begin
     lstCBWPT.Items.Insert(CavebotInsertIndex + 1, S);
     Inc(CavebotInsertIndex);
-  end else begin
+  end
+  else
+  begin
     lstCBWPT.Items.Add(S);
     CavebotInsertIndex := -1;
   end;
@@ -663,8 +719,10 @@ procedure TCavebotFrame.FastAddCBNPCHi;
 var
   S: BStr;
 begin
-  if lstCBWPT.Items.Count > 0 then begin
-    if (CavebotInsertIndex <> -1) and (CavebotInsertIndex < lstCBWPT.Items.Count) then
+  if lstCBWPT.Items.Count > 0 then
+  begin
+    if (CavebotInsertIndex <> -1) and (CavebotInsertIndex < lstCBWPT.Items.Count)
+    then
       S := lstCBWPT.Items.Strings[CavebotInsertIndex]
     else
       S := lstCBWPT.Items.Strings[lstCBWPT.Items.Count - 1];
@@ -675,12 +733,14 @@ begin
   if BStrStart(S, 'Say ') and BStrEnd(S, ':hi)') then
     Exit;
   // If last point was: NPCSay|Buy|Sell|Withdraw (X Y Z:??), skip new 'hi'
-  if BStrStart(S, 'NPCSay ') or BStrStart(S, 'Buy ') or BStrStart(S, 'Sell ') or BStrStart(S, 'Withdraw ') then
+  if BStrStart(S, 'NPCSay ') or BStrStart(S, 'Buy ') or BStrStart(S, 'Sell ') or
+    BStrStart(S, 'Withdraw ') then
     Exit;
   FastAddCB('Say', 'hi');
 end;
 
-procedure TCavebotFrame.lstCBWPTDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TCavebotFrame.lstCBWPTDrawItem(Control: TWinControl; Index: Integer;
+Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
 begin
@@ -709,7 +769,8 @@ begin
       lstCBWPT.AddItem(BTrim(Res[I]), nil);
 end;
 
-procedure TCavebotFrame.lstCBWPTKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TCavebotFrame.lstCBWPTKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
 end;
@@ -728,7 +789,8 @@ procedure TCavebotFrame.Edit1Click(Sender: TObject);
 var
   S: string;
 begin
-  if lstCBWPT.ItemIndex <> -1 then begin
+  if lstCBWPT.ItemIndex <> -1 then
+  begin
     S := lstCBWPT.Items[lstCBWPT.ItemIndex];
     if InputQuery('Waypoint Edit', 'Editing a waypoint item', S) then
       lstCBWPT.Items[lstCBWPT.ItemIndex] := S;

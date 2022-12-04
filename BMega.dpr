@@ -1,6 +1,5 @@
 program BMega;
 
-
 {$IFNDEF Release}
 {$DEFINE MemoryDebug}
 {$ENDIF}
@@ -13,13 +12,15 @@ program BMega;
 {$ENDIF}
 
 uses
-  AdvancedAttackWaveFormatDesigner in 'Source\UI\AdvancedAttackWaveFormatDesigner.pas' {AdvancedAttackWaveFormatDesignerFrame: TFrame},
+  AdvancedAttackWaveFormatDesigner
+    in 'Source\UI\AdvancedAttackWaveFormatDesigner.pas' {AdvancedAttackWaveFormatDesignerFrame: TFrame} ,
   BBotEngine in 'Source\BBotEngine.pas',
   Blowfish in 'Source\Blowfish.pas',
   Declaracoes in 'Source\Declaracoes.pas',
   Inject in 'Source\Inject.pas',
   uAStar in 'Source\uAStar.pas',
-  uAdvancedAttackFrame in 'Source\UI\uAdvancedAttackFrame.pas' {AdvancedAttackFrame: TFrame},
+  uAdvancedAttackFrame
+    in 'Source\UI\uAdvancedAttackFrame.pas' {AdvancedAttackFrame: TFrame} ,
   uBBinaryHeap in 'Source\uBBinaryHeap.pas',
   uBBotAction in 'Source\uBBotAction.pas',
   uBBotAddresses in 'Source\uBBotAddresses.pas',
@@ -95,7 +96,8 @@ uses
   uBBotSpells in 'Source\Modules\uBBotSpells.pas',
   uBBotStats in 'Source\Modules\uBBotStats.pas',
   uBBotSupliesStats in 'Source\Modules\uBBotSupliesStats.pas',
-  uBBotTargetAreaShooter in 'Source\Modules\Attack\Shooter\uBBotTargetAreaShooter.pas',
+  uBBotTargetAreaShooter
+    in 'Source\Modules\Attack\Shooter\uBBotTargetAreaShooter.pas',
   uBBotTestEngine in 'Source\Modules\uBBotTestEngine.pas',
   uBBotTradeWatcher in 'Source\Modules\uBBotTradeWatcher.pas',
   uBBotTradeWindow in 'Source\Modules\uBBotTradeWindow.pas',
@@ -103,10 +105,13 @@ uses
   uBBotTrainer in 'Source\Modules\Attack\uBBotTrainer.pas',
   uBBotWalkState in 'Source\Modules\uBBotWalkState.pas',
   uBBotWalker2 in 'Source\Modules\Walk\uBBotWalker2.pas',
-  uBBotWalkerDistancerTask in 'Source\Modules\Walk\uBBotWalkerDistancerTask.pas',
+  uBBotWalkerDistancerTask
+    in 'Source\Modules\Walk\uBBotWalkerDistancerTask.pas',
   uBBotWalkerPathFinder in 'Source\Modules\Walk\uBBotWalkerPathFinder.pas',
-  uBBotWalkerPathFinderCreature in 'Source\Modules\Walk\uBBotWalkerPathFinderCreature.pas',
-  uBBotWalkerPathFinderPosition in 'Source\Modules\Walk\uBBotWalkerPathFinderPosition.pas',
+  uBBotWalkerPathFinderCreature
+    in 'Source\Modules\Walk\uBBotWalkerPathFinderCreature.pas',
+  uBBotWalkerPathFinderPosition
+    in 'Source\Modules\Walk\uBBotWalkerPathFinderPosition.pas',
   uBBotWalkerTask in 'Source\Modules\Walk\uBBotWalkerTask.pas',
   uBBotWarBot in 'Source\Modules\uBBotWarBot.pas',
   uBBotWarNet in 'Source\Modules\WarNet\uBBotWarNet.pas',
@@ -124,7 +129,7 @@ uses
   uDownloader in 'Source\uDownloader.pas',
   uEngine in 'Source\uEngine.pas',
   uEventCounter in 'Source\uEventCounter.pas',
-  uFLootItems in 'Source\UI\uFLootItems.pas' {FLootItems},
+  uFLootItems in 'Source\UI\uFLootItems.pas' {FLootItems} ,
   uHUD in 'Source\uHUD.pas',
   uInventory in 'Source\uInventory.pas',
   uItem in 'Source\uItem.pas',
@@ -132,10 +137,10 @@ uses
   uItemLoader in 'Source\uItemLoader.pas',
   uKMeans in 'Source\uKMeans.pas',
   uLogin in 'Source\uLogin.pas',
-  uMCEditor in 'Source\UI\uMCEditor.pas' {frmMC},
+  uMCEditor in 'Source\UI\uMCEditor.pas' {frmMC} ,
   uMacroCore in 'Source\Macro\uMacroCore.pas',
   uBBotMacroFunctions in 'Source\Macro\uBBotMacroFunctions.pas',
-  uMain in 'Source\UI\uMain.pas' {FMain},
+  uMain in 'Source\UI\uMain.pas' {FMain} ,
   uPackets in 'Source\uPackets.pas',
   uRegex in 'Source\uRegex.pas',
   uSelf in 'Source\uSelf.pas',
@@ -157,29 +162,34 @@ uses
   Windows,
   ExtCtrls,
   System.UITypes,
-  uCavebotFrame in 'Source\UI\uCavebotFrame.pas' {CavebotFrame: TFrame},
-  uDebugFrame in 'Source\UI\uDebugFrame.pas' {DebugFrame: TFrame},
-  uReconnectManagerFrame in 'Source\UI\uReconnectManagerFrame.pas' {ReconnectManagerFrame: TFrame},
-  uUserErrorFrame in 'Source\UI\uUserErrorFrame.pas' {UserErrorFrame: TFrame},
+  uCavebotFrame in 'Source\UI\uCavebotFrame.pas' {CavebotFrame: TFrame} ,
+  uDebugFrame in 'Source\UI\uDebugFrame.pas' {DebugFrame: TFrame} ,
+  uReconnectManagerFrame
+    in 'Source\UI\uReconnectManagerFrame.pas' {ReconnectManagerFrame: TFrame} ,
+  uUserErrorFrame in 'Source\UI\uUserErrorFrame.pas' {UserErrorFrame: TFrame} ,
   uUserError in 'Source\uUserError.pas',
   uBBotPositionStatistics in 'Source\Modules\uBBotPositionStatistics.pas',
-  uMacrosFrame in 'Source\UI\uMacrosFrame.pas' {MacrosFrame: TFrame},
-  uLooterFrame in 'Source\UI\uLooterFrame.pas' {LooterFrame: TFrame},
+  uMacrosFrame in 'Source\UI\uMacrosFrame.pas' {MacrosFrame: TFrame} ,
+  uLooterFrame in 'Source\UI\uLooterFrame.pas' {LooterFrame: TFrame} ,
   uBBotWarNetServerQuery in 'Source\Modules\WarNet\uBBotWarNetServerQuery.pas',
   uBBotTCPSocket in 'Source\uBBotTCPSocket.pas',
   uBBotWarNetProtocol in 'Source\Modules\WarNet\uBBotWarNetProtocol.pas',
-  uWarNetFrame in 'Source\UI\uWarNetFrame.pas' {WarNetFrame: TFrame},
-  uDebugWalkerFrame in 'Source\UI\uDebugWalkerFrame.pas' {DebugWalkerFrame: TFrame},
+  uWarNetFrame in 'Source\UI\uWarNetFrame.pas' {WarNetFrame: TFrame} ,
+  uDebugWalkerFrame
+    in 'Source\UI\uDebugWalkerFrame.pas' {DebugWalkerFrame: TFrame} ,
   uBBotGUIMessages in 'Source\UI\uBBotGUIMessages.pas',
   uBCache in 'Source\uBCache.pas',
-  uKillerFrame in 'Source\UI\uKillerFrame.pas' {KillerFrame: TFrame},
-  uSpecialSQMsFrame in 'Source\UI\uSpecialSQMsFrame.pas' {SpecialSQMsFrame: TFrame},
-  uFriendHealerFrame in 'Source\UI\uFriendHealerFrame.pas' {FriendHealerFrame: TFrame},
+  uKillerFrame in 'Source\UI\uKillerFrame.pas' {KillerFrame: TFrame} ,
+  uSpecialSQMsFrame
+    in 'Source\UI\uSpecialSQMsFrame.pas' {SpecialSQMsFrame: TFrame} ,
+  uFriendHealerFrame
+    in 'Source\UI\uFriendHealerFrame.pas' {FriendHealerFrame: TFrame} ,
   uBBotItemSelector in 'Source\UI\uBBotItemSelector.pas',
-  uAttackSequencesFrame in 'Source\UI\uAttackSequencesFrame.pas' {AttackSequencesFrame: TFrame},
-  uManaToolsFrame in 'Source\UI\uManaToolsFrame.pas' {ManaToolsFrame: TFrame},
-  uHealerFrame in 'Source\UI\uHealerFrame.pas' {HealerFrame: TFrame},
-  uVariablesFrame in 'Source\UI\uVariablesFrame.pas' {VariablesFrame: TFrame},
+  uAttackSequencesFrame
+    in 'Source\UI\uAttackSequencesFrame.pas' {AttackSequencesFrame: TFrame} ,
+  uManaToolsFrame in 'Source\UI\uManaToolsFrame.pas' {ManaToolsFrame: TFrame} ,
+  uHealerFrame in 'Source\UI\uHealerFrame.pas' {HealerFrame: TFrame} ,
+  uVariablesFrame in 'Source\UI\uVariablesFrame.pas' {VariablesFrame: TFrame} ,
   uBBotSummonDetector in 'Source\Modules\Attack\uBBotSummonDetector.pas',
   uMacroEngine in 'Source\Macro\uMacroEngine.pas',
   uMacroVariable in 'Source\Macro\uMacroVariable.pas',
@@ -197,8 +207,10 @@ var
 begin
   try
     BBotEngine.BotPath := ExtractFilePath(Application.ExeName);
-    if ParamCount <> 0 then begin
-      if ParamStr(1) = 'clienttools' then begin
+    if ParamCount <> 0 then
+    begin
+      if ParamStr(1) = 'clienttools' then
+      begin
         Application.Initialize;
         Application.Title := 'BMega';
         F := TfrmMC.Create(nil);
@@ -211,22 +223,28 @@ begin
     end;
     BBClearUpdate;
     TibiaState := nil;
-    if not FileExists(BotPath + 'BDll.dll') then begin
-      MessageDlg('[Critical] Cannot find BDll.dll, please, download again!', mtError, [mbOK], 0);
+    if not FileExists(BotPath + 'BDll.dll') then
+    begin
+      MessageDlg('[Critical] Cannot find BDll.dll, please, download again!',
+        mtError, [mbOK], 0);
       Exit;
     end;
 
     case DoLogin of
-    frSuccess: begin
-        Application.Initialize;
-        Application.Title := 'BMega';
-        Application.Run;
-      end;
-    frNotAdmin:
-        MessageDlg('Sorry, to run the BBot you need administration rights.'#13#10 +
-        'To proceed please right-click on the BBot icon and select the'#13#10 +
-        'option "Run as administrator".'#13#10#13#10'The BBot is now closing.', mtError, [mbOK], 0);
-  else;
+      frSuccess:
+        begin
+          Application.Initialize;
+          Application.Title := 'BMega';
+          Application.Run;
+        end;
+      frNotAdmin:
+        MessageDlg
+          ('Sorry, to run the BBot you need administration rights.'#13#10 +
+          'To proceed please right-click on the BBot icon and select the'#13#10
+          + 'option "Run as administrator".'#13#10#13#10'The BBot is now closing.',
+          mtError, [mbOK], 0);
+    else
+      ;
     end;
     EngineLoad := elDestroying;
   except
@@ -244,9 +262,9 @@ begin
   if DebugHook <> 0 then
     Exit;
 {$ENDIF}
-  try BBotMain();
+  try
+    BBotMain();
   finally
   end;
 
 end.
-

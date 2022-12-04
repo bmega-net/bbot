@@ -1,5 +1,5 @@
 unit uBBotExpStats;
-
+
 interface
 
 uses
@@ -68,19 +68,25 @@ var
   PerHourFactor: BDbl;
 begin
   HUD := CreateHUD(bhgExpStats, 'EXP Statistics', $00FFFF);
-  if (ExpValue > Me.Experience) or (ExpValue = 0) then begin
+  if (ExpValue > Me.Experience) or (ExpValue = 0) then
+  begin
     Reset;
     HUD.PrintGray('None');
-  end else begin
+  end
+  else
+  begin
     ToNextLevel := Tibia.CalcExp(Me.Level + 1) - Me.Experience;
     ToNextLevel_Perc := 100 - Me.LevelPercent;
     Gained := Me.Experience - ExpValue;
     Gained_Perc := ((Me.Level * 100) + Me.LevelPercent) - ExpPercent;
-    if Gained < 0 then begin
+    if Gained < 0 then
+    begin
       Hour := 0;
       Hour_Perc := 0;
       TimeToGo := MaxTimeToGo;
-    end else begin
+    end
+    else
+    begin
       PerHourFactor := Stats.PerHourFactor;
       Hour := BCeil(Gained * PerHourFactor);
       Hour_Perc := Gained_Perc * PerHourFactor;
@@ -89,7 +95,8 @@ begin
       else
         TimeToGo := MaxTimeToGo;
     end;
-    HUD.PrintGray(BFormat('To Next Level: %d = %d%%', [ToNextLevel, ToNextLevel_Perc]));
+    HUD.PrintGray(BFormat('To Next Level: %d = %d%%',
+      [ToNextLevel, ToNextLevel_Perc]));
     HUD.PrintGray(BFormat('Gained: %d (%d%%)', [Gained, Gained_Perc]));
     HUD.PrintGray(BFormat('Hour: %d (%f%%)', [Hour, Hour_Perc]));
     HUD.PrintGray(BFormat('Time to Next Level: %s', [SecToTime(TimeToGo)]));
@@ -100,4 +107,4 @@ begin
 end;
 
 end.
-
+

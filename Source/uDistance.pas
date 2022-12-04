@@ -1,5 +1,5 @@
 unit uDistance;
-
+
 interface
 
 uses
@@ -18,7 +18,8 @@ const
   TileCost_ExtremeAvoid = 32.0;
   TileCost_NotWalkable = 999.0;
 
-function DiagonalDistance(OX, OY, TX, TY: BInt32; CostDiagonal, CostStraight: BUInt32): BUInt32;
+function DiagonalDistance(OX, OY, TX, TY: BInt32;
+  CostDiagonal, CostStraight: BUInt32): BUInt32;
 function NormalDistance(OX, OY, TX, TY: BInt32): BUInt32;
 function SQMDistance(OX, OY, TX, TY: BInt32): BUInt32;
 
@@ -28,13 +29,15 @@ uses
   Math,
   SysUtils;
 
-function DiagonalDistance(OX, OY, TX, TY: BInt32; CostDiagonal, CostStraight: BUInt32): BUInt32;
+function DiagonalDistance(OX, OY, TX, TY: BInt32;
+  CostDiagonal, CostStraight: BUInt32): BUInt32;
 var
   dx, dy: BUInt32;
 begin
   dx := BAbs(OX - TX);
   dy := BAbs(OY - TY);
-  Result := CostStraight * (dx + dy) + (CostDiagonal - 2 * CostStraight) * BMin(dx, dy);
+  Result := CostStraight * (dx + dy) + (CostDiagonal - 2 * CostStraight) *
+    BMin(dx, dy);
 end;
 
 function NormalDistance(OX, OY, TX, TY: BInt32): BUInt32;
@@ -56,4 +59,4 @@ begin
 end;
 
 end.
-
+

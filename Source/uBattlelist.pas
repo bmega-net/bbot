@@ -1,5 +1,5 @@
 unit uBattlelist;
-
+
 interface
 
 uses
@@ -116,7 +116,8 @@ type
 
     property Walking: BBool read GetWalking write SetWalking;
     property Outfit: TTibiaOutfit read GetOutfit write SetOutfit;
-    property LightIntensity: BInt32 read GetLightIntensity write SetLightIntensity;
+    property LightIntensity: BInt32 read GetLightIntensity
+      write SetLightIntensity;
     property LightColor: BInt32 read GetLightColor write SetLightColor;
 
     property Level: BInt32 read GetLevel;
@@ -175,7 +176,8 @@ begin
     Result := BBot.Creatures.Has(
       function(Creature: TBBotCreature): BBool
       begin
-        if Creature.IsPlayer and (not Creature.IsSelf) and Creature.IsAlive and (Creature.DistanceTo(Position) < 2) then
+        if Creature.IsPlayer and (not Creature.IsSelf) and Creature.IsAlive and
+          (Creature.DistanceTo(Position) < 2) then
           Exit(True);
         Result := False;
       end);
@@ -199,9 +201,12 @@ end;
 procedure TBBotCreature.SuperFollow;
 begin
   BBot.SuperFollow.SuperFollow(ID);
-  if Me.Position.Z = Position.Z then begin
+  if Me.Position.Z = Position.Z then
+  begin
     Follow
-  end else begin
+  end
+  else
+  begin
     if Me.DistanceTo(BPosXYZ(Position.X, Position.Y, Me.Position.Z)) < 5 then
       if Me.Position.Z > Position.Z then
         BBot.Cavebot.GoFloorUp(Position)
@@ -213,7 +218,8 @@ end;
 function TBBotCreature.IsReachable: BBool;
 begin
   Result := IsVisible and (Position.Z = Me.Position.Z) and
-    ((Me.DistanceTo(Self) <= 1) or BInRange(BBot.Walker.ApproachToCost(Position, 10), 0, 10));
+    ((Me.DistanceTo(Self) <= 1) or BInRange(BBot.Walker.ApproachToCost(Position,
+    10), 0, 10));
 end;
 
 procedure TBBotCreature.KeepDiagonal;
@@ -228,16 +234,20 @@ var
 begin
   CurrentDistance := Me.DistanceTo(Self);
   if CurrentDistance <> ADistance then
-    if BBot.Walker.Task = nil then begin
-      Path := TBBotPathFinderCreature.Create('KeepDistance from <' + Name + '> distance: ' + BToStr(ADistance));
+    if BBot.Walker.Task = nil then
+    begin
+      Path := TBBotPathFinderCreature.Create('KeepDistance from <' + Name +
+        '> distance: ' + BToStr(ADistance));
       Path.Creature := ID;
       if CurrentDistance < ADistance then
         Path.Distance := BMax(ADistance, 5)
       else
         Path.Distance := ADistance;
       Path.Execute;
-      if Path.Cost <> PathCost_NotPossible then begin
-        BBot.Walker.Task := TBBotCreatureDistancerTask.Create(ID, ADistance, Path);
+      if Path.Cost <> PathCost_NotPossible then
+      begin
+        BBot.Walker.Task := TBBotCreatureDistancerTask.Create(ID,
+          ADistance, Path);
       end
       else
         Path.Free;
@@ -279,7 +289,9 @@ end;
 
 procedure TBBotCreature.SetAllyEnemy;
 begin
-  if (_AllyEnemy.Version <> BBot.WarBot.AlliesEnemiesVersion) or (_AllyEnemy.ID <> ID) then begin
+  if (_AllyEnemy.Version <> BBot.WarBot.AlliesEnemiesVersion) or
+    (_AllyEnemy.ID <> ID) then
+  begin
     _AllyEnemy.Version := BBot.WarBot.AlliesEnemiesVersion;
     _AllyEnemy.ID := ID;
     _AllyEnemy.Ally := BBot.WarBot.IsAlly(Name) or IsSelf;
@@ -293,4 +305,4 @@ begin
 end;
 
 end.
-
+

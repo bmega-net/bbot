@@ -1,5 +1,5 @@
 unit uPackets;
-
+
 interface
 
 uses
@@ -57,8 +57,10 @@ const
 
 constructor TBBotPacketQueue.Create;
 begin
-  PacketTibia := TBBotPacket.CreateSharedMemory('bin' + IntToStr(BInt32(TibiaProcess.PID)), _PacketBufferTibiaSize);
-  PacketBot := TBBotPacket.CreateSharedMemory('bou' + IntToStr(BInt32(TibiaProcess.PID)), _PacketBufferBotSize);
+  PacketTibia := TBBotPacket.CreateSharedMemory
+    ('bin' + IntToStr(BInt32(TibiaProcess.PID)), _PacketBufferTibiaSize);
+  PacketBot := TBBotPacket.CreateSharedMemory
+    ('bou' + IntToStr(BInt32(TibiaProcess.PID)), _PacketBufferBotSize);
   PacketTibia.Position := 0;
   PacketTibia.WriteBInt32(_PacketBufferIDLE);
   PacketBot.Position := 0;
@@ -92,10 +94,13 @@ var
   Buffer: Pointer;
 begin
   PacketTibia.Position := 0;
-  if PacketTibia.GetBInt32 = _PacketBufferRead then begin
-    while not PacketTibia.EOP do begin
+  if PacketTibia.GetBInt32 = _PacketBufferRead then
+  begin
+    while not PacketTibia.EOP do
+    begin
       From := PacketTibia.GetBInt32;
-      if From = _PacketEOP then begin
+      if From = _PacketEOP then
+      begin
         PacketTibia.Position := 0;
         PacketTibia.WriteBInt32(_PacketBufferIDLE);
         Exit;
@@ -125,8 +130,9 @@ begin
   repeat
     Sleep(5);
     PacketBot.Position := 0;
-  until (PacketBot.GetBInt32 = _PacketBufferIDLE) or (EngineLoad = elDestroying);
+  until (PacketBot.GetBInt32 = _PacketBufferIDLE) or
+    (EngineLoad = elDestroying);
 end;
 
 end.
-
+

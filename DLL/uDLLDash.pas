@@ -15,6 +15,7 @@ uses uDllPackets;
 
 const
   Dash_Keys: set of BInt8 = [VK_UP, VK_RIGHT, VK_DOWN, VK_LEFT, VK_DELETE];
+
 var
   DashPacket: BInt8 = 0;
   LastDashPacket: BInt8 = 0;

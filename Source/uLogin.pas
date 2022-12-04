@@ -21,8 +21,9 @@ var
   Sockad: BBool;
 
 type
-  BLoginRet = (frNone = 0, frSuccess, frError, frErrorConnecting, frErrorSendingHeaders, frErrorReceivingHeaders,
-    frErrorReadingDataChuncked, frErrorReadingData, frInvalidPasswordSymbols, frNotAdmin);
+  BLoginRet = (frNone = 0, frSuccess, frError, frErrorConnecting,
+    frErrorSendingHeaders, frErrorReceivingHeaders, frErrorReadingDataChuncked,
+    frErrorReadingData, frInvalidPasswordSymbols, frNotAdmin);
 
 function DoLogin: BLoginRet;
 
@@ -71,8 +72,10 @@ type
     procedure ClearCharList;
     procedure LoadNextControl(Control: TControl; MarginWidth, Height: Integer);
     procedure LoadCharacterList;
-    procedure AddCharForProcess(AutoDetected: BBool; Version: TTibiaVersion; hWnd: BUInt32);
-    procedure AddAutoDetectVersionForProcess(IsPreview: BBool; IsTest: BBool; hWnd: BUInt32);
+    procedure AddCharForProcess(AutoDetected: BBool; Version: TTibiaVersion;
+      hWnd: BUInt32);
+    procedure AddAutoDetectVersionForProcess(IsPreview: BBool; IsTest: BBool;
+      hWnd: BUInt32);
     function ListContainsProcessID(APID: BUInt32): BBool;
     procedure fOnPaint(Sender: TObject);
     procedure fOnLogin(Sender: TObject);
@@ -80,7 +83,8 @@ type
     procedure fClientToolsEnter(Sender: TObject);
     procedure fClientToolsLeave(Sender: TObject);
     procedure fClientToolsClick(Sender: TObject);
-    procedure fLSDraw(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure fLSDraw(Control: TWinControl; Index: Integer; Rect: TRect;
+      State: TOwnerDrawState);
     procedure fLSClick(Sender: TObject);
     procedure beginListUpdate;
     procedure addList(AText: String; AObject: TObject);
@@ -121,22 +125,29 @@ end;
 
 { FLogin }
 
-procedure FLogin.AddAutoDetectVersionForProcess(IsPreview: BBool; IsTest: BBool; hWnd: BUInt32);
+procedure FLogin.AddAutoDetectVersionForProcess(IsPreview: BBool; IsTest: BBool;
+  hWnd: BUInt32);
 var
   Ver: BStr;
   Version: TTibiaVersion;
 begin
   TibiaProcess.hWnd := hWnd;
   TibiaProcess.RenewHandle;
-  if TibiaProcess.Handle <> 0 then begin
+  if TibiaProcess.Handle <> 0 then
+  begin
     Ver := TibiaProcess.FileVersion;
-    if IsPreview then begin
+    if IsPreview then
+    begin
       Ver := 'P' + Ver;
-    end else if IsTest then begin
+    end
+    else if IsTest then
+    begin
       Ver := 'T' + Ver;
     end;
-    for Version := TibiaVerFirst to TibiaVerLast do begin
-      if BStrStart(Ver, BotVerSupported[Version]) then begin
+    for Version := TibiaVerFirst to TibiaVerLast do
+    begin
+      if BStrStart(Ver, BotVerSupported[Version]) then
+      begin
         AddCharForProcess(True, Version, hWnd);
         Exit;
       end;
@@ -145,42 +156,57 @@ begin
   addList(Ver + '::unsupported', nil);
 end;
 
-procedure FLogin.AddCharForProcess(AutoDetected: BBool; Version: TTibiaVersion; hWnd: BUInt32);
+procedure FLogin.AddCharForProcess(AutoDetected: BBool; Version: TTibiaVersion;
+  hWnd: BUInt32);
 var
   CreatureList: TBBotCreatures;
   VersionLabel: BStr;
 begin
   TibiaProcess.hWnd := hWnd;
   AdrSelected := Version;
-  if not ListContainsProcessID(TibiaProcess.PID) then begin
+  if not ListContainsProcessID(TibiaProcess.PID) then
+  begin
     VersionLabel := BotVerSupported[AdrSelected];
-    if not AutoDetected then begin
+    if not AutoDetected then
+    begin
       VersionLabel := '[ClientTools]' + VersionLabel;
     end;
     TibiaProcess.RenewHandle;
-    if TibiaProcess.Handle <> 0 then begin
+    if TibiaProcess.Handle <> 0 then
+    begin
       LoadAddresses;
       Me := TTibiaSelf.Create;
       Me.Reload;
-      if Me.Connected then begin
+      if Me.Connected then
+      begin
         CreatureList := TBBotCreatures.Get(AdrSelected);
         CreatureList.Reload;
-        if CreatureList.Player <> nil then begin
-          addList(VersionLabel + '::' + CreatureList.Player.Name, FLoginClientData.Create(TibiaProcess.hWnd,
-            TibiaProcess.PID, AdrSelected));
-        end else begin
-          addList(VersionLabel + '::Unable to read name', FLoginClientData.Create(TibiaProcess.hWnd, TibiaProcess.PID,
+        if CreatureList.Player <> nil then
+        begin
+          addList(VersionLabel + '::' + CreatureList.Player.Name,
+            FLoginClientData.Create(TibiaProcess.hWnd, TibiaProcess.PID,
+            AdrSelected));
+        end
+        else
+        begin
+          addList(VersionLabel + '::Unable to read name',
+            FLoginClientData.Create(TibiaProcess.hWnd, TibiaProcess.PID,
             AdrSelected));
         end;
         CreatureList.Free;
-      end else begin
-        addList(VersionLabel + '::Not Connected', FLoginClientData.Create(TibiaProcess.hWnd, TibiaProcess.PID,
+      end
+      else
+      begin
+        addList(VersionLabel + '::Not Connected',
+          FLoginClientData.Create(TibiaProcess.hWnd, TibiaProcess.PID,
           AdrSelected));
       end;
       Me.Free;
-    end else begin
-      addList(VersionLabel + ' hWnd/PID ' + BFormat('%d/%d', [TibiaProcess.hWnd, TibiaProcess.PID]) +
-        '::no rights', nil);
+    end
+    else
+    begin
+      addList(VersionLabel + ' hWnd/PID ' + BFormat('%d/%d', [TibiaProcess.hWnd,
+        TibiaProcess.PID]) + '::no rights', nil);
     end;
   end;
 end;
@@ -188,14 +214,19 @@ end;
 procedure FLogin.addList(AText: String; AObject: TObject);
 begin
   try
-    if lsChars <> nil then begin
+    if lsChars <> nil then
+    begin
       lsChars.AddItem(AText, AObject)
-    end else begin
+    end
+    else
+    begin
       raise Exception.Create('Error accessing lsc in al');
     end;
   except
-    on E: Exception do begin
-      raise Exception.Create('Error adding flc => ' + AText + BStrLine + E.Message);
+    on E: Exception do
+    begin
+      raise Exception.Create('Error adding flc => ' + AText + BStrLine +
+        E.Message);
     end;
   end;
 end;
@@ -220,8 +251,11 @@ var
   TokenElev: TTokenElevation;
 begin
   Result := True;
-  if OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, Handle) then begin
-    if GetTokenInformation(Handle, TokenElevation, @TokenElev, SizeOf(TokenElev), Size) then begin
+  if OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, Handle) then
+  begin
+    if GetTokenInformation(Handle, TokenElevation, @TokenElev,
+      SizeOf(TokenElev), Size) then
+    begin
       Result := TokenElev.TokenIsElevated = 1;
     end;
     CloseHandle(Handle);
@@ -232,9 +266,12 @@ procedure FLogin.ClearCharList;
 var
   I: BInt32;
 begin
-  if lsChars <> nil then begin
-    for I := 0 to lsChars.Count - 1 do begin
-      if lsChars.Items.Objects[I] <> nil then begin
+  if lsChars <> nil then
+  begin
+    for I := 0 to lsChars.Count - 1 do
+    begin
+      if lsChars.Items.Objects[I] <> nil then
+      begin
         lsChars.Items.Objects[I].Free;
       end;
     end;
@@ -257,7 +294,8 @@ begin
   LoginData := BFileGet('./Data/Login');
   LoginAcc := '';
   LoginPass := '';
-  if BStrStartSensitive(LoginData, 'Login') then begin
+  if BStrStartSensitive(LoginData, 'Login') then
+  begin
     LoginData := BStrCopy(LoginData, 7, Length(LoginData) - 7);
     LoginData := B16Decode(LoginData);
     LoginData := B64DecodeEx(LoginData);
@@ -297,17 +335,21 @@ begin
 
   LoadNextControl(nil, 0, 0);
 
-  FOnLogin(Self);
+  fOnLogin(Self);
 end;
 
 function FLogin.ListContainsProcessID(APID: BUInt32): BBool;
 var
   I: BInt32;
 begin
-  if lsChars <> nil then begin
-    for I := 0 to lsChars.Items.Count - 1 do begin
-      if lsChars.Items.Objects[I] <> nil then begin
-        if FLoginClientData(lsChars.Items.Objects[I]).ProcessID = APID then begin
+  if lsChars <> nil then
+  begin
+    for I := 0 to lsChars.Items.Count - 1 do
+    begin
+      if lsChars.Items.Objects[I] <> nil then
+      begin
+        if FLoginClientData(lsChars.Items.Objects[I]).ProcessID = APID then
+        begin
           Exit(True);
         end;
       end;
@@ -332,16 +374,21 @@ begin
     ClearCharList;
     DWnd := GetDesktopWindow;
     Wnd := FindWindowEx(DWnd, Wnd, nil, nil);
-    while Wnd <> 0 do begin
-      if GetClassNameA(Wnd, @ClassName[0], 32) = 0 then begin
+    while Wnd <> 0 do
+    begin
+      if GetClassNameA(Wnd, @ClassName[0], 32) = 0 then
+      begin
         raise Exception.Create('Error on lcl->className');
       end;
       IsNormal := SameText(BPChar(@ClassName[0]), 'tibiaclient');
       IsPreview := SameText(BPChar(@ClassName[0]), 'tibiaclientpreview');
       IsTest := SameText(BPChar(@ClassName[0]), 'tibiaclienttest');
-      if IsNormal or IsPreview or IsTest then begin
+      if IsNormal or IsPreview or IsTest then
+      begin
         AddAutoDetectVersionForProcess(IsPreview, IsTest, Wnd);
-      end else begin
+      end
+      else
+      begin
         GetWindowThreadProcessId(Wnd, ProcessID);
         ClientToolsLaunchedCustomEntries.ForEach(
           procedure(Iter: BVector<TBBotClientToolsLaunchedEntries>.It)
@@ -354,16 +401,22 @@ begin
     end;
     if (Selected >= 0) and (Selected < lsChars.Count) then
       lsChars.ItemIndex := Selected;
-  finally endListUpdate;
+  finally
+    endListUpdate;
   end;
 end;
 
-procedure FLogin.LoadNextControl(Control: TControl; MarginWidth, Height: Integer);
+procedure FLogin.LoadNextControl(Control: TControl;
+MarginWidth, Height: Integer);
 begin
-  if Control <> nil then begin
-    Control.SetBounds(MarginWidth, CurrentControlTop, Form.ClientWidth - (MarginWidth * 2), Height);
+  if Control <> nil then
+  begin
+    Control.SetBounds(MarginWidth, CurrentControlTop,
+      Form.ClientWidth - (MarginWidth * 2), Height);
     Inc(CurrentControlTop, Height + 6);
-  end else begin
+  end
+  else
+  begin
     Form.ClientHeight := CurrentControlTop;
     CurrentControlTop := 6;
   end;
@@ -381,13 +434,17 @@ end;
 procedure FLogin.endListUpdate;
 begin
   try
-    if lsChars <> nil then begin
+    if lsChars <> nil then
+    begin
       lsChars.Items.EndUpdate
-    end else begin
+    end
+    else
+    begin
       raise Exception.Create('Error accessing lsc in elu');
     end;
   except
-    on E: Exception do begin
+    on E: Exception do
+    begin
       raise Exception.Create('Error unlocking flc' + BStrLine + E.Message);
     end;
   end;
@@ -406,13 +463,15 @@ begin
   try
     LoadAddresses;
     LoadItems;
-    if EngineLoad <> elDestroying then begin
+    if EngineLoad <> elDestroying then
+    begin
       F.LMutex.Acquire;
       F.LoadedDB := True;
       F.LMutex.Release;
     end;
   except
-    on E: Exception do begin
+    on E: Exception do
+    begin
       ShowMessage(E.Message);
       ExitProcess(1);
     end
@@ -432,11 +491,15 @@ begin
   try
     beginListUpdate;
     try
-      if lsChars.ItemIndex <> -1 then begin
+      if lsChars.ItemIndex <> -1 then
+      begin
         CData := FLoginClientData(lsChars.Items.Objects[lsChars.ItemIndex]);
-        if CData = nil then begin
+        if CData = nil then
+        begin
           ShowMessage('Unsupported version !');
-        end else begin
+        end
+        else
+        begin
           AdrSelected := CData.Version;
           BBotLogin.Version := BotVerSupported[AdrSelected];
           TibiaProcess.hWnd := CData.hWnd;
@@ -445,10 +508,13 @@ begin
           ClearCharList;
           addList('Loading,::please wait...', nil);
           CreateThread(nil, 0, @LoadBBotObjects, Self, 0, TID);
-          while True do begin
+          while True do
+          begin
             Application.ProcessMessages;
             LMutex.Acquire;
-            if FLoadedDB then begin
+            if FLoadedDB then
+            begin
+              addList('Loading,::items loaded', nil);
               LMutex.Release;
               fGoBBot;
               Exit;
@@ -457,15 +523,18 @@ begin
           end;
         end;
       end;
-    finally endListUpdate;
+    finally
+      endListUpdate;
     end;
   except
     on E: Exception do
-      ShowMessage('Exception in fLCS(...)' + BStrLine + E.Message + ' ' + BToStr(GetLastError));
+      ShowMessage('Exception in fLCS(...)' + BStrLine + E.Message + ' ' +
+        BToStr(GetLastError));
   end;
 end;
 
-procedure FLogin.fLSDraw(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure FLogin.fLSDraw(Control: TWinControl; Index: Integer; Rect: TRect;
+State: TOwnerDrawState);
 var
   A, B: BStr;
 begin
@@ -478,7 +547,8 @@ end;
 
 procedure FLogin.fClientToolsClick(Sender: TObject);
 begin
-  BBotClientToolsPopup(lClientTools.Left, lClientTools.Top + lClientTools.Height, Form);
+  BBotClientToolsPopup(lClientTools.Left, lClientTools.Top +
+    lClientTools.Height, Form);
 end;
 
 procedure FLogin.fClientToolsEnter(Sender: TObject);
@@ -535,8 +605,10 @@ end;
 
 procedure FLogin.fOnTimer(Sender: TObject);
 begin
-  if Assigned(lsChars) then begin
-    if lsChars.Enabled then begin
+  if Assigned(lsChars) then
+  begin
+    if lsChars.Enabled then
+    begin
       LoadCharacterList;
     end;
   end;
@@ -544,9 +616,12 @@ end;
 
 function FLogin.GetLogged: BLoginRet;
 begin
-  if CheckIsAdmin then begin
+  if CheckIsAdmin then
+  begin
     Form.ShowModal
-  end else begin
+  end
+  else
+  begin
     FLogged := frNotAdmin;
   end;
   Result := FLogged;
@@ -554,7 +629,8 @@ end;
 
 { FLoginClientData }
 
-constructor FLoginClientData.Create(AhWnd, AProcessID: BUInt32; AVersion: TTibiaVersion);
+constructor FLoginClientData.Create(AhWnd, AProcessID: BUInt32;
+AVersion: TTibiaVersion);
 begin
   FhWnd := AhWnd;
   FVersion := AVersion;
@@ -562,4 +638,3 @@ begin
 end;
 
 end.
-

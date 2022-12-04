@@ -52,34 +52,46 @@ type
     destructor Destroy; override;
 
     // Registry Functions
-    procedure AddFunc(AName, AParams, ADesc: BStr; AFunc: BUnaryFunc<BMacro, BInt32>); overload;
-    procedure AddFunc(AName, AParams, ADesc: BStr; AFunc: BUnaryFunc<BMacro, BStr>); overload;
+    procedure AddFunc(AName, AParams, ADesc: BStr;
+      AFunc: BUnaryFunc<BMacro, BInt32>); overload;
+    procedure AddFunc(AName, AParams, ADesc: BStr;
+      AFunc: BUnaryFunc<BMacro, BStr>); overload;
     function FuncByName(AName: BStr; var AFunc: BMacroFunc): BBool; overload;
 
     // Registry Constants
-    property AllConstants: TDictionary < BStr, BFunc < BInt32 >> read FConstants;
+    property AllConstants: TDictionary < BStr, BFunc < BInt32 >>
+      read FConstants;
     property ConstantsSorted: TList<BStr> read FConstantsSorted;
-    procedure AddConst(const AName, ADesc: BStr; const AValue: BFunc<BInt32>); overload;
-    procedure AddConst(const AName, ADesc: BStr; const AValue: BInt32); overload;
-    property Constants[const AName: BStr]: BInt32 read GetConstant; // Change to ConstantByName
+    procedure AddConst(const AName, ADesc: BStr;
+      const AValue: BFunc<BInt32>); overload;
+    procedure AddConst(const AName, ADesc: BStr; const AValue: BInt32);
+      overload;
+    property Constants[const AName: BStr]: BInt32 read GetConstant;
+    // Change to ConstantByName
     function ConstantByName(const AName: BStr): BInt32;
     function ConstantsForValue(const AValue: BInt32): BStrArray;
 
     // Registry Variables
-    property AllVariables: TObjectDictionary<BStr, BMacroVariable> read FVariables;
+    property AllVariables: TObjectDictionary<BStr, BMacroVariable>
+      read FVariables;
     property VariablesSorted: TList<BStr> read FVariablesSorted;
     property Variables[const AName: BStr]: BMacroVariable read GetVariable;
-    function VariablesTryGet(const AName: BStr; out AVariable: BMacroVariable): BBool;
-    function VariablesTry(const AName: BStr; out AValue: BInt32): BBool; overload;
+    function VariablesTryGet(const AName: BStr;
+      out AVariable: BMacroVariable): BBool;
+    function VariablesTry(const AName: BStr; out AValue: BInt32)
+      : BBool; overload;
     function VariablesTry(const AName: BStr; out AValue: BStr): BBool; overload;
-    function CreateSystemVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroVariable;
+    function CreateSystemVariable(const AName: BStr;
+      const ADefaultValue: BInt32): BMacroVariable;
 
     // Registry Cooldowns
     function CooldownBlocked(ACooldown: BStr): BBool;
-    property Cooldown: TDictionary<BStr, BUInt32> read FCooldown write FCooldown;
+    property Cooldown: TDictionary<BStr, BUInt32> read FCooldown
+      write FCooldown;
 
     // Registry Whens
-    procedure WatchWhen(const AEvent, AHandlerLabel: BStr; const ACond: BFunc<BBool>; const AHandler: BMacro);
+    procedure WatchWhen(const AEvent, AHandlerLabel: BStr;
+      const ACond: BFunc<BBool>; const AHandler: BMacro);
     procedure UnwatchWhen(const AHandler: BMacro);
     procedure CastWhen(const AEvent: BStr);
     procedure CastWhenWith(const AEvent: BStr; const ASetup: BProc);
@@ -101,7 +113,8 @@ type
   public
     constructor Create;
 
-    function MatchRegex(const M: BMacro; const APattern, ASubject: BStr): BInt32;
+    function MatchRegex(const M: BMacro;
+      const APattern, ASubject: BStr): BInt32;
   end;
 
 implementation
@@ -129,7 +142,8 @@ begin
     end;
 end;
 
-procedure BMacroRegistry.AddConst(const AName, ADesc: BStr; const AValue: BFunc<BInt32>);
+procedure BMacroRegistry.AddConst(const AName, ADesc: BStr;
+  const AValue: BFunc<BInt32>);
 begin
   FConstants.Add(AName, AValue);
   FConstantsSorted.Add(AName);
@@ -137,7 +151,8 @@ begin
   FConstantsDesc.Add(AName, ADesc);
 end;
 
-procedure BMacroRegistry.AddConst(const AName, ADesc: BStr; const AValue: BInt32);
+procedure BMacroRegistry.AddConst(const AName, ADesc: BStr;
+  const AValue: BInt32);
 begin
   AddConst(AName, ADesc,
     function: BInt32
@@ -155,7 +170,8 @@ begin
     end)));
 end;
 
-procedure BMacroRegistry.AddVariable(const AName: BStr; const AVariable: BMacroVariable);
+procedure BMacroRegistry.AddVariable(const AName: BStr;
+const AVariable: BMacroVariable);
 var
   Name: BStr;
 begin
@@ -165,26 +181,32 @@ begin
   FVariablesSorted.Sort;
 end;
 
-function BMacroRegistry.VariablesTry(const AName: BStr; out AValue: BStr): BBool;
+function BMacroRegistry.VariablesTry(const AName: BStr;
+out AValue: BStr): BBool;
 var
   Variable: BMacroVariable;
 begin
-  if VariablesTryGet(AName, Variable) then begin
+  if VariablesTryGet(AName, Variable) then
+  begin
     AValue := Variable.ValueStr;
     Exit(True);
-  end else begin
+  end
+  else
+  begin
     Exit(False);
   end;
 end;
 
-function BMacroRegistry.VariablesTryGet(const AName: BStr; out AVariable: BMacroVariable): BBool;
+function BMacroRegistry.VariablesTryGet(const AName: BStr;
+out AVariable: BMacroVariable): BBool;
 begin
   Exit(FVariables.TryGetValue(NormalizeVariableName(AName), AVariable));
 end;
 
 function BMacroRegistry.GetVariable(const AName: BStr): BMacroVariable;
 begin
-  if not VariablesTryGet(AName, Result) then begin
+  if not VariablesTryGet(AName, Result) then
+  begin
     Result := BMacroVariable.Create(AName);
     AddVariable(AName, Result);
   end;
@@ -195,36 +217,46 @@ begin
   Exit(BStrLower(AName));
 end;
 
-function BMacroRegistry.CreateSystemVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroVariable;
+function BMacroRegistry.CreateSystemVariable(const AName: BStr;
+const ADefaultValue: BInt32): BMacroVariable;
 begin
-  if not VariablesTryGet(AName, Result) then begin
+  if not VariablesTryGet(AName, Result) then
+  begin
     Result := BMacroSystemVariable.Create(AName, ADefaultValue);
     AddVariable(AName, Result);
   end;
 end;
 
-function BMacroRegistry.VariablesTry(const AName: BStr; out AValue: BInt32): BBool;
+function BMacroRegistry.VariablesTry(const AName: BStr;
+out AValue: BInt32): BBool;
 var
   Variable: BMacroVariable;
 begin
-  if VariablesTryGet(AName, Variable) then begin
+  if VariablesTryGet(AName, Variable) then
+  begin
     AValue := Variable.Value;
     Exit(True);
-  end else begin
+  end
+  else
+  begin
     Exit(False);
   end;
 end;
 
-procedure BMacroRegistry.AddFunc(AName, AParams, ADesc: BStr; AFunc: BUnaryFunc<BMacro, BInt32>);
+procedure BMacroRegistry.AddFunc(AName, AParams, ADesc: BStr;
+AFunc: BUnaryFunc<BMacro, BInt32>);
 var
   R: BStrArray;
   I: BInt32;
   F: BMacroFunc;
 begin
-  if BStrSplit(R, '|', AName) <> 1 then begin
+  if BStrSplit(R, '|', AName) <> 1 then
+  begin
     for I := 0 to High(R) do
       AddFunc(R[I], AParams, ADesc, AFunc);
-  end else begin
+  end
+  else
+  begin
     F.Name := AName;
     F.Params := AParams;
     F.FuncAsInt := AFunc;
@@ -235,16 +267,20 @@ begin
   end;
 end;
 
-procedure BMacroRegistry.AddFunc(AName, AParams, ADesc: BStr; AFunc: BUnaryFunc<BMacro, BStr>);
+procedure BMacroRegistry.AddFunc(AName, AParams, ADesc: BStr;
+AFunc: BUnaryFunc<BMacro, BStr>);
 var
   R: BStrArray;
   I: BInt32;
   F: BMacroFunc;
 begin
-  if BStrSplit(R, '|', AName) <> 1 then begin
+  if BStrSplit(R, '|', AName) <> 1 then
+  begin
     for I := 0 to High(R) do
       AddFunc(R[I], AParams, ADesc, AFunc);
-  end else begin
+  end
+  else
+  begin
     F.Name := AName;
     F.Params := AParams;
     F.FuncAsStr := AFunc;
@@ -271,7 +307,8 @@ begin
   SetLength(Result, 0);
   ConstIter := FConstants.GetEnumerator;
   while ConstIter.MoveNext do
-    if ConstIter.Current.Value() = AValue then begin
+    if ConstIter.Current.Value() = AValue then
+    begin
       SetLength(Result, Length(Result) + 1);
       Result[High(Result)] := ':' + ConstIter.Current.Key;
     end;
@@ -287,9 +324,11 @@ var
   F: BMacroFunc;
 begin
   FuncsIter := Funcs.GetEnumerator;
-  while FuncsIter.MoveNext do begin
+  while FuncsIter.MoveNext do
+  begin
     F := FuncsIter.Current.Value;
-    if F.Name <> WikiDocSection then begin
+    if F.Name <> WikiDocSection then
+    begin
       Name := F.Name + '||' + F.Params + '||' + F.Desc;
       Insert := F.Name + '(' + F.Params + ')';
       AIter(Name, Insert);
@@ -297,7 +336,8 @@ begin
   end;
   FuncsIter.Free;
   ConstIter := FConstants.GetEnumerator;
-  while ConstIter.MoveNext do begin
+  while ConstIter.MoveNext do
+  begin
     Name := ConstIter.Current.Key;
     Insert := ':' + Name;
     Name := Insert + '|| ||(constant)';
@@ -306,20 +346,23 @@ begin
   ConstIter.Free;
 end;
 
-procedure BMacroRegistry.WatchWhen(const AEvent, AHandlerLabel: BStr; const ACond: BFunc<BBool>;
-const AHandler: BMacro);
+procedure BMacroRegistry.WatchWhen(const AEvent, AHandlerLabel: BStr;
+const ACond: BFunc<BBool>; const AHandler: BMacro);
 var
   Handlers: BVector<BMacroWhen>;
   WhenHandler: BVector<BMacroWhen>.It;
 begin
-  if not Whens.TryGetValue(AEvent, Handlers) then begin
+  if not Whens.TryGetValue(AEvent, Handlers) then
+  begin
     Handlers := BVector<BMacroWhen>.Create;
     Whens.Add(AEvent, Handlers);
   end;
-  if Handlers.Has('Macro Registry - When ' + AEvent, function(AIt: BVector<BMacroWhen>.It): BBool
-  begin
-    Exit((AIt^.Event = AEvent) and (AIt^.Macro = AHandler.Name) and (AIt^.HandlerLabel = AHandlerLabel));
-  end) then
+  if Handlers.Has('Macro Registry - When ' + AEvent,
+    function(AIt: BVector<BMacroWhen>.It): BBool
+    begin
+      Exit((AIt^.Event = AEvent) and (AIt^.Macro = AHandler.Name) and
+        (AIt^.HandlerLabel = AHandlerLabel));
+    end) then
     Exit;
   WhenHandler := Handlers.Add();
   WhenHandler^.Event := AEvent;
@@ -333,7 +376,8 @@ var
   WhenIter: TObjectDictionary < BStr, BVector < BMacroWhen >>.TPairEnumerator;
 begin
   WhenIter := Whens.GetEnumerator;
-  while WhenIter.MoveNext do begin
+  while WhenIter.MoveNext do
+  begin
     WhenIter.Current.Value.Delete(
       function(AIt: BVector<BMacroWhen>.It): BBool
       begin
@@ -350,7 +394,8 @@ begin
     var
       Handlers: BVector<BMacroWhen>;
     begin
-      if Whens.TryGetValue(AEvent, Handlers) then begin
+      if Whens.TryGetValue(AEvent, Handlers) then
+      begin
         Handlers.ForEach(
           procedure(AIt: BVector<BMacroWhen>.It)
           begin
@@ -367,7 +412,8 @@ end;
 
 procedure BMacroRegistry.CastWhenWith(const AEvent: BStr; const ASetup: BProc);
 begin
-  if HasWhen(AEvent) then begin
+  if HasWhen(AEvent) then
+  begin
     ASetup();
     CastWhen(AEvent);
   end;
@@ -405,7 +451,8 @@ constructor BMacroRegistry.Create;
 begin
   Funcs := TDictionary<BStr, BMacroFunc>.Create();
   Docs := BVector<BMacroFunc>.Create;
-  Whens := TObjectDictionary < BStr, BVector < BMacroWhen >>.Create([doOwnsValues]);
+  Whens := TObjectDictionary < BStr, BVector < BMacroWhen >>
+    .Create([doOwnsValues]);
 
   FConstants := TDictionary < BStr, BFunc < BInt32 >>.Create();
   FConstantsSorted := CreateListSortedByLength;
@@ -445,10 +492,11 @@ var
   Name: BStr;
 begin
   Result := '';
-  for I := 0 to FConstantsSorted.Count - 1 do begin
+  for I := 0 to FConstantsSorted.Count - 1 do
+  begin
     Name := FConstantsSorted[I];
-    Result := Result +
-      '**'  + Name + '**//' + FConstantsDesc[Name] + '//' + #13#10;
+    Result := Result + '**' + Name + '**//' + FConstantsDesc[Name] +
+      '//' + #13#10;
   end;
 end;
 
@@ -458,42 +506,29 @@ var
   FuncsIter: BVectorIterator<BMacroFunc>;
   F: BMacroFunc;
 begin
-  S := '' +
-'' + #13#10 +
-'====== Macro Commands ======' + #13#10 +
-'' + #13#10 +
-'===== Creating Variables =====' + #13#10 +
-'' + #13#10 +
-'To create variables you must use the following syntax:' + #13#10 +
-'' + #13#10 +
-'**VariableName** := //DefaultValue//' + #13#10 +
-'' + #13#10 +
-'Example:' + #13#10 +
-'' + #13#10 +
-'**HP**:=//Self.Health()//' + #13#10 +
-'' + #13#10 +
-'**MagicNumber**:=//3529//' + #13#10 +
-'' + #13#10 +
-'===== Using Variables =====' + #13#10 +
-'' + #13#10 +
-'You can use the variables in many places of the BBot, to use a variable use this syntax:' + #13#10 +
-'' + #13#10 +
-'**!**//VariableName//**!**' + #13#10 +
-'' + #13#10 +
-'Self.Say(**!**//HP//**!** or shorthand **!**//HP//)' + #13#10 +
-'' + #13#10 +
-'SecondMagicNumber:=**!**//MagicNumber//**!**' + #13#10 +
-'ThirdMagicNumber:=**!**//MagicNumber//' + #13#10 +
-'' + #13#10 +
-'Variables can be used in the FullCheck and some other features of the BBot.' + #13#10 +
-'' + #13#10 +
-'===== Constants and Shortcuts =====' + #13#10 + GenConstantsDoc();
+  S := '' + '' + #13#10 + '====== Macro Commands ======' + #13#10 + '' + #13#10
+    + '===== Creating Variables =====' + #13#10 + '' + #13#10 +
+    'To create variables you must use the following syntax:' + #13#10 + '' +
+    #13#10 + '**VariableName** := //DefaultValue//' + #13#10 + '' + #13#10 +
+    'Example:' + #13#10 + '' + #13#10 + '**HP**:=//Self.Health()//' + #13#10 +
+    '' + #13#10 + '**MagicNumber**:=//3529//' + #13#10 + '' + #13#10 +
+    '===== Using Variables =====' + #13#10 + '' + #13#10 +
+    'You can use the variables in many places of the BBot, to use a variable use this syntax:'
+    + #13#10 + '' + #13#10 + '**!**//VariableName//**!**' + #13#10 + '' + #13#10
+    + 'Self.Say(**!**//HP//**!** or shorthand **!**//HP//)' + #13#10 + '' +
+    #13#10 + 'SecondMagicNumber:=**!**//MagicNumber//**!**' + #13#10 +
+    'ThirdMagicNumber:=**!**//MagicNumber//' + #13#10 + '' + #13#10 +
+    'Variables can be used in the FullCheck and some other features of the BBot.'
+    + #13#10 + '' + #13#10 + '===== Constants and Shortcuts =====' + #13#10 +
+    GenConstantsDoc();
 
   FuncsIter := Docs.Iter;
-  while FuncsIter.HasNext do begin
+  while FuncsIter.HasNext do
+  begin
     F := FuncsIter.Next;
     if F.Name <> WikiDocSection then
-      S := S + BFormat('**%s**//(%s)// %s' + BStrLine + BStrLine, [F.Name, F.Params, F.Desc])
+      S := S + BFormat('**%s**//(%s)// %s' + BStrLine + BStrLine,
+        [F.Name, F.Params, F.Desc])
     else
       S := S + BFormat('===== %s =====' + BStrLine + BStrLine, [F.Desc]);
   end;
@@ -515,21 +550,24 @@ end;
 procedure BMacroRegistryCore.CreateCooldownFunctions;
 begin
   AddWikiSection('Cooldown variables');
-  AddFunc('Cooldown.Create', 'CooldownName, Delay', 'Create a cooldown named CooldownName with Delay',
+  AddFunc('Cooldown.Create', 'CooldownName, Delay',
+    'Create a cooldown named CooldownName with Delay',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
       FCooldown.AddOrSetValue(M.ParamStr(0), Tick + BUInt32(M.ParamInt(1)));
     end);
 
-  AddFunc('Cooldown.Clear', 'CooldownName', 'Clear a cooldown named CooldownName',
+  AddFunc('Cooldown.Clear', 'CooldownName',
+    'Clear a cooldown named CooldownName',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
       FCooldown.Remove(M.ParamStr(0));
     end);
 
-  AddFunc('Cooldown.Rest', 'CooldownName', 'How many miliseconds Cooldown will be still active (or return 0)',
+  AddFunc('Cooldown.Rest', 'CooldownName',
+    'How many miliseconds Cooldown will be still active (or return 0)',
     function(M: BMacro): BInt32
     var
       Expire: BUInt32;
@@ -540,13 +578,15 @@ begin
       Exit(0);
     end);
 
-  AddFunc('Cooldown.Blocked', 'CooldownName', 'Verifies if there is an active Cooldown named CooldownName',
+  AddFunc('Cooldown.Blocked', 'CooldownName',
+    'Verifies if there is an active Cooldown named CooldownName',
     function(M: BMacro): BInt32
     begin
       Result := BIf(CooldownBlocked(M.ParamStr(0)), BMacroTrue, BMacroFalse);
     end);
 
-  AddFunc('Cooldown.UnBlocked', 'CooldownName', 'Verifies if there is not an active Cooldown named CooldownName',
+  AddFunc('Cooldown.UnBlocked', 'CooldownName',
+    'Verifies if there is not an active Cooldown named CooldownName',
     function(M: BMacro): BInt32
     begin
       Result := BIf(CooldownBlocked(M.ParamStr(0)), BMacroFalse, BMacroTrue);
@@ -579,17 +619,19 @@ begin
       Result := BMacroTrue;
       M.SetVariable(M.ParamStr(0), M.ParamInt(1));
     end);
-  AddFunc('VarGet', 'Name', 'Return the INT value of a variable by its name (only for numeric variables!!)',
+  AddFunc('VarGet', 'Name',
+    'Return the INT value of a variable by its name (only for numeric variables!!)',
     function(M: BMacro): BInt32
     begin
       Exit(M.Variable(M.ParamStr(0)));
     end);
   AddFunc('HasVar', 'VarName', 'If a variable exists',
-  function(M: BMacro): BInt32
+    function(M: BMacro): BInt32
     begin
       Result := MacroBool(M.HasVariable(M.ParamStr(0)));
     end);
-  AddFunc('GenWikiDoc', '', 'Generates the Macro Documentation in the BBot.Macros.Documentation.txt file',
+  AddFunc('GenWikiDoc', '',
+    'Generates the Macro Documentation in the BBot.Macros.Documentation.txt file',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
@@ -612,7 +654,8 @@ begin
       Result := BMacroTrue;
       M.SetVariable(M.ParamStr(0), M.Variable(M.ParamStr(0)) - M.ParamInt(1));
     end);
-  AddFunc('VarMult', 'Name, Value', 'Multiplies the variable by the given value',
+  AddFunc('VarMult', 'Name, Value',
+    'Multiplies the variable by the given value',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
@@ -626,7 +669,8 @@ begin
         Exit;
       M.SetVariable(M.ParamStr(0), M.Variable(M.ParamStr(0)) div M.ParamInt(1));
     end);
-  AddFunc('VarMod', 'Name, Value', 'Returns the modulos remainder of the Variable by the Value',
+  AddFunc('VarMod', 'Name, Value',
+    'Returns the modulos remainder of the Variable by the Value',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
@@ -668,7 +712,8 @@ begin
     begin
       Result := M.ParamInt(0);
       I := 1;
-      while I < M.ParamCount do begin
+      while I < M.ParamCount do
+      begin
         V := M.ParamInt(I);
         if V < Result then
           Result := V;
@@ -682,7 +727,8 @@ begin
     begin
       Result := M.ParamInt(0);
       I := 1;
-      while I < M.ParamCount do begin
+      while I < M.ParamCount do
+      begin
         V := M.ParamInt(I);
         if V > Result then
           Result := V;
@@ -695,13 +741,15 @@ end;
 procedure BMacroRegistryCore.CreateStringFunctions;
 begin
   AddWikiSection('String');
-  AddFunc('Str.Set', 'StrVariableName, StrValue', 'Set variable name to STR value',
+  AddFunc('Str.Set', 'StrVariableName, StrValue',
+    'Set variable name to STR value',
     function(M: BMacro): BInt32
     begin
       Result := BMacroTrue;
       M.SetVariable(M.ParamStr(0), M.ParamStr(1));
     end);
-  AddFunc('Str.Copy', 'StrInputVariable, StrOutputVariable', 'Copy a Input variable into a Output variable',
+  AddFunc('Str.Copy', 'StrInputVariable, StrOutputVariable',
+    'Copy a Input variable into a Output variable',
     function(M: BMacro): BInt32
     var
       V: BStr;
@@ -710,7 +758,8 @@ begin
       M.SetVariable(M.ParamStr(1), V);
       Exit(BMacroTrue);
     end);
-  AddFunc('Str.VarEquals', 'StrVariableNameA, StrVariableNameB', 'Check if two STR variables are equals (non-sensitive)',
+  AddFunc('Str.VarEquals', 'StrVariableNameA, StrVariableNameB',
+    'Check if two STR variables are equals (non-sensitive)',
     function(M: BMacro): BInt32
     var
       A, B: BStr;
@@ -795,7 +844,8 @@ begin
       M.SetVariable(M.ParamStr(0), SOut);
       Exit(BMacroTrue);
     end);
-  AddFunc('Str.ToHex8', 'OutHex8, Int8', 'Convert a number to Hex8 string representation',
+  AddFunc('Str.ToHex8', 'OutHex8, Int8',
+    'Convert a number to Hex8 string representation',
     function(M: BMacro): BInt32
     var
       InValue: BInt8;
@@ -806,7 +856,8 @@ begin
       M.SetVariable(M.ParamStr(0), OutHex);
       Exit(BMacroTrue);
     end);
-  AddFunc('Str.ToHex16', 'OutHex16, Int16', 'Convert a number to Hex16 string representation',
+  AddFunc('Str.ToHex16', 'OutHex16, Int16',
+    'Convert a number to Hex16 string representation',
     function(M: BMacro): BInt32
     var
       InValue: BInt16;
@@ -817,7 +868,8 @@ begin
       M.SetVariable(M.ParamStr(0), OutHex);
       Exit(BMacroTrue);
     end);
-  AddFunc('Str.ToHex32', 'OutHex32, Int32', 'Convert a number to Hex32 string representation',
+  AddFunc('Str.ToHex32', 'OutHex32, Int32',
+    'Convert a number to Hex32 string representation',
     function(M: BMacro): BInt32
     var
       InValue: BInt32;
@@ -840,20 +892,25 @@ begin
   AddConst('Ok', 'True', BMacroTrue);
 end;
 
-function BMacroRegistryCore.MatchRegex(const M: BMacro; const APattern, ASubject: BStr): BInt32;
+function BMacroRegistryCore.MatchRegex(const M: BMacro;
+const APattern, ASubject: BStr): BInt32;
 var
   Res: BStrArray;
   I: BInt32;
 begin
   if M.Debugging then
-    M.AddDebugFmt('[Regex] %s trying match against \n %s', [APattern, ASubject]);
-  if BSimpleRegex(APattern, ASubject, Res) then begin
+    M.AddDebugFmt('[Regex] %s trying match against \n %s',
+      [APattern, ASubject]);
+  if BSimpleRegex(APattern, ASubject, Res) then
+  begin
     for I := 0 to High(Res) do
       M.SetVariable('Str.Match.' + BToStr(I), Res[I]);
     M.SetVariable('Str.MatchFailed', BMacroFalse);
     M.SetVariable('Str.MatchSucced', BMacroTrue);
     Exit(BMacroTrue)
-  end else begin
+  end
+  else
+  begin
     M.SetVariable('Str.MatchFailed', BMacroTrue);
     M.SetVariable('Str.MatchSucced', BMacroFalse);
     Exit(BMacroFalse);

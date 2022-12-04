@@ -14,8 +14,10 @@ type
     Centroid: PKMeansItem;
     Next: PKMeansItem;
     case Integer of
-    0: (Distance: BUInt32);
-    1: (Labels: BUInt32);
+      0:
+        (Distance: BUInt32);
+      1:
+        (Labels: BUInt32);
   end;
 
   TKMeans = class
@@ -103,7 +105,8 @@ end;
 
 function TKMeans.DistanceBetween(A, B: TKMeansItem): BUInt32;
 begin
-  Result := NormalDistance(A.Position.X, A.Position.Y, B.Position.X, B.Position.Y);
+  Result := NormalDistance(A.Position.X, A.Position.Y, B.Position.X,
+    B.Position.Y);
 end;
 
 procedure TKMeans.generateCentroids;
@@ -112,7 +115,8 @@ var
   C: BVector<TKMeansItem>.It;
 begin
   FCentroids.Clear;
-  for I := 0 to FK - 1 do begin
+  for I := 0 to FK - 1 do
+  begin
     C := FCentroids.Add;
     C^.Position := FLabels.Item[BRandom(FLabels.Count - 1)].Position;
     C^.Labels := 0;
@@ -137,7 +141,8 @@ end;
 function TKMeans.Step: BBool;
 begin
   FFinished := Iterations > MaxIterations;
-  if not FFinished then begin
+  if not FFinished then
+  begin
     FFinished := True;
     cleanup;
     updateLabels;
@@ -156,12 +161,14 @@ begin
       L: PKMeansItem;
       N: BInt32;
     begin
-      if It^.Next <> nil then begin
+      if It^.Next <> nil then
+      begin
         N := 0;
         L := It^.Next;
         Old := It^.Position;
         It^.Position.zero;
-        while L <> nil do begin
+        while L <> nil do
+        begin
           Inc(It^.Position.X, L^.Position.X);
           Inc(It^.Position.Y, L^.Position.Y);
           Inc(It^.Position.Z, L^.Position.Z);
@@ -173,7 +180,9 @@ begin
         It^.Position.Z := It^.Position.Z div N;
         if Old <> It^.Position then
           FFinished := False;
-      end else begin
+      end
+      else
+      begin
         It^.Position := FLabels[BRandom(FLabels.Count - 1)]^.Position;
         It^.Next := nil;
         FFinished := False;
@@ -195,7 +204,8 @@ begin
           D: BUInt32;
         begin
           D := DistanceBetween(C^, L^);
-          if D < L^.Distance then begin
+          if D < L^.Distance then
+          begin
             L^.Centroid := PKMeansItem(C);
             L^.Distance := D;
           end;
@@ -235,9 +245,11 @@ begin
   for J := 0 to Length(GroupMap[0]) * 3 do
     Write('_');
   WriteLn('+');
-  for I := 0 to High(GroupMap) do begin
+  for I := 0 to High(GroupMap) do
+  begin
     Write('|');
-    for J := 0 to High(GroupMap[I]) do begin
+    for J := 0 to High(GroupMap[I]) do
+    begin
       Write(GroupMap[I][J]);
       Write(GroupMap[I][J]);
       Write(GroupMap[I][J]);
@@ -260,12 +272,14 @@ begin
   try
     K := TKMeans.Create;
     for I := 0 to BRandom(4, 10) do
-      K.AddLabel(BPosXYZ(BRandom(TestMaxWidth - 1), BRandom(TestMaxHeight - 1), 0));
+      K.AddLabel(BPosXYZ(BRandom(TestMaxWidth - 1),
+        BRandom(TestMaxHeight - 1), 0));
     K.K := BRandom(2, 5);
     K.Start;
     TestPrint(K);
     ReadLn;
-    while K.Step do begin
+    while K.Step do
+    begin
       TestPrint(K);
       ReadLn;
     end;

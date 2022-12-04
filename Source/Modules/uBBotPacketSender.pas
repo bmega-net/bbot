@@ -1,5 +1,5 @@
 unit uBBotPacketSender;
-
+
 interface
 
 uses
@@ -18,16 +18,19 @@ type
 
     procedure Attack(Target: BInt32);
     procedure CloseContainer(Container: BInt32);
-    procedure NPCBuy(ID, BuyCount, Amount: BUInt32; IgnoreCap, BuyWithBPs: boolean);
+    procedure NPCBuy(ID, BuyCount, Amount: BUInt32;
+      IgnoreCap, BuyWithBPs: boolean);
     procedure NPCSell(ID, SellCount, Amount: BUInt32);
     procedure WalkStep(Direction: TTibiaDirection);
     procedure ToggleMount(AIsMounted: BBool);
     procedure StopAction();
     procedure TryLogout();
-    procedure MoveItem(FromPos: BPos; Item, FromStack, Count: BInt32; ToPos: BPos);
+    procedure MoveItem(FromPos: BPos; Item, FromStack, Count: BInt32;
+      ToPos: BPos);
     procedure TurnSelf(Direction: TTibiaDirection);
     procedure UseOnCreature(FromPos: BPos; FromStack, Item, Target: BInt32);
-    procedure UseOnObject(FromPos: BPos; FromID, FromStack: BInt32; ToPos: BPos; ToID, ToStack: BInt32);
+    procedure UseOnObject(FromPos: BPos; FromID, FromStack: BInt32; ToPos: BPos;
+      ToID, ToStack: BInt32);
     procedure UseItem(Position: BPos; Item, Stack, Index: BInt32);
     procedure PrivateMesage(const Msg, Dest: String);
     procedure ChannelMessage(const Msg: BStr; Channel: BInt32);
@@ -119,7 +122,8 @@ begin
   PacketQueue.PacketBot.WriteBInt8($A1);
   PacketQueue.PacketBot.WriteBInt32(Target);
 
-  if AdrSelected >= TibiaVer860 then begin
+  if AdrSelected >= TibiaVer860 then
+  begin
     TibiaProcess.Read(TibiaAddresses.AdrAttackID, 4, @AtkID);
     if (AdrSelected < TibiaVer872) or (AdrSelected >= TibiaVer900) then
       Inc(AtkID, 1)
@@ -133,9 +137,11 @@ begin
   PacketQueue.SendPacket;
 end;
 
-procedure TBBotPacketSender.NPCBuy(ID, BuyCount, Amount: BUInt32; IgnoreCap, BuyWithBPs: boolean);
+procedure TBBotPacketSender.NPCBuy(ID, BuyCount, Amount: BUInt32;
+  IgnoreCap, BuyWithBPs: boolean);
 begin
-  if CheckItem(ID, 1) then begin
+  if CheckItem(ID, 1) then
+  begin
     PacketQueue.PreparePacket;
     PacketQueue.PacketBot.WriteBInt8($7A);
     PacketQueue.PacketBot.WriteBInt16(BInt16(ID));
@@ -155,11 +161,13 @@ begin
   PacketQueue.SendPacket;
 end;
 
-procedure TBBotPacketSender.UseOnCreature(FromPos: BPos; FromStack, Item, Target: BInt32);
+procedure TBBotPacketSender.UseOnCreature(FromPos: BPos;
+  FromStack, Item, Target: BInt32);
 var
   UseOnCreatureData: TTibiaUseOnCreature;
 begin
-  if CheckItem(Item, 2) then begin
+  if CheckItem(Item, 2) then
+  begin
     UseOnCreatureData.FromPosition := FromPos;
     UseOnCreatureData.ItemID := Item;
     UseOnCreatureData.Stack := FromStack;
@@ -185,58 +193,70 @@ var
 begin
   Key := 0;
   case Direction of
-  tdNorth: begin
-      Key := VK_UP;
-      Pos.change(Me.Position.X, Me.Position.Y - 1, Me.Position.Z);
-    end;
-  tdEast: begin
-      Key := VK_RIGHT;
-      Pos.change(Me.Position.X + 1, Me.Position.Y, Me.Position.Z);
-    end;
-  tdWest: begin
-      Key := VK_LEFT;
-      Pos.change(Me.Position.X - 1, Me.Position.Y, Me.Position.Z);
-    end;
-  tdSouth: begin
-      Key := VK_DOWN;
-      Pos.change(Me.Position.X, Me.Position.Y + 1, Me.Position.Z);
-    end;
-  tdNorthEast: begin
-      PacketQueue.PreparePacket;
-      PacketQueue.PacketBot.WriteBInt8($6A);
-      PacketQueue.SendPacket;
-      Exit;
-    end;
-  tdNorthWest: begin
-      PacketQueue.PreparePacket;
-      PacketQueue.PacketBot.WriteBInt8($6D);
-      PacketQueue.SendPacket;
-      Exit;
-    end;
-  tdSouthEast: begin
-      PacketQueue.PreparePacket;
-      PacketQueue.PacketBot.WriteBInt8($6B);
-      PacketQueue.SendPacket;
-      Exit;
-    end;
-  tdSouthWest: begin
-      PacketQueue.PreparePacket;
-      PacketQueue.PacketBot.WriteBInt8($6C);
-      PacketQueue.SendPacket;
-      Exit;
-    end;
-  tdCenter: raise Exception.Create('Trying to execute WalkStep to Center');
+    tdNorth:
+      begin
+        Key := VK_UP;
+        Pos.change(Me.Position.X, Me.Position.Y - 1, Me.Position.Z);
+      end;
+    tdEast:
+      begin
+        Key := VK_RIGHT;
+        Pos.change(Me.Position.X + 1, Me.Position.Y, Me.Position.Z);
+      end;
+    tdWest:
+      begin
+        Key := VK_LEFT;
+        Pos.change(Me.Position.X - 1, Me.Position.Y, Me.Position.Z);
+      end;
+    tdSouth:
+      begin
+        Key := VK_DOWN;
+        Pos.change(Me.Position.X, Me.Position.Y + 1, Me.Position.Z);
+      end;
+    tdNorthEast:
+      begin
+        PacketQueue.PreparePacket;
+        PacketQueue.PacketBot.WriteBInt8($6A);
+        PacketQueue.SendPacket;
+        Exit;
+      end;
+    tdNorthWest:
+      begin
+        PacketQueue.PreparePacket;
+        PacketQueue.PacketBot.WriteBInt8($6D);
+        PacketQueue.SendPacket;
+        Exit;
+      end;
+    tdSouthEast:
+      begin
+        PacketQueue.PreparePacket;
+        PacketQueue.PacketBot.WriteBInt8($6B);
+        PacketQueue.SendPacket;
+        Exit;
+      end;
+    tdSouthWest:
+      begin
+        PacketQueue.PreparePacket;
+        PacketQueue.PacketBot.WriteBInt8($6C);
+        PacketQueue.SendPacket;
+        Exit;
+      end;
+    tdCenter:
+      raise Exception.Create('Trying to execute WalkStep to Center');
   end;
-  ModKey := Tibia.IsKeyDown(VK_SHIFT, False) or Tibia.IsKeyDown(VK_CONTROL, False) or Tibia.IsKeyDown(VK_MENU, False);
+  ModKey := Tibia.IsKeyDown(VK_SHIFT, False) or
+    Tibia.IsKeyDown(VK_CONTROL, False) or Tibia.IsKeyDown(VK_MENU, False);
   if (Key = 0) or ModKey then
     Tibia.SetMove(Pos)
-  else begin
+  else
+  begin
     StepDelay := Me.StepDelay;
     if StepDelay > 0 then
       KeyRepeat := BMin(BRandom(1, 1 + (1000 div StepDelay)), 4)
     else
       KeyRepeat := BRandom(1, 3);
-    while KeyRepeat > 0 do begin
+    while KeyRepeat > 0 do
+    begin
       TibiaProcess.SendKeyDown(Key);
       Dec(KeyRepeat);
     end;
@@ -250,9 +270,11 @@ var
   B: array of byte;
   I: BInt32;
 begin
-  if BStrSplit(R, ' ', AHexMessage) > 0 then begin
+  if BStrSplit(R, ' ', AHexMessage) > 0 then
+  begin
     SetLength(B, Length(R));
-    for I := 0 to High(R) do begin
+    for I := 0 to High(R) do
+    begin
       try
         B[I] := BStrTo8('$' + R[I]);
       except
@@ -271,7 +293,8 @@ procedure TBBotPacketSender.SendMsg(const Msg: String; MsgType: BInt32);
 var
   MsgData: TTibiaMessage;
 begin
-  if Msg <> '' then begin
+  if Msg <> '' then
+  begin
     MsgData.Mode := Tibia.MessageModeFrom(MsgType);
     MsgData.Text := Msg;
     BBot.Events.RunSay(MsgData);
@@ -304,7 +327,8 @@ var
   MsgData: TTibiaMessage;
   MsgModeID: BInt8;
 begin
-  if (Msg <> '') and (Dest <> '') then begin
+  if (Msg <> '') and (Dest <> '') then
+  begin
     if AdrSelected > TibiaVer900 then
       MsgModeID := $5
     else
@@ -355,7 +379,8 @@ end;
 
 procedure TBBotPacketSender.NPCSell(ID, SellCount, Amount: BUInt32);
 begin
-  if CheckItem(ID, 3) then begin
+  if CheckItem(ID, 3) then
+  begin
     PacketQueue.PreparePacket;
     PacketQueue.PacketBot.WriteBInt8($7B);
     PacketQueue.PacketBot.WriteBInt16(BInt16(ID));
@@ -372,9 +397,11 @@ begin
   BBot.Events.RunStop;
 end;
 
-procedure TBBotPacketSender.MoveItem(FromPos: BPos; Item, FromStack, Count: BInt32; ToPos: BPos);
+procedure TBBotPacketSender.MoveItem(FromPos: BPos;
+  Item, FromStack, Count: BInt32; ToPos: BPos);
 begin
-  if CheckItem(Item, 4) then begin
+  if CheckItem(Item, 4) then
+  begin
     PacketQueue.PreparePacket;
     PacketQueue.PacketBot.WriteBInt8($78);
     PacketQueue.PacketBot.WriteBInt16(BInt16(FromPos.X));
@@ -385,7 +412,8 @@ begin
     PacketQueue.PacketBot.WriteBInt16(BInt16(ToPos.X));
     PacketQueue.PacketBot.WriteBInt16(BInt16(ToPos.Y));
     PacketQueue.PacketBot.WriteBInt8(BInt8(ToPos.Z));
-    PacketQueue.PacketBot.WriteBInt8(BIf(Item = ItemID_Creature, 1, BMinMax(Count, 1, 100)));
+    PacketQueue.PacketBot.WriteBInt8(BIf(Item = ItemID_Creature, 1,
+      BMinMax(Count, 1, 100)));
     PacketQueue.SendPacket;
   end;
 end;
@@ -394,20 +422,27 @@ procedure TBBotPacketSender.TurnSelf(Direction: TTibiaDirection);
 begin
   PacketQueue.PreparePacket;
   case Direction of
-  tdNorth: PacketQueue.PacketBot.WriteBInt8($6F);
-  tdEast: PacketQueue.PacketBot.WriteBInt8($70);
-  tdSouth: PacketQueue.PacketBot.WriteBInt8($71);
-  tdWest: PacketQueue.PacketBot.WriteBInt8($72);
-else raise Exception.Create('Critical Invalid Turn direction');
+    tdNorth:
+      PacketQueue.PacketBot.WriteBInt8($6F);
+    tdEast:
+      PacketQueue.PacketBot.WriteBInt8($70);
+    tdSouth:
+      PacketQueue.PacketBot.WriteBInt8($71);
+    tdWest:
+      PacketQueue.PacketBot.WriteBInt8($72);
+  else
+    raise Exception.Create('Critical Invalid Turn direction');
   end;
   PacketQueue.SendPacket;
 end;
 
-procedure TBBotPacketSender.UseOnObject(FromPos: BPos; FromID, FromStack: BInt32; ToPos: BPos; ToID, ToStack: BInt32);
+procedure TBBotPacketSender.UseOnObject(FromPos: BPos;
+  FromID, FromStack: BInt32; ToPos: BPos; ToID, ToStack: BInt32);
 var
   UseOnItemData: TTibiaUseOnItem;
 begin
-  if CheckItem(FromID, 5) and CheckItem(ToID, 6) then begin
+  if CheckItem(FromID, 5) and CheckItem(ToID, 6) then
+  begin
     UseOnItemData.FromPosition := FromPos;
     UseOnItemData.FromID := FromID;
     UseOnItemData.FromStack := FromStack;
@@ -435,7 +470,8 @@ procedure TBBotPacketSender.UseItem(Position: BPos; Item, Stack, Index: BInt32);
 var
   UseOnItemData: TTibiaUseOnItem;
 begin
-  if CheckItem(Item, 7) then begin
+  if CheckItem(Item, 7) then
+  begin
     UseOnItemData.FromPosition := Position;
     UseOnItemData.FromID := Item;
     UseOnItemData.FromStack := Stack;
@@ -457,7 +493,8 @@ end;
 
 procedure TBBotPacketSender.TryLogout;
 begin
-  if (tsInBattle in Me.Status) or (tsCannotLogoutOrEnterProtectionZone in Me.Status) then
+  if (tsInBattle in Me.Status) or (tsCannotLogoutOrEnterProtectionZone
+    in Me.Status) then
     Exit;
   TibiaProcess.SendClose;
   Sleep(60);
@@ -468,7 +505,8 @@ procedure TBBotPacketSender.ChannelMessage(const Msg: BStr; Channel: BInt32);
 var
   MsgData: TTibiaMessage;
 begin
-  if Msg <> '' then begin
+  if Msg <> '' then
+  begin
     MsgData.Mode := Tibia.MessageModeFrom(7);
     MsgData.Channel := Channel;
     MsgData.Text := Msg;
@@ -486,7 +524,8 @@ function TBBotPacketSender.CheckItem(const AID, AFunc: BInt32): BBool;
 begin
   Result := BInRange(AID, 0, TibiaLastItem);
   if not Result then
-    AddDebug('Attempt to send command with unitialized ID ' + BToStr(AID) + ' rejected');
+    AddDebug('Attempt to send command with unitialized ID ' + BToStr(AID) +
+      ' rejected');
 end;
 
 procedure TBBotPacketSender.ToggleMount(AIsMounted: BBool);
@@ -500,4 +539,4 @@ begin
 end;
 
 end.
-
+

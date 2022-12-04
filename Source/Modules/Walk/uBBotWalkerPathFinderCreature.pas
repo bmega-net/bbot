@@ -60,7 +60,8 @@ var
   NearestAttackingLike: BPos;
   NearestAttackingLikeH: BUInt32;
 begin
-  if not BBot.SpecialSQMs.InsideAttackingLike then begin
+  if not BBot.SpecialSQMs.InsideAttackingLike then
+  begin
     NearestAttackingLike.zero;
     NearestAttackingLikeH := 0;
     BBot.SpecialSQMs.AttackingLikeCenters.ForEach(
@@ -70,9 +71,12 @@ begin
         It: BPos;
       begin
         It := AIt^;
-        if SQMDistance(Node.Position.X, Node.Position.Y, It.X, It.Y) < 15 then begin
-          H := 1 + DiagonalDistance(Node.Position.X, Node.Position.Y, It.X, It.Y, StepCost_Diagonal, StepCost_Straight);
-          if (NearestAttackingLike.X = 0) or (H < NearestAttackingLikeH) then begin
+        if SQMDistance(Node.Position.X, Node.Position.Y, It.X, It.Y) < 15 then
+        begin
+          H := 1 + DiagonalDistance(Node.Position.X, Node.Position.Y, It.X,
+            It.Y, StepCost_Diagonal, StepCost_Straight);
+          if (NearestAttackingLike.X = 0) or (H < NearestAttackingLikeH) then
+          begin
             NearestAttackingLike := It;
             NearestAttackingLikeH := H;
           end;
@@ -96,14 +100,17 @@ var
 begin
   Result := inherited;
   Result := Result + KillerPriorityOnPos(P);
-  if BBot.SpecialSQMs.InsideAttackingLike then begin
+  if BBot.SpecialSQMs.InsideAttackingLike then
+  begin
     Kind := BBot.SpecialSQMs.Kind(P.X, P.Y, P.Z);
     if Kind <> sskLikeAttacking then
       if Kind = sskLike then
         Result := Result * LikeInsideAttacking
       else
         Result := Result * UnLikedInsideAttacking;
-  end else begin
+  end
+  else
+  begin
     Mult := 1;
     BBot.AdvAttack.History.ForEach(
       procedure(It: BVector<BPos>.It)

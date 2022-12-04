@@ -1,6 +1,5 @@
 unit BBotEngine;
 
-
 interface
 
 uses
@@ -286,7 +285,8 @@ type
     property WarNet: TBBotWarNet read FWarNet;
     property ReconnectManager: TBBotReconnectManager read FReconnectManager;
     property DepotList: TBBotDepotList read FDepotList;
-    property PositionStatistics: TBBotPositionStatistics read FPositionStatistics;
+    property PositionStatistics: TBBotPositionStatistics
+      read FPositionStatistics;
     property SummonDetector: TBBotSummonDetector read FSummonDetector;
     property SuperFollow: TBBotSuperFollow read FSuperFollow;
 
@@ -330,11 +330,13 @@ begin
   FRunnerCommon := TBBotRunnerPauser.Create('Runner Common', 0, bplAll);
   FRunnerHealers := TBBotRunnerPauser.Create('Runner Healers', 0, bplAll);
   FRunnerBasic := TBBotRunnerPauser.Create('Runner Basic', 0, bplAutomation);
-  FRunnerWalkers := TBBotRunnerPauser.Create('Runner Walkers', 0, bplAutomation);
+  FRunnerWalkers := TBBotRunnerPauser.Create('Runner Walkers', 0,
+    bplAutomation);
   FRunner := TBBotActions.Create('Runner Main', 0);
   FTestEngine := TBBotTestEngine.Create;
   FCreatures := TBBotCreatures.Get(AdrSelected);
-  FRunner.AddActions([FRunnerCommon, FRunnerHealers, FRunnerBasic, FRunnerWalkers, FTestEngine, FCreatures]);
+  FRunner.AddActions([FRunnerCommon, FRunnerHealers, FRunnerBasic,
+    FRunnerWalkers, FTestEngine, FCreatures]);
 
   FEvents := TBBotEvents.Create;
   FTradeWindow := TBBotTradeWindow.Create;
@@ -362,10 +364,11 @@ begin
   FLevelSpy := TBBotLevelSpy.Create;
   FDepotList := TBBotDepotList.Create;
   FPositionStatistics := TBBotPositionStatistics.Create;
-  FRunnerCommon.AddActions([Tibia, FEvents, FPacketSender, FJustLoggedIn, FExhaust, FSpells, FSpecialSQMs, FTradeWindow,
-    FMenu, FStats, FAmmoCounter, FFramerate, FLogout, FLightHack, FServerSave, FReconnect, FTradeWatcher,
-    FRareLootAlarm, FExpStats, FSkillsStats, FSupliesStats, FLooterStats, FKillStats, FProfitStats, FLevelSpy,
-    FDepotList, FPositionStatistics]);
+  FRunnerCommon.AddActions([Tibia, FEvents, FPacketSender, FJustLoggedIn,
+    FExhaust, FSpells, FSpecialSQMs, FTradeWindow, FMenu, FStats, FAmmoCounter,
+    FFramerate, FLogout, FLightHack, FServerSave, FReconnect, FTradeWatcher,
+    FRareLootAlarm, FExpStats, FSkillsStats, FSupliesStats, FLooterStats,
+    FKillStats, FProfitStats, FLevelSpy, FDepotList, FPositionStatistics]);
 
   FHealers := TBBotHealers.Create;
   FManaDrinker := TBBotManaDrinker.Create;
@@ -390,8 +393,9 @@ begin
   FManaTrainer := TBBotManaTrainer.Create;
   FMacroExec := TBBotMacros.Create;
   FProtectors := TBBotProtectors.Create;
-  FRunnerBasic.AddActions([FBackpacks, FEnchanter, FAntiPush, FDropVials, FAutoRope, FAutoStack, FEatFood,
-    FEatFoodGround, FFastHand, FFishing, FTrader, FLootBagKicker, FOTMoney, FAntiAFK, FManaTrainer, FMacroExec,
+  FRunnerBasic.AddActions([FBackpacks, FEnchanter, FAntiPush, FDropVials,
+    FAutoRope, FAutoStack, FEatFood, FEatFoodGround, FFastHand, FFishing,
+    FTrader, FLootBagKicker, FOTMoney, FAntiAFK, FManaTrainer, FMacroExec,
     FProtectors]);
 
   FLooter := TBBotLooter.Create;
@@ -413,9 +417,10 @@ begin
   FCavebot := TBBotCavebot.Create;
   FWalkState := TBBotWalkState.Create;
   FReconnectManager := TBBotReconnectManager.Create;
-  FRunnerWalkers.AddActions([FLooter, FAttacker, FOpenCorpses, FSkinner, FSuperFollow, FWithdraw, FDepositer, FWarBot, FWarNet,
-    FTrainer, FIgnoreAttack, FAdvAttack, FConfirmAttack, FSummonDetector, FAvoidWaves, FWalker, FCavebot, FWalkState,
-    FReconnectManager]);
+  FRunnerWalkers.AddActions([FLooter, FAttacker, FOpenCorpses, FSkinner,
+    FSuperFollow, FWithdraw, FDepositer, FWarBot, FWarNet, FTrainer,
+    FIgnoreAttack, FAdvAttack, FConfirmAttack, FSummonDetector, FAvoidWaves,
+    FWalker, FCavebot, FWalkState, FReconnectManager]);
 
   FRunner.OnInit;
   OnInitSelf;
@@ -512,11 +517,14 @@ begin
     function(It: BVector < BPair < BUInt32, BProc >>.It): BBool
     begin
       Result := Tick > It^.First;
-      if Result then begin
-        try It^.Second();
+      if Result then
+      begin
+        try
+          It^.Second();
         except
           on E: Exception do
-            raise BException.Create('BBot->ScheduledCommands' + BStrLine + E.Message);
+            raise BException.Create('BBot->ScheduledCommands' + BStrLine +
+              E.Message);
         end;
       end;
     end);
@@ -528,9 +536,11 @@ var
 begin
   Result := False;
   CT := ContainerLast;
-  while CT <> nil do begin
+  while CT <> nil do
+  begin
     if CT.Container = Index then
-      if CT.IsContainer then begin
+      if CT.IsContainer then
+      begin
         CT.Use;
         Result := True;
         Exit;
@@ -634,10 +644,13 @@ begin
   Events.RunHotkeys;
   Events.RunMenu;
 
-  if Me.Connected then begin
+  if Me.Connected then
+  begin
     Runner.RunAction;
     RunScheduler;
-  end else begin
+  end
+  else
+  begin
     Me.LoggingOut := False;
     Me.Reload;
   end;
@@ -654,7 +667,8 @@ end;
 procedure TBBot.StartSound(SoundFile: BStr; ALoop: BBool);
 begin
   StopWav;
-  if (SoundFile = '') or (not FileExists(BotPath + 'Data/' + SoundFile + '.wav')) then
+  if (SoundFile = '') or (not FileExists(BotPath + 'Data/' + SoundFile + '.wav'))
+  then
 {$IFDEF Release}
     PlayWav(BotPath + 'Data/Alert.wav', ALoop)
 {$ELSE}
@@ -688,4 +702,3 @@ begin
 end;
 
 end.
-

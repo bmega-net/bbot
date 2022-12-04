@@ -1,5 +1,5 @@
 unit uHUD;
-
+
 interface
 
 uses
@@ -33,15 +33,20 @@ type
     OH: Extended;
   end;
 
-  TBBotHUDPacket = (bhpClear = 200, bhpRemoveGroup, bhpRemovePositionGroup, bhpRemoveCreatureGroup, bhpAddScreen,
-    bhpAddPosition, bhpAddCreature, bhpDone);
+  TBBotHUDPacket = (bhpClear = 200, bhpRemoveGroup, bhpRemovePositionGroup,
+    bhpRemoveCreatureGroup, bhpAddScreen, bhpAddPosition,
+    bhpAddCreature, bhpDone);
 
-  TBBotHUDGroup = (bhgAny, bhgBBotNET, bhgBBotNETStatus, bhgAlert, bhgPause, bhgLooter, bhgBBotMenu, bhgReUser,
-    bhgSpecialSQMs, bhgAimbot, bhgCreatureHUD, bhgManaShield, bhgInvisible, bhgHaste, bhgSuper, bhgPartyBuff,
-    bhgIllusion, bhgRecovery, bhgAmmoCounter, bhgTrainer, bhgJustLoggedIn, bhgBBotCenter, bhgKillStats, bhgExpStats,
-    bhgSkillsStats, bhgSupliesStats, bhgLooterStats, bhgProfitStats, bhgTestEngine, bhgReconnectManager, bhgMWall,
-    bhgSpecialSQMsEditor, bhgDebugPositionStepStatistics, bhgDebugPositionAttackStatistics, bhgDebug, bhgDebugWalker,
-    bhgDebugCavebot, bhgDebugBattlelist, bhgDebugOpenCorpses, bhgDebugMap, bhgDebugAStar, bhgDebugWaitLockers, bhgLast);
+  TBBotHUDGroup = (bhgAny, bhgBBotNET, bhgBBotNETStatus, bhgAlert, bhgPause,
+    bhgLooter, bhgBBotMenu, bhgReUser, bhgSpecialSQMs, bhgAimbot,
+    bhgCreatureHUD, bhgManaShield, bhgInvisible, bhgHaste, bhgSuper,
+    bhgPartyBuff, bhgIllusion, bhgRecovery, bhgAmmoCounter, bhgTrainer,
+    bhgJustLoggedIn, bhgBBotCenter, bhgKillStats, bhgExpStats, bhgSkillsStats,
+    bhgSupliesStats, bhgLooterStats, bhgProfitStats, bhgTestEngine,
+    bhgReconnectManager, bhgMWall, bhgSpecialSQMsEditor,
+    bhgDebugPositionStepStatistics, bhgDebugPositionAttackStatistics, bhgDebug,
+    bhgDebugWalker, bhgDebugCavebot, bhgDebugBattlelist, bhgDebugOpenCorpses,
+    bhgDebugMap, bhgDebugAStar, bhgDebugWaitLockers, bhgLast);
 
   TBBotHUDKind = (bhkScreen = 0, bhkPosition, bhkCreature, bhkUnset);
   TBBotHUDAlign = (bhaLeft = 0, bhaCenter = 1, bhaRight = 2);
@@ -156,7 +161,8 @@ begin
   TibiaProcess.ReadEx(RectPtr + ($4 + $18), 4, @RectPtr);
   TibiaProcess.ReadEx(RectPtr + $14, 16, @ScreenRect);
   TibiaWindowRect := TibiaProcess.ClientRect;
-  if not Me.Connected then begin
+  if not Me.Connected then
+  begin
     ScreenRect.X := 0;
     ScreenRect.Y := 0;
     ScreenRect.W := TibiaWindowRect.Right - TibiaWindowRect.Left - 60;
@@ -167,7 +173,8 @@ begin
   TibiaState^.ScreenBounds.Right := ScreenRect.X + ScreenRect.W;
   TibiaState^.ScreenBounds.Bottom := ScreenRect.Y + ScreenRect.H;
   TibiaState^.ScreenBounds.PixelScale :=
-    (((TibiaState^.ScreenBounds.Right - TibiaState^.ScreenBounds.Left) / 15)) / 32.0;
+    (((TibiaState^.ScreenBounds.Right - TibiaState^.ScreenBounds.Left) /
+    15)) / 32.0;
 end;
 
 procedure HUDRemoveGroup(Group: TBBotHUDGroup);
@@ -203,7 +210,8 @@ end;
 
 procedure InitHUD;
 begin
-  HUDPacketConn := TBBotPacket.CreateSharedMemory('bhu' + IntToStr(TibiaProcess.PID), _HUDBufferSize);
+  HUDPacketConn := TBBotPacket.CreateSharedMemory
+    ('bhu' + IntToStr(TibiaProcess.PID), _HUDBufferSize);
   HUDPacketConn.Position := 0;
   HUDPacketConn.Size := 0;
   HUDPacketConn.WriteBInt32(_HUDBufferIDLE);
@@ -222,9 +230,11 @@ end;
 
 procedure HUDExecute;
 begin
-  if HUDPacket.Size > 0 then begin
+  if HUDPacket.Size > 0 then
+  begin
     HUDPacketConn.Position := 0;
-    while HUDPacketConn.GetBInt32 = _HUDBufferIDLE do begin
+    while HUDPacketConn.GetBInt32 = _HUDBufferIDLE do
+    begin
       HUDPacket.WriteBInt32(Ord(bhpDone));
       HUDPacket.Position := 0;
 
@@ -243,7 +253,8 @@ end;
 
 procedure HUDPrepareSize(Size: BUInt32);
 begin
-  if (HUDPacket.Position + Size + 100) > _HUDBufferSize then begin
+  if (HUDPacket.Position + Size + 100) > _HUDBufferSize then
+  begin
     HUDPacket.Position := 0;
     HUDPacket.Size := 0;
   end;
@@ -255,14 +266,21 @@ procedure TBBotHUD.AlignTo(H: TBBotHUDAlign; V: TBBotHUDVAlign);
 begin
   Align := H;
   case H of
-  bhaLeft: ScreenX := HUDStartX;
-  bhaCenter: ScreenX := ScreenRect.X + (ScreenRect.W div 2);
-  bhaRight: ScreenX := (TibiaWindowRect.Right - TibiaWindowRect.Left) - HUDInventorySize - HUDStartX;
+    bhaLeft:
+      ScreenX := HUDStartX;
+    bhaCenter:
+      ScreenX := ScreenRect.X + (ScreenRect.W div 2);
+    bhaRight:
+      ScreenX := (TibiaWindowRect.Right - TibiaWindowRect.Left) -
+        HUDInventorySize - HUDStartX;
   end;
   case V of
-  bhaTop: ScreenY := ScreenRect.Y + HUDStartY;
-  bhaMiddle: ScreenY := ScreenRect.Y + (ScreenRect.H div 2) - (12 * 4);
-  bhaBottom: ScreenY := ScreenRect.Y - (HUDStartY * 2) + ScreenRect.H - (12 * 2);
+    bhaTop:
+      ScreenY := ScreenRect.Y + HUDStartY;
+    bhaMiddle:
+      ScreenY := ScreenRect.Y + (ScreenRect.H div 2) - (12 * 4);
+    bhaBottom:
+      ScreenY := ScreenRect.Y - (HUDStartY * 2) + ScreenRect.H - (12 * 2);
   end;
   if (V = bhaTop) and (H = bhaLeft) then
     ScreenY := ScreenY + HUDStartY;
@@ -393,21 +411,24 @@ begin
     raise Exception.Create('HUD unset kind');
   HUDPrepareSize(Length(Text) + 60);
   case Kind of
-  bhkPosition: begin
-      HUDPacket.WriteBInt8(BInt8(Ord(bhpAddPosition)));
-      HUDPacket.WriteBInt32(X);
-      HUDPacket.WriteBInt32(Y);
-      HUDPacket.WriteBInt32(Z);
-    end;
-  bhkScreen: begin
-      HUDPacket.WriteBInt8(BInt8(Ord(bhpAddScreen)));
-      HUDPacket.WriteBInt32(ScreenX);
-      HUDPacket.WriteBInt32(ScreenY);
-    end;
-  bhkCreature: begin
-      HUDPacket.WriteBInt8(BInt8(Ord(bhpAddCreature)));
-      HUDPacket.WriteBInt32(BInt32(Creature));
-    end;
+    bhkPosition:
+      begin
+        HUDPacket.WriteBInt8(BInt8(Ord(bhpAddPosition)));
+        HUDPacket.WriteBInt32(X);
+        HUDPacket.WriteBInt32(Y);
+        HUDPacket.WriteBInt32(Z);
+      end;
+    bhkScreen:
+      begin
+        HUDPacket.WriteBInt8(BInt8(Ord(bhpAddScreen)));
+        HUDPacket.WriteBInt32(ScreenX);
+        HUDPacket.WriteBInt32(ScreenY);
+      end;
+    bhkCreature:
+      begin
+        HUDPacket.WriteBInt8(BInt8(Ord(bhpAddCreature)));
+        HUDPacket.WriteBInt32(BInt32(Creature));
+      end;
   end;
   HUDPacket.WriteBStr32(Text);
   HUDPacket.WriteBInt32(Ord(Align));
@@ -423,4 +444,4 @@ begin
 end;
 
 end.
-
+

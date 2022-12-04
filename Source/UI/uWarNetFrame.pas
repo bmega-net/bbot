@@ -71,21 +71,25 @@ type
     Label8: TLabel;
     GoViewRooms: TLabel;
     GoViewActions: TLabel;
-    procedure WarNetActionsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure WarNetActionsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure WarNetActionsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure WarNetActionsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure WarNetAddComboClick(Sender: TObject);
     procedure GoCreateRoomClick(Sender: TObject);
     procedure DisconnectClick(Sender: TObject);
     procedure WarNetItemCombosClick(Sender: TObject);
     procedure WarNetSignalChangeColorClick(Sender: TObject);
-    procedure WarNetTriggerKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure WarNetTriggerKeyKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure WarNetAddSignalClick(Sender: TObject);
     procedure LinkMouseEnter(Sender: TObject);
     procedure LinkMouseLeave(Sender: TObject);
     procedure GoViewRoomsClick(Sender: TObject);
     procedure GoViewActionsClick(Sender: TObject);
     procedure GoCreateActionClick(Sender: TObject);
-    procedure ServerRoomDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure ServerRoomDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure RoomCreateClick(Sender: TObject);
     procedure WarNetComboComboDropDown(Sender: TObject);
     procedure WarNetComboComboCloseUp(Sender: TObject);
@@ -138,7 +142,8 @@ const
 
 procedure TWarNetFrame.BuildWarNetActions;
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.WarNet.LoadActions(WarNetActions.Items);
     MutexRelease;
   end;
@@ -235,7 +240,8 @@ end;
 
 procedure TWarNetFrame.OnTabPressed;
 begin
-  if (Screen.ActiveControl = WarNetTriggerKey) then begin
+  if (Screen.ActiveControl = WarNetTriggerKey) then
+  begin
     WarNetTriggerKey.Text := 'TAB';
   end;
 end;
@@ -243,7 +249,8 @@ end;
 procedure TWarNetFrame.readDataFromServerQuery;
 begin
   if shouldReadDataFromServer then
-    if ServerQuery.Mutex.WaitFor(50) = wrSignaled then begin
+    if ServerQuery.Mutex.WaitFor(50) = wrSignaled then
+    begin
       shouldReadDataFromServer := False;
       WarNetServers.Items.BeginUpdate;
       WarNetRooms.Items.BeginUpdate;
@@ -264,14 +271,19 @@ begin
               RoomDescription: BStr;
             begin
               Players := Players + ARoom^.Players;
-              RoomDescription := BFormat('with %d players hosted on %s (ping: %d)', [ARoom^.Players, AServer^.Name,
-                AServer^.Ping]);
-              WarNetRooms.AddItem(BFormat('%s:%d @Description<%s>Description@ @Name<%s>Name@',
-                [AServer^.IP, AServer^.Port, RoomDescription, ARoom^.Name]), nil);
+              RoomDescription :=
+                BFormat('with %d players hosted on %s (ping: %d)',
+                [ARoom^.Players, AServer^.Name, AServer^.Ping]);
+              WarNetRooms.AddItem
+                (BFormat('%s:%d @Description<%s>Description@ @Name<%s>Name@',
+                [AServer^.IP, AServer^.Port, RoomDescription,
+                ARoom^.Name]), nil);
             end);
           Description := BFormat('%s with %d inside %d rooms (ping: %d)',
-            [BIf(AServer^.Official, 'Official', 'Private'), Players, AServer^.Rooms.Count, AServer^.Ping]);
-          WarNetServers.AddItem(BFormat('%s:%d @Description<%s>Description@ @Name<%s>Name@',
+            [BIf(AServer^.Official, 'Official', 'Private'), Players,
+            AServer^.Rooms.Count, AServer^.Ping]);
+          WarNetServers.AddItem
+            (BFormat('%s:%d @Description<%s>Description@ @Name<%s>Name@',
             [AServer^.IP, AServer^.Port, Description, AServer^.Name]), nil);
         end);
       WarNetRooms.Items.EndUpdate;
@@ -302,8 +314,10 @@ begin
     ShowMessage('Please type a room normal password')
   else if Length(CreateRoomLeaderPassword.Text) < 3 then
     ShowMessage('Please type a room leader password')
-  else if EngineLoad = elRunning then begin
-    IP := BStrLeft(WarNetServers.Items.Strings[WarNetServers.ItemIndex], ' @Description<');
+  else if EngineLoad = elRunning then
+  begin
+    IP := BStrLeft(WarNetServers.Items.Strings[WarNetServers.ItemIndex],
+      ' @Description<');
     Port := BStrTo32(BTrim(BStrRight(IP, ':')));
     IP := BTrim(BStrLeft(IP, ':'));
     BBot.WarNet.IP := IP;
@@ -311,7 +325,8 @@ begin
     BBot.WarNet.Room := CreateRoomName.Text;
     BBot.WarNet.Password := CreateRoomPassword.Text;
     BBot.WarNet.LeaderPassword := CreateRoomLeaderPassword.Text;
-    if MutexAcquire then begin
+    if MutexAcquire then
+    begin
       BBot.WarNet.Connected := True;
       MutexRelease;
     end;
@@ -323,33 +338,47 @@ var
   CS, RS: BStr;
 begin
   readDataFromServerQuery;
-  if (NextReloadServers < Tick) and ((RoomsPanel.Visible) or (CreateRoomPanel.Visible)) then begin
+  if (NextReloadServers < Tick) and
+    ((RoomsPanel.Visible) or (CreateRoomPanel.Visible)) then
+  begin
     NextReloadServers := Tick + RELOAD_SERVERS_EVERY;
     Reload;
   end;
   case BBot.WarNet.State of
-  bwnssDisconnected: begin
-      CS := 'Disconnected';
-      case BBot.WarNet.RoomStatus of
-      bwnrsWrongPassword: RS := 'Wrong Password';
-      bwnrsUnavailable: RS := 'Room name unavailabled';
-      bwnrsInvalidName: RS := 'Room name is invalid';
-      bwnrsRoomNotFound: RS := 'Room not found';
-    else RS := '';
+    bwnssDisconnected:
+      begin
+        CS := 'Disconnected';
+        case BBot.WarNet.RoomStatus of
+          bwnrsWrongPassword:
+            RS := 'Wrong Password';
+          bwnrsUnavailable:
+            RS := 'Room name unavailabled';
+          bwnrsInvalidName:
+            RS := 'Room name is invalid';
+          bwnrsRoomNotFound:
+            RS := 'Room not found';
+        else
+          RS := '';
+        end;
       end;
-    end;
-  bwnssConnecting: begin
-      CS := 'Connecting';
-      RS := '';
-    end;
-  bwnssConnected: begin
-      CS := 'Connected';
-      case BBot.WarNet.RoomStatus of
-      bwnrsNone: RS := 'Trying to join room';
-      bwnrsAuthenticated: RS := BBot.WarNet.Room + ' connected' + BIf(BBot.WarNet.ImLeader, ' (L)', '');
-    else RS := '';
+    bwnssConnecting:
+      begin
+        CS := 'Connecting';
+        RS := '';
       end;
-    end;
+    bwnssConnected:
+      begin
+        CS := 'Connected';
+        case BBot.WarNet.RoomStatus of
+          bwnrsNone:
+            RS := 'Trying to join room';
+          bwnrsAuthenticated:
+            RS := BBot.WarNet.Room + ' connected' + BIf(BBot.WarNet.ImLeader,
+              ' (L)', '');
+        else
+          RS := '';
+        end;
+      end;
   end;
   if BBot.WarNet.SockError <> 0 then
     CS := BFormat('%s (Error %d)', [CS, BBot.WarNet.SockError]);
@@ -357,28 +386,33 @@ begin
   Disconnect.Visible := BBot.WarNet.State = bwnssConnected;
 end;
 
-procedure TWarNetFrame.WarNetActionsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TWarNetFrame.WarNetActionsDrawItem(Control: TWinControl;
+Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   R: BStrArray;
   A, B: BStr;
 begin
   A := '?';
   B := '?';
-  if BStrSplit(R, '@@', WarNetActions.Items[Index]) > 3 then begin
+  if BStrSplit(R, '@@', WarNetActions.Items[Index]) > 3 then
+  begin
     A := R[0] + ' (' + R[1] + ') ' + R[2];
     B := R[3];
   end;
   BListDrawItem(WarNetActions.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TWarNetFrame.WarNetActionsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TWarNetFrame.WarNetActionsKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 var
   Selected: BInt32;
 begin
-  if ssShift in Shift then begin
+  if ssShift in Shift then
+  begin
     Selected := WarNetActions.ItemIndex;
     if Selected <> -1 then
-      if Key = VK_DELETE then begin
+      if Key = VK_DELETE then
+      begin
         WarNetActions.Items.Delete(Selected);
         BuildWarNetActions;
       end;
@@ -387,10 +421,13 @@ end;
 
 procedure TWarNetFrame.WarNetAddComboClick(Sender: TObject);
 begin
-  if (Length(WarNetComboCombo.Text) < 3) or (WarNetComboCombo.Text = StrManageAttackSequen) then
+  if (Length(WarNetComboCombo.Text) < 3) or
+    (WarNetComboCombo.Text = StrManageAttackSequen) then
     ShowMessage('Please select a valid combo')
-  else begin
-    WarNetActions.AddItem(BFormat('%s@@Combo@@%s', [GetWarNetTrigger, WarNetComboCombo.Text]), nil);
+  else
+  begin
+    WarNetActions.AddItem(BFormat('%s@@Combo@@%s', [GetWarNetTrigger,
+      WarNetComboCombo.Text]), nil);
     BuildWarNetActions;
     GoToPanel(ActionsPanel);
   end;
@@ -402,9 +439,11 @@ begin
     ShowMessage('Please insert a valid signal name')
   else if BStrTo32(WarNetSignalDuration.Text, 0) = 0 then
     ShowMessage('Please insert a valid signal duration. Zero is not allowed.')
-  else begin
-    WarNetActions.AddItem(BFormat('%s@@Signal@@%s@@%d@@%d', [GetWarNetTrigger, WarNetSignalName.Text,
-      BStrTo32(WarNetSignalDuration.Text, 1000), BInt32(WarNetSignalName.Font.Color)]), nil);
+  else
+  begin
+    WarNetActions.AddItem(BFormat('%s@@Signal@@%s@@%d@@%d', [GetWarNetTrigger,
+      WarNetSignalName.Text, BStrTo32(WarNetSignalDuration.Text, 1000),
+      BInt32(WarNetSignalName.Font.Color)]), nil);
     BuildWarNetActions;
     GoToPanel(ActionsPanel);
   end;
@@ -422,7 +461,8 @@ end;
 
 procedure TWarNetFrame.DisconnectClick(Sender: TObject);
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.WarNet.Connected := False;
     MutexRelease;
   end;
@@ -430,7 +470,8 @@ end;
 
 procedure TWarNetFrame.WarNetItemCombosClick(Sender: TObject);
 begin
-  if MutexAcquire then begin
+  if MutexAcquire then
+  begin
     BBot.WarNet.ComboShootItems := WarNetItemCombos.Checked;
     MutexRelease;
   end;
@@ -442,7 +483,8 @@ var
   IP, RoomName: BStr;
   Port: BInt32;
 begin
-  if WarNetRooms.ItemIndex <> -1 then begin
+  if WarNetRooms.ItemIndex <> -1 then
+  begin
     Data := WarNetRooms.Items.Strings[WarNetRooms.ItemIndex];
     RoomName := BStrBetween(Data, '@Name<', '>Name@');
     IPPort := BStrLeft(Data, ' @Description<');
@@ -451,10 +493,13 @@ begin
     BBot.WarNet.IP := IP;
     BBot.WarNet.Port := Port;
     BBot.WarNet.Room := RoomName;
-    BBot.WarNet.Password := InputBox('War Room', 'Please type the password for the room ' + RoomName, '');
-    if Length(BBot.WarNet.Password) >= 3 then begin
+    BBot.WarNet.Password := InputBox('War Room',
+      'Please type the password for the room ' + RoomName, '');
+    if Length(BBot.WarNet.Password) >= 3 then
+    begin
       BBot.WarNet.LeaderPassword := '';
-      if MutexAcquire then begin
+      if MutexAcquire then
+      begin
         BBot.WarNet.Connected := True;
         MutexRelease;
       end;
@@ -464,7 +509,8 @@ begin
   end;
 end;
 
-procedure TWarNetFrame.ServerRoomDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TWarNetFrame.ServerRoomDrawItem(Control: TWinControl; Index: Integer;
+Rect: TRect; State: TOwnerDrawState);
 var
   Lst: TListBox;
   Data, A, B: BStr;
@@ -487,7 +533,8 @@ begin
   ClrDg.Free;
 end;
 
-procedure TWarNetFrame.WarNetTriggerKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TWarNetFrame.WarNetTriggerKeyKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 begin
   WarNetTriggerKey.Text := KeyToStr(Shift, Key);
   Key := $0;
@@ -495,7 +542,8 @@ end;
 
 { TBBotWarNetServersQueryCallback }
 
-constructor TBBotWarNetServersQueryCallback.Create(const AWarNetFrame: TWarNetFrame);
+constructor TBBotWarNetServersQueryCallback.Create(const AWarNetFrame
+  : TWarNetFrame);
 begin
   WarNetFrame := AWarNetFrame;
   inherited Create();

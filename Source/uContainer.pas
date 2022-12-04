@@ -1,6 +1,5 @@
 unit uContainer;
 
-
 interface
 
 uses
@@ -48,8 +47,10 @@ type
     procedure Close;
     procedure Load;
 
-    function PullHere(const AItem: TTibiaItem): TBBotContainerPushState; overload;
-    function PullHere(const AItem: TTibiaItem; const ACount: BInt32): TBBotContainerPushState; overload;
+    function PullHere(const AItem: TTibiaItem)
+      : TBBotContainerPushState; overload;
+    function PullHere(const AItem: TTibiaItem; const ACount: BInt32)
+      : TBBotContainerPushState; overload;
 
     constructor Create(AContainer, ASlot: BInt32);
   end;
@@ -96,7 +97,8 @@ begin
   Data.Containers := ContainerStateCount;
   Data.Slots := ContainerStateItems;
   SetLength(Data.List, Data.Containers);
-  for A := 0 to Data.Containers - 1 do begin
+  for A := 0 to Data.Containers - 1 do
+  begin
     SetLength(Data.List[A], Data.Slots);
     for B := 0 to Data.Slots - 1 do
       Data.List[A, B] := TTibiaContainer.Create(A, B);
@@ -142,7 +144,8 @@ end;
 function ContainerFind(ID: BUInt32): TTibiaContainer;
 begin
   Result := ContainerFirst;
-  while Result <> nil do begin
+  while Result <> nil do
+  begin
     if Result.ID = ID then
       Exit;
     Result := Result.Next;
@@ -157,7 +160,8 @@ var
 begin
   Result := 0;
   CT := ContainerFirst;
-  while CT <> nil do begin
+  while CT <> nil do
+  begin
     if CT.ID = ID then
       Inc(Result, Max(CT.Count, 1));
     CT := CT.Next;
@@ -190,12 +194,14 @@ end;
 
 function TTibiaContainer.GetChecksum: BInt32;
 begin
-  Result := CRC32(@TibiaState^.Container[FContainer], SizeOf(TibiaState^.Container[FContainer]));
+  Result := CRC32(@TibiaState^.Container[FContainer],
+    SizeOf(TibiaState^.Container[FContainer]));
 end;
 
 function TTibiaContainer.GetIsCorpse: boolean;
 const
-  Names: array [0 .. 5] of BStr = ('dead', 'slain', 'ashes', 'dust', 'split', 'remain');
+  Names: array [0 .. 5] of BStr = ('dead', 'slain', 'ashes', 'dust', 'split',
+    'remain');
 var
   S: BStr;
   I: BInt32;
@@ -203,7 +209,8 @@ begin
   Result := False;
   S := LowerCase(ContainerName);
   for I := 0 to High(Names) do
-    if AnsiPos(Names[I], S) > 0 then begin
+    if AnsiPos(Names[I], S) > 0 then
+    begin
       Result := True;
       Exit;
     end;
@@ -219,7 +226,8 @@ begin
   Result := False;
   S := LowerCase(ContainerName);
   for I := 0 to High(Names) do
-    if AnsiPos(Names[I], S) > 0 then begin
+    if AnsiPos(Names[I], S) > 0 then
+    begin
       Result := True;
       Exit;
     end;
@@ -239,8 +247,10 @@ begin
       // Shortcut: current CT item
       Exit(Slot);
     CT := ContainerFirst;
-    while (CT <> nil) and (CT.Container = Container) do begin
-      if (CT.ID = AItem.ID) and (CT.Position <> AItem.Position) and (CT.Count < 100) then
+    while (CT <> nil) and (CT.Container = Container) do
+    begin
+      if (CT.ID = AItem.ID) and (CT.Position <> AItem.Position) and
+        (CT.Count < 100) then
         Exit(CT.Slot);
       CT := CT.Next;
     end;
@@ -248,19 +258,24 @@ begin
   if Items = Capacity then // Full, open next
   begin
     CT := ContainerLast;
-    while CT <> nil do begin
-      if CT.IsContainer and (CT.Container = Container) then begin
+    while CT <> nil do
+    begin
+      if CT.IsContainer and (CT.Container = Container) then
+      begin
         CT.Use;
         Exit(BBotContainerMoveTryAgain);
       end;
       CT := CT.Prev;
     end;
   end;
-  if (not AItem.IsStackable) and (not IsContainer) and (Position <> AItem.Position) then
+  if (not AItem.IsStackable) and (not IsContainer) and
+    (Position <> AItem.Position) then
     Exit(Slot);
   CT := ContainerFirst; // First non-container item
-  while CT <> nil do begin
-    if (not CT.IsContainer) and (CT.Container = Container) and (CT.Position <> AItem.Position) then
+  while CT <> nil do
+  begin
+    if (not CT.IsContainer) and (CT.Container = Container) and
+      (CT.Position <> AItem.Position) then
       Exit(CT.Slot);
     CT := CT.Next;
   end;
@@ -274,26 +289,34 @@ var
   A, B, nSlots: BInt32;
 begin
   Result := nil;
-  if FSlot < (Data.Slots - 1) then begin
+  if FSlot < (Data.Slots - 1) then
+  begin
     A := FContainer;
     Data.List[A, 0].Load;
     nSlots := Data.List[A, 0].Items - 1;
-    for B := FSlot + 1 to nSlots do begin
+    for B := FSlot + 1 to nSlots do
+    begin
       Data.List[A, B].Load;
-      if Data.List[A, B].Valid then begin
+      if Data.List[A, B].Valid then
+      begin
         Result := Data.List[A, B];
         Exit;
       end;
     end;
   end;
-  if FContainer < (Data.Containers - 1) then begin
-    for A := FContainer + 1 to (Data.Containers - 1) do begin
+  if FContainer < (Data.Containers - 1) then
+  begin
+    for A := FContainer + 1 to (Data.Containers - 1) do
+    begin
       Data.List[A, 0].Load;
-      if Data.List[A, 0].Open then begin
+      if Data.List[A, 0].Open then
+      begin
         nSlots := Data.List[A, 0].Items - 1;
-        for B := 0 to nSlots do begin
+        for B := 0 to nSlots do
+        begin
           Data.List[A, B].Load;
-          if Data.List[A, B].Valid then begin
+          if Data.List[A, B].Valid then
+          begin
             Result := Data.List[A, B];
             Exit;
           end;
@@ -308,24 +331,32 @@ var
   A, B, nSlots: BInt32;
 begin
   Result := nil;
-  if FSlot > 0 then begin
+  if FSlot > 0 then
+  begin
     A := FContainer;
-    for B := BMin(FSlot, FItems) - 1 downto 0 do begin
+    for B := BMin(FSlot, FItems) - 1 downto 0 do
+    begin
       Data.List[A, B].Load;
-      if Data.List[A, B].Valid then begin
+      if Data.List[A, B].Valid then
+      begin
         Result := Data.List[A, B];
         Exit;
       end;
     end;
   end;
-  if FContainer > 0 then begin
-    for A := FContainer - 1 downto 0 do begin
+  if FContainer > 0 then
+  begin
+    for A := FContainer - 1 downto 0 do
+    begin
       Data.List[A, 0].Load;
-      if Data.List[A, 0].Open then begin
+      if Data.List[A, 0].Open then
+      begin
         nSlots := Data.List[A, 0].Items - 1;
-        for B := nSlots downto 0 do begin
+        for B := nSlots downto 0 do
+        begin
           Data.List[A, B].Load;
-          if Data.List[A, B].Valid then begin
+          if Data.List[A, B].Valid then
+          begin
             Result := Data.List[A, B];
             Exit;
           end;
@@ -354,12 +385,14 @@ begin
     UnsetItem;
 end;
 
-function TTibiaContainer.PullHere(const AItem: TTibiaItem): TBBotContainerPushState;
+function TTibiaContainer.PullHere(const AItem: TTibiaItem)
+  : TBBotContainerPushState;
 begin
   Exit(PullHere(AItem, AItem.Count));
 end;
 
-function TTibiaContainer.PullHere(const AItem: TTibiaItem; const ACount: BInt32): TBBotContainerPushState;
+function TTibiaContainer.PullHere(const AItem: TTibiaItem; const ACount: BInt32)
+  : TBBotContainerPushState;
 var
   ToPos: BPos;
 begin
@@ -372,11 +405,12 @@ begin
     Exit(bcpsError)
   else if ToPos.Z = BBotContainerMoveTryAgain then
     Exit(bcpsTryAgain)
-  else begin
-    BBot.PacketSender.MoveItem(AItem.Position, AItem.ID, AItem.Stack, BMinMax(ACount, 0, AItem.Count), ToPos);
+  else
+  begin
+    BBot.PacketSender.MoveItem(AItem.Position, AItem.ID, AItem.Stack,
+      BMinMax(ACount, 0, AItem.Count), ToPos);
     Exit(bcpsSuccess);
   end;
 end;
 
 end.
-

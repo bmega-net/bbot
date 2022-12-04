@@ -1,5 +1,5 @@
 unit uBBotLevelSpy;
-
+
 interface
 
 uses
@@ -73,10 +73,12 @@ var
   I: BInt32;
 begin
   Result := _IsDefaultValid;
-  if not Result then begin
+  if not Result then
+  begin
     for I := 0 to High(DefaultOPs) do
       if TibiaAddresses.LevelSpy[I] <> 0 then
-        TibiaProcess.Read(TibiaAddresses.LevelSpy[I], SizeOf(DefaultOPs[I]), @DefaultOPs[I][0]);
+        TibiaProcess.Read(TibiaAddresses.LevelSpy[I], SizeOf(DefaultOPs[I]),
+          @DefaultOPs[I][0]);
     Result := _IsDefaultValid;
   end;
 end;
@@ -113,7 +115,8 @@ end;
 
 procedure TBBotLevelSpy.Reset;
 begin
-  if IsPatched then begin
+  if IsPatched then
+  begin
     FLevel := 0;
     UnPatch;
   end;
@@ -136,7 +139,8 @@ begin
   else
     Exit;
   Patch;
-  if IsPatched and BInRange(Z, 0, 15) then begin
+  if IsPatched and BInRange(Z, 0, 15) then
+  begin
     TibiaProcess.Read(TibiaAddresses.AdrScreenRectAndLevelSpyPtr, 4, @P);
     TibiaProcess.ReadEx(TibiaAddresses.LevelSpyAdd1 + P, 4, @P);
     TibiaProcess.WriteEx(TibiaAddresses.LevelSpyAdd2 + P, 4, @Z);
@@ -149,7 +153,8 @@ var
 begin
   if IsDefaultValid and IsPatched then
     for I := 0 to High(DefaultOPs) do
-      TibiaProcess.Write(TibiaAddresses.LevelSpy[I], SizeOf(DefaultOPs[I]), @DefaultOPs[I]);
+      TibiaProcess.Write(TibiaAddresses.LevelSpy[I], SizeOf(DefaultOPs[I]),
+        @DefaultOPs[I]);
 end;
 
 function TBBotLevelSpy._IsDefaultValid: BBool;
@@ -158,4 +163,4 @@ begin
 end;
 
 end.
-
+

@@ -1,5 +1,5 @@
 unit uSelf;
-
+
 interface
 
 uses
@@ -82,7 +82,8 @@ type
     property SkillPercent: TTibiaSelfSkill read FSkillPercent;
 
     property SpecialSkill: TTibiaSelfSpecialSkill read FSpecialSkill;
-    procedure SetSpecialSkill(const ASpecialSkill: TTibiaSpecialSkill; const AValue: BInt32);
+    procedure SetSpecialSkill(const ASpecialSkill: TTibiaSpecialSkill;
+      const AValue: BInt32);
 
     function CanSee(Pos: BPos): BBool;
     function CanTakeItem(const AItem: TTibiaItem): BBool;
@@ -139,7 +140,8 @@ end;
 
 function TTibiaSelf.CanSee(Pos: BPos): BBool;
 begin
-  Result := TibiaInScreen(Position.X, Position.Y, Position.Z, Pos.X, Pos.Y, Pos.Z, False);
+  Result := TibiaInScreen(Position.X, Position.Y, Position.Z, Pos.X, Pos.Y,
+    Pos.Z, False);
 end;
 
 function TTibiaSelf.CanTakeItem(const AItem: TTibiaItem): BBool;
@@ -203,12 +205,15 @@ begin
       Exit(tdEast);
 
   if Abs(Tnr) < 2.4142 then
-    if Tnr > 0 then begin
+    if Tnr > 0 then
+    begin
       if Dist.Y > 0 then
         Exit(tdNorthWest)
       else
         Exit(tdSouthEast);
-    end else begin
+    end
+    else
+    begin
       if Dist.X > 0 then
         Exit(tdSouthWest)
       else
@@ -233,10 +238,13 @@ end;
 
 function TTibiaSelf.GetLight: TTibiaLight;
 begin
-  if BBot.Creatures.Player <> nil then begin
+  if BBot.Creatures.Player <> nil then
+  begin
     Result.Intensity := BBot.Creatures.Player.LightIntensity;
     Result.Color := BBot.Creatures.Player.LightColor;
-  end else begin
+  end
+  else
+  begin
     Result.Intensity := 0;
     Result.Color := 0;
   end;
@@ -254,7 +262,8 @@ function TTibiaSelf.GetOutfit: TTibiaOutfit;
 begin
   if BBot.Creatures.Player <> nil then
     Result := BBot.Creatures.Player.Outfit
-  else begin
+  else
+  begin
     Result.Outfit := 0;
     Result.HeadColor := 0;
     Result.BodyColor := 0;
@@ -302,7 +311,8 @@ var
   Creature: TBBotCreature;
 begin
   Creature := BBot.Creatures.Player;
-  if Creature <> nil then begin
+  if Creature <> nil then
+  begin
     Creature.LightColor := 215;
     Creature.LightIntensity := ARadius;
   end;
@@ -348,8 +358,10 @@ var
   XorVal: BInt32;
 begin
   TibiaProcess.Read(TibiaAddresses.AdrCapacity, 4, @FCapacity);
-  TibiaProcess.Read(TibiaAddresses.AdrSkills, SizeOf(SkillLevel) - 4, @SkillLevel);
-  TibiaProcess.Read(TibiaAddresses.AdrSkillsPercent, SizeOf(SkillPercent) - 4, @SkillPercent);
+  TibiaProcess.Read(TibiaAddresses.AdrSkills, SizeOf(SkillLevel) - 4,
+    @SkillLevel);
+  TibiaProcess.Read(TibiaAddresses.AdrSkillsPercent, SizeOf(SkillPercent) - 4,
+    @SkillPercent);
   TibiaProcess.Read(TibiaAddresses.AdrStamina, 4, @FStamina);
   TibiaProcess.Read(TibiaAddresses.AdrSoul, 4, @FSoul);
   TibiaProcess.Read(TibiaAddresses.AdrMana, 4, @FMana);
@@ -360,11 +372,13 @@ begin
   TibiaProcess.Read(TibiaAddresses.AdrLevelPercent, 4, @FLevelPercent);
   TibiaProcess.Read(TibiaAddresses.AdrID, 4, @FID);
   TibiaProcess.Read(TibiaAddresses.AdrMagic, 4, @SkillLevel[SkillMagic]);
-  TibiaProcess.Read(TibiaAddresses.AdrMagicPercent, 4, @SkillPercent[SkillMagic]);
+  TibiaProcess.Read(TibiaAddresses.AdrMagicPercent, 4,
+    @SkillPercent[SkillMagic]);
 
   if AdrSelected >= TibiaVer870 then
     TibiaProcess.Read(TibiaAddresses.AdrExperience, 8, @FExp)
-  else begin
+  else
+  begin
     TibiaProcess.Read(TibiaAddresses.AdrExperience, 4, @Exp4);
     FExp := Int64(Exp4);
   end;
@@ -378,7 +392,8 @@ begin
   TibiaProcess.Read(TibiaAddresses.AdrGoToZ, 4, @GoData.Z);
   TibiaProcess.Read(TibiaAddresses.AdrSelfConnection, 1, @ConnectData);
 
-  if AdrSelected >= TibiaVer943 then begin
+  if AdrSelected >= TibiaVer943 then
+  begin
     TibiaProcess.Read(TibiaAddresses.AdrXor, 4, @XorVal);
     FHP := FHP xor XorVal;
     FHPMax := FHPMax xor XorVal;
@@ -390,7 +405,8 @@ begin
   if FHP = 0 then
     FStatus := FStatus + [tsDeath];
 
-  if BBot <> nil then begin
+  if BBot <> nil then
+  begin
     Inventory.Reload;
     if Light.Intensity <> 0 then
       FStatus := FStatus + [tsLight];
@@ -416,7 +432,8 @@ begin
   BBot.PacketSender.ChannelMessage(Msg, Channel);
 end;
 
-procedure TTibiaSelf.SetSpecialSkill(const ASpecialSkill: TTibiaSpecialSkill; const AValue: BInt32);
+procedure TTibiaSelf.SetSpecialSkill(const ASpecialSkill: TTibiaSpecialSkill;
+  const AValue: BInt32);
 begin
   FSpecialSkill[ASpecialSkill] := AValue;
 end;
@@ -444,7 +461,8 @@ end;
 
 procedure TTibiaSelf.Turn(TurnDir: TTibiaDirection);
 begin
-  if (TurnDir <> tdNorth) and (TurnDir <> tdSouth) and (TurnDir <> tdWest) and (TurnDir <> tdEast) then
+  if (TurnDir <> tdNorth) and (TurnDir <> tdSouth) and (TurnDir <> tdWest) and
+    (TurnDir <> tdEast) then
     Exit;
   if TurnDir = Direction then
     Exit;
@@ -513,4 +531,4 @@ begin
 end;
 
 end.
-
+

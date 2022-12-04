@@ -1,5 +1,5 @@
 unit uBBotWarNet;
-
+
 interface
 
 uses
@@ -15,8 +15,8 @@ uses
   uBBotTCPSocket;
 
 type
-  TBBotWarNetRoomStatus = (bwnrsNone, bwnrsWrongPassword, bwnrsUnavailable, bwnrsInvalidName, bwnrsRoomNotFound,
-    bwnrsAuthenticated);
+  TBBotWarNetRoomStatus = (bwnrsNone, bwnrsWrongPassword, bwnrsUnavailable,
+    bwnrsInvalidName, bwnrsRoomNotFound, bwnrsAuthenticated);
 
   TBBotWarNetSignal = class
   private
@@ -124,7 +124,8 @@ type
     FKey: BInt16;
     FShift: TShiftState;
   public
-    constructor Create(AAction: TBBotWarNetAction; AKey: BInt16; AShift: TShiftState);
+    constructor Create(AAction: TBBotWarNetAction; AKey: BInt16;
+      AShift: TShiftState);
 
     property Key: BInt16 read FKey;
     property Shift: TShiftState read FShift;
@@ -202,7 +203,8 @@ type
     property RoomStatus: TBBotWarNetRoomStatus read FRoomStatus;
 
     property ImLeader: BBool read FImLeader;
-    property ComboShootItems: BBool read FComboShootItems write FComboShootItems;
+    property ComboShootItems: BBool read FComboShootItems
+      write FComboShootItems;
 
     property State: TBBotTCPSocket.TBBotTCPSocketState read GetState;
     property SockError: BInt32 read GetSockError;
@@ -312,7 +314,8 @@ procedure TBBotWarNet.Hello;
 var
   Packet: TBBotPacket;
 begin
-  if (FRoomStatus <> bwnrsAuthenticated) and (not NextHello.Locked) then begin
+  if (FRoomStatus <> bwnrsAuthenticated) and (not NextHello.Locked) then
+  begin
     NextHello.Lock;
     Packet := TBBotPacket.CreateWritter(BBOT_TCP_PACKET_ALLOC_SIZE);
     Packet.WriteBInt8(CMD_CLIENT_HELLO);
@@ -346,27 +349,38 @@ begin
   SayActions.Clear;
   ShootActions.Clear;
   for I := 0 to AActions.Count - 1 do
-    if BStrSplit(R, '@@', AActions[I]) > 3 then begin
-      if R[2] = 'Signal' then begin
+    if BStrSplit(R, '@@', AActions[I]) > 3 then
+    begin
+      if R[2] = 'Signal' then
+      begin
         Signal := TBBotWarNetActionSignal.Create(Self);
         Action := Signal;
         Signal.Name := R[3];
         Signal.Duration := BStrTo32(R[4], 1000);
         Signal.Color := BStrTo32(R[5], $FFFFFF);
-      end else if R[2] = 'Combo' then begin
+      end
+      else if R[2] = 'Combo' then
+      begin
         Combo := TBBotWarNetActionCombo.Create(Self);
         Action := Combo;
         Combo.Name := R[3];
       end
       else
         raise Exception.Create('Invalid WarNet action: ' + AActions[I]);
-      if R[0] = 'Key' then begin
+      if R[0] = 'Key' then
+      begin
         K := StrToKey(R[1]);
-        KeyActions.Add(TBBotWarNetActionTriggerKey.Create(Action, K.First, K.Second));
-      end else if R[0] = 'Say' then begin
+        KeyActions.Add(TBBotWarNetActionTriggerKey.Create(Action, K.First,
+          K.Second));
+      end
+      else if R[0] = 'Say' then
+      begin
         SayActions.Add(TBBotWarNetActionTriggerSay.Create(Action, R[1]));
-      end else if R[0] = 'Shoot' then begin
-        ShootActions.Add(TBBotWarNetActionTriggerShoot.Create(Action, BStrTo32(R[1])));
+      end
+      else if R[0] = 'Shoot' then
+      begin
+        ShootActions.Add(TBBotWarNetActionTriggerShoot.Create(Action,
+          BStrTo32(R[1])));
       end
       else
         raise Exception.Create('Invalid WarNet trigger: ' + AActions[I]);
@@ -426,53 +440,69 @@ var
   CMD: BInt8;
 begin
   Packet := Sock.Recv;
-  while Packet <> nil do begin
+  while Packet <> nil do
+  begin
     CMD := Packet.GetBInt8;
     case CMD of
-    CMD_SERVER_HELLO: begin
-        FRoomStatus := bwnrsNone;
-        NextHello.Lock;
-        if LeaderPassword = '' then
-          RoomJoin
-        else
-          RoomCreate;
-      end;
-    CMD_SERVER_ROOM_CREATED: begin
-        FRoomStatus := bwnrsAuthenticated;
-        FImLeader := True;
-        NextStatus.Delay := BUInt32(Packet.GetBInt32());
-      end;
-    CMD_SERVER_ROOM_JOINED: begin
-        FRoomStatus := bwnrsAuthenticated;
-        FImLeader := Packet.GetBInt8() = 1;
-        NextStatus.Delay := BUInt32(Packet.GetBInt32());
-      end;
-    CMD_SERVER_ROOM_UNAVAILABLE: begin
-        FRoomStatus := bwnrsUnavailable;
-        Sock.Disconnect;
-      end;
-    CMD_SERVER_ROOM_INVALID_NAME: begin
-        FRoomStatus := bwnrsInvalidName;
-        Sock.Disconnect;
-      end;
-    CMD_SERVER_ROOM_NOT_FOUND: begin
-        FRoomStatus := bwnrsRoomNotFound;
-        Sock.Disconnect;
-      end;
-    CMD_SERVER_ROOM_WRONG_PASSWORD: begin
-        FRoomStatus := bwnrsWrongPassword;
-        Sock.Disconnect;
-      end;
+      CMD_SERVER_HELLO:
+        begin
+          FRoomStatus := bwnrsNone;
+          NextHello.Lock;
+          if LeaderPassword = '' then
+            RoomJoin
+          else
+            RoomCreate;
+        end;
+      CMD_SERVER_ROOM_CREATED:
+        begin
+          FRoomStatus := bwnrsAuthenticated;
+          FImLeader := True;
+          NextStatus.Delay := BUInt32(Packet.GetBInt32());
+        end;
+      CMD_SERVER_ROOM_JOINED:
+        begin
+          FRoomStatus := bwnrsAuthenticated;
+          FImLeader := Packet.GetBInt8() = 1;
+          NextStatus.Delay := BUInt32(Packet.GetBInt32());
+        end;
+      CMD_SERVER_ROOM_UNAVAILABLE:
+        begin
+          FRoomStatus := bwnrsUnavailable;
+          Sock.Disconnect;
+        end;
+      CMD_SERVER_ROOM_INVALID_NAME:
+        begin
+          FRoomStatus := bwnrsInvalidName;
+          Sock.Disconnect;
+        end;
+      CMD_SERVER_ROOM_NOT_FOUND:
+        begin
+          FRoomStatus := bwnrsRoomNotFound;
+          Sock.Disconnect;
+        end;
+      CMD_SERVER_ROOM_WRONG_PASSWORD:
+        begin
+          FRoomStatus := bwnrsWrongPassword;
+          Sock.Disconnect;
+        end;
     end;
-    if FRoomStatus = bwnrsAuthenticated then begin
+    if FRoomStatus = bwnrsAuthenticated then
+    begin
       case CMD of
-      CMD_SERVER_REMOVE: ReadServerRemove(Packet);
-      CMD_SERVER_ADD: ReadServerAdd(Packet);
-      CMD_SERVER_STATUS: ReadServerStatus(Packet);
-      CMD_SERVER_COMBO_TARGET: ReadServerComboTarget(Packet);
-      CMD_SERVER_COMBO_POS: ReadServerComboPos(Packet);
-      CMD_SERVER_SIGNAL: ReadServerSignal(Packet);
-      CMD_SERVER_STATUS_RECEIVED:;
+        CMD_SERVER_REMOVE:
+          ReadServerRemove(Packet);
+        CMD_SERVER_ADD:
+          ReadServerAdd(Packet);
+        CMD_SERVER_STATUS:
+          ReadServerStatus(Packet);
+        CMD_SERVER_COMBO_TARGET:
+          ReadServerComboTarget(Packet);
+        CMD_SERVER_COMBO_POS:
+          ReadServerComboPos(Packet);
+        CMD_SERVER_SIGNAL:
+          ReadServerSignal(Packet);
+        CMD_SERVER_STATUS_RECEIVED:
+          ;
       end;
     end;
     Packet.Free;
@@ -508,7 +538,8 @@ begin
   TargetCenter.Z := Packet.GetBInt8();
   Vertical := Packet.GetBInt8() = 1;
   if Me.CanSee(TargetCenter) then
-    if ContainerFind(ItemID) <> nil then begin
+    if ContainerFind(ItemID) <> nil then
+    begin
       Target := TargetCenter;
       repeat
         if Vertical then
@@ -517,7 +548,8 @@ begin
           Target.Y := TargetCenter.Y + BRandom(-2, 2);
       until Me.CanSee(Target);
       if Tiles(Map, Target.X, Target.Y) then
-        if Map.Shootable and Map.Walkable then begin
+        if Map.Shootable and Map.Walkable then
+        begin
           ComboIgnoreNextPos := True;
           Map.UseOn(ItemID);
         end;
@@ -534,21 +566,25 @@ var
 begin
   Combo := Packet.GetBStr16();
   TargetID := BUInt32(Packet.GetBInt32());
-  if Me.TargetID <> TargetID then begin
+  if Me.TargetID <> TargetID then
+  begin
     TargetCreature := BBot.Creatures.Find(TargetID);
     if (TargetCreature <> nil) and TargetCreature.IsOnScreen then
       TargetCreature.Attack;
   end;
-  if BBot.Creatures.Target <> nil then begin
+  if BBot.Creatures.Target <> nil then
+  begin
     Atk := BBot.AdvAttack.GetAttackSequenceByName(Combo);
     if Atk <> nil then
       Atk.InstantlyExecute
-    else begin
+    else
+    begin
       HUD := TBBotHUD.Create(bhgBBotNETStatus);
       HUD.AlignTo(bhaCenter, bhaBottom);
       HUD.Expire := 3000;
       HUD.Color := $FFC000;
-      HUD.Text := BFormat('Combo not found: %s on %s', [Combo, BBot.Creatures.Target.Name]);
+      HUD.Text := BFormat('Combo not found: %s on %s',
+        [Combo, BBot.Creatures.Target.Name]);
       HUD.Print;
       HUD.Free;
     end;
@@ -589,7 +625,8 @@ begin
     begin
       Result := It^.ID = ID;
     end);
-  if Player <> nil then begin
+  if Player <> nil then
+  begin
     Signal := Player^.Signals.Find('Warnet - Update player ' + Player.Name,
       function(It: BVector<TBBotWarNetSignal>.It): BBool
       begin
@@ -663,19 +700,27 @@ end;
 
 procedure TBBotWarNet.Run;
 begin
-  if Connected and (Sock.State = bwnssConnected) then begin
+  if Connected and (Sock.State = bwnssConnected) then
+  begin
     Read;
     Status;
     HUD;
     Hello;
-  end else if Connected and (Sock.State = bwnssDisconnected) and (FRoomStatus = bwnrsAuthenticated) then begin
+  end
+  else if Connected and (Sock.State = bwnssDisconnected) and
+    (FRoomStatus = bwnrsAuthenticated) then
+  begin
     FRoomStatus := bwnrsNone;
-  end else if Connected and (Sock.State = bwnssDisconnected) then begin
+  end
+  else if Connected and (Sock.State = bwnssDisconnected) then
+  begin
     FRoomStatus := bwnrsNone;
     Sock.IP := IP;
     Sock.Port := Port;
     Sock.Connect;
-  end else if (not Connected) and (not(Sock.State = bwnssDisconnected)) then begin
+  end
+  else if (not Connected) and (not(Sock.State = bwnssDisconnected)) then
+  begin
     Sock.Disconnect;
   end;
 end;
@@ -689,8 +734,11 @@ procedure TBBotWarNet.ComboPos(AItem: BInt32; APosition: BPos);
 var
   Packet: TBBotPacket;
 begin
-  if ImLeader and (RoomStatus = bwnrsAuthenticated) and (Sock.State = bwnssConnected) then begin
-    if ComboIgnoreNextPos then begin
+  if ImLeader and (RoomStatus = bwnrsAuthenticated) and
+    (Sock.State = bwnssConnected) then
+  begin
+    if ComboIgnoreNextPos then
+    begin
       ComboIgnoreNextPos := False;
       Exit;
     end;
@@ -700,7 +748,8 @@ begin
     Packet.WriteBInt32(APosition.X);
     Packet.WriteBInt32(APosition.Y);
     Packet.WriteBInt8(APosition.Z);
-    Packet.WriteBInt8(BIf(BAbs(APosition.X - Me.Position.X) <= BAbs(APosition.Y - Me.Position.Y), 1, 0));
+    Packet.WriteBInt8(BIf(BAbs(APosition.X - Me.Position.X) <=
+      BAbs(APosition.Y - Me.Position.Y), 1, 0));
     Send(Packet);
     Packet.Free;
   end;
@@ -711,8 +760,10 @@ var
   Packet: TBBotPacket;
   Atk: TBBotAttackSequence;
 begin
-  if ImLeader and (RoomStatus = bwnrsAuthenticated) and (Sock.State = bwnssConnected) then
-    if Me.IsAttacking then begin
+  if ImLeader and (RoomStatus = bwnrsAuthenticated) and
+    (Sock.State = bwnssConnected) then
+    if Me.IsAttacking then
+    begin
       Packet := TBBotPacket.CreateWritter(BBOT_TCP_PACKET_ALLOC_SIZE);
       Packet.WriteBInt8(CMD_CLIENT_COMBO_TARGET);
       Packet.WriteBStr16(ACombo);
@@ -725,11 +776,13 @@ begin
     end;
 end;
 
-procedure TBBotWarNet.Signal(ASignalName: BStr; ASignalColor, ASignalDuration: BInt32);
+procedure TBBotWarNet.Signal(ASignalName: BStr;
+ASignalColor, ASignalDuration: BInt32);
 var
   Packet: TBBotPacket;
 begin
-  if (RoomStatus = bwnrsAuthenticated) and (Sock.State = bwnssConnected) then begin
+  if (RoomStatus = bwnrsAuthenticated) and (Sock.State = bwnssConnected) then
+  begin
     Packet := TBBotPacket.CreateWritter(BBOT_TCP_PACKET_ALLOC_SIZE);
     Packet.WriteBInt8(CMD_CLIENT_SIGNAL);
     Packet.WriteBInt32(Me.ID);
@@ -749,7 +802,8 @@ var
   Packet: TBBotPacket;
 begin
   if (RoomStatus = bwnrsAuthenticated) and (Sock.State = bwnssConnected) then
-    if not NextStatus.Locked then begin
+    if not NextStatus.Locked then
+    begin
       Packet := TBBotPacket.CreateWritter(BBOT_TCP_PACKET_ALLOC_SIZE);
       Packet.WriteBInt8(CMD_CLIENT_STATUS);
       Packet.WriteBInt32(Me.ID);
@@ -812,38 +866,48 @@ begin
   FSignals.ForEach(
     procedure(It: BVector<TBBotWarNetSignal>.It)
     begin
-      if It^.Alive then begin
+      if It^.Alive then
+      begin
         It^.HUD;
         HasSignalAlive := True;
       end;
     end);
-  if OnScreen or Leader or HasSignalAlive or (HPFact < 0.8) or (ManaFact < 0.4) then begin
+  if OnScreen or Leader or HasSignalAlive or (HPFact < 0.8) or (ManaFact < 0.4)
+  then
+  begin
     HUD := TBBotHUD.Create(bhgBBotNET);
     HUD.Color := HPColor(BFloor(HPFact * 100));
     HUD.Expire := STATUS_HUD_EXPIRE;
-    if OnScreen then begin
+    if OnScreen then
+    begin
       HUD.Creature := ID;
       HUD.Align := bhaLeft;
-      if Leader then begin
+      if Leader then
+      begin
         HUD.Text := 'Leader';
         HUD.RelativeY := -HUDLineHeight;
         HUD.Print;
       end;
       HUD.RelativeY := HUDLineHeight;
       HUD.Align := bhaLeft;
-    end else begin
+    end
+    else
+    begin
       HUD.Align := bhaCenter;
 
       NameWidth := (Length(Name) + 6) * HUDCharWidth;
       HalfScreenW := (ScreenRect.W - NameWidth) / 2;
       HalfScreenH := (ScreenRect.H - (HUDLineHeight * 3)) / 2;
-      HUD.ScreenX := ScreenRect.X + (NameWidth div 2) + BFloor(HalfScreenW + (HalfScreenW * Cos(RadAngle)));
-      HUD.ScreenY := ScreenRect.Y + BFloor(HalfScreenH + (HalfScreenH * Sin(RadAngle)));
+      HUD.ScreenX := ScreenRect.X + (NameWidth div 2) +
+        BFloor(HalfScreenW + (HalfScreenW * Cos(RadAngle)));
+      HUD.ScreenY := ScreenRect.Y +
+        BFloor(HalfScreenH + (HalfScreenH * Sin(RadAngle)));
 
       if DZ = 0 then
         SDist := BFormat('(%d)', [DD])
       else
-        SDist := BFormat('(%s%d %d)', [BIf(Sign(DZ) = NegativeValue, '+', '-'), BAbs(DZ), DD]);
+        SDist := BFormat('(%s%d %d)', [BIf(Sign(DZ) = NegativeValue, '+', '-'),
+          BAbs(DZ), DD]);
 
       HUD.Text := BFormat('%s%s %s', [BIf(Leader, 'L ', ''), Name, SDist]);
       HUD.Print;
@@ -852,7 +916,8 @@ begin
     HUD.Print;
     if OnScreen then
       HUD.RelativeY := HUD.RelativeY + HUDLineHeight;
-    HUD.Color := RGB(40 - BFloor(ManaFact * 40), 40 + BFloor(ManaFact * 60), 100 + BFloor(ManaFact * 155));
+    HUD.Color := RGB(40 - BFloor(ManaFact * 40), 40 + BFloor(ManaFact * 60),
+      100 + BFloor(ManaFact * 155));
     HUD.Text := BFormat('%d/%d %d%%', [Mana, ManaMax, BFloor(ManaFact * 100)]);
     HUD.Print;
     HUD.Free;
@@ -898,15 +963,19 @@ begin
   HUD.Expire := BUInt32(BMax(0, (SpawnTime + Duration) - Tick));
   if Me.CanSee(Position) then
     HUD.SetPosition(Position)
-  else begin
+  else
+  begin
     NameWidth := (Length(Name) + 6) * HUDCharWidth;
     HalfScreenW := (ScreenRect.W - NameWidth) / 2;
     HalfScreenH := (ScreenRect.H - (HUDLineHeight * 3)) / 2;
-    HUD.ScreenX := ScreenRect.X + (NameWidth div 2) + BFloor(HalfScreenW + (HalfScreenW * Cos(RadAngle)));
-    HUD.ScreenY := ScreenRect.Y + BFloor(HalfScreenH + (HalfScreenH * Sin(RadAngle)));
+    HUD.ScreenX := ScreenRect.X + (NameWidth div 2) +
+      BFloor(HalfScreenW + (HalfScreenW * Cos(RadAngle)));
+    HUD.ScreenY := ScreenRect.Y +
+      BFloor(HalfScreenH + (HalfScreenH * Sin(RadAngle)));
     HUD.RelativeY := -2 * HUDLineHeight;
     if DZ <> 0 then
-      HUD.Text := BFormat('(%s%d) %s', [BIf(Sign(DZ) = NegativeValue, '+', '-'), BAbs(DZ), HUD.Text]);
+      HUD.Text := BFormat('(%s%d) %s', [BIf(Sign(DZ) = NegativeValue, '+', '-'),
+        BAbs(DZ), HUD.Text]);
   end;
   HUD.Print;
   HUD.Free;
@@ -919,7 +988,8 @@ end;
 
 { TBBotWarNetActionTriggerKey }
 
-constructor TBBotWarNetActionTriggerKey.Create(AAction: TBBotWarNetAction; AKey: BInt16; AShift: TShiftState);
+constructor TBBotWarNetActionTriggerKey.Create(AAction: TBBotWarNetAction;
+AKey: BInt16; AShift: TShiftState);
 begin
   inherited Create(AAction);
   FKey := AKey;
@@ -928,7 +998,8 @@ end;
 
 procedure TBBotWarNetActionTriggerKey.OnHotkey;
 begin
-  if Tibia.IsKeyDown(FKey, True) then begin
+  if Tibia.IsKeyDown(FKey, True) then
+  begin
     if (ssShift in FShift) and (not Tibia.IsKeyDown(VK_SHIFT, False)) then
       Exit;
     if (ssCtrl in FShift) and (not Tibia.IsKeyDown(VK_CONTROL, False)) then
@@ -954,7 +1025,8 @@ end;
 
 { TBBotWarNetActionTriggerSay }
 
-constructor TBBotWarNetActionTriggerSay.Create(AAction: TBBotWarNetAction; AKeyword: BStr);
+constructor TBBotWarNetActionTriggerSay.Create(AAction: TBBotWarNetAction;
+AKeyword: BStr);
 begin
   inherited Create(AAction);
   FKeyword := AKeyword;
@@ -968,7 +1040,8 @@ end;
 
 { TBBotWarNetActionTriggerShoot }
 
-constructor TBBotWarNetActionTriggerShoot.Create(AAction: TBBotWarNetAction; AItem: BInt32);
+constructor TBBotWarNetActionTriggerShoot.Create(AAction: TBBotWarNetAction;
+AItem: BInt32);
 begin
   inherited Create(AAction);
   FItem := AItem;
@@ -1013,4 +1086,4 @@ begin
 end;
 
 end.
-
+

@@ -71,13 +71,16 @@ begin
       TibiaTemporaryState.Container[C^.Index].Icon := Node.Data.Icon;
       STLString15ReadTo(@Node.Data.Name.StrData[0],
         @TibiaTemporaryState.Container[C^.Index].Name[0], 32);
-      TibiaTemporaryState.Container[C^.Index].Capacity := BMinMax(C^.Capacity, 0, 60);
+      TibiaTemporaryState.Container[C^.Index].Capacity :=
+        BMinMax(C^.Capacity, 0, 60);
       TibiaTemporaryState.Container[C^.Index].Count :=
         BMinMax(C^.Count, 0, TibiaTemporaryState.Container[C^.Index].Capacity);
       for S := 0 to TibiaTemporaryState.Container[C^.Index].Count - 1 do
       begin
-        TibiaTemporaryState.Container[C^.Index].Items[S].ID := C^.ItemsData^[S].ID;
-        TibiaTemporaryState.Container[C^.Index].Items[S].Count := C^.ItemsData^[S].Count;
+        TibiaTemporaryState.Container[C^.Index].Items[S].ID :=
+          C^.ItemsData^[S].ID;
+        TibiaTemporaryState.Container[C^.Index].Items[S].Count :=
+          C^.ItemsData^[S].Count;
         TibiaTemporaryState.Container[C^.Index].Items[S].Amount :=
           C^.ItemsData^[S].Amount;
       end;

@@ -48,15 +48,19 @@ type
     GoBackIgnoreCorpses: TButton;
     procedure ApplySettings(Sender: TObject);
     procedure btnOpenLootlistClick(Sender: TObject);
-    procedure OpenCorpsesIgnoreCreaturesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-      State: TOwnerDrawState);
-    procedure OpenCorpsesIgnoreCreaturesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure OpenCorpsesIgnoreCreaturesDrawItem(Control: TWinControl;
+      Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure OpenCorpsesIgnoreCreaturesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure OpenCorpsesIgnoreAddButtonClick(Sender: TObject);
-    procedure SkinnerListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure SkinnerListDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure SkinnerListKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure SkinnerListDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure SkinnerAddClick(Sender: TObject);
     procedure SkinnerComboDropDown(Sender: TObject);
-    procedure SkinnerComboDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure SkinnerComboDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure GoIgnoreCorpsesClick(Sender: TObject);
     procedure GoBackSkinnerClick(Sender: TObject);
     procedure GoBackIgnoreCorpsesClick(Sender: TObject);
@@ -102,12 +106,12 @@ end;
 
 procedure TLooterFrame.GoBackIgnoreCorpsesClick(Sender: TObject);
 begin
-    ShowGroup(LooterGroup);
+  ShowGroup(LooterGroup);
 end;
 
 procedure TLooterFrame.GoBackSkinnerClick(Sender: TObject);
 begin
-    ShowGroup(LooterGroup);
+  ShowGroup(LooterGroup);
 end;
 
 procedure TLooterFrame.GoIgnoreCorpsesClick(Sender: TObject);
@@ -117,7 +121,7 @@ end;
 
 procedure TLooterFrame.GoSkinnerClick(Sender: TObject);
 begin
-    ShowGroup(SkinnerGroup);
+  ShowGroup(SkinnerGroup);
 end;
 
 procedure TLooterFrame.Init;
@@ -129,13 +133,15 @@ end;
 
 procedure TLooterFrame.SkinnerAddClick(Sender: TObject);
 begin
-  if SkinnerCombo.Text <> AddSkinnableCreature then begin
+  if SkinnerCombo.Text <> AddSkinnableCreature then
+  begin
     SkinnerList.AddItem(SkinnerCombo.Text, nil);
     SetLooter;
   end;
 end;
 
-procedure TLooterFrame.SkinnerComboDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TLooterFrame.SkinnerComboDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
 begin
@@ -156,7 +162,8 @@ begin
   SkinnerCombo.Items.EndUpdate;
 end;
 
-procedure TLooterFrame.SkinnerListDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TLooterFrame.SkinnerListDrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
 begin
@@ -164,7 +171,8 @@ begin
   BListDrawItem(SkinnerList.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TLooterFrame.SkinnerListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TLooterFrame.SkinnerListKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
   SetLooter;
@@ -176,14 +184,15 @@ begin
   SetLooter;
 end;
 
-procedure TLooterFrame.OpenCorpsesIgnoreCreaturesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-  State: TOwnerDrawState);
+procedure TLooterFrame.OpenCorpsesIgnoreCreaturesDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
 begin
-  BListDrawItem(OpenCorpsesIgnoreCreatures.Canvas, Index, odSelected in State, Rect,
-    OpenCorpsesIgnoreCreatures.Items.Strings[Index]);
+  BListDrawItem(OpenCorpsesIgnoreCreatures.Canvas, Index, odSelected in State,
+    Rect, OpenCorpsesIgnoreCreatures.Items.Strings[Index]);
 end;
 
-procedure TLooterFrame.OpenCorpsesIgnoreCreaturesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TLooterFrame.OpenCorpsesIgnoreCreaturesKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
   SetLooter;

@@ -55,14 +55,18 @@ type
     Label2: TLabel;
     Label3: TLabel;
     procedure FastAddAtkSeq(AKind, AParamInt, AParamStr: BStr);
-    procedure lstEditAtkSeqKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstEditAtkSeqKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure btnAtkSeqSaveClick(Sender: TObject);
     procedure btnAtkSeqDoneClick(Sender: TObject);
     procedure lstAttackSequencesDblClick(Sender: TObject);
-    procedure lstAttackSequencesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure lstAttackSequencesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstAttackSequencesDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure lstAttackSequencesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure chkAtkSeqVariableCheckClick(Sender: TObject);
-    procedure lstEditAtkSeqDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure lstEditAtkSeqDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure cmbAtkSeqMacroDropDown(Sender: TObject);
     procedure cmbAtkSeqMacroCloseUp(Sender: TObject);
     procedure lstEditAtkSeqDblClick(Sender: TObject);
@@ -97,7 +101,8 @@ begin
   AList.Clear;
   AList.AddObject(StrManageAttackSequen, nil);
   for I := 0 to lstAttackSequences.Count - 1 do
-    AList.AddObject(BStrBetween(lstAttackSequences.Items.Strings[I], '{', '}'), nil);
+    AList.AddObject(BStrBetween(lstAttackSequences.Items.Strings[I], '{',
+      '}'), nil);
 end;
 
 procedure TAttackSequencesFrame.btnAtkSeqDoneClick(Sender: TObject);
@@ -111,7 +116,8 @@ var
   I: BInt32;
 begin
   for I := lstAttackSequences.Count - 1 downto 0 do
-    if BStrEqual(BStrBetween(lstAttackSequences.Items.Strings[I], '{', '}'), edtAtkSeq.Text) then
+    if BStrEqual(BStrBetween(lstAttackSequences.Items.Strings[I], '{', '}'),
+      edtAtkSeq.Text) then
       lstAttackSequences.Items.Delete(I);
   S := Format('{%s}', [edtAtkSeq.Text]);
   for I := 0 to lstEditAtkSeq.Items.Count - 1 do
@@ -144,10 +150,12 @@ begin
   Init;
 end;
 
-procedure TAttackSequencesFrame.FastAddAtkSeq(AKind, AParamInt, AParamStr: BStr);
+procedure TAttackSequencesFrame.FastAddAtkSeq(AKind, AParamInt,
+  AParamStr: BStr);
 begin
-  lstEditAtkSeq.AddItem(BFormat('%s %d %d %d %d Check %s ECheck:%s', [AKind, BStrTo32(numAtkSeqMana.Text),
-    BStrTo32(numAtkSeqHPMin.Text), BStrTo32(numAtkSeqHPMax.Text), BStrTo32(AParamInt), edtAtkSeqVariable.Text,
+  lstEditAtkSeq.AddItem(BFormat('%s %d %d %d %d Check %s ECheck:%s',
+    [AKind, BStrTo32(numAtkSeqMana.Text), BStrTo32(numAtkSeqHPMin.Text),
+    BStrTo32(numAtkSeqHPMax.Text), BStrTo32(AParamInt), edtAtkSeqVariable.Text,
     AParamStr]), nil);
 end;
 
@@ -189,7 +197,8 @@ var
   I: BInt32;
   R: BStrArray;
 begin
-  if lstAttackSequences.ItemIndex <> -1 then begin
+  if lstAttackSequences.ItemIndex <> -1 then
+  begin
     S := lstAttackSequences.Items.Strings[lstAttackSequences.ItemIndex];
     edtAtkSeq.Text := BStrBetween(S, '{', '}');
     Delete(S, 1, Length(edtAtkSeq.Text) + 2);
@@ -201,8 +210,8 @@ begin
   end;
 end;
 
-procedure TAttackSequencesFrame.lstAttackSequencesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-  State: TOwnerDrawState);
+procedure TAttackSequencesFrame.lstAttackSequencesDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A: BStr;
 begin
@@ -210,7 +219,8 @@ begin
   BListDrawItem(lstAttackSequences.Canvas, Index, odSelected in State, Rect, A);
 end;
 
-procedure TAttackSequencesFrame.lstAttackSequencesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TAttackSequencesFrame.lstAttackSequencesKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
 end;
@@ -225,28 +235,36 @@ begin
   C := BStrRight(S, 'ECheck:');
   edtAtkSeqVariable.Text := BStrBetween(S, 'Check ', ' ECheck:');
   chkAtkSeqVariableCheck.Checked := edtAtkSeqVariable.Text <> '';
-  if BStrSplit(R, ' ', S) > 3 then begin
+  if BStrSplit(R, ' ', S) > 3 then
+  begin
     numAtkSeqMana.Text := R[1];
     numAtkSeqHPMin.Text := R[2];
     numAtkSeqHPMax.Text := R[3];
-    if R[0] = '!' then begin
+    if R[0] = '!' then
+    begin
       numAtkSeqWait.Text := R[4];
       SelectWaitAction.Checked := True;
-    end else if R[0] = '@' then begin
+    end
+    else if R[0] = '@' then
+    begin
       RuneComboSelector.selectById(BStrTo32(R[4], 0));
       SelectItemAction.Checked := True;
-    end else if R[0] = '$' then begin
+    end
+    else if R[0] = '$' then
+    begin
       edtAtkSeqSpell.Text := C;
       SelectSpellAction.Checked := True;
-    end else if R[0] = '#' then begin
+    end
+    else if R[0] = '#' then
+    begin
       cmbAtkSeqMacro.ItemIndex := cmbAtkSeqMacro.Items.IndexOf(C);
       SelectMacroAction.Checked := True;
     end;
   end;
 end;
 
-procedure TAttackSequencesFrame.lstEditAtkSeqDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-  State: TOwnerDrawState);
+procedure TAttackSequencesFrame.lstEditAtkSeqDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A, B, C: BStr;
   ID: BUInt32;
@@ -259,28 +277,32 @@ begin
   C := BStrRight(B, 'ECheck:');
   if Length(R[0]) = 1 then
     case R[0][1] of
-    '!': begin
-        A := 'Wait';
-        B := R[4] + ' ms';
-      end;
-    '@': begin
-        ID := BStrTo32(R[4], 0);
+      '!':
+        begin
+          A := 'Wait';
+          B := R[4] + ' ms';
+        end;
+      '@':
+        begin
+          ID := BStrTo32(R[4], 0);
 
-        if (ID > 0) and (ID <= TibiaMaxItems) then
-          A := TibiaItems[ID].Name
-        else
-          A := 'Item ' + BToStr(ID);
+          if (ID > 0) and (ID <= TibiaMaxItems) then
+            A := TibiaItems[ID].Name
+          else
+            A := 'Item ' + BToStr(ID);
 
-        B := R[4];
-      end;
-    '$': begin
-        A := 'Spell';
-        B := C;
-      end;
-    '#': begin
-        A := 'Macro';
-        B := C;
-      end;
+          B := R[4];
+        end;
+      '$':
+        begin
+          A := 'Spell';
+          B := C;
+        end;
+      '#':
+        begin
+          A := 'Macro';
+          B := C;
+        end;
     end;
 
   IcoRect := TRect.Create(Rect);
@@ -291,13 +313,16 @@ begin
 
   BListDrawItem(lstEditAtkSeq.Canvas, Index, odSelected in State, Rect, A, B);
 
-  if ID <> 0 then begin
+  if ID <> 0 then
+  begin
     lstEditAtkSeq.Canvas.FillRect(IcoRect);
-    lstEditAtkSeq.Canvas.StretchDraw(IcoRect, TFMain(FMain).BBotItemSelector.Sprite[ID].Graphic);
+    lstEditAtkSeq.Canvas.StretchDraw(IcoRect,
+      TFMain(FMain).BBotItemSelector.Sprite[ID].Graphic);
   end;
 end;
 
-procedure TAttackSequencesFrame.lstEditAtkSeqKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TAttackSequencesFrame.lstEditAtkSeqKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
 end;

@@ -112,25 +112,29 @@ uses
   uBBotOpenCorpsesTask,
   uBBotWalkerDistancerTask;
 
-function TBBotWalker2.ApproachToCost(APosition: BPos; AMaxDistance: BUInt32): BInt32;
+function TBBotWalker2.ApproachToCost(APosition: BPos;
+  AMaxDistance: BUInt32): BInt32;
 var
   PathFinder: TBBotPathFinderPosition;
   Cached: BVector < BPair < BPos, BInt32 >>.It;
 begin
   if APosition.Z <> Me.Position.Z then
     Exit(PathCost_NotPossible);
-  if FApproachCacheOrigin <> Me.Position then begin
+  if FApproachCacheOrigin <> Me.Position then
+  begin
     FApproachCacheOrigin := Me.Position;
     FApproachCache.Clear;
   end;
-  Cached := FApproachCache.Find('Walker ApproachToCost Cache query [' + BStr(APosition) + ']',
+  Cached := FApproachCache.Find('Walker ApproachToCost Cache query [' +
+    BStr(APosition) + ']',
     function(It: BVector < BPair < BPos, BInt32 >>.It): BBool
     begin
       Result := APosition = It^.First;
     end);
   if (Cached <> nil) and (BRandom(0, 100) < 90) then
     Exit(Cached^.Second);
-  PathFinder := TBBotPathFinderPosition.Create('ApproachToCost <' + BStr(APosition) + '>');
+  PathFinder := TBBotPathFinderPosition.Create('ApproachToCost <' +
+    BStr(APosition) + '>');
   PathFinder.Position := APosition;
   PathFinder.Distance := 1;
   if AMaxDistance <> 0 then
@@ -151,7 +155,8 @@ begin
   SetTimeNextStep;
   DX := NextPos.X - Me.Position.X;
   DY := NextPos.Y - Me.Position.Y;
-  if (not SpecialKeyDown) and ((DX = 0) or (DY = 0)) then begin
+  if (not SpecialKeyDown) and ((DX = 0) or (DY = 0)) then
+  begin
     if DY = -1 then
       Key := VK_UP
     else if DY = +1 then
@@ -169,7 +174,9 @@ begin
       for I := 0 to BRandom(2) do
         SendKeyDown;
     SendKeyDown;
-  end else begin
+  end
+  else
+  begin
     CancelLastStep;
     Tibia.SetMove(NextPos);
   end;
@@ -177,7 +184,8 @@ end;
 
 procedure TBBotWalker2.CancelLastStep;
 begin
-  if LastKey <> 0 then begin
+  if LastKey <> 0 then
+  begin
     SendKeyUp;
     LastKey := 0;
   end;
@@ -185,7 +193,8 @@ end;
 
 procedure TBBotWalker2.CheckStucked;
 begin
-  if (BBot.StandTime > 30 * 1000) and (TimeStepping > 0) then begin
+  if (BBot.StandTime > 30 * 1000) and (TimeStepping > 0) then
+  begin
     BBot.Protectors.OnProtector(bpkStucked, BBot.StandTime div 1000);
     Me.Stop;
   end;
@@ -243,8 +252,8 @@ end;
 
 procedure TBBotWalker2.NextMapClick;
 begin
-  if (Me.GoingTo <> FTask.Last) and (Me.Position <> FTask.Last) and (FTask.Last.X <> 0) and
-    (FTask.Last.Z = Me.Position.Z) then
+  if (Me.GoingTo <> FTask.Last) and (Me.Position <> FTask.Last) and
+    (FTask.Last.X <> 0) and (FTask.Last.Z = Me.Position.Z) then
     Tibia.SetMove(FTask.Last);
 end;
 
@@ -253,7 +262,8 @@ begin
   if (TimeNextStep < Tick) and (FTask <> nil) and (not FTask.Done) then
     if FTask.HasNext then
       DoStep
-    else begin
+    else
+    begin
       CancelLastStep;
       FTask.RePath;
     end;
@@ -283,8 +293,10 @@ begin
   ClearWaitLock;
   DebugWaitLockers;
   BExecuteInSafeScope('Walker:CheckStucked', CheckStucked);
-  if TimeNextStep < Tick then begin
-    if FTask <> nil then begin
+  if TimeNextStep < Tick then
+  begin
+    if FTask <> nil then
+    begin
       if FTask is TBBotOpenCorpsesTask then
         TaskType := 'OpenCorpses'
       else if FTask is TBBotCreatureDistancerTask then
@@ -292,7 +304,9 @@ begin
       else
         TaskType := 'WalkTask';
       BExecuteInSafeScope('Walker:Task:' + TaskType, RunTask);
-    end else begin
+    end
+    else
+    begin
       BExecuteInSafeScope('Walker:CancelLastStep', CancelLastStep);
     end;
   end;
@@ -301,14 +315,20 @@ end;
 procedure TBBotWalker2.RunTask;
 begin
   BExecuteInSafeScope('Walker:Task:Run', FTask.Run);
-  if FTask.Done then begin
+  if FTask.Done then
+  begin
     BExecuteInSafeScope('Walker:Task:Stop', Stop);
-  end else begin
+  end
+  else
+  begin
     if FTask.WaitLockers and Waiting then
       Exit;
-    if MapClick or FTask.UseMapClick then begin
+    if MapClick or FTask.UseMapClick then
+    begin
       BExecuteInSafeScope('Walker:Task:NextMapClick', NextMapClick);
-    end else begin
+    end
+    else
+    begin
       BExecuteInSafeScope('Walker:Task:NextStep', NextStep);
     end;
   end;
@@ -328,9 +348,11 @@ procedure TBBotWalker2.SetMapClick(const Value: BBool);
 var
   HUD: TBBotHUD;
 begin
-  if FMapClick <> Value then begin
+  if FMapClick <> Value then
+  begin
     FMapClick := Value;
-    if Value then begin
+    if Value then
+    begin
       HUD := TBBotHUD.Create(bhgPause);
       HUD.AlignTo(bhaCenter, bhaTop);
       HUD.Expire := 60000;
@@ -371,7 +393,8 @@ end;
 
 function TBBotWalker2.SpecialKeyDown: BBool;
 begin
-  Result := Tibia.IsKeyDown(VK_SHIFT, False) or Tibia.IsKeyDown(VK_CONTROL, False) or Tibia.IsKeyDown(VK_MENU, False);
+  Result := Tibia.IsKeyDown(VK_SHIFT, False) or
+    Tibia.IsKeyDown(VK_CONTROL, False) or Tibia.IsKeyDown(VK_MENU, False);
 end;
 
 procedure TBBotWalker2.DebugWaitLockers;
@@ -405,13 +428,15 @@ end;
 
 procedure TBBotWalker2.DoStep;
 begin
-  if NextPos <> FTask.Next then begin
+  if NextPos <> FTask.Next then
+  begin
     TimeFirstStep := Tick;
     NextPos := FTask.Next;
   end;
   if WalkableCost(NextPos.X, NextPos.Y, NextPos.Z) >= TileCost_NotWalkable then
     Task.RePath
-  else if TimeStepping > BBotWalkerAutoBlockTime then begin
+  else if TimeStepping > BBotWalkerAutoBlockTime then
+  begin
     BBot.SpecialSQMs.AutoBlock(NextPos);
     Task.RePath;
   end
@@ -427,27 +452,39 @@ end;
 procedure TBBotWalker2.Step(ADX, ADY: BInt32);
 begin
   case ADY of
-  - 1: begin
-      case ADX of
-      - 1: Step(tdNorthWest);
-      0: Step(tdNorth);
-      +1: Step(tdNorthEast);
+    - 1:
+      begin
+        case ADX of
+          - 1:
+            Step(tdNorthWest);
+          0:
+            Step(tdNorth);
+          +1:
+            Step(tdNorthEast);
+        end;
       end;
-    end;
-  0: begin
-      case ADX of
-      - 1: Step(tdWest);
-      0:;
-      +1: Step(tdEast);
+    0:
+      begin
+        case ADX of
+          - 1:
+            Step(tdWest);
+          0:
+            ;
+          +1:
+            Step(tdEast);
+        end;
       end;
-    end;
-  +1: begin
-      case ADX of
-      - 1: Step(tdSouthWest);
-      0: Step(tdSouth);
-      +1: Step(tdSouthEast);
+    +1:
+      begin
+        case ADX of
+          - 1:
+            Step(tdSouthWest);
+          0:
+            Step(tdSouth);
+          +1:
+            Step(tdSouthEast);
+        end;
       end;
-    end;
   end;
 end;
 
@@ -463,10 +500,14 @@ var
   M: TTibiaTiles;
   Cache: TWalkCostCache;
 begin
-  if APos.Z = Me.Position.Z then begin
-    if WalkableCostCache.TryGetValue(APos, Cache) and (Cache.Expire > Tick) then begin
+  if APos.Z = Me.Position.Z then
+  begin
+    if WalkableCostCache.TryGetValue(APos, Cache) and (Cache.Expire > Tick) then
+    begin
       Exit(Cache.Score) // The cached value is good! =]
-    end else if Tiles(M, APos) then begin
+    end
+    else if Tiles(M, APos) then
+    begin
       Cache.Score := M.Cost;
       Cache.Expire := Tick + BBotWalkerCostCacheDuration;
       WalkableCostCache.AddOrSetValue(APos, Cache);

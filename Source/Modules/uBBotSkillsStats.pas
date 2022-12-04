@@ -1,5 +1,5 @@
 unit uBBotSkillsStats;
-
+
 interface
 
 uses
@@ -62,9 +62,11 @@ begin
   HUD := CreateHUD(bhgSkillsStats, 'Skills Statistics', $00FFFF);
   HUD.Print('Training for: ' + SecToTime(Stats.StatsTime));
   PerHourFactor := Stats.PerHourFactor;
-  for Skill := SkillFirst to SkillLast do begin
+  for Skill := SkillFirst to SkillLast do
+  begin
     Added := SkillLevel(Skill) - Data[Skill];
-    HUD.PrintGray(BFormat('%s +%d%% (+%f%%/h)', [SkillToStr(Skill), Added, Added * PerHourFactor]));
+    HUD.PrintGray(BFormat('%s +%d%% (+%f%%/h)', [SkillToStr(Skill), Added,
+      Added * PerHourFactor]));
   end;
   HUD.Line;
   HUD.Free;
@@ -77,4 +79,4 @@ begin
 end;
 
 end.
-
+

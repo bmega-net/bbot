@@ -1,5 +1,5 @@
 unit uBBotMenu;
-
+
 interface
 
 uses
@@ -20,7 +20,8 @@ type
     procedure Run; override;
     procedure OnInit; override;
 
-    property PauseLevel: TBBotActionPauseLevel read FPauseLevel write SetPauseLevel;
+    property PauseLevel: TBBotActionPauseLevel read FPauseLevel
+      write SetPauseLevel;
 
     procedure ShowMenu;
     procedure OnHotkey;
@@ -49,7 +50,8 @@ procedure TBBotMenu.OnMenu(ClickID, Data: BUInt32);
 begin
   if ClickID <> BBotMenuClickID then
     Exit;
-  if Data = 1 then begin
+  if Data = 1 then
+  begin
     HUDRemoveGroup(bhgBBotCenter);
     if PauseLevel = bplAll then
       PauseLevel := bplNone
@@ -84,12 +86,15 @@ end;
 
 procedure TBBotMenu.OnHotkey;
 begin
-  if Tibia.IsKeyDown(VK_SHIFT, False) then begin
-    if Tibia.IsKeyDown(VK_END, True) then begin
+  if Tibia.IsKeyDown(VK_SHIFT, False) then
+  begin
+    if Tibia.IsKeyDown(VK_END, True) then
+    begin
       Engine.ToggleFMain := True;
       Exit;
     end;
-    if Tibia.IsKeyDown(VK_PAUSE, True) or Tibia.IsKeyDown(VK_INSERT, True) then begin
+    if Tibia.IsKeyDown(VK_PAUSE, True) or Tibia.IsKeyDown(VK_INSERT, True) then
+    begin
       BBot.StopSound;
       if PauseLevel = bplAll then
         PauseLevel := bplNone
@@ -117,17 +122,20 @@ procedure TBBotMenu.SetPauseLevel(const Value: TBBotActionPauseLevel);
 var
   HUD: TBBotHUD;
 begin
-  if FPauseLevel <> Value then begin
+  if FPauseLevel <> Value then
+  begin
     FPauseLevel := Value;
     HUDRemoveGroup(bhgPause);
-    if FPauseLevel = bplAll then begin
+    if FPauseLevel = bplAll then
+    begin
       HUDRemoveAll;
       HUD := TBBotHUD.Create(bhgPause);
       HUD.AlignTo(bhaCenter, bhaTop);
       HUD.Print('BBot is paused', $9898FF);
       HUD.OnClick := BBotMenuClickID;
       HUD.OnClickData := 1;
-      HUD.Print('[ click here or press [Shift]+[Insert] to unpause ]', clSilver);
+      HUD.Print('[ click here or press [Shift]+[Insert] to unpause ]',
+        clSilver);
       HUD.Free;
     end;
     BBot.Events.RunStop;
@@ -164,7 +172,8 @@ begin
   HUD.OnClickData := 14;
   HUD.Print('Auto Roper: ' + IfThen(BBot.AutoRope.Enabled, 'On', 'Off'));
   HUD.OnClickData := 15;
-  HUD.Print('Loot Bag Kicker: ' + IfThen(BBot.LootBagKicker.Enabled, 'On', 'Off'));
+  HUD.Print('Loot Bag Kicker: ' + IfThen(BBot.LootBagKicker.Enabled,
+    'On', 'Off'));
   HUD.Line;
   HUD.Color := clSkyBlue;
   HUD.RelativeX := 0;
@@ -178,10 +187,11 @@ begin
   HUD.Print(BIf(PauseLevel > bplAll, 'Pause Bot', 'UnPause Bot'));
   HUD.Color := BIf(PauseLevel > bplAll, clSilver, clRed);
   HUD.OnClickData := 2;
-  HUD.Print(BIf(PauseLevel > bplAutomation, 'Pause Automations', 'UnPause Automations'));
+  HUD.Print(BIf(PauseLevel > bplAutomation, 'Pause Automations',
+    'UnPause Automations'));
 
   HUD.Free;
 end;
 
 end.
-
+

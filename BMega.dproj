@@ -3,7 +3,7 @@
         <ProjectGuid>{CAA64BAC-FC74-42FE-A3F1-6535E5470EDD}</ProjectGuid>
         <MainSource>BMega.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>

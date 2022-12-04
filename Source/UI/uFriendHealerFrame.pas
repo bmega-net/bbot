@@ -49,7 +49,8 @@ type
     Label2: TLabel;
     procedure btnFHaddClick(Sender: TObject);
     procedure cmbFHFriendDropDown(Sender: TObject);
-    procedure lstFHDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure lstFHDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
+      State: TOwnerDrawState);
     procedure lstFHKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ApplySettings(Sender: TObject);
   protected
@@ -76,12 +77,18 @@ var
   UseID: BInt32;
   Spell: BStr;
 begin
-  if (Length(cmbFHFriend.Text) >= 2) and ((BStrTo32(numFHhp.Text, MaxInt) <> MaxInt) or
-    (BStrTo32(numFHmhp.Text, MaxInt) <> MaxInt) or (BStrTo32(numFHmmana.Text, MaxInt) <> MaxInt)) then begin
-    if UseComboSelector.IsCustom then begin
+  if (Length(cmbFHFriend.Text) >= 2) and
+    ((BStrTo32(numFHhp.Text, MaxInt) <> MaxInt) or
+    (BStrTo32(numFHmhp.Text, MaxInt) <> MaxInt) or
+    (BStrTo32(numFHmmana.Text, MaxInt) <> MaxInt)) then
+  begin
+    if UseComboSelector.IsCustom then
+    begin
       UseID := 1;
       Spell := edtFHcast.Text;
-    end else begin
+    end
+    else
+    begin
       UseID := UseComboSelector.ID;
       Spell := '';
     end;
@@ -158,34 +165,42 @@ var
   I: BInt32;
 begin
   Result := Subject[1];
-  for I := 2 to Length(Subject) do begin
-    if Subject[I - 1] = ' ' then begin
+  for I := 2 to Length(Subject) do
+  begin
+    if Subject[I - 1] = ' ' then
+    begin
       Result := Result + Subject[I];
     end;
   end;
   Exit(BStrUpper(Result));
 end;
 
-procedure TFriendHealerFrame.lstFHDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TFriendHealerFrame.lstFHDrawItem(Control: TWinControl; Index: Integer;
+Rect: TRect; State: TOwnerDrawState);
 var
   HPCor: TColor;
   HPBarPos: BInt32;
   HP: BInt32;
   Ret: BStrArray;
 begin
-  if odSelected in State then begin
+  if odSelected in State then
+  begin
     lstFH.Canvas.Brush.Color := clHighlight;
     lstFH.Canvas.Font.Color := clHighlightText;
-  end else begin
+  end
+  else
+  begin
     lstFH.Canvas.Brush.Color := lstFH.Color;
     lstFH.Canvas.Font.Color := lstFH.Font.Color;
   end;
   if ((Control as TListBox).Count < 1) or (Index < 0) then
     Exit;
   BStrSplit(Ret, ';', lstFH.Items.Strings[Index]);
-  with lstFH.Canvas do begin
+  with lstFH.Canvas do
+  begin
     FillRect(Rect);
-    if BStrIsNumber(Ret[1]) then begin
+    if BStrIsNumber(Ret[1]) then
+    begin
       HP := StrToInt(Ret[1]);
 
       HPCor := HPColor(HP);
@@ -193,12 +208,14 @@ begin
       Font.Color := HPCor;
 
       // Display Player Name:
-      TextOut(((Rect.Right - Rect.Left) div 2) - (TextWidth(Ret[0]) div 2), Rect.Top + 1, Ret[0]);
+      TextOut(((Rect.Right - Rect.Left) div 2) - (TextWidth(Ret[0]) div 2),
+        Rect.Top + 1, Ret[0]);
 
       // Display HP% / Use
       Font.Style := [fsBold];
       TextOut(Rect.Left, Rect.Top + 1, '  ' + Ret[1] + '%');
-      TextOut(Rect.Right - TextWidth(StrUChars(Ret[4])) - 5, Rect.Top + 1, StrUChars(Ret[4]));
+      TextOut(Rect.Right - TextWidth(StrUChars(Ret[4])) - 5, Rect.Top + 1,
+        StrUChars(Ret[4]));
 
       // Display HP Bar
       // Background
@@ -219,7 +236,8 @@ begin
   end;
 end;
 
-procedure TFriendHealerFrame.lstFHKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFriendHealerFrame.lstFHKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
 end;
@@ -228,7 +246,8 @@ procedure TFriendHealerFrame.SetFriendHealer;
 var
   I: BInt32;
 begin
-  if TFMain(FMain).MutexAcquire then begin
+  if TFMain(FMain).MutexAcquire then
+  begin
     BBot.FriendHealer.ClearFriends;
     if chkFHactive.Checked then
       for I := 0 to lstFH.Count - 1 do

@@ -1,5 +1,5 @@
 unit uBBotKillStats;
-
+
 interface
 
 uses
@@ -46,7 +46,8 @@ begin
     begin
       Result := BStrEqual(Iter^.Creature, AMonster);
     end);
-  if Monster = nil then begin
+  if Monster = nil then
+  begin
     Monster := Data.Add;
     Monster^.Creature := AMonster;
     Monster^.Count := 0;
@@ -104,7 +105,8 @@ var
   TotalKills, TotalTask: BInt32;
 begin
   HUD := CreateHUD(bhgKillStats, 'Kill Statistics', $0000FF);
-  if Data.Count > 0 then begin
+  if Data.Count > 0 then
+  begin
     PerHourFactor := Stats.PerHourFactor;
     TotalKills := 0;
     TotalTask := 0;
@@ -112,10 +114,12 @@ begin
       procedure(Iter: BVector<TKillStatsData>.It)
       begin
         if Iter^.Task = Iter^.Count then
-          HUD.PrintGray(BFormat('%s: %d (%f/h)', [Iter^.Creature, Iter^.Count, Iter^.Count * PerHourFactor]))
+          HUD.PrintGray(BFormat('%s: %d (%f/h)', [Iter^.Creature, Iter^.Count,
+            Iter^.Count * PerHourFactor]))
         else
-          HUD.PrintGray(BFormat('%s: %d %d (%f/h %f/h)', [Iter^.Creature, Iter^.Count, Iter^.Task,
-            Iter^.Count * PerHourFactor, Iter^.Task * PerHourFactor]));
+          HUD.PrintGray(BFormat('%s: %d %d (%f/h %f/h)', [Iter^.Creature,
+            Iter^.Count, Iter^.Task, Iter^.Count * PerHourFactor,
+            Iter^.Task * PerHourFactor]));
         Inc(TotalKills, Iter^.Count);
         Inc(TotalTask, Iter^.Task);
       end);
@@ -145,4 +149,4 @@ begin
 end;
 
 end.
-
+

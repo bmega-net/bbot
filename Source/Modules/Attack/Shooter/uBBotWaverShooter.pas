@@ -15,11 +15,14 @@ type
     FExpansion: BVector<BUInt32>;
     FCreaturesOnTarget: BVector<TBBotCreature>;
     function GetAllowed: BBool;
-    function collectWavedCreaturesOnDirection(): BVector<TBBotCreature>; overload;
-    function collectWavedCreaturesOnDirection(ADirection: TTibiaDirection): BVector<TBBotCreature>; overload;
+    function collectWavedCreaturesOnDirection()
+      : BVector<TBBotCreature>; overload;
+    function collectWavedCreaturesOnDirection(ADirection: TTibiaDirection)
+      : BVector<TBBotCreature>; overload;
     function wasCreatureWaved(ACreature: TBBotCreature): BBool;
     function wasWaved(APosition: BPos): BBool;
-    function collectWavedCreature(ACreatures: BVector<TBBotCreature>): BVector<TBBotCreature>;
+    function collectWavedCreature(ACreatures: BVector<TBBotCreature>)
+      : BVector<TBBotCreature>;
     function isSafeWave: BBool;
   protected
     IncludedCreatures, ExcludedCreatures: BVector<TBBotCreature>;
@@ -31,10 +34,11 @@ type
 
     property Expansion: BVector<BUInt32> read FExpansion;
 
-    procedure OptimalWave(AIncludedCreatures, AExcludedCreatures: BVector<TBBotCreature>;
-      AUnsafePositions: BVector<BPos>);
+    procedure OptimalWave(AIncludedCreatures, AExcludedCreatures
+      : BVector<TBBotCreature>; AUnsafePositions: BVector<BPos>);
 
-    property CreaturesOnTarget: BVector<TBBotCreature> read FCreaturesOnTarget write FCreaturesOnTarget;
+    property CreaturesOnTarget: BVector<TBBotCreature> read FCreaturesOnTarget
+      write FCreaturesOnTarget;
     property Direction: TTibiaDirection read FDirection;
     property Allowed: BBool read GetAllowed;
   end;
@@ -82,35 +86,47 @@ begin
     end));
 end;
 
-function TBBotWaverShooter.collectWavedCreaturesOnDirection(): BVector<TBBotCreature>;
+function TBBotWaverShooter.collectWavedCreaturesOnDirection()
+  : BVector<TBBotCreature>;
 var
   ValidTargets, InvalidTargets: BVector<TBBotCreature>;
 begin
-  if isSafeWave then begin
+  if isSafeWave then
+  begin
     ValidTargets := collectWavedCreature(IncludedCreatures);
     InvalidTargets := collectWavedCreature(ExcludedCreatures);
-    if InvalidTargets.Count = 0 then begin
+    if InvalidTargets.Count = 0 then
+    begin
       InvalidTargets.Free;
       Exit(ValidTargets);
-    end else begin
+    end
+    else
+    begin
       ValidTargets.Free;
       InvalidTargets.Free;
       Exit(nil);
     end;
-  end else begin
+  end
+  else
+  begin
     Exit(nil);
   end;
 end;
 
-function TBBotWaverShooter.collectWavedCreaturesOnDirection(ADirection: TTibiaDirection): BVector<TBBotCreature>;
+function TBBotWaverShooter.collectWavedCreaturesOnDirection
+  (ADirection: TTibiaDirection): BVector<TBBotCreature>;
 begin
   XSpeed := 0;
   YSpeed := 0;
   case ADirection of
-  tdNorth: YSpeed := -1;
-  tdEast: XSpeed := +1;
-  tdSouth: YSpeed := +1;
-  tdWest: XSpeed := -1;
+    tdNorth:
+      YSpeed := -1;
+    tdEast:
+      XSpeed := +1;
+    tdSouth:
+      YSpeed := +1;
+    tdWest:
+      XSpeed := -1;
   end;
   if (XSpeed <> 0) or (YSpeed <> 0) then
     Exit(collectWavedCreaturesOnDirection())
@@ -118,7 +134,8 @@ begin
     Exit(nil);
 end;
 
-function TBBotWaverShooter.collectWavedCreature(ACreatures: BVector<TBBotCreature>): BVector<TBBotCreature>;
+function TBBotWaverShooter.collectWavedCreature
+  (ACreatures: BVector<TBBotCreature>): BVector<TBBotCreature>;
 var
   Res: BVector<TBBotCreature>;
 begin
@@ -132,8 +149,8 @@ begin
   Exit(Res);
 end;
 
-procedure TBBotWaverShooter.OptimalWave(AIncludedCreatures, AExcludedCreatures: BVector<TBBotCreature>;
-AUnsafePositions: BVector<BPos>);
+procedure TBBotWaverShooter.OptimalWave(AIncludedCreatures, AExcludedCreatures
+  : BVector<TBBotCreature>; AUnsafePositions: BVector<BPos>);
 var
   D: TTibiaDirection;
   WavedOnDirection: BVector<TBBotCreature>;
@@ -141,20 +158,27 @@ begin
   IncludedCreatures := AIncludedCreatures;
   ExcludedCreatures := AExcludedCreatures;
   UnsafePositions := AUnsafePositions;
-  if FCreaturesOnTarget <> nil then begin
+  if FCreaturesOnTarget <> nil then
+  begin
     FCreaturesOnTarget.Free;
     FCreaturesOnTarget := nil;
   end;
   FDirection := tdCenter;
-  for D := tdNorth to tdCenter do begin
+  for D := tdNorth to tdCenter do
+  begin
     WavedOnDirection := collectWavedCreaturesOnDirection(D);
-    if WavedOnDirection <> nil then begin
-      if (FCreaturesOnTarget = nil) or (WavedOnDirection.Count > FCreaturesOnTarget.Count) then begin
+    if WavedOnDirection <> nil then
+    begin
+      if (FCreaturesOnTarget = nil) or
+        (WavedOnDirection.Count > FCreaturesOnTarget.Count) then
+      begin
         if FCreaturesOnTarget <> nil then
           FCreaturesOnTarget.Free;
         FCreaturesOnTarget := WavedOnDirection;
         FDirection := D;
-      end else begin
+      end
+      else
+      begin
         WavedOnDirection.Free;
       end;
     end;
@@ -166,7 +190,8 @@ end;
 
 function TBBotWaverShooter.wasCreatureWaved(ACreature: TBBotCreature): BBool;
 begin
-  if (not ACreature.IsSelf) and (ACreature.IsAlive) then begin
+  if (not ACreature.IsSelf) and (ACreature.IsAlive) then
+  begin
     Exit(wasWaved(ACreature.Position));
   end;
   Exit(False);
@@ -181,7 +206,8 @@ begin
   extensionDistance := BMax(DeltaX * XSpeed, DeltaY * YSpeed);
   spreadDistance := BMax(BAbs(DeltaX * YSpeed), BAbs(DeltaY * XSpeed));
   if BInRange(BAbs(extensionDistance), 1, FExpansion.Count) then
-    if BUInt32(spreadDistance) <= (FExpansion.Item[extensionDistance - 1]^ - 1) then
+    if BUInt32(spreadDistance) <= (FExpansion.Item[extensionDistance - 1]^ - 1)
+    then
       Exit(True);
   Exit(False);
 end;
@@ -219,11 +245,14 @@ begin
   WS.IncludedCreatures := IncludedCreatures;
   WS.ExcludedCreatures := ExcludedCreatures;
   WS.UnsafePositions := UnsafePositions;
-  for D := tdNorth to tdCenter do begin
+  for D := tdNorth to tdCenter do
+  begin
     S := WS.collectWavedCreaturesOnDirection(D);
-    if S <> nil then begin
+    if S <> nil then
+    begin
       if S.Count > 0 then
-        HUD.Print(BFormat('Wave %s to hit %d creatures', [DirToStr(D), S.Count]));
+        HUD.Print(BFormat('Wave %s to hit %d creatures',
+          [DirToStr(D), S.Count]));
       S.Free;
     end;
   end;

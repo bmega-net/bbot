@@ -29,7 +29,8 @@ type
     Label1: TLabel;
     procedure ApplyVariablesButtonClick(Sender: TObject);
     procedure VariableDoubleClick(Sender: TObject);
-    procedure VariableDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure VariableDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure BackButtonClick(Sender: TObject);
   protected
     FMain: TForm;
@@ -58,7 +59,8 @@ var
   S, N, V: BStr;
   Vaar: BMacroVariable;
 begin
-  for I := 0 to VariablesEditor.Lines.Count - 1 do begin
+  for I := 0 to VariablesEditor.Lines.Count - 1 do
+  begin
     S := VariablesEditor.Lines.Strings[I];
     if BStrPos('#', S) > 0 then
       S := BStrLeft(S, '#');
@@ -111,39 +113,45 @@ begin
   Variables := nil;
   try
     Variables := BBot.Macros.VarsList();
-    BListUpdate(VariableStates, procedure
-    var
-      Index: BInt32;
-      It: BVectorIterator<BStr>;
-      S: BStr;
-      FilteringV: BStr;
-    begin
-      FilteringV := BStrLower(FilterVariables.Text);
-      It := Variables.Iter.Filter(function(AIt: BInt32): BBool
+    BListUpdate(VariableStates,
+      procedure
       var
-        AItS: BStr;
-        Kept: BBool;
+        Index: BInt32;
+        It: BVectorIterator<BStr>;
+        S: BStr;
+        FilteringV: BStr;
       begin
-        if FilteringV = '' then
-          Exit(True);
-        AItS := Variables.Item[AIt]^;
-        Kept := BStrPos(FilteringV, BStrLower(AItS)) > 0;
-        Exit(Kept);
-      end);
-      Index := -1;
-      while It.HasNext do begin
-        Inc(Index);
-        S := It.Next;
-        if Index < VariableStates.Items.Count then begin
-          if VariableStates.Items[Index] <> S then
-            VariableStates.Items[Index] := S;
-        end else begin
-          VariableStates.Items.Add(S);
+        FilteringV := BStrLower(FilterVariables.Text);
+        It := Variables.Iter.Filter(
+          function(AIt: BInt32): BBool
+          var
+            AItS: BStr;
+            Kept: BBool;
+          begin
+            if FilteringV = '' then
+              Exit(True);
+            AItS := Variables.Item[AIt]^;
+            Kept := BStrPos(FilteringV, BStrLower(AItS)) > 0;
+            Exit(Kept);
+          end);
+        Index := -1;
+        while It.HasNext do
+        begin
+          Inc(Index);
+          S := It.Next;
+          if Index < VariableStates.Items.Count then
+          begin
+            if VariableStates.Items[Index] <> S then
+              VariableStates.Items[Index] := S;
+          end
+          else
+          begin
+            VariableStates.Items.Add(S);
+          end;
         end;
-      end;
-      while (Index + 1) < VariableStates.Items.Count do
-        VariableStates.Items.Delete(Index + 1);
-    end);
+        while (Index + 1) < VariableStates.Items.Count do
+          VariableStates.Items.Delete(Index + 1);
+      end);
   finally
     if Variables <> nil then
       Variables.Free;
@@ -159,7 +167,8 @@ begin
     VariablesEditor.Lines.Add(List.Items.Strings[List.ItemIndex]);
 end;
 
-procedure TVariablesFrame.VariableDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TVariablesFrame.VariableDrawItem(Control: TWinControl; Index: Integer;
+Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
   List: TListBox;

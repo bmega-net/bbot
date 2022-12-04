@@ -1,6 +1,5 @@
 unit uEngine;
 
-
 interface
 
 uses
@@ -10,6 +9,7 @@ uses
 {$IFDEF Release}
 {$DEFINE BotExceptions}
 {$ENDIF}
+
 type
   TEngineDebug = record
     Path: BBool;
@@ -62,10 +62,14 @@ uses
 function GetErrorLoadState: BStr;
 begin
   case EngineLoad of
-  elInit: Exit('elInit');
-  elLoading: Exit('elLoading');
-  elRunning: Exit('elRunning');
-  elDestroying: Exit('elDestroying');
+    elInit:
+      Exit('elInit');
+    elLoading:
+      Exit('elLoading');
+    elRunning:
+      Exit('elRunning');
+    elDestroying:
+      Exit('elDestroying');
   end;
   Exit('??? ' + BToStr(Ord(EngineLoad)));
 end;
@@ -85,9 +89,12 @@ begin
     if Assigned(BBot) then
       if Assigned(BBot.Menu) then
         case BBot.Menu.PauseLevel of
-        bplAll: Exit('Pause: Bot');
-        bplAutomation: Exit('Pause: Automations');
-        bplNone: Exit('Paused: None');
+          bplAll:
+            Exit('Pause: Bot');
+          bplAutomation:
+            Exit('Pause: Automations');
+          bplNone:
+            Exit('Paused: None');
         end;
   except
   end;
@@ -97,8 +104,10 @@ end;
 function BBotEngine_FormatError(const AErrorMsg: BStr): BStr;
 begin
   Result := '';
-  if AErrorMsg <> '' then begin
-    Result := BFormat('####### ERROR REPORT ####### \n%s \n%s \n%s, \n%s\n\n\n', [ //
+  if AErrorMsg <> '' then
+  begin
+    Result := BFormat
+      ('####### ERROR REPORT ####### \n%s \n%s \n%s, \n%s\n\n\n', [ //
       GetErrorVersionState, //
       GetErrorPauseState, //
       GetErrorLoadState, //
@@ -115,12 +124,16 @@ procedure BBotEngine_Exec();
 begin
   BBotMutex.Acquire;
   BBot.ReconnectManager.RunAction;
-  if Engine.Reconnect then begin
+  if Engine.Reconnect then
+  begin
     Me.Reload;
-    if Me.Connected then begin
+    if Me.Connected then
+    begin
       Engine.Reconnect := False;
       Engine.ReconnectSleep := 0;
-    end else begin
+    end
+    else
+    begin
       BBot.Reconnect.Login;
       Engine.ReconnectSleep := BRandom(1, 6) * 30 * 1000;
       Tibia.SleepWhileDisconnected(Engine.ReconnectSleep);
@@ -128,7 +141,8 @@ begin
   end;
   PacketQueue.Execute;
   BBot.Execute;
-  if Tick > Engine.UpdateNext then begin
+  if Tick > Engine.UpdateNext then
+  begin
     TibiaState^.Ping := Tibia.PingAvg;
     Engine.UpdateNext := Tick + 1000;
   end;
@@ -149,7 +163,8 @@ begin
   Randomize();
 {$IFDEF BotExceptions} try {$ENDIF}
     EngineLoad := elRunning;
-    while EngineLoad <> elDestroying do begin
+    while EngineLoad <> elDestroying do
+    begin
 {$IFDEF DEBUG}
       SetTick;
 {$ENDIF}
@@ -157,11 +172,14 @@ begin
     end;
 {$IFDEF BotExceptions}
   except
-    if EngineLoad = elRunning then begin
+    if EngineLoad = elRunning then
+    begin
       E := AcquireExceptionObject;
-      if E <> nil then begin
+      if E <> nil then
+      begin
         try
-          BBotEngine_SendError(BBotEngine_FormatError((E as Exception).Message));
+          BBotEngine_SendError(BBotEngine_FormatError((E as Exception)
+            .Message));
         except
         end;
         try
@@ -175,9 +193,11 @@ begin
           HUD.Print('The error was ' + (E as Exception).Message, $0000C0);
           HUD.Print('BBot must be restarted!', $0000C0);
           HUD.Free;
-        finally HUDExecute;
+        finally
+          HUDExecute;
         end;
-        while EngineLoad = elRunning do begin
+        while EngineLoad = elRunning do
+        begin
           TBBot.PanicMode;
           Sleep(400);
         end;
@@ -218,4 +238,3 @@ begin
 end;
 
 end.
-

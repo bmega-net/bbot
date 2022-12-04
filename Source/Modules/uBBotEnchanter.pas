@@ -1,5 +1,5 @@
 unit uBBotEnchanter;
-
+
 interface
 
 uses
@@ -86,118 +86,152 @@ procedure TBBotEnchanter.Run;
 var
   Item: TTibiaContainer;
 begin
-  if Enabled then begin
-    if EnchantingStage <> besIdle then begin
+  if Enabled then
+  begin
+    if EnchantingStage <> besIdle then
+    begin
       if EnchantingTriesStage <> EnchantingStage then
         EnchantingTries := 0;
       Inc(EnchantingTries);
-      if EnchantingTries > 6 then begin
+      if EnchantingTries > 6 then
+      begin
         EnchantingStage := besIdle;
         Exit;
       end;
     end;
     case EnchantingStage of
-    besIdle: begin
-        if Me.Mana >= Mana then begin
-          if Me.Soul >= Soul then begin
-            if (Hand <> SlotLastClicked) and (Me.Inventory.GetSlot(Hand).ID = Use) then begin
-              EnchantingStage := besEnchant;
-              Exit;
-            end;
-            if CountItem(Use) = 0 then begin
-              Error('No Magic Item (blank rune or spear) found.');
-              Exit;
-            end;
-            if Hand <> SlotLastClicked then
-              EnchantingStage := besPreEnchant
+      besIdle:
+        begin
+          if Me.Mana >= Mana then
+          begin
+            if Me.Soul >= Soul then
+            begin
+              if (Hand <> SlotLastClicked) and
+                (Me.Inventory.GetSlot(Hand).ID = Use) then
+              begin
+                EnchantingStage := besEnchant;
+                Exit;
+              end;
+              if CountItem(Use) = 0 then
+              begin
+                Error('No Magic Item (blank rune or spear) found.');
+                Exit;
+              end;
+              if Hand <> SlotLastClicked then
+                EnchantingStage := besPreEnchant
+              else
+                Me.Say(Spell);
+            end
             else
-              Me.Say(Spell);
-          end else begin
-            Error('Low soul.');
+            begin
+              Error('Low soul.');
+              Exit;
+            end;
+          end;
+        end;
+      besPreEnchant:
+        begin
+          if (Me.Mana < Mana) or (Me.Soul < Soul) then
+            EnchantingStage := besIdle
+          else
+          begin
+            if not IntIn(Me.Inventory.GetSlot(Hand).ID, [0, Use]) then
+            begin
+              OldHandID := Me.Inventory.GetSlot(Hand).ID;
+              Item := ContainerFirst;
+              while Item <> nil do
+              begin
+                if Item.Open then
+                  if not Item.IsCorpse then
+                  begin
+                    Item.PullHere(Me.Inventory.GetSlot(Hand));
+                    Exit;
+                  end;
+                Item := Item.Next;
+              end;
+              EnchantingStage := besIdle
+            end
+            else
+            begin
+              EnchantingStage := besSpecialToHand;
+            end;
+          end;
+        end;
+      besSpecialToHand:
+        begin
+          if Me.Inventory.GetSlot(Hand).ID = Use then
+          begin
+            EnchantingStage := besEnchant;
             Exit;
           end;
-        end;
-      end;
-    besPreEnchant: begin
-        if (Me.Mana < Mana) or (Me.Soul < Soul) then
-          EnchantingStage := besIdle
-        else begin
-          if not IntIn(Me.Inventory.GetSlot(Hand).ID, [0, Use]) then begin
-            OldHandID := Me.Inventory.GetSlot(Hand).ID;
-            Item := ContainerFirst;
-            while Item <> nil do begin
-              if Item.Open then
-                if not Item.IsCorpse then begin
-                  Item.PullHere(Me.Inventory.GetSlot(Hand));
-                  Exit;
-                end;
-              Item := Item.Next;
-            end;
+          if (Me.Mana < Mana) or (Me.Soul < Soul) then
             EnchantingStage := besIdle
-          end else begin
-            EnchantingStage := besSpecialToHand;
-          end;
-        end;
-      end;
-    besSpecialToHand: begin
-        if Me.Inventory.GetSlot(Hand).ID = Use then begin
-          EnchantingStage := besEnchant;
-          Exit;
-        end;
-        if (Me.Mana < Mana) or (Me.Soul < Soul) then
-          EnchantingStage := besIdle
-        else begin
-          Item := ContainerFind(Use);
-          if Item = nil then
-            EnchantingStage := besIdle
-          else begin
-            EnchantingSpecialContainer := Item.Container;
-            Item.ToBody(Hand, Min(Item.Count, 1));
-          end;
-        end;
-      end;
-    besEnchant: begin
-        if (Me.Inventory.GetSlot(Hand).ID = Use) and (Me.Mana >= Mana) and (Me.Soul >= Soul) then begin
-          Me.Say(Spell);
-          Exit;
-        end;
-        EnchantingStage := besSpecialToBackpack;
-      end;
-    besSpecialToBackpack: begin
-        if Me.Inventory.GetSlot(Hand).ID <> 0 then begin
-          if EnchantingSpecialContainer = -1 then begin
+          else
+          begin
             Item := ContainerFind(Use);
-            if Item <> nil then
+            if Item = nil then
+              EnchantingStage := besIdle
+            else
+            begin
               EnchantingSpecialContainer := Item.Container;
-          end;
-          if EnchantingSpecialContainer = -1 then begin
-            Item := ContainerFirst;
-            while Item <> nil do begin
-              if Item.Items < Item.Capacity then begin
-                EnchantingSpecialContainer := Item.Container;
-                Break;
-              end;
-              Item := Item.Next;
+              Item.ToBody(Hand, Min(Item.Count, 1));
             end;
           end;
-          ContainerAt(EnchantingSpecialContainer, 0).PullHere(Me.Inventory.GetSlot(Hand));
-          Exit;
         end;
-        EnchantingStage := besPostEnchant;
-      end;
-    besPostEnchant: begin
-        if OldHandID <> 0 then begin
-          Item := ContainerFind(OldHandID);
-          if Item <> nil then
-            Item.ToBody(Hand);
-          OldHandID := 0;
-        end
-        else
-          EnchantingStage := besIdle;
-      end;
+      besEnchant:
+        begin
+          if (Me.Inventory.GetSlot(Hand).ID = Use) and (Me.Mana >= Mana) and
+            (Me.Soul >= Soul) then
+          begin
+            Me.Say(Spell);
+            Exit;
+          end;
+          EnchantingStage := besSpecialToBackpack;
+        end;
+      besSpecialToBackpack:
+        begin
+          if Me.Inventory.GetSlot(Hand).ID <> 0 then
+          begin
+            if EnchantingSpecialContainer = -1 then
+            begin
+              Item := ContainerFind(Use);
+              if Item <> nil then
+                EnchantingSpecialContainer := Item.Container;
+            end;
+            if EnchantingSpecialContainer = -1 then
+            begin
+              Item := ContainerFirst;
+              while Item <> nil do
+              begin
+                if Item.Items < Item.Capacity then
+                begin
+                  EnchantingSpecialContainer := Item.Container;
+                  Break;
+                end;
+                Item := Item.Next;
+              end;
+            end;
+            ContainerAt(EnchantingSpecialContainer, 0)
+              .PullHere(Me.Inventory.GetSlot(Hand));
+            Exit;
+          end;
+          EnchantingStage := besPostEnchant;
+        end;
+      besPostEnchant:
+        begin
+          if OldHandID <> 0 then
+          begin
+            Item := ContainerFind(OldHandID);
+            if Item <> nil then
+              Item.ToBody(Hand);
+            OldHandID := 0;
+          end
+          else
+            EnchantingStage := besIdle;
+        end;
     end;
   end;
 end;
 
 end.
-
+

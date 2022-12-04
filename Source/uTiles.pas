@@ -1,5 +1,5 @@
 unit uTiles;
-
+
 interface
 
 uses
@@ -52,11 +52,12 @@ type
   end;
 
 procedure UpdateMap;
-procedure SetItemsWalkable(const IDs: array of BUInt32; Walkable: TTibiaItemWalkable);
+procedure SetItemsWalkable(const IDs: array of BUInt32;
+  Walkable: TTibiaItemWalkable);
 function Tiles(var Map: TTibiaTiles; X, Y: BInt32): BBool; overload;
 function Tiles(var Map: TTibiaTiles; Pos: BPos): BBool; overload;
-function TilesSearch(var AMap: TTibiaTiles; AOrigin: BPos; ARange: BUInt32; ATopItemOnly: BBool;
-  APred: BFunc<BBool>): BBool;
+function TilesSearch(var AMap: TTibiaTiles; AOrigin: BPos; ARange: BUInt32;
+  ATopItemOnly: BBool; APred: BFunc<BBool>): BBool;
 procedure BotCreateMap;
 procedure BotDestroyMap;
 
@@ -209,7 +210,8 @@ begin
   DX := X - Me.Position.X;
   DY := Y - Me.Position.Y;
   if Abs(DX) < 9 then
-    if Abs(DY) < 7 then begin
+    if Abs(DY) < 7 then
+    begin
       Map := TilesList[DX, DY];
       if Assigned(Map) then
         Map.ItemOnTop;
@@ -222,8 +224,8 @@ begin
   Result := Tiles(Map, Pos.X, Pos.Y);
 end;
 
-function TilesSearch(var AMap: TTibiaTiles; AOrigin: BPos; ARange: BUInt32; ATopItemOnly: BBool;
-  APred: BFunc<BBool>): BBool;
+function TilesSearch(var AMap: TTibiaTiles; AOrigin: BPos; ARange: BUInt32;
+  ATopItemOnly: BBool; APred: BFunc<BBool>): BBool;
 var
   X, Y, S, D: BInt32;
 begin
@@ -235,7 +237,8 @@ begin
             if ATopItemOnly and APred then
               Exit(True)
             else if not ATopItemOnly then
-              for S := 0 to AMap.ItemsOnTile - 1 do begin
+              for S := 0 to AMap.ItemsOnTile - 1 do
+              begin
                 AMap.ItemFromStack(S);
                 if APred then
                   Exit(True);
@@ -243,7 +246,8 @@ begin
   Result := False;
 end;
 
-procedure SetItemsWalkable(const IDs: array of BUInt32; Walkable: TTibiaItemWalkable);
+procedure SetItemsWalkable(const IDs: array of BUInt32;
+  Walkable: TTibiaItemWalkable);
 var
   I: BUInt32;
 begin
@@ -263,7 +267,8 @@ begin
     function: BBool
     begin
       Result := False;
-      if Map.ChangeLevel then begin
+      if Map.ChangeLevel then
+      begin
         if Map.ChangeLevelLadder then
           HUD.Text := 'L'
         else if Map.ChangeLevelHole then
@@ -320,7 +325,8 @@ procedure TTibiaTiles.CreatureOnTop;
 var
   S: BInt32;
 begin
-  for S := 0 to ItemsOnTile - 1 do begin
+  for S := 0 to ItemsOnTile - 1 do
+  begin
     ReadItem(S);
     if ID = ItemID_Creature then
       Exit;
@@ -352,7 +358,8 @@ begin
   HasGround := False;
   HasNonStackable := False;
   HasPlayer := False;
-  for S := 0 to ItemsOnTile - 1 do begin
+  for S := 0 to ItemsOnTile - 1 do
+  begin
     ReadItem(S);
 
     if IsWalkable = iwAvoid then
@@ -360,11 +367,14 @@ begin
     if ChangeLevel then
       Result := Max(Result, TileCost_ExtremeAvoid);
 
-    if ((ID = ItemID_Creature) and (not IsPlayerID(BUInt32(Count)))) or (IsWalkable = iwNotWalkable) then
+    if ((ID = ItemID_Creature) and (not IsPlayerID(BUInt32(Count)))) or
+      (IsWalkable = iwNotWalkable) then
       Exit(TileCost_NotWalkable);
 
-    HasPlayer := HasPlayer or ((ID = ItemID_Creature) and (IsPlayerID(BUInt32(Count))));
-    HasNonStackable := HasNonStackable or (ID = ItemID_NonStackableTile1) or (ID = ItemID_NonStackableTile2);
+    HasPlayer := HasPlayer or
+      ((ID = ItemID_Creature) and (IsPlayerID(BUInt32(Count))));
+    HasNonStackable := HasNonStackable or (ID = ItemID_NonStackableTile1) or
+      (ID = ItemID_NonStackableTile2);
     HasGround := HasGround or IsGround;
   end;
   if (not HasGround) or (HasNonStackable and HasPlayer) then
@@ -384,9 +394,11 @@ var
 begin
   Result := False;
   SS := Stack;
-  for S := 0 to ItemsOnTile - 1 do begin
+  for S := 0 to ItemsOnTile - 1 do
+  begin
     ReadItem(S);
-    if ID = AID then begin
+    if ID = AID then
+    begin
       Result := True;
       Break;
     end;
@@ -403,9 +415,11 @@ procedure TTibiaTiles.ItemOnTop;
 var
   S: BInt32;
 begin
-  for S := 0 to ItemsOnTile - 1 do begin
+  for S := 0 to ItemsOnTile - 1 do
+  begin
     ReadItem(S);
-    if (IsContainer or IsMoveable or IsPickupable or IntIn(ID, ItemsFirePoison)) and (ID <> ItemID_Creature) then
+    if (IsContainer or IsMoveable or IsPickupable or IntIn(ID, ItemsFirePoison))
+      and (ID <> ItemID_Creature) then
       Exit;
   end;
 end;
@@ -437,13 +451,17 @@ procedure TTibiaTiles.SetMyPos;
 var
   X, Y, Z, S: BInt32;
 begin
-  for Z := 0 to 7 do begin
+  for Z := 0 to 7 do
+  begin
     MyPosZ := Z;
-    for Y := 0 to 13 do begin
+    for Y := 0 to 13 do
+    begin
       MyPosY := Y;
-      for X := 0 to 17 do begin
+      for X := 0 to 17 do
+      begin
         MyPosX := X;
-        for S := 0 to ItemsOnTile - 1 do begin
+        for S := 0 to ItemsOnTile - 1 do
+        begin
           ItemFromStack(S);
           if ID = ItemID_Creature then
             if BUInt32(Count) = Me.ID then
@@ -460,9 +478,11 @@ var
 begin
   Result := True;
   SS := Stack;
-  for S := 0 to ItemsOnTile - 1 do begin
+  for S := 0 to ItemsOnTile - 1 do
+  begin
     ReadItem(S);
-    if IsBlockingMissiles then begin
+    if IsBlockingMissiles then
+    begin
       Result := False;
       Break;
     end;
@@ -482,12 +502,14 @@ var
   MC: BFloat;
 begin
   Result := TileCost;
-  if Result <= TileCost_Avoid then begin
+  if Result <= TileCost_Avoid then
+  begin
     Result := Power(Result, 2);
     for A := -1 to +1 do
       for B := -1 to +1 do
         if (A <> 0) or (B <> 0) then
-          if Tiles(M, Position.X + A, Position.Y + B) then begin
+          if Tiles(M, Position.X + A, Position.Y + B) then
+          begin
             MC := M.TileCost;
             if MC > TileCost_Avoid then
               MC := TileCost_Avoid;
@@ -505,14 +527,17 @@ var
 begin
   S := Stack;
   ItemOnTop;
-  if IsMoveable and (AMovePlayers or (ID <> ItemID_Creature)) then begin
+  if IsMoveable and (AMovePlayers or (ID <> ItemID_Creature)) then
+  begin
     if ID = ItemID_Creature then
       Origin := Position
     else
       Origin := Me.Position;
-    P := BPosXYZ(Origin.X + BRandom(-1, 1), Origin.Y + BRandom(-1, 1), Origin.Z);
+    P := BPosXYZ(Origin.X + BRandom(-1, 1), Origin.Y + BRandom(-1, 1),
+      Origin.Z);
     if (P <> Position) and ((ID <> ItemID_Creature) or (P <> Me.Position)) then
-      if not BBot.Exhaust.TileCleanup then begin
+      if not BBot.Exhaust.TileCleanup then
+      begin
         BBot.Exhaust.ExhaustTileCleanup;
         if Tiles(M, P) and (M.GetTileCost = TileCost_Normal) then
           ToGround(P);
@@ -598,7 +623,8 @@ end;
 
 function TTibiaTiles1021.GetItemsOnTile: BInt32;
 begin
-  Result := BMinMax(Buffer1021[MapBufferZ, MapBufferY, MapBufferX].Count, 0, 10);
+  Result := BMinMax(Buffer1021[MapBufferZ, MapBufferY, MapBufferX]
+    .Count, 0, 10);
 end;
 
 procedure TTibiaTiles1021.ReadItem(AIndex: BInt32);
@@ -622,7 +648,8 @@ end;
 
 function TTibiaTiles1050.GetItemsOnTile: BInt32;
 begin
-  Result := BMinMax(Buffer1050[MapBufferZ, MapBufferY, MapBufferX].Count, 0, 10);
+  Result := BMinMax(Buffer1050[MapBufferZ, MapBufferY, MapBufferX]
+    .Count, 0, 10);
 end;
 
 procedure TTibiaTiles1050.ReadItem(AIndex: BInt32);
@@ -643,4 +670,4 @@ begin
 end;
 
 end.
-
+

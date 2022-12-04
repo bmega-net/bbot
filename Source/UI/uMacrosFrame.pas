@@ -38,7 +38,8 @@ type
     Addto1: TMenuItem;
     procedure CopyCodes2Click(Sender: TObject);
     procedure CopyMacro1Click(Sender: TObject);
-    procedure lstMacrosDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure lstMacrosDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure PasteCodes3Click(Sender: TObject);
     procedure RemoveSelected1Click(Sender: TObject);
     procedure Edit2Click(Sender: TObject);
@@ -49,9 +50,11 @@ type
     procedure Debug1Click(Sender: TObject);
     procedure Addto1Click(Sender: TObject);
     procedure FavoritesDblClick(Sender: TObject);
-    procedure FavoritesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FavoritesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure popMacroPopup(Sender: TObject);
-    procedure lstMacrosKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstMacrosKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   protected
     FMain: TForm;
     NextLoad: BUInt32;
@@ -102,7 +105,8 @@ var
   Selected: BStr;
 begin
   Selected := selectedPopupItem;
-  if Selected <> '' then begin
+  if Selected <> '' then
+  begin
     TFMain(FMain).MacroEditorLoad(Selected);
     TFMain(FMain).ShowGroupBox(TFMain(FMain).gbMacroEditor);
   end;
@@ -110,13 +114,15 @@ end;
 
 procedure TMacrosFrame.FavoritesDblClick(Sender: TObject);
 begin
-  if Favorites.ItemIndex <> -1 then begin
+  if Favorites.ItemIndex <> -1 then
+  begin
     SaveMacro(Favorites.Items.Strings[Favorites.ItemIndex]);
     SetMacros;
   end;
 end;
 
-procedure TMacrosFrame.FavoritesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TMacrosFrame.FavoritesKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
   SaveFavorites;
@@ -132,7 +138,8 @@ begin
   NextLoad := 0;
 end;
 
-procedure TMacrosFrame.lstMacrosDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TMacrosFrame.lstMacrosDrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
   Delay: BInt32;
@@ -150,7 +157,8 @@ begin
   BListDrawItem(lst.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TMacrosFrame.lstMacrosKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TMacrosFrame.lstMacrosKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
   BListboxKeyDown(Sender, Key, Shift);
   SetMacros;
@@ -219,7 +227,8 @@ begin
       for I := 0 to High(Favorited) do
         if BTrim(Favorited[I]) <> '' then
           Favorites.AddItem(Favorited[I], nil);
-  finally Favorites.Items.EndUpdate;
+  finally
+    Favorites.Items.EndUpdate;
   end;
 end;
 
@@ -242,9 +251,11 @@ var
   Count: BInt32;
 begin
   Name := BTrim(BStrBetween(ACode, '{', '}'));
-  for Count := 0 to AToList.Items.Count - 1 do begin
+  for Count := 0 to AToList.Items.Count - 1 do
+  begin
     MacroName := BTrim(BStrBetween(AToList.Items[Count], '{', '}'));
-    if BStrEqual(MacroName, Name) then begin
+    if BStrEqual(MacroName, Name) then
+    begin
       AToList.Items[Count] := ACode;
       Exit;
     end;
@@ -271,7 +282,8 @@ procedure TMacrosFrame.SetMacros;
 var
   I: BInt32;
 begin
-  if TFMain(FMain).MutexAcquire then begin
+  if TFMain(FMain).MutexAcquire then
+  begin
     BBot.Macros.ClearMacros;
     for I := 0 to lstMacros.Count - 1 do
       BBot.Macros.AddMacro(lstMacros.Items.Strings[I]);
@@ -282,8 +294,10 @@ end;
 
 procedure TMacrosFrame.TimerMacros;
 begin
-  if NextLoad < Tick then begin
-    if not Favorites.Focused then begin
+  if NextLoad < Tick then
+  begin
+    if not Favorites.Focused then
+    begin
       NextLoad := Tick + MacroFavoritesUpdateDelay;
       ReloadFavorites;
     end;
@@ -293,10 +307,13 @@ end;
 procedure TMacrosFrame.Addto1Click(Sender: TObject);
 begin
   if selectedPopupItem <> '' then
-    if selectedPopupList = Favorites then begin
+    if selectedPopupList = Favorites then
+    begin
       SaveMacro(lstMacros, selectedPopupItem);
       SetMacros;
-    end else begin
+    end
+    else
+    begin
       SaveMacro(Favorites, selectedPopupItem);
       SaveFavorites;
     end;

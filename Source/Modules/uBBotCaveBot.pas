@@ -1,6 +1,5 @@
 unit uBBotCaveBot;
 
-
 interface
 
 uses
@@ -23,9 +22,11 @@ const
   BBotCavebotNoKillMaxStand = 10000;
   BBotCavebotNoKillMaxStandVar = 'BBot.Cavebot.NoKillMaxStandTime';
   BBotCavebotSmartMapClickAnalyzeCount = 6;
-  BBotCavebotSmartMapClickAnalyzeCountVar = 'BBot.Cavebot.SmartClick.AnalyzeCount';
+  BBotCavebotSmartMapClickAnalyzeCountVar =
+    'BBot.Cavebot.SmartClick.AnalyzeCount';
   BBotCavebotSmartMapClickAnalyzeMaxAttacks = 2;
-  BBotCavebotSmartMapClickAnalyzeMaxAttacksVar = 'BBot.Cavebot.SmartClick.MaxAttacks';
+  BBotCavebotSmartMapClickAnalyzeMaxAttacksVar =
+    'BBot.Cavebot.SmartClick.MaxAttacks';
 
 type
   EBBotCavebot = class(Exception)
@@ -73,9 +74,11 @@ type
     property NoKill: BBool read FNoKill write FNoKill;
     property IsNoKill: BBool read GetIsNoKill;
     property IsWaiting: BBool read GetIsWaiting;
-    property WithdrawRounding: BInt32 read FWithdrawRounding write FWithdrawRounding;
+    property WithdrawRounding: BInt32 read FWithdrawRounding
+      write FWithdrawRounding;
 
-    property IsOpenningCorpse: BBool read FIsOpennigCorpse write FIsOpennigCorpse;
+    property IsOpenningCorpse: BBool read FIsOpennigCorpse
+      write FIsOpennigCorpse;
 
     property Current: TBBotCavebotNormalNode read FCurrent write SetCurrent;
     property FirstNode: TBBotCavebotNormalNode read FFirstNode write FFirstNode;
@@ -97,7 +100,8 @@ type
 
     property NoKillMaxStandTime: BUInt32 read FNoKillMaxStandTime;
     property SmartMapClickAnalyzeCount: BUInt32 read FSmartMapClickAnalyzeCount;
-    property SmartMapClickAnalyzeMaxAttacks: BUInt32 read FSmartMapClickAnalyzeMaxAttacks;
+    property SmartMapClickAnalyzeMaxAttacks: BUInt32
+      read FSmartMapClickAnalyzeMaxAttacks;
 
     property Rope: BInt32 read FRope write FRope;
     property Shovel: BInt32 read FShovel write FShovel;
@@ -108,7 +112,8 @@ type
     procedure DoLearn(FromPos, ToPos: BPos);
 
     function FullCheck(const AExpr: BStr): BBool;
-    property LearnIgnoreNextFrom: BBool read FLearnIgnoreNextFrom write FLearnIgnoreNextFrom;
+    property LearnIgnoreNextFrom: BBool read FLearnIgnoreNextFrom
+      write FLearnIgnoreNextFrom;
 
     function GoFloorUp(const Position: BPos): BBool;
     function GoFloorDown(const Position: BPos): BBool;
@@ -140,7 +145,8 @@ type
     function GoPosition: BBool; virtual;
     function IsReached: BBool; virtual;
   public
-    constructor Create(ACavebot: TBBotCaveBot; AName: BStr; APosition: BPos; AParam: BStr; AIndex: BInt32);
+    constructor Create(ACavebot: TBBotCaveBot; AName: BStr; APosition: BPos;
+      AParam: BStr; AIndex: BInt32);
     destructor Destroy; override;
 
     procedure DoRun;
@@ -318,12 +324,14 @@ var
   Curr, Tmp: TBBotCavebotNormalNode;
 begin
   Curr := FirstNode;
-  if Assigned(Curr) then begin
+  if Assigned(Curr) then
+  begin
     LastNode.Next := nil;
     FFirstNode := nil;
     FLastNode := nil;
     FCurrent := nil;
-    while Curr <> nil do begin
+    while Curr <> nil do
+    begin
       Tmp := Curr;
       Curr := Curr.Next;
       Tmp.Free;
@@ -369,7 +377,8 @@ procedure TBBotCaveBot.DoLearn(FromPos, ToPos: BPos);
     HUD: TBBotHUD;
     MsgPos: TBBotGUIMessageAddCavebotPoint;
   begin
-    if (P <> LastLearn) and (P.X <> 0) and (P.Y <> 0) then begin
+    if (P <> LastLearn) and (P.X <> 0) and (P.Y <> 0) then
+    begin
       MsgPos := TBBotGUIMessageAddCavebotPoint.Create;
       MsgPos.Position := P;
       FMain.AddBBotMessage(MsgPos);
@@ -387,7 +396,8 @@ var
 begin
   if not Learn then
     Exit;
-  AddFrom := (not FLearnIgnoreNextFrom) and ((FromPos.Z <> ToPos.Z) or (not Me.CanSee(LastLearn)) or
+  AddFrom := (not FLearnIgnoreNextFrom) and
+    ((FromPos.Z <> ToPos.Z) or (not Me.CanSee(LastLearn)) or
     (not InRange(BBot.Walker.ApproachToCost(LastLearn, 8), 0, 5)));
   FLearnIgnoreNextFrom := False;
   AddTo := (FromPos.Z <> ToPos.Z);
@@ -399,9 +409,14 @@ end;
 
 procedure TBBotCaveBot.Run;
 begin
-  if Enabled and (not(BBot.Depositer.Working or BBot.Withdraw.isWorking)) and (Current <> nil) then begin
-    if (Current.DistanceToSelf < 2) and (Current is TBBotCavebotNodePoint) and (Current.Next is TBBotCavebotNodePoint)
-      and (Current.Position.Z = Me.Position.Z) and (Current.Position.Z = Current.Next.Position.Z) then begin
+  if Enabled and (not(BBot.Depositer.Working or BBot.Withdraw.isWorking)) and
+    (Current <> nil) then
+  begin
+    if (Current.DistanceToSelf < 2) and (Current is TBBotCavebotNodePoint) and
+      (Current.Next is TBBotCavebotNodePoint) and
+      (Current.Position.Z = Me.Position.Z) and
+      (Current.Position.Z = Current.Next.Position.Z) then
+    begin
       Current := Current.Next;
       if Debug then
         AddDebug('Skipping point, next reached');
@@ -411,15 +426,19 @@ end;
 
 procedure TBBotCaveBot.RunPoint;
 begin
-  if Enabled and (not(BBot.Depositer.Working or BBot.Withdraw.isWorking)) and (Current <> nil) and
-    (not BBot.ServerSave.IsServerSave) and (not Current.Wait.Locked) and (not BBot.Looter.IsLooting) and
-    (not Me.LoggingOut) and (not BBot.Backpacks.isWorking) and (not BBot.ManaDrinker.PauseCavebot) then
-    if BBot.Walker.Task = nil then begin
+  if Enabled and (not(BBot.Depositer.Working or BBot.Withdraw.isWorking)) and
+    (Current <> nil) and (not BBot.ServerSave.IsServerSave) and
+    (not Current.Wait.Locked) and (not BBot.Looter.IsLooting) and
+    (not Me.LoggingOut) and (not BBot.Backpacks.isWorking) and
+    (not BBot.ManaDrinker.PauseCavebot) then
+    if BBot.Walker.Task = nil then
+    begin
       if Current.State = bcnsOk then
         Current := Current.Next
       else if Current.State = bcnsError then
         FindNearestPoint;
-       try Current.DoRun;
+      try
+        Current.DoRun;
       except
         on E: Exception do
           if FCurrent = nil then
@@ -440,8 +459,11 @@ begin
   N := FirstNode.Next;
   B := N;
   D := MaxInt;
-  while N <> FirstNode do begin
-    if ((N.DistanceToSelf < D) and (StartItemIndex = -1)) or (StartItemIndex = N.Index) then begin
+  while N <> FirstNode do
+  begin
+    if ((N.DistanceToSelf < D) and (StartItemIndex = -1)) or
+      (StartItemIndex = N.Index) then
+    begin
       D := N.DistanceToSelf;
       B := N;
     end;
@@ -459,42 +481,56 @@ var
   Creature: TBBotCreature;
 begin
   Result := False;
-  if BStrSplit(Ret, ';', ';' + BBot.Macros.VarsText(AExpr) + ';') > 0 then begin
-    for I := 0 to High(Ret) do begin
-      if BSimpleRegex('#([\w~@ ]+)(<|<=|>|>=|==)(\d+)#', '#' + Ret[I] + '#', R) then begin
+  if BStrSplit(Ret, ';', ';' + BBot.Macros.VarsText(AExpr) + ';') > 0 then
+  begin
+    for I := 0 to High(Ret) do
+    begin
+      if BSimpleRegex('#([\w~@ ]+)(<|<=|>|>=|==)(\d+)#', '#' + Ret[I] + '#', R)
+      then
+      begin
         V := Trim(R[1]);
         OP := Trim(R[2]);
         CC := StrToIntDef(Trim(R[3]), 0);
-        if BStrIsNumber(V) then begin
+        if BStrIsNumber(V) then
+        begin
           CH := StrToIntDef(V, 0);
           if CH > 100 then
             CH := CountItem(CH);
-        end else if BStrEqual(V, 'Cap') or BStrEqual(V, 'Capacity') then
+        end
+        else if BStrEqual(V, 'Cap') or BStrEqual(V, 'Capacity') then
           CH := Me.Capacity div 100
-        else if BStrEqual(V, 'Balance') then begin
+        else if BStrEqual(V, 'Balance') then
+        begin
           CH := BBot.TradeWindow.BankBalance;
           if CH = -1 then
             Continue;
-        end else if BStrEqual(V, 'IsTradeOpen') then
+        end
+        else if BStrEqual(V, 'IsTradeOpen') then
           CH := BIf(BBot.TradeWindow.IsOpen, 1, 0)
         else if BStrEqual(V, 'Soul') then
           CH := Me.Soul
         else if BStrEqual(V, 'Stamina') then
           CH := Me.Stamina
-        else if BStrStart(V, '@') then begin
+        else if BStrStart(V, '@') then
+        begin
           CH := -1;
           Creature := BBot.Creatures.Find(BStrRight(V, '@'));
           if Creature <> nil then
             CH := Me.DistanceTo(Creature);
           if CH = -1 then
             Continue;
-        end else begin
+        end
+        else
+        begin
           CH := -1;
-          if (Length(V) > 1) then begin
-            if V[1] = '~' then begin
+          if (Length(V) > 1) then
+          begin
+            if V[1] = '~' then
+            begin
               CH := 0;
               BStrSplit(Ret2, '~', V);
-              for J := 0 to High(Ret2) do begin
+              for J := 0 to High(Ret2) do
+              begin
                 N := BBot.KillStats.TaskKills(Ret2[J]);
                 if N <> -1 then
                   Inc(CH, N);
@@ -506,8 +542,9 @@ begin
           if CH = -1 then
             Continue;
         end;
-        Result := ((OP = '>') and (CH > CC)) or ((OP = '<') and (CH < CC)) or ((OP = '<=') and (CH <= CC)) or
-          ((OP = '>=') and (CH >= CC)) or ((OP = '==') and (CH = CC));
+        Result := ((OP = '>') and (CH > CC)) or ((OP = '<') and (CH < CC)) or
+          ((OP = '<=') and (CH <= CC)) or ((OP = '>=') and (CH >= CC)) or
+          ((OP = '==') and (CH = CC));
         if Result then
           Break;
       end;
@@ -530,29 +567,39 @@ var
   Map: TTibiaTiles;
   Origin: BPos;
 begin
-  if SQMDistance(Me.Position.X, Me.Position.Y, Position.X, Position.Y) <= 5 then begin
-    Origin := BPosXYZ((Position.X + Me.Position.X) div 2, (Position.Y + Me.Position.Y) div 2, Me.Position.Z);
+  if SQMDistance(Me.Position.X, Me.Position.Y, Position.X, Position.Y) <= 5 then
+  begin
+    Origin := BPosXYZ((Position.X + Me.Position.X) div 2,
+      (Position.Y + Me.Position.Y) div 2, Me.Position.Z);
     if TilesSearch(Map, Origin, 5, False,
       function: BBool
       begin
         Result := Map.ChangeLevelDown;
       end) then
-      if Me.Position = Map.Position then begin
+      if Me.Position = Map.Position then
+      begin
         BBot.Walker.RandomStep;
         Exit(True);
-      end else if Map.Cleanup then begin
+      end
+      else if Map.Cleanup then
+      begin
         Exit(True);
-      end else if Map.ChangeLevelHole then begin
+      end
+      else if Map.ChangeLevelHole then
+      begin
         if Current <> nil then
           Current.Wait.Lock;
         Map.Use;
         Exit(True);
-      end else if Map.ChangeLevelShovel then begin
+      end
+      else if Map.ChangeLevelShovel then
+      begin
         if Current <> nil then
           Current.Wait.Lock;
         Map.UseOn(Shovel);
         Exit(True);
-      end else if WalkTo(Map.Position, 0) then
+      end
+      else if WalkTo(Map.Position, 0) then
         Exit(True);
   end;
   Result := False;
@@ -563,29 +610,39 @@ var
   Map: TTibiaTiles;
   Origin: BPos;
 begin
-  if SQMDistance(Me.Position.X, Me.Position.Y, Position.X, Position.Y) <= 5 then begin
-    Origin := BPosXYZ((Position.X + Me.Position.X) div 2, (Position.Y + Me.Position.Y) div 2, Me.Position.Z);
+  if SQMDistance(Me.Position.X, Me.Position.Y, Position.X, Position.Y) <= 5 then
+  begin
+    Origin := BPosXYZ((Position.X + Me.Position.X) div 2,
+      (Position.Y + Me.Position.Y) div 2, Me.Position.Z);
     if TilesSearch(Map, Origin, 5, False,
       function: BBool
       begin
         Result := Map.ChangeLevelUp;
       end) then
-      if Me.Position = Map.Position then begin
+      if Me.Position = Map.Position then
+      begin
         BBot.Walker.RandomStep;
         Exit(True);
-      end else if Map.Cleanup then begin
+      end
+      else if Map.Cleanup then
+      begin
         Exit(True);
-      end else if Map.ChangeLevelLadder then begin
+      end
+      else if Map.ChangeLevelLadder then
+      begin
         if Current <> nil then
           Current.Wait.Lock;
         Map.Use;
         Exit(True);
-      end else if Map.ChangeLevelRope then begin
+      end
+      else if Map.ChangeLevelRope then
+      begin
         if Current <> nil then
           Current.Wait.Lock;
         Map.UseOn(Rope);
         Exit(True);
-      end else if WalkTo(Map.Position, 0) then
+      end
+      else if WalkTo(Map.Position, 0) then
         Exit(True);
   end;
   Result := False;
@@ -596,9 +653,11 @@ var
   P: TBBotCavebotNormalNode;
 begin
   P := Current.Next;
-  while P <> Current do begin
+  while P <> Current do
+  begin
     if P is TBBotCavebotNodeLabel then
-      if P.Param = ALabel then begin
+      if P.Param = ALabel then
+      begin
         Current := P;
         Result := True;
         Exit;
@@ -625,9 +684,12 @@ begin
   FEnabled := False;
   ClearWaypoint;
   Next := nil;
-  for I := 0 to List.Count - 1 do begin
+  for I := 0 to List.Count - 1 do
+  begin
     L := List.Strings[I];
-    if BSimpleRegex('^(\w+) \((\d{1,7} \d{1,7} \d{1,2})(?::(.*?))?\)$', L, Res) then begin
+    if BSimpleRegex('^(\w+) \((\d{1,7} \d{1,7} \d{1,2})(?::(.*?))?\)$', L, Res)
+    then
+    begin
       M := Res[1];
       P := BPos(Res[2]);
       if Length(Res) = 4 then
@@ -692,7 +754,9 @@ begin
       LastNode := Next;
       FirstNode.Prev := Next;
       LastNode.Next := FirstNode;
-    end else begin
+    end
+    else
+    begin
       ClearWaypoint;
       LoadErrorIndex := I;
       Break;
@@ -704,18 +768,21 @@ procedure TBBotCaveBot.OnInit;
 begin
   BBot.Events.OnWalk.Add(OnWalk);
 
-  BBot.Macros.Registry.CreateSystemVariable(BBotCavebotNoKillMaxStandVar, BBotCavebotNoKillMaxStand).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotCavebotNoKillMaxStandVar,
+    BBotCavebotNoKillMaxStand).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FNoKillMaxStandTime := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotCavebotSmartMapClickAnalyzeCountVar,
+  BBot.Macros.Registry.CreateSystemVariable
+    (BBotCavebotSmartMapClickAnalyzeCountVar,
     BBotCavebotSmartMapClickAnalyzeCount).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FSmartMapClickAnalyzeCount := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotCavebotSmartMapClickAnalyzeMaxAttacksVar,
+  BBot.Macros.Registry.CreateSystemVariable
+    (BBotCavebotSmartMapClickAnalyzeMaxAttacksVar,
     BBotCavebotSmartMapClickAnalyzeMaxAttacks).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
@@ -745,7 +812,8 @@ begin
     Exit;
   FEnabled := Value;
   FNoKill := False;
-  if Value then begin
+  if Value then
+  begin
     Learn := False;
     FindNearestPoint;
     if Current = nil then
@@ -782,7 +850,8 @@ begin
     Exit(False);
   Node := Current;
   TotalAttacks := 0;
-  for I := 1 to SmartMapClickAnalyzeCount do begin
+  for I := 1 to SmartMapClickAnalyzeCount do
+  begin
     if not(Node is TBBotCavebotNodePoint) then
       Exit(False);
     if Node.Position.Z <> Me.Position.Z then
@@ -807,16 +876,20 @@ var
   Path: TBBotPathFinderPosition;
   Task: TBBotWalkerTask;
 begin
-  if BBot.Walker.Task = nil then begin
-    Path := TBBotPathFinderPosition.Create('Cavebot WalkTo <' + BStr(APosition) + '> distance ' + BToStr(ADistance));
+  if BBot.Walker.Task = nil then
+  begin
+    Path := TBBotPathFinderPosition.Create('Cavebot WalkTo <' + BStr(APosition)
+      + '> distance ' + BToStr(ADistance));
     Path.Position := APosition;
     Path.Distance := ADistance;
     Path.Execute;
-    if Path.Cost <> PathCost_NotPossible then begin
+    if Path.Cost <> PathCost_NotPossible then
+    begin
       Task := TBBotWalkerTask.Create(Path);
       Task.UseMapClick := ShouldUseMapClick;
       BBot.Walker.Task := Task;
-      if Debug then begin
+      if Debug then
+      begin
         if Task.UseMapClick then
           AddDebug(Current.Position, 'CB.SmartMapClick')
         else
@@ -833,8 +906,8 @@ end;
 
 { TBBotCavebotNode }
 
-constructor TBBotCavebotNormalNode.Create(ACavebot: TBBotCaveBot; AName: BStr; APosition: BPos; AParam: BStr;
-AIndex: BInt32);
+constructor TBBotCavebotNormalNode.Create(ACavebot: TBBotCaveBot; AName: BStr;
+APosition: BPos; AParam: BStr; AIndex: BInt32);
 begin
   FReachErrors := 0;
   FCavebot := ACavebot;
@@ -859,7 +932,8 @@ begin
   OnPreRun;
   if State = bcnsReach then
     DoReach
-  else if State = bcnsReached then begin
+  else if State = bcnsReached then
+  begin
     Wait.Lock;
     Run;
   end;
@@ -893,7 +967,8 @@ end;
 procedure TBBotCavebotNormalNode.SetState(AState: TBBotCavebotNodeState);
 begin
   FState := AState;
-  if FState = bcnsReach then begin
+  if FState = bcnsReach then
+  begin
     ReachErrors := 0;
     Wait.Unlock;
     OnStart;
@@ -915,14 +990,19 @@ end;
 
 function TBBotCavebotNormalNode.DoReach: BBool;
 begin
-  if IsReached then begin
+  if IsReached then
+  begin
     SetState(bcnsReached);
     Exit(True);
-  end else begin
+  end
+  else
+  begin
     if BBot.Walker.Task <> nil then
       Exit(True)
-    else begin
-      if ((Position.Z > Me.Position.Z) and GoFloorDown) or ((Position.Z < Me.Position.Z) and GoFloorUp) or
+    else
+    begin
+      if ((Position.Z > Me.Position.Z) and GoFloorDown) or
+        ((Position.Z < Me.Position.Z) and GoFloorUp) or
         ((Position.Z = Me.Position.Z) and GoPosition) then
         Exit(True);
       if Position.Z = Me.Position.Z then
@@ -1026,10 +1106,13 @@ procedure TBBotCavebotNodeDropLoot.Run;
 var
   Item: TTibiaContainer;
 begin
-  if Me.DistanceTo(Position) < 4 then begin
+  if Me.DistanceTo(Position) < 4 then
+  begin
     Item := ContainerLast;
-    while Item <> nil do begin
-      if Item.LootDrop then begin
+    while Item <> nil do
+    begin
+      if Item.LootDrop then
+      begin
         Item.ToGround(Position);
         Wait.Lock(800 + BRandom(300));
         Exit;
@@ -1058,13 +1141,16 @@ var
   S: BInt32;
   Map: TTibiaTiles;
 begin
-  if Tiles(Map, TargetPos) then begin
+  if Tiles(Map, TargetPos) then
+  begin
     if Map.ID <> TargetID then
       if Map.Cleanup then
         Exit;
-    for S := 0 to Map.ItemsOnTile - 1 do begin
+    for S := 0 to Map.ItemsOnTile - 1 do
+    begin
       Map.ItemFromStack(S);
-      if Map.ID = TargetID then begin
+      if Map.ID = TargetID then
+      begin
         if UseID = 0 then
           Map.Use
         else
@@ -1100,19 +1186,23 @@ begin
   LTrue := '';
   LFalse := '';
   LCode := '';
-  if BStrStart(S, 'Full') then begin
+  if BStrStart(S, 'Full') then
+  begin
     LTrue := BStrBetween(S, 'Full ', ' Else');
     LFalse := BStrBetween(S, 'Else ', ' Code');
     LCode := BStrRight(S, 'Code ');
   end
   else
     LCode := S;
-  if Cavebot.FullCheck(LCode) then begin
+  if Cavebot.FullCheck(LCode) then
+  begin
     if (LTrue = '') or Cavebot.GoLabel(LTrue) then
       SetState(bcnsOk)
     else
       SetState(bcnsError);
-  end else begin
+  end
+  else
+  begin
     if LFalse = '' then
       Cavebot.GoStart
     else if Cavebot.GoLabel(LFalse) then
@@ -1160,7 +1250,8 @@ end;
 
 function WithdrawRound(Number, RoundingNumber: BFloat): BInt32;
 begin
-  Result := Round(Ceil(Number / Power(10, RoundingNumber)) * Power(10, RoundingNumber));
+  Result := Round(Ceil(Number / Power(10, RoundingNumber)) * Power(10,
+    RoundingNumber));
 end;
 
 procedure TBBotCavebotNodeWithdraw.Run;
@@ -1169,13 +1260,17 @@ var
   ID, UnitPrice, TotalItem, Total, I: BInt32;
 begin
   Total := 0;
-  if BStrSplit(W, ';', Param) > 0 then begin
-    for I := 0 to High(W) do begin
-      if BStrSplit(R, ' ', W[I]) = 3 then begin
+  if BStrSplit(W, ';', Param) > 0 then
+  begin
+    for I := 0 to High(W) do
+    begin
+      if BStrSplit(R, ' ', W[I]) = 3 then
+      begin
         ID := StrToIntDef(R[0], -1);
         UnitPrice := StrToIntDef(R[1], -1);
         TotalItem := StrToIntDef(R[2], -1);
-        if (ID = -1) or (TotalItem = -1) or (UnitPrice = -1) then begin
+        if (ID = -1) or (TotalItem = -1) or (UnitPrice = -1) then
+        begin
           SetState(bcnsError);
           Exit;
         end;
@@ -1203,7 +1298,8 @@ var
   R: BStrArray;
   ID, Total: BInt32;
 begin
-  if BStrSplit(R, ' ', Param) = 2 then begin
+  if BStrSplit(R, ' ', Param) = 2 then
+  begin
     ID := StrToIntDef(R[0], -1);
     Total := StrToIntDef(R[1], -1);
     Dec(Total, CountItem(ID));
@@ -1273,7 +1369,8 @@ procedure TBBotCavebotNodeGoRandomLabel.Run;
 var
   R: BStrArray;
 begin
-  if (BStrSplit(R, ',', Param) > 0) and Cavebot.GoLabel(BTrim(R[BRandom(0, High(R))])) then
+  if (BStrSplit(R, ',', Param) > 0) and
+    Cavebot.GoLabel(BTrim(R[BRandom(0, High(R))])) then
     SetState(bcnsOk)
   else
     SetState(bcnsError);
@@ -1283,8 +1380,8 @@ end;
 
 procedure TBBotCavebotNodeTeleport.OnPreRun;
 begin
-  if (TeleportPos.X <> 0) and ((TeleportPos.Z <> Me.Position.Z) or (BBot.Walker.ApproachToCost(TeleportPos,
-    4) = PathCost_NotPossible)) then
+  if (TeleportPos.X <> 0) and ((TeleportPos.Z <> Me.Position.Z) or
+    (BBot.Walker.ApproachToCost(TeleportPos, 4) = PathCost_NotPossible)) then
     SetState(bcnsOk);
 end;
 
@@ -1298,7 +1395,8 @@ procedure TBBotCavebotNodeTeleport.Run;
 var
   Map: TTibiaTiles;
 begin
-  if TeleportPos.X = 0 then begin
+  if TeleportPos.X = 0 then
+  begin
     if TilesSearch(Map, Me.Position, 4, False,
       function: BBool
       begin
@@ -1310,4 +1408,3 @@ begin
 end;
 
 end.
-

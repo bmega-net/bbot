@@ -1,5 +1,5 @@
 unit uBBotMacros;
-
+
 interface
 
 uses
@@ -40,22 +40,26 @@ uses
 
 { TBBotMacros }
 
-procedure TBBotMacros.CastWhenMessaged(const AWhenEvent: BStr; Msg: TTibiaMessage);
+procedure TBBotMacros.CastWhenMessaged(const AWhenEvent: BStr;
+  Msg: TTibiaMessage);
 var
   R: BMacroRegistry;
 begin
   R := BBot.Macros.Registry;
-  R.CastWhenWith(AWhenEvent, procedure begin
-    R.Variables['Message.IsSystem'].Value := MacroBool(Msg.System);
-    R.Variables['Message.IsPositional'].Value := MacroBool(not Msg.Position.isZero);
-    R.Variables['Message.Author.Name'].ValueStr := Msg.Author;
-    R.Variables['Message.Author.Level'].Value := Msg.Level;
-    R.Variables['Message.Author.Channel'].Value := Msg.Channel;
-    R.Variables['Message.Pos.X'].Value := Msg.Position.X;
-    R.Variables['Message.Pos.Y'].Value := Msg.Position.Y;
-    R.Variables['Message.Pos.Z'].Value := Msg.Position.Z;
-    R.Variables['Message.Text'].ValueStr := Msg.Text;
-  end);
+  R.CastWhenWith(AWhenEvent,
+    procedure
+    begin
+      R.Variables['Message.IsSystem'].Value := MacroBool(Msg.System);
+      R.Variables['Message.IsPositional'].Value :=
+        MacroBool(not Msg.Position.isZero);
+      R.Variables['Message.Author.Name'].ValueStr := Msg.Author;
+      R.Variables['Message.Author.Level'].Value := Msg.Level;
+      R.Variables['Message.Author.Channel'].Value := Msg.Channel;
+      R.Variables['Message.Pos.X'].Value := Msg.Position.X;
+      R.Variables['Message.Pos.Y'].Value := Msg.Position.Y;
+      R.Variables['Message.Pos.Z'].Value := Msg.Position.Z;
+      R.Variables['Message.Text'].ValueStr := Msg.Text;
+    end);
 end;
 
 constructor TBBotMacros.Create;
@@ -111,4 +115,4 @@ begin
 end;
 
 end.
-
+

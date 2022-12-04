@@ -1,5 +1,5 @@
 unit uBTypes;
-
+
 interface
 
 uses
@@ -10,6 +10,7 @@ uses
 {$ELSE}
 {$DEFINE BTYPES_INLINE}
 {$ENDIF}
+
 type
   BException = class(Exception);
 
@@ -173,14 +174,22 @@ function BInRange(const AValue, AMin, AMax: BUInt64): BBool; overload;
 {$IFDEF BTYPES_INLINE}inline; {$ENDIF}
 function BInRange(const AValue, AMin, AMax: BDbl): BBool; overload;
 {$IFDEF BTYPES_INLINE}inline; {$ENDIF}
-function BIntIn(const AValue: BInt8; const AValues: array of BInt8): BBool; overload;
-function BIntIn(const AValue: BInt16; const AValues: array of BInt16): BBool; overload;
-function BIntIn(const AValue: BUInt16; const AValues: array of BUInt16): BBool; overload;
-function BIntIn(const AValue: BInt32; const AValues: array of BInt32): BBool; overload;
-function BIntIn(const AValue: BUInt32; const AValues: array of BUInt32): BBool; overload;
-function BIntIn(const AValue: BInt64; const AValues: array of BInt64): BBool; overload;
-function BIntIn(const AValue: BUInt64; const AValues: array of BUInt64): BBool; overload;
-function BIntIn(const AValue: BDbl; const AValues: array of BDbl): BBool; overload;
+function BIntIn(const AValue: BInt8; const AValues: array of BInt8)
+  : BBool; overload;
+function BIntIn(const AValue: BInt16; const AValues: array of BInt16)
+  : BBool; overload;
+function BIntIn(const AValue: BUInt16; const AValues: array of BUInt16)
+  : BBool; overload;
+function BIntIn(const AValue: BInt32; const AValues: array of BInt32)
+  : BBool; overload;
+function BIntIn(const AValue: BUInt32; const AValues: array of BUInt32)
+  : BBool; overload;
+function BIntIn(const AValue: BInt64; const AValues: array of BInt64)
+  : BBool; overload;
+function BIntIn(const AValue: BUInt64; const AValues: array of BUInt64)
+  : BBool; overload;
+function BIntIn(const AValue: BDbl; const AValues: array of BDbl)
+  : BBool; overload;
 
 function BFormat(const APattern: BStr; const AArgs: array of const): BStr;
 
@@ -229,8 +238,10 @@ function BIf(const ACondition: BBool; const ATrue, AFalse: BUInt64): BUInt64;
 function BIf(const ACondition: BBool; const ATrue, AFalse: BDbl): BDbl;
 {$IFDEF BTYPES_INLINE}inline; {$ENDIF} overload;
 
-function BStrSplit(var ARes: BStrArray; const ADelimiter, ASubject: BStr): BInt32; overload;
-function BStrSplit(const AText, ADelimiter: BStr; out ALeft, ARight: BStr): BBool; overload;
+function BStrSplit(var ARes: BStrArray; const ADelimiter, ASubject: BStr)
+  : BInt32; overload;
+function BStrSplit(const AText, ADelimiter: BStr; out ALeft, ARight: BStr)
+  : BBool; overload;
 function BStrJoin(const ARes: BStrArray; const ADelimiter: BStr): BStr;
 function BStrEqual(const ALeft, ARight: BStr): BBool;
 function BStrEqualSensitive(const ALeft, ARight: BStr): BBool;
@@ -314,9 +325,10 @@ const
   BStrAbcLower: BStr = 'abcdefghijklmnopqrstuvwxyz';
   BStrDigits: BStr = '0123456789';
   BStrAlpha: BStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  BStrAlphaNumeric: BStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  BStrHexadecimal: array [0 .. 15] of BChar = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-    'E', 'F');
+  BStrAlphaNumeric
+    : BStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  BStrHexadecimal: array [0 .. 15] of BChar = ('0', '1', '2', '3', '4', '5',
+    '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 
 type
   {
@@ -345,6 +357,7 @@ function BPosXYZ(const AX, AY, AZ: BInt32): BPos; {$IFDEF BTYPES_INLINE}inline;
 {$ENDIF}
 function BPos0(): BPos; {$IFDEF BTYPES_INLINE}inline;
 {$ENDIF}
+
 type
   BLock = class
   private
@@ -356,7 +369,8 @@ type
     function GetUnLocked: BBool;
   public
     constructor Create(const ADelay, AVariation: BUInt32); overload;
-    constructor Create(const ADelay: BUInt32; AVariationRatio: BFloat); overload;
+    constructor Create(const ADelay: BUInt32; AVariationRatio: BFloat);
+      overload;
 
     property Delay: BUInt32 read FDelay write FDelay;
     property Variation: BUInt32 read FVariation write FVariation;
@@ -389,7 +403,6 @@ type
     class function none(): BOptional<T>; static;
     class operator Implicit(const AValue: T): BOptional<T>;
   end;
-
 
 implementation
 
@@ -806,7 +819,8 @@ end;
 
 function BFormat(const APattern: BStr; const AArgs: array of const): BStr;
 begin
-  Result := BStr(Format(StringReplace(String(APattern), '\n', BStrLine, [rfReplaceAll]), AArgs));
+  Result := BStr(Format(StringReplace(String(APattern), '\n', BStrLine,
+    [rfReplaceAll]), AArgs));
 end;
 
 function BStrIsNumber(const AValue: BStr): BBool;
@@ -816,7 +830,8 @@ begin
   if Length(AValue) = 0 then
     Exit(False);
   for I := 1 to Length(AValue) do
-    if (not(AValue[I] in ['0' .. '9'])) then // TEST SET VARIABLES WITH NEGATIVES?!
+    if (not(AValue[I] in ['0' .. '9'])) then
+    // TEST SET VARIABLES WITH NEGATIVES?!
       Exit(False);
   Result := True;
 end;
@@ -1006,7 +1021,8 @@ begin
     Result := AFalse;
 end;
 
-function BStrSplit(var ARes: BStrArray; const ADelimiter, ASubject: BStr): BInt32;
+function BStrSplit(var ARes: BStrArray;
+  const ADelimiter, ASubject: BStr): BInt32;
 var
   S2: BStr;
 begin
@@ -1021,14 +1037,17 @@ begin
   until S2 = '';
 end;
 
-function BStrSplit(const AText, ADelimiter: BStr; out ALeft, ARight: BStr): BBool;
+function BStrSplit(const AText, ADelimiter: BStr;
+  out ALeft, ARight: BStr): BBool;
 var
   P: BInt32;
 begin
   P := BStrPos(ADelimiter, AText);
-  if P > 0 then begin
+  if P > 0 then
+  begin
     ALeft := BStrCopy(AText, 1, P - 1);
-    ARight := BStrCopy(AText, P + BStrLen(ADelimiter), BStrLen(AText) - BStrLen(ADelimiter) - P + 1);
+    ARight := BStrCopy(AText, P + BStrLen(ADelimiter),
+      BStrLen(AText) - BStrLen(ADelimiter) - P + 1);
     ALeft := BTrim(ALeft);
     ARight := BTrim(ARight);
     Result := True;
@@ -1042,7 +1061,8 @@ var
   I: BInt32;
 begin
   Result := '';
-  for I := Low(ARes) to High(ARes) do begin
+  for I := Low(ARes) to High(ARes) do
+  begin
     if Result <> '' then
       Result := Result + ADelimiter;
     Result := Result + ARes[I];
@@ -1104,7 +1124,8 @@ var
   P: BInt32;
 begin
   P := BStrPos(ADelimiter, AText);
-  Result := BStrCopy(AText, P + BStrLen(ADelimiter), BStrLen(AText) + 1 - BStrLen(ADelimiter) - P);
+  Result := BStrCopy(AText, P + BStrLen(ADelimiter),
+    BStrLen(AText) + 1 - BStrLen(ADelimiter) - P);
 end;
 
 function BStrBetween(const AText, AFrom, ATo: BStr): BStr;
@@ -1113,7 +1134,8 @@ var
 begin
   PFrom := BStrPos(AFrom, AText) + BStrLen(AFrom);
   PTo := BStrPos(ATo, AText, PFrom);
-  if (PFrom > 0) and (PTo > 0) then begin
+  if (PFrom > 0) and (PTo > 0) then
+  begin
     Result := BStrCopy(AText, PFrom, PTo - PFrom);
   end
   else
@@ -1152,7 +1174,8 @@ end;
 
 function BStrReplace(const AText, AFrom, ATo: BStr): BStr;
 begin
-  Result := BStr(StringReplace(AText, AFrom, ATo, [rfReplaceAll, rfIgnoreCase]));
+  Result := BStr(StringReplace(AText, AFrom, ATo,
+    [rfReplaceAll, rfIgnoreCase]));
 end;
 
 function BStrReplaceSensitive(const AText, AFrom, ATo: BStr): BStr;
@@ -1167,7 +1190,8 @@ var
 begin
   SetLength(Result, ASize * 3);
   B := ABuffer;
-  for I := 1 to ASize do begin
+  for I := 1 to ASize do
+  begin
     Result[(I * 3) - 2] := BStrHexadecimal[B^ div 16];
     Result[(I * 3) - 1] := BStrHexadecimal[B^ mod 16];
     Result[(I * 3)] := ' ';
@@ -1182,7 +1206,8 @@ end;
 
 function BRandom(const AMin, AMax: BInt32): BInt32;
 begin
-  if AMin > AMax then begin
+  if AMin > AMax then
+  begin
     Result := BRandom(AMax, AMin);
     Exit;
   end;
@@ -1244,10 +1269,12 @@ var
   L: BStr;
 begin
   Result := '';
-  if BFileExists(AFile) then begin
+  if BFileExists(AFile) then
+  begin
     AssignFile(F, String(AFile));
     reset(F);
-    while not EOF(F) do begin
+    while not EOF(F) do
+    begin
       ReadLn(F, L);
       if Result <> '' then
         Result := Result + BStrLine;
@@ -1369,10 +1396,10 @@ begin
   Exit((X = 0) and (Y = 0) and (Z = 0));
 end;
 
-
 class operator BPos.Equal(const ALeft, ARight: BPos): BBool;
 begin
-  Result := (ALeft.X = ARight.X) and (ALeft.Y = ARight.Y) and (ALeft.Z = ARight.Z);
+  Result := (ALeft.X = ARight.X) and (ALeft.Y = ARight.Y) and
+    (ALeft.Z = ARight.Z);
 end;
 
 class operator BPos.NotEqual(const ALeft, ARight: BPos): BBool;
@@ -1394,12 +1421,14 @@ class operator BPos.Explicit(const AValue: BStr): BPos;
 var
   R: BStrArray;
 begin
-  if BStrSplit(R, ' ', AValue) = 3 then begin
+  if BStrSplit(R, ' ', AValue) = 3 then
+  begin
     try
       Result.X := BStrTo32(R[0]);
       Result.Y := BStrTo32(R[1]);
       Result.Z := BStrTo32(R[2]);
-    except raise Exception.Create('Invalid BPos(BStr) format numbers');
+    except
+      raise Exception.Create('Invalid BPos(BStr) format numbers');
     end;
   end
   else
@@ -1418,7 +1447,8 @@ end;
 
 class operator BPos.LessThan(const ALeft, ARight: BPos): BBool;
 begin
-  Result := (ALeft.Z < ARight.Z) or (ALeft.Y < ARight.Y) or (ALeft.X < ARight.X);
+  Result := (ALeft.Z < ARight.Z) or (ALeft.Y < ARight.Y) or
+    (ALeft.X < ARight.X);
 end;
 
 class operator BPos.LessThanOrEqual(const ALeft, ARight: BPos): BBool;
@@ -1492,7 +1522,8 @@ end;
 
 procedure BLock.Lock(const ACustomDelay: BUInt32);
 begin
-  FNext := Tick + ACustomDelay + BUInt32(BRandom(0, ACustomDelay * FVariation) div 100);
+  FNext := Tick + ACustomDelay +
+    BUInt32(BRandom(0, ACustomDelay * FVariation) div 100);
 end;
 
 procedure BLock.UnLock;
@@ -1501,6 +1532,7 @@ begin
 end;
 
 {$IFDEF TEST}
+
 type
   BTypesTestCase = class(TTestCase)
   published
@@ -1596,7 +1628,8 @@ end;
 
 procedure BTypesTestCase.TestBFormat;
 begin
-  CheckEqualsString('Hello 5 World' + BStrLine + 'Abc * 2,00', BFormat('Hello %d %s\nAbc * %f', [5, 'World', 2.0]));
+  CheckEqualsString('Hello 5 World' + BStrLine + 'Abc * 2,00',
+    BFormat('Hello %d %s\nAbc * %f', [5, 'World', 2.0]));
 end;
 
 procedure BTypesTestCase.TestBStrIsNumber;
@@ -1628,7 +1661,6 @@ begin
 end;
 {$ENDIF}
 {$WARN IMPLICIT_STRING_CAST ON}
-
 { BOptional<T> }
 
 class function BOptional<T>.from(const AValue: T): BOptional<T>;
@@ -1683,4 +1715,4 @@ TestFramework.RegisterTest('BTypes', BTypesTestCase.Suite);
 {$ENDIF}
 
 end.
-
+

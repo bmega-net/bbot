@@ -1,5 +1,5 @@
 unit uBBotAutoStack;
-
+
 interface
 
 uses
@@ -35,13 +35,19 @@ procedure TBBotAutoStack.Run;
 var
   A, B: TTibiaContainer;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     A := ContainerFirst;
-    while A <> nil do begin
-      if (not A.IsCorpse) and A.IsStackable and (A.Count <> 100) then begin
+    while A <> nil do
+    begin
+      if (not A.IsCorpse) and A.IsStackable and (A.Count <> 100) then
+      begin
         B := ContainerLast;
-        while B <> nil do begin
-          if (B.ID = A.ID) and (B.Count <> 100) and (B.Container = A.Container) and (B.Slot <> A.Slot) then begin
+        while B <> nil do
+        begin
+          if (B.ID = A.ID) and (B.Count <> 100) and (B.Container = A.Container)
+            and (B.Slot <> A.Slot) then
+          begin
             B.PullHere(A);
             Exit;
           end;
@@ -54,4 +60,4 @@ begin
 end;
 
 end.
-
+

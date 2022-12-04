@@ -76,12 +76,15 @@ function TBBotWalkerTask.GetHasNext: BBool;
 var
   I, NDX, NDY, NNDX, NNDY: BInt32;
 begin
-  if FPath.Count > 0 then begin
+  if FPath.Count > 0 then
+  begin
     for I := FPath.Count - 1 downto 1 do
-      if FPath.Item[I]^ = Me.Position then begin
+      if FPath.Item[I]^ = Me.Position then
+      begin
         FLast := FPath.Item[0]^;
         FNext := FPath.Item[I - 1]^;
-        if (I > 1) then begin
+        if (I > 1) then
+        begin
           NDX := FNext.X - Me.Position.X;
           NDY := FNext.Y - Me.Position.Y;
           NNDX := FPath.Item[I - 2]^.X - FNext.X;
@@ -108,7 +111,8 @@ function TBBotWalkerTask.RePath: BBool;
 begin
   Path.Clear;
   PathFinder.Execute;
-  if PathFinder.Cost <> PathCost_NotPossible then begin
+  if PathFinder.Cost <> PathCost_NotPossible then
+  begin
     PathFinder.GeneratePath(Path);
     Exit(True);
   end

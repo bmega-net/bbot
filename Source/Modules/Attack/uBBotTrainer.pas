@@ -1,5 +1,5 @@
 unit uBBotTrainer;
-
+
 interface
 
 uses
@@ -68,15 +68,18 @@ end;
 function TBBotTrainer.IsAttackable(Creature: TBBotCreature): BBool;
 begin
   Result := False;
-  if (not Paused) and (HP or Slime) then begin
-    if HP then begin
+  if (not Paused) and (HP or Slime) then
+  begin
+    if HP then
+    begin
       if Creature.Health < HPMax then
         Exit(False);
       if not IsTrainer(Creature.ID) then
         Exit(False);
       Result := True;
     end;
-    if Slime then begin
+    if Slime then
+    begin
       if IsTrainer(Creature.ID) then
         Exit(False);
       if not Trainers.Has('Trainer - checking for master ' + Creature.Name,
@@ -136,7 +139,8 @@ begin
   if HP then
     if Creature.IsTarget then
       if Creature.Health <= HPMin then
-        if BBot.ConfirmAttack.AttackedByBot then begin
+        if BBot.ConfirmAttack.AttackedByBot then
+        begin
           BBot.IgnoreAttack.AddAttacking(1000, 'min HP reached');
           BBot.Attacker.AttackNext;
         end;
@@ -184,4 +188,4 @@ begin
 end;
 
 end.
-
+

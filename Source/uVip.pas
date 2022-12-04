@@ -1,5 +1,5 @@
 unit uVip;
-
+
 interface
 
 uses
@@ -92,7 +92,8 @@ end;
 function TTibiaVip.Next: boolean;
 begin
   Result := True;
-  if Index < Buffer.VipTotal + 1 then begin
+  if Index < Buffer.VipTotal + 1 then
+  begin
     Inc(Index);
     if Index > 200 then
       Index := 200;
@@ -105,7 +106,8 @@ end;
 function TTibiaVip.Prev: boolean;
 begin
   Result := True;
-  if Index > 1 then begin
+  if Index > 1 then
+  begin
     Dec(Index);
     Load;
   end
@@ -114,4 +116,4 @@ begin
 end;
 
 end.
-
+

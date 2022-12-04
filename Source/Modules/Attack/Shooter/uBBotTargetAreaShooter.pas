@@ -33,8 +33,8 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure OptimalShoot(AIncludedCreatures, AExcludedCreatures: BVector<TBBotCreature>;
-      AUnsafePositions: BVector<BPos>);
+    procedure OptimalShoot(AIncludedCreatures, AExcludedCreatures
+      : BVector<TBBotCreature>; AUnsafePositions: BVector<BPos>);
 
     property Range: BUInt32 read FRange write FRange;
     property LimitScreen: BInt32 read FLimitScreen write FLimitScreen;
@@ -89,10 +89,12 @@ var
   CurrentCentroids: BInt32;
   Experiments: BInt32;
 begin
-  if IncludedPositions.Count > 0 then begin
+  if IncludedPositions.Count > 0 then
+  begin
     kMeans := TKMeans.Create;
 
-    if BRandom(0, 100) < ChanceAddSelfPosition then begin
+    if BRandom(0, 100) < ChanceAddSelfPosition then
+    begin
       kMeans.AddLabel(Me.Position);
     end;
 
@@ -104,16 +106,18 @@ begin
       begin
         P := It^.Pos;
         kMeans.AddLabel(P);
-        if BRandom(0, 100) < ChanceSpreadLabels then begin
+        if BRandom(0, 100) < ChanceSpreadLabels then
+        begin
           RandomFromP := BRandom(1, MaxSpreadLabels);
-          kMeans.AddLabel(BPosXYZ(P.X + BRandom(-RandomFromP, RandomFromP), P.Y + BRandom(-RandomFromP,
-            RandomFromP), P.Z));
+          kMeans.AddLabel(BPosXYZ(P.X + BRandom(-RandomFromP, RandomFromP),
+            P.Y + BRandom(-RandomFromP, RandomFromP), P.Z));
         end;
       end);
 
     CurrentCentroids := 2;
     Experiments := BRandom(3, 6);
-    while Experiments > 0 do begin
+    while Experiments > 0 do
+    begin
       kMeans.K := CurrentCentroids;
       kMeans.Run;
       ProcessCentroids(kMeans.Centroids);
@@ -129,8 +133,8 @@ begin
   Result := FCreaturesOnTarget <> 0;
 end;
 
-procedure TBBotTargetAreaShooter.OptimalShoot(AIncludedCreatures, AExcludedCreatures: BVector<TBBotCreature>;
-AUnsafePositions: BVector<BPos>);
+procedure TBBotTargetAreaShooter.OptimalShoot(AIncludedCreatures,
+  AExcludedCreatures: BVector<TBBotCreature>; AUnsafePositions: BVector<BPos>);
 begin
   Centroids.Clear;
   IncludedPositions.Clear;
@@ -160,7 +164,8 @@ begin
   GenerateCentroids;
 end;
 
-procedure TBBotTargetAreaShooter.ProcessCentroid(ACentroid: BVector<TKMeansItem>.It);
+procedure TBBotTargetAreaShooter.ProcessCentroid
+  (ACentroid: BVector<TKMeansItem>.It);
 var
   HitCount, HitScore: BUInt32;
   AllowedScreenRect: TRect;
@@ -168,11 +173,13 @@ var
   Allowed, NorthInside, WestInside, EastInside, SouthInside: BBool;
 begin
   Centroids.Add(ACentroid^.Position);
-  if ACentroid^.Labels > 0 then begin
+  if ACentroid^.Labels > 0 then
+  begin
     HitCount := 0;
     HitScore := 0;
 
-    if LimitScreen > 0 then begin
+    if LimitScreen > 0 then
+    begin
 
       AllowedScreenRect := TRect.Create( //
         Me.Position.X - TibiaTilesWidth + LimitScreen, //
@@ -182,7 +189,8 @@ begin
 
       IsInsideAllowedArea := function(A, B: BInt32): BBool
         begin
-          Exit(AllowedScreenRect.Contains(TPoint.Create(ACentroid^.Position.X + A, ACentroid^.Position.Y + B)));
+          Exit(AllowedScreenRect.Contains(TPoint.Create(ACentroid^.Position.X +
+            A, ACentroid^.Position.Y + B)));
         end;
 
       // Test against out of screen
@@ -192,7 +200,8 @@ begin
       SouthInside := IsInsideAllowedArea(0, +Range);
       Allowed := NorthInside and WestInside and EastInside and SouthInside;
       if BBot.Attacker.Debug then
-        BBot.AdvAttack.AddDebug(ACentroid^.Position, BIf(Allowed, 'Allowed', 'Disallowed'));
+        BBot.AdvAttack.AddDebug(ACentroid^.Position,
+          BIf(Allowed, 'Allowed', 'Disallowed'));
       if not Allowed then
         Exit;
     end;
@@ -202,7 +211,8 @@ begin
       var
         DistToCentroid: BUInt32;
       begin
-        DistToCentroid := NormalDistance(pIt^.X, pIt^.Y, ACentroid^.Position.X, ACentroid^.Position.Y);
+        DistToCentroid := NormalDistance(pIt^.X, pIt^.Y, ACentroid^.Position.X,
+          ACentroid^.Position.Y);
         Exit(DistToCentroid <= Range);
       end) then
       Exit;
@@ -211,13 +221,16 @@ begin
       var
         DistToCentroid: BUInt32;
       begin
-        DistToCentroid := NormalDistance(pIt^.Pos.X, pIt^.Pos.Y, ACentroid^.Position.X, ACentroid^.Position.Y);
-        if DistToCentroid <= Range then begin
+        DistToCentroid := NormalDistance(pIt^.Pos.X, pIt^.Pos.Y,
+          ACentroid^.Position.X, ACentroid^.Position.Y);
+        if DistToCentroid <= Range then
+        begin
           Inc(HitCount);
           Inc(HitScore, pIt^.Score);
         end;
       end);
-    if (HitCount >= FCreaturesOnTarget) and (HitScore >= FScoreOnTarget) then begin
+    if (HitCount >= FCreaturesOnTarget) and (HitScore >= FScoreOnTarget) then
+    begin
       FTarget := ACentroid^.Position;
       FCreaturesOnTarget := HitCount;
       FScoreOnTarget := HitScore;
@@ -225,7 +238,8 @@ begin
   end;
 end;
 
-procedure TBBotTargetAreaShooter.ProcessCentroids(ACentroids: BVector<TKMeansItem>);
+procedure TBBotTargetAreaShooter.ProcessCentroids
+  (ACentroids: BVector<TKMeansItem>);
 begin
   ACentroids.ForEach(
     procedure(It: BVector<TKMeansItem>.It)
@@ -263,10 +277,13 @@ begin
     end);
 
   TAS.OptimalShoot(IncludedCreatures, ExcludedCreatures, UnsafePositions);
-  if TAS.CreaturesOnTarget > 2 then begin
+  if TAS.CreaturesOnTarget > 2 then
+  begin
     HUD.SetPosition(TAS.Target);
     HUD.Print(BFormat('GFB %d', [TAS.CreaturesOnTarget]));
-  end else begin
+  end
+  else
+  begin
     HUD.SetPosition(Me.Position);
     HUD.Print('NO-GFB');
   end;

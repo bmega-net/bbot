@@ -1,6 +1,5 @@
 unit uBBotAddresses;
 
-
 interface
 
 uses
@@ -139,7 +138,8 @@ const
     FromVersion: '10.000'; //
     ToVersion: 'N10.000'; //
     Address: $4A4D67 - 7; // NopFPS-7
-    HexValue: '80 3D 59 43' // Warning: NopFPS addr is patched after bot injection
+    HexValue: '80 3D 59 43'
+    // Warning: NopFPS addr is patched after bot injection
     ) // so never use it as a signature, this is why we substract 7
     );
 
@@ -158,7 +158,8 @@ end;
 procedure LoadAddresses;
 begin
 {$REGION 'Addresses for TibiaVer850'}
-  if AdrSelected = TibiaVer850 then begin
+  if AdrSelected = TibiaVer850 then
+  begin
     TibiaAddresses.acPrintName := $4F0221;
     TibiaAddresses.acPrintFPS := $459728;
     TibiaAddresses.acShowFPS := $630B74;
@@ -174,7 +175,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4ED243;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF0EA;
     TibiaAddresses.LevelSpy[1] := $4EF1EF;
     TibiaAddresses.LevelSpy[2] := $4EF270;
@@ -215,7 +217,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer852'}
-  if AdrSelected = TibiaVer852 then begin
+  if AdrSelected = TibiaVer852 then
+  begin
     TibiaAddresses.acPrintName := $4F02B1;
     TibiaAddresses.acPrintFPS := $4597C8;
     TibiaAddresses.acShowFPS := $631B34;
@@ -232,7 +235,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4ED2D3;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF17A;
     TibiaAddresses.LevelSpy[1] := $4EF27F;
     TibiaAddresses.LevelSpy[2] := $4EF300;
@@ -273,7 +277,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer853'}
-  if AdrSelected = TibiaVer853 then begin
+  if AdrSelected = TibiaVer853 then
+  begin
     TibiaAddresses.acPrintName := $4F0743;
     TibiaAddresses.acPrintFPS := $459918;
     TibiaAddresses.acShowFPS := $633BB4;
@@ -290,7 +295,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4ED733;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF5DA;
     TibiaAddresses.LevelSpy[1] := $4EF6DF;
     TibiaAddresses.LevelSpy[2] := $4EF760;
@@ -331,7 +337,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer854'}
-  if AdrSelected = TibiaVer854 then begin
+  if AdrSelected = TibiaVer854 then
+  begin
     TibiaAddresses.acPrintName := $4F0993;
     TibiaAddresses.acPrintFPS := $459AC8;
     TibiaAddresses.acShowFPS := $633BB4;
@@ -348,7 +355,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4ED983;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF82A;
     TibiaAddresses.LevelSpy[1] := $4EF92F;
     TibiaAddresses.LevelSpy[2] := $4EF9B0;
@@ -389,7 +397,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer855'}
-  if AdrSelected = TibiaVer855 then begin
+  if AdrSelected = TibiaVer855 then
+  begin
     TibiaAddresses.acPrintName := $4F5133;
     TibiaAddresses.acPrintFPS := $45A058;
     TibiaAddresses.acShowFPS := $63AF94;
@@ -406,7 +415,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2123;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F3FCA;
     TibiaAddresses.LevelSpy[1] := $4F40CF;
     TibiaAddresses.LevelSpy[2] := $4F4150;
@@ -447,7 +457,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer856'}
-  if AdrSelected = TibiaVer856 then begin
+  if AdrSelected = TibiaVer856 then
+  begin
     TibiaAddresses.acPrintName := $4F5773;
     TibiaAddresses.acPrintFPS := $45A248;
     TibiaAddresses.acShowFPS := $63DB34;
@@ -464,7 +475,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2763;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F460A;
     TibiaAddresses.LevelSpy[1] := $4F470F;
     TibiaAddresses.LevelSpy[2] := $4F4790;
@@ -505,7 +517,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer857'}
-  if AdrSelected = TibiaVer857 then begin
+  if AdrSelected = TibiaVer857 then
+  begin
     TibiaAddresses.acPrintName := $4F56A3;
     TibiaAddresses.acPrintFPS := $45A1F8;
     TibiaAddresses.acShowFPS := $63DB34;
@@ -522,7 +535,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2693;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F453A;
     TibiaAddresses.LevelSpy[1] := $4F463F;
     TibiaAddresses.LevelSpy[2] := $4F46C0;
@@ -563,7 +577,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer860'}
-  if AdrSelected = TibiaVer860 then begin
+  if AdrSelected = TibiaVer860 then
+  begin
     TibiaAddresses.acPrintName := $4F5823;
     TibiaAddresses.acPrintFPS := $45A258;
     TibiaAddresses.acShowFPS := $63DB3C;
@@ -580,7 +595,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2813;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F46BA;
     TibiaAddresses.LevelSpy[1] := $4F47BF;
     TibiaAddresses.LevelSpy[2] := $4F4840;
@@ -621,7 +637,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer861'}
-  if AdrSelected = TibiaVer861 then begin
+  if AdrSelected = TibiaVer861 then
+  begin
     TibiaAddresses.acPrintName := $4F0753;
     TibiaAddresses.acPrintFPS := $457C28;
     TibiaAddresses.acShowFPS := $63287C;
@@ -638,7 +655,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4ED743;
     TibiaAddresses.NameSpy1Default := $4A75;
     TibiaAddresses.NameSpy2Default := $4075;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88, $2A, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $88,
+      $2A, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF5EA;
     TibiaAddresses.LevelSpy[1] := $4EF6EF;
     TibiaAddresses.LevelSpy[2] := $4EF770;
@@ -679,7 +697,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer862'}
-  if AdrSelected = TibiaVer862 then begin
+  if AdrSelected = TibiaVer862 then
+  begin
     TibiaAddresses.acPrintName := $4F14F3;
     TibiaAddresses.acPrintFPS := $458778;
     TibiaAddresses.acShowFPS := $6358FC;
@@ -696,7 +715,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4EE523;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F038A;
     TibiaAddresses.LevelSpy[1] := $4F048F;
     TibiaAddresses.LevelSpy[2] := $4F0510;
@@ -737,7 +757,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer870'}
-  if AdrSelected = TibiaVer870 then begin
+  if AdrSelected = TibiaVer870 then
+  begin
     TibiaAddresses.acPrintName := $4F57C3;
     TibiaAddresses.acPrintFPS := $45A6A8;
     TibiaAddresses.acShowFPS := $63D9FC;
@@ -754,7 +775,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2773;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F465A;
     TibiaAddresses.LevelSpy[1] := $4F475F;
     TibiaAddresses.LevelSpy[2] := $4F47E0;
@@ -795,7 +817,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer871'}
-  if AdrSelected = TibiaVer871 then begin
+  if AdrSelected = TibiaVer871 then
+  begin
     TibiaAddresses.acPrintName := $4F57E3;
     TibiaAddresses.acPrintFPS := $45A6C8;
     TibiaAddresses.acShowFPS := $63D9FC;
@@ -812,7 +835,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2793;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F467A;
     TibiaAddresses.LevelSpy[1] := $4F477F;
     TibiaAddresses.LevelSpy[2] := $4F4800;
@@ -853,7 +877,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer872'}
-  if AdrSelected = TibiaVer872 then begin
+  if AdrSelected = TibiaVer872 then
+  begin
     TibiaAddresses.acPrintName := $4F54A3;
     TibiaAddresses.acPrintFPS := $45B618;
     TibiaAddresses.acShowFPS := $63EA1C;
@@ -870,7 +895,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2485;
     TibiaAddresses.NameSpy1Default := $4875;
     TibiaAddresses.NameSpy2Default := $3E75;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F433A;
     TibiaAddresses.LevelSpy[1] := $4F443F;
     TibiaAddresses.LevelSpy[2] := $4F44C0;
@@ -911,7 +937,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer873'}
-  if AdrSelected = TibiaVer873 then begin
+  if AdrSelected = TibiaVer873 then
+  begin
     TibiaAddresses.acPrintName := $4F5483;
     TibiaAddresses.acPrintFPS := $45B558;
     TibiaAddresses.acShowFPS := $63EA1C;
@@ -928,7 +955,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2455;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F431A;
     TibiaAddresses.LevelSpy[1] := $4F441F;
     TibiaAddresses.LevelSpy[2] := $4F44A0;
@@ -969,7 +997,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer874'}
-  if AdrSelected = TibiaVer874 then begin
+  if AdrSelected = TibiaVer874 then
+  begin
     TibiaAddresses.acPrintName := $4F5493;
     TibiaAddresses.acPrintFPS := $45B568;
     TibiaAddresses.acShowFPS := $63EA1C;
@@ -986,7 +1015,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2465;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F432A;
     TibiaAddresses.LevelSpy[1] := $4F442F;
     TibiaAddresses.LevelSpy[2] := $4F44B0;
@@ -1027,7 +1057,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer900'}
-  if AdrSelected = TibiaVer900 then begin
+  if AdrSelected = TibiaVer900 then
+  begin
     TibiaAddresses.acPrintName := $4F6013;
     TibiaAddresses.acPrintFPS := $45B778;
     TibiaAddresses.acShowFPS := $640A3C;
@@ -1044,7 +1075,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F2FE5;
     TibiaAddresses.NameSpy1Default := $4C75;
     TibiaAddresses.NameSpy2Default := $4275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F4EAA;
     TibiaAddresses.LevelSpy[1] := $4F4FAF;
     TibiaAddresses.LevelSpy[2] := $4F5030;
@@ -1085,7 +1117,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer910'}
-  if AdrSelected = TibiaVer910 then begin
+  if AdrSelected = TibiaVer910 then
+  begin
     TibiaAddresses.acPrintName := $4F010F;
     TibiaAddresses.acPrintFPS := $45A793;
     TibiaAddresses.acShowFPS := $86C6E2;
@@ -1102,7 +1135,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F30B8;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EEF7F;
     TibiaAddresses.LevelSpy[1] := $4EF06B;
     TibiaAddresses.LevelSpy[2] := $4EF0DB;
@@ -1143,7 +1177,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer920'}
-  if AdrSelected = TibiaVer920 then begin
+  if AdrSelected = TibiaVer920 then
+  begin
     TibiaAddresses.acPrintName := $4F032F;
     TibiaAddresses.acPrintFPS := $45A883;
     TibiaAddresses.acShowFPS := $86C8D2;
@@ -1160,7 +1195,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F32D8;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF19F;
     TibiaAddresses.LevelSpy[1] := $4EF28B;
     TibiaAddresses.LevelSpy[2] := $4EF2FB;
@@ -1201,7 +1237,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer931'}
-  if AdrSelected = TibiaVer931 then begin
+  if AdrSelected = TibiaVer931 then
+  begin
     TibiaAddresses.acPrintName := $4F04AF;
     TibiaAddresses.acPrintFPS := $45A993;
     TibiaAddresses.acShowFPS := $86E8D2;
@@ -1218,7 +1255,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4F3458;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4EF31F;
     TibiaAddresses.LevelSpy[1] := $4EF40B;
     TibiaAddresses.LevelSpy[2] := $4EF47B;
@@ -1259,7 +1297,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer940'}
-  if AdrSelected = TibiaVer940 then begin
+  if AdrSelected = TibiaVer940 then
+  begin
     TibiaAddresses.acPrintName := $4F9D6F;
     TibiaAddresses.acPrintFPS := $45C953;
     TibiaAddresses.acShowFPS := $88C9BA;
@@ -1276,7 +1315,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4FCD28;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F8BDF;
     TibiaAddresses.LevelSpy[1] := $4F8CCB;
     TibiaAddresses.LevelSpy[2] := $4F8D3B;
@@ -1317,7 +1357,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer941'}
-  if AdrSelected = TibiaVer941 then begin
+  if AdrSelected = TibiaVer941 then
+  begin
     TibiaAddresses.acPrintName := $4FA26F;
     TibiaAddresses.acPrintFPS := $45C983;
     TibiaAddresses.acShowFPS := $88D9BA;
@@ -1334,7 +1375,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $4FD218;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $4F90DF;
     TibiaAddresses.LevelSpy[1] := $4F91CB;
     TibiaAddresses.LevelSpy[2] := $4F923B;
@@ -1375,7 +1417,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer942'}
-  if AdrSelected = TibiaVer942 then begin
+  if AdrSelected = TibiaVer942 then
+  begin
     TibiaAddresses.acPrintName := $504407;
     TibiaAddresses.acPrintFPS := $45E420;
     TibiaAddresses.acShowFPS := $98EF0B;
@@ -1392,7 +1435,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5073E0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50322F;
     TibiaAddresses.LevelSpy[1] := $503327;
     TibiaAddresses.LevelSpy[2] := $5033A3;
@@ -1433,7 +1477,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer943'}
-  if AdrSelected = TibiaVer943 then begin
+  if AdrSelected = TibiaVer943 then
+  begin
     TibiaAddresses.acPrintName := $00504587;
     TibiaAddresses.acPrintFPS := $0045E420;
     TibiaAddresses.acShowFPS := $98CE4A;
@@ -1450,7 +1495,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $00507560;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $005033AF;
     TibiaAddresses.LevelSpy[1] := $005034A7;
     TibiaAddresses.LevelSpy[2] := $00503523;
@@ -1492,7 +1538,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer944'}
-  if AdrSelected = TibiaVer944 then begin
+  if AdrSelected = TibiaVer944 then
+  begin
     TibiaAddresses.acPrintName := $0504587;
     TibiaAddresses.acPrintFPS := $045E420;
     TibiaAddresses.acShowFPS := $098E972;
@@ -1509,7 +1556,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $0507560;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $005033AF;
     TibiaAddresses.LevelSpy[1] := $005034A7;
     TibiaAddresses.LevelSpy[2] := $00503523;
@@ -1551,7 +1599,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer945'}
-  if AdrSelected = TibiaVer945 then begin
+  if AdrSelected = TibiaVer945 then
+  begin
     TibiaAddresses.acPrintName := $00504507;
     TibiaAddresses.acPrintFPS := $0045E390;
     TibiaAddresses.acShowFPS := $0098E9AB;
@@ -1568,7 +1617,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $005074E0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $0050332F;
     TibiaAddresses.LevelSpy[1] := $00503427;
     TibiaAddresses.LevelSpy[2] := $005034A3;
@@ -1610,7 +1660,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer946'}
-  if AdrSelected = TibiaVer946 then begin
+  if AdrSelected = TibiaVer946 then
+  begin
     TibiaAddresses.acPrintName := $00504507;
     TibiaAddresses.acPrintFPS := $0045E390;
     TibiaAddresses.acShowFPS := $0098E9AB;
@@ -1627,7 +1678,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $005074E0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $0050332F;
     TibiaAddresses.LevelSpy[1] := $00503427;
     TibiaAddresses.LevelSpy[2] := $005034A3;
@@ -1669,7 +1721,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer950'}
-  if AdrSelected = TibiaVer950 then begin
+  if AdrSelected = TibiaVer950 then
+  begin
     TibiaAddresses.acPrintName := $00504FD7;
     TibiaAddresses.acPrintFPS := $0045EB11;
     TibiaAddresses.acShowFPS := $98C17C;
@@ -1686,7 +1739,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $00507FB0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $00503DFF;
     TibiaAddresses.LevelSpy[1] := $00503EF7;
     TibiaAddresses.LevelSpy[2] := $00503F73;
@@ -1728,7 +1782,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer951'}
-  if AdrSelected = TibiaVer951 then begin
+  if AdrSelected = TibiaVer951 then
+  begin
     TibiaAddresses.acPrintName := $00504FD7;
     TibiaAddresses.acPrintFPS := $0045EB11;
     TibiaAddresses.acShowFPS := $98F94B;
@@ -1745,7 +1800,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $00507FB0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $00503DFF;
     TibiaAddresses.LevelSpy[1] := $00503EF7;
     TibiaAddresses.LevelSpy[2] := $00503F73;
@@ -1787,7 +1843,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer952'}
-  if AdrSelected = TibiaVer952 then begin
+  if AdrSelected = TibiaVer952 then
+  begin
     TibiaAddresses.acPrintName := $00504FD7;
     TibiaAddresses.acPrintFPS := $0045EB11;
     TibiaAddresses.acShowFPS := $98F993;
@@ -1804,7 +1861,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $00507FB0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $00503DFF;
     TibiaAddresses.LevelSpy[1] := $00503EF7;
     TibiaAddresses.LevelSpy[2] := $00503F73;
@@ -1846,7 +1904,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer953'}
-  if AdrSelected = TibiaVer953 then begin
+  if AdrSelected = TibiaVer953 then
+  begin
     TibiaAddresses.acPrintName := $00504FD7;
     TibiaAddresses.acPrintFPS := $0045EAF1;
     TibiaAddresses.acShowFPS := $990976;
@@ -1863,7 +1922,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $507FB0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $00503DFF;
     TibiaAddresses.LevelSpy[1] := $00503EF7;
     TibiaAddresses.LevelSpy[2] := $00503F73;
@@ -1905,7 +1965,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer954'}
-  if AdrSelected = TibiaVer954 then begin
+  if AdrSelected = TibiaVer954 then
+  begin
     TibiaAddresses.acPrintName := $507301;
     TibiaAddresses.acPrintFPS := $460101;
     TibiaAddresses.acShowFPS := $994A5E;
@@ -1922,7 +1983,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50A2E0;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50611F;
     TibiaAddresses.LevelSpy[1] := $506217;
     TibiaAddresses.LevelSpy[2] := $506293;
@@ -1964,7 +2026,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer960'}
-  if AdrSelected = TibiaVer960 then begin
+  if AdrSelected = TibiaVer960 then
+  begin
     TibiaAddresses.acPrintName := $507951;
     TibiaAddresses.acPrintFPS := $4604D6;
     TibiaAddresses.acShowFPS := $992AFA;
@@ -1981,7 +2044,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50A929;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50676F;
     TibiaAddresses.LevelSpy[1] := $506867;
     TibiaAddresses.LevelSpy[2] := $5068E3;
@@ -2023,7 +2087,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer961'}
-  if AdrSelected = TibiaVer961 then begin
+  if AdrSelected = TibiaVer961 then
+  begin
     TibiaAddresses.acPrintName := $507C21;
     TibiaAddresses.acPrintFPS := $0460726;
     TibiaAddresses.acShowFPS := $992A97;
@@ -2040,7 +2105,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50ABF9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $506A3F;
     TibiaAddresses.LevelSpy[1] := $506B37;
     TibiaAddresses.LevelSpy[2] := $506BB3;
@@ -2082,7 +2148,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer962'}
-  if AdrSelected = TibiaVer962 then begin
+  if AdrSelected = TibiaVer962 then
+  begin
     TibiaAddresses.acPrintName := $50B101;
     TibiaAddresses.acPrintFPS := $463666;
     TibiaAddresses.acShowFPS := $995907;
@@ -2099,7 +2166,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50E0D9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $509F1F;
     TibiaAddresses.LevelSpy[1] := $50A017;
     TibiaAddresses.LevelSpy[2] := $50A093;
@@ -2142,7 +2210,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer963'}
-  if AdrSelected = TibiaVer963 then begin
+  if AdrSelected = TibiaVer963 then
+  begin
     TibiaAddresses.acPrintName := $50B101;
     TibiaAddresses.acPrintFPS := $463666;
     TibiaAddresses.acShowFPS := $995907;
@@ -2159,7 +2228,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50E0D9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $509F1F;
     TibiaAddresses.LevelSpy[1] := $50A017;
     TibiaAddresses.LevelSpy[2] := $50A093;
@@ -2202,7 +2272,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer970'}
-  if AdrSelected = TibiaVer970 then begin
+  if AdrSelected = TibiaVer970 then
+  begin
     TibiaAddresses.acPrintName := $050B5C1;
     TibiaAddresses.acPrintFPS := $463696;
     TibiaAddresses.acShowFPS := $995937;
@@ -2219,7 +2290,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $50E599;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50A3DF;
     TibiaAddresses.LevelSpy[1] := $50A4D7;
     TibiaAddresses.LevelSpy[2] := $50A553;
@@ -2262,7 +2334,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer971'}
-  if AdrSelected = TibiaVer971 then begin
+  if AdrSelected = TibiaVer971 then
+  begin
     TibiaAddresses.acPrintName := $050D5E1;
     TibiaAddresses.acPrintText := $4CD750;
     TibiaAddresses.acPrintFPS := $4652D6;
@@ -2279,7 +2352,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5105B9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50C3FF;
     TibiaAddresses.LevelSpy[1] := $50C4F7;
     TibiaAddresses.LevelSpy[2] := $50C573;
@@ -2323,7 +2397,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer980'}
-  if AdrSelected = TibiaVer980 then begin
+  if AdrSelected = TibiaVer980 then
+  begin
     TibiaAddresses.acPrintName := $50E7F1;
     TibiaAddresses.acPrintText := $4CE800;
     TibiaAddresses.acPrintFPS := $465AE6;
@@ -2340,7 +2415,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5117D9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D60F;
     TibiaAddresses.LevelSpy[1] := $50D707;
     TibiaAddresses.LevelSpy[2] := $50D783;
@@ -2384,7 +2460,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer981'}
-  if AdrSelected = TibiaVer981 then begin
+  if AdrSelected = TibiaVer981 then
+  begin
     TibiaAddresses.acPrintName := $50E7F1;
     TibiaAddresses.acPrintText := $4CE800;
     TibiaAddresses.acPrintFPS := $465AE6;
@@ -2401,7 +2478,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5117D9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D60F;
     TibiaAddresses.LevelSpy[1] := $50D707;
     TibiaAddresses.LevelSpy[2] := $50D783;
@@ -2445,7 +2523,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer982'}
-  if AdrSelected = TibiaVer982 then begin
+  if AdrSelected = TibiaVer982 then
+  begin
     TibiaAddresses.acPrintName := $510BC7;
     TibiaAddresses.acPrintText := $4D0C80;
     TibiaAddresses.acPrintFPS := $4681E6;
@@ -2462,7 +2541,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513BA9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50FA32;
     TibiaAddresses.LevelSpy[1] := $50FB28;
     TibiaAddresses.LevelSpy[2] := $50FBA4;
@@ -2505,7 +2585,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer983'}
-  if AdrSelected = TibiaVer983 then begin
+  if AdrSelected = TibiaVer983 then
+  begin
     TibiaAddresses.acPrintName := $510BC7;
     TibiaAddresses.acPrintText := $4D0C80;
     TibiaAddresses.acPrintFPS := $4681E6;
@@ -2522,7 +2603,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513BA9;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50FA32;
     TibiaAddresses.LevelSpy[1] := $50FB28;
     TibiaAddresses.LevelSpy[2] := $50FBA4;
@@ -2565,7 +2647,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer984'}
-  if AdrSelected = TibiaVer984 then begin
+  if AdrSelected = TibiaVer984 then
+  begin
     TibiaAddresses.acPrintName := $510987;
     TibiaAddresses.acPrintText := $4D3BC0;
     TibiaAddresses.acPrintFPS := $46AFF6;
@@ -2582,7 +2665,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513969;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50F964;
     TibiaAddresses.LevelSpy[1] := $50F8E8;
     TibiaAddresses.LevelSpy[2] := $50F7F2;
@@ -2625,7 +2709,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer985'}
-  if AdrSelected = TibiaVer985 then begin
+  if AdrSelected = TibiaVer985 then
+  begin
     TibiaAddresses.acPrintName := $510987;
     TibiaAddresses.acPrintText := $4D3BC0;
     TibiaAddresses.acPrintFPS := $46AFF6;
@@ -2642,7 +2727,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513969;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50F964;
     TibiaAddresses.LevelSpy[1] := $50F8E8;
     TibiaAddresses.LevelSpy[2] := $50F7F2;
@@ -2685,7 +2771,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer986'}
-  if AdrSelected = TibiaVer986 then begin
+  if AdrSelected = TibiaVer986 then
+  begin
     TibiaAddresses.acPrintName := $510987;
     TibiaAddresses.acPrintText := $4D3BC0;
     TibiaAddresses.acPrintFPS := $46AFF6;
@@ -2702,7 +2789,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513969;
     TibiaAddresses.NameSpy1Default := $5075;
     TibiaAddresses.NameSpy2Default := $4375;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $86, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50F964;
     TibiaAddresses.LevelSpy[1] := $50F8E8;
     TibiaAddresses.LevelSpy[2] := $50F7F2;
@@ -2745,7 +2833,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer990'}
-  if AdrSelected = TibiaVer990 then begin
+  if AdrSelected = TibiaVer990 then
+  begin
     TibiaAddresses.acPrintName := $5106B5;
     TibiaAddresses.acPrintText := $4CFCD0;
     TibiaAddresses.acPrintFPS := $4699C6;
@@ -2762,7 +2851,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513B13;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D4E8;
     TibiaAddresses.LevelSpy[1] := $50F574;
     TibiaAddresses.LevelSpy[2] := $50F5EE;
@@ -2805,7 +2895,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer991'}
-  if AdrSelected = TibiaVer991 then begin
+  if AdrSelected = TibiaVer991 then
+  begin
     TibiaAddresses.acPrintName := $5104F5;
     TibiaAddresses.acPrintText := $4D2BE0;
     TibiaAddresses.acPrintFPS := $46C936;
@@ -2822,7 +2913,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513953;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D318;
     TibiaAddresses.LevelSpy[1] := $50F3B4;
     TibiaAddresses.LevelSpy[2] := $50F42E;
@@ -2865,7 +2957,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer992'}
-  if AdrSelected = TibiaVer992 then begin
+  if AdrSelected = TibiaVer992 then
+  begin
     TibiaAddresses.acPrintName := $5104F5;
     TibiaAddresses.acPrintText := $4D2BE0;
     TibiaAddresses.acPrintFPS := $46C936;
@@ -2882,7 +2975,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513953;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D318;
     TibiaAddresses.LevelSpy[1] := $50F3B4;
     TibiaAddresses.LevelSpy[2] := $50F42E;
@@ -2925,7 +3019,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer993'}
-  if AdrSelected = TibiaVer993 then begin
+  if AdrSelected = TibiaVer993 then
+  begin
     TibiaAddresses.acPrintName := $510515;
     TibiaAddresses.acPrintText := $4D2BE0;
     TibiaAddresses.acPrintFPS := $46C936;
@@ -2942,7 +3037,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513973;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D348;
     TibiaAddresses.LevelSpy[1] := $50F3D4;
     TibiaAddresses.LevelSpy[2] := $50F44E;
@@ -2985,7 +3081,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer994'}
-  if AdrSelected = TibiaVer994 then begin
+  if AdrSelected = TibiaVer994 then
+  begin
     TibiaAddresses.acPrintName := $510515;
     TibiaAddresses.acPrintText := $4D2BE0;
     TibiaAddresses.acPrintFPS := $46C936;
@@ -3002,7 +3099,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513973;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D348;
     TibiaAddresses.LevelSpy[1] := $50F3D4;
     TibiaAddresses.LevelSpy[2] := $50F44E;
@@ -3045,7 +3143,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1000'}
-  if AdrSelected = TibiaVer1000 then begin
+  if AdrSelected = TibiaVer1000 then
+  begin
     TibiaAddresses.acPrintName := $510515;
     TibiaAddresses.acPrintText := $4D2BE0;
     TibiaAddresses.acPrintFPS := $46C936;
@@ -3062,7 +3161,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513973;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D348;
     TibiaAddresses.LevelSpy[1] := $50F3D4;
     TibiaAddresses.LevelSpy[2] := $50F44E;
@@ -3105,7 +3205,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1001'}
-  if AdrSelected = TibiaVer1001 then begin
+  if AdrSelected = TibiaVer1001 then
+  begin
     TibiaAddresses.acPrintName := $5103A5;
     TibiaAddresses.acPrintText := $4D2CD0;
     TibiaAddresses.acPrintFPS := $46CBB6;
@@ -3122,7 +3223,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513813;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D1D8;
     TibiaAddresses.LevelSpy[1] := $50F264;
     TibiaAddresses.LevelSpy[2] := $50F2DE;
@@ -3165,7 +3267,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1002'}
-  if AdrSelected = TibiaVer1002 then begin
+  if AdrSelected = TibiaVer1002 then
+  begin
     TibiaAddresses.acPrintName := $5103A5;
     TibiaAddresses.acPrintText := $4D2CD0;
     TibiaAddresses.acPrintFPS := $46CBB6;
@@ -3182,7 +3285,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513813;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D1D8;
     TibiaAddresses.LevelSpy[1] := $50F264;
     TibiaAddresses.LevelSpy[2] := $50F2DE;
@@ -3225,7 +3329,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1010'}
-  if AdrSelected = TibiaVer1010 then begin
+  if AdrSelected = TibiaVer1010 then
+  begin
     TibiaAddresses.acPrintName := $5107B5;
     TibiaAddresses.acPrintText := $4D3020;
     TibiaAddresses.acPrintFPS := $46CD06;
@@ -3242,7 +3347,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $513C13;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50D5E8;
     TibiaAddresses.LevelSpy[1] := $50F674;
     TibiaAddresses.LevelSpy[2] := $50F6EE;
@@ -3285,7 +3391,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1011'}
-  if AdrSelected = TibiaVer1011 then begin
+  if AdrSelected = TibiaVer1011 then
+  begin
     TibiaAddresses.acPrintName := $511D95;
     TibiaAddresses.acPrintText := $4D3710;
     TibiaAddresses.acPrintFPS := $46D236;
@@ -3302,7 +3409,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5151F3;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50EBC8;
     TibiaAddresses.LevelSpy[1] := $510C54;
     TibiaAddresses.LevelSpy[2] := $510CCE;
@@ -3345,7 +3453,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1012'}
-  if AdrSelected = TibiaVer1012 then begin
+  if AdrSelected = TibiaVer1012 then
+  begin
     TibiaAddresses.acPrintName := $513255;
     TibiaAddresses.acPrintText := $4D49E0;
     TibiaAddresses.acPrintFPS := $46E366;
@@ -3362,7 +3471,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5166B3;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510088;
     TibiaAddresses.LevelSpy[1] := $512114;
     TibiaAddresses.LevelSpy[2] := $51218E;
@@ -3405,7 +3515,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1013'}
-  if AdrSelected = TibiaVer1013 then begin
+  if AdrSelected = TibiaVer1013 then
+  begin
     TibiaAddresses.acPrintName := $513255;
     TibiaAddresses.acPrintText := $4D49E0;
     TibiaAddresses.acPrintFPS := $46E366;
@@ -3422,7 +3533,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5166B3;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510088;
     TibiaAddresses.LevelSpy[1] := $512114;
     TibiaAddresses.LevelSpy[2] := $51218E;
@@ -3465,7 +3577,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1020'}
-  if AdrSelected = TibiaVer1020 then begin
+  if AdrSelected = TibiaVer1020 then
+  begin
     TibiaAddresses.acPrintName := $513505;
     TibiaAddresses.acPrintText := $4D4D00;
     TibiaAddresses.acPrintFPS := $46E846;
@@ -3482,7 +3595,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516963;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510308;
     TibiaAddresses.LevelSpy[1] := $5123C4;
     TibiaAddresses.LevelSpy[2] := $51243E;
@@ -3525,7 +3639,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1021'}
-  if AdrSelected = TibiaVer1021 then begin
+  if AdrSelected = TibiaVer1021 then
+  begin
     TibiaAddresses.acPrintName := $5131B6;
     TibiaAddresses.acPrintText := $4D4990;
     TibiaAddresses.acPrintFPS := $46E156;
@@ -3542,7 +3657,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5165B2;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $51200E;
     TibiaAddresses.LevelSpy[1] := $512115;
     TibiaAddresses.LevelSpy[2] := $51218F;
@@ -3585,7 +3701,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1021'}
-  if AdrSelected = TibiaVerP1021 then begin
+  if AdrSelected = TibiaVerP1021 then
+  begin
     TibiaAddresses.acPrintName := $513256;
     TibiaAddresses.acPrintText := $4D4A10;
     TibiaAddresses.acPrintFPS := $46E156;
@@ -3602,7 +3719,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516652;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $51200E;
     TibiaAddresses.LevelSpy[1] := $5121B5;
     TibiaAddresses.LevelSpy[2] := $512235;
@@ -3645,7 +3763,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1022'}
-  if AdrSelected = TibiaVer1022 then begin
+  if AdrSelected = TibiaVer1022 then
+  begin
     TibiaAddresses.acPrintName := $5130E6;
     TibiaAddresses.acPrintText := $4D4A60;
     TibiaAddresses.acPrintFPS := $46E386;
@@ -3662,7 +3781,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5164D2;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $50FFE8;
     TibiaAddresses.LevelSpy[1] := $512045;
     TibiaAddresses.LevelSpy[2] := $5120BF;
@@ -3705,7 +3825,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1030'}
-  if AdrSelected = TibiaVer1030 then begin
+  if AdrSelected = TibiaVer1030 then
+  begin
     TibiaAddresses.acPrintName := $5133D6;
     TibiaAddresses.acPrintText := $4D4BD0;
     TibiaAddresses.acPrintFPS := $46E226;
@@ -3722,7 +3843,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5167C2;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $5102D8;
     TibiaAddresses.LevelSpy[1] := $512335;
     TibiaAddresses.LevelSpy[2] := $5123AF;
@@ -3765,7 +3887,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1031'}
-  if AdrSelected = TibiaVer1031 then begin
+  if AdrSelected = TibiaVer1031 then
+  begin
     TibiaAddresses.acPrintName := $5133D6;
     TibiaAddresses.acPrintText := $4D4BD0;
     TibiaAddresses.acPrintFPS := $46E226;
@@ -3782,7 +3905,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $5167C2;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $5102D8;
     TibiaAddresses.LevelSpy[1] := $512335;
     TibiaAddresses.LevelSpy[2] := $5123AF;
@@ -3825,7 +3949,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1032'}
-  if AdrSelected = TibiaVer1032 then begin
+  if AdrSelected = TibiaVer1032 then
+  begin
     TibiaAddresses.acPrintName := $513826;
     TibiaAddresses.acPrintText := $4D5070;
     TibiaAddresses.acPrintFPS := $46E566;
@@ -3842,7 +3967,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516C22;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510718;
     TibiaAddresses.LevelSpy[1] := $512785;
     TibiaAddresses.LevelSpy[2] := $5127FF;
@@ -3885,7 +4011,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1033'}
-  if AdrSelected = TibiaVer1033 then begin
+  if AdrSelected = TibiaVer1033 then
+  begin
     TibiaAddresses.acPrintName := $513786;
     TibiaAddresses.acPrintText := $4D5020;
     TibiaAddresses.acPrintFPS := $46E566;
@@ -3902,7 +4029,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516B72;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510688;
     TibiaAddresses.LevelSpy[1] := $5126E5;
     TibiaAddresses.LevelSpy[2] := $51275F;
@@ -3945,7 +4073,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1034'}
-  if AdrSelected = TibiaVer1034 then begin
+  if AdrSelected = TibiaVer1034 then
+  begin
     TibiaAddresses.acPrintName := $513936;
     TibiaAddresses.acPrintText := $4D5090;
     TibiaAddresses.acPrintFPS := $46E516;
@@ -3962,7 +4091,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516D22;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $510828;
     TibiaAddresses.LevelSpy[1] := $512895;
     TibiaAddresses.LevelSpy[2] := $51290F;
@@ -4005,7 +4135,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1035'}
-  if AdrSelected = TibiaVer1035 then begin
+  if AdrSelected = TibiaVer1035 then
+  begin
     TibiaAddresses.acPrintName := $5139FB;
     TibiaAddresses.acPrintText := $4D5090;
     TibiaAddresses.acPrintFPS := $46E3F6;
@@ -4022,7 +4153,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $516DF2;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $5108E8;
     TibiaAddresses.LevelSpy[1] := $512945;
     TibiaAddresses.LevelSpy[2] := $5129BF;
@@ -4065,7 +4197,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1036'}
-  if AdrSelected = TibiaVer1036 then begin
+  if AdrSelected = TibiaVer1036 then
+  begin
     TibiaAddresses.acPrintName := $5141C8;
     TibiaAddresses.acPrintText := $4D57A0;
     TibiaAddresses.acPrintFPS := $46EB16;
@@ -4082,7 +4215,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $517712;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $511088;
     TibiaAddresses.LevelSpy[1] := $5130E5;
     TibiaAddresses.LevelSpy[2] := $51315F;
@@ -4125,7 +4259,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1037'}
-  if AdrSelected = TibiaVer1037 then begin
+  if AdrSelected = TibiaVer1037 then
+  begin
     TibiaAddresses.acPrintName := $5141C8;
     TibiaAddresses.acPrintText := $4D57A0;
     TibiaAddresses.acPrintFPS := $46EB16;
@@ -4142,7 +4277,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $517712;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $511088;
     TibiaAddresses.LevelSpy[1] := $5130E5;
     TibiaAddresses.LevelSpy[2] := $51315F;
@@ -4185,7 +4321,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1038'}
-  if AdrSelected = TibiaVer1038 then begin
+  if AdrSelected = TibiaVer1038 then
+  begin
     TibiaAddresses.acPrintName := $5181C4;
     TibiaAddresses.acPrintText := $4D7F60;
     TibiaAddresses.acPrintFPS := $470D86;
@@ -4202,7 +4339,8 @@ begin
     TibiaAddresses.AdrNameSpy2 := $51B702;
     TibiaAddresses.NameSpy1Default := $3F75;
     TibiaAddresses.NameSpy2Default := $3275;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpy[0] := $515088;
     TibiaAddresses.LevelSpy[1] := $5170F5;
     TibiaAddresses.LevelSpy[2] := $51716F;
@@ -4245,7 +4383,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1039'}
-  if AdrSelected = TibiaVer1039 then begin
+  if AdrSelected = TibiaVer1039 then
+  begin
     TibiaAddresses.acPrintName := $518244;
     TibiaAddresses.acPrintMap := $51A531;
     TibiaAddresses.acSendFunction := $52A190;
@@ -4266,7 +4405,8 @@ begin
     TibiaAddresses.LevelSpy[0] := $515118;
     TibiaAddresses.LevelSpy[1] := $517175;
     TibiaAddresses.LevelSpy[2] := $5171EF;
-    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0, $5B, $0, $0);
+    TibiaAddresses.LevelSpyDefault := _LevelSpyDefault($89, $BE, $C0,
+      $5B, $0, $0);
     TibiaAddresses.LevelSpyAdd1 := $1C;
     TibiaAddresses.LevelSpyAdd2 := $5BC0;
     TibiaAddresses.AdrFrameRatePointer := $974880;
@@ -4305,7 +4445,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1040'}
-  if AdrSelected = TibiaVer1040 then begin
+  if AdrSelected = TibiaVer1040 then
+  begin
     TibiaAddresses.acPrintName := $518244;
     TibiaAddresses.acPrintMap := $51A531;
     TibiaAddresses.acSendFunction := $52A190;
@@ -4360,7 +4501,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1041'}
-  if AdrSelected = TibiaVer1041 then begin
+  if AdrSelected = TibiaVer1041 then
+  begin
     TibiaAddresses.acPrintName := $518244;
     TibiaAddresses.acPrintMap := $51A531;
     TibiaAddresses.acSendFunction := $52A190;
@@ -4415,7 +4557,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1041'}
-  if AdrSelected = TibiaVerP1041 then begin
+  if AdrSelected = TibiaVerP1041 then
+  begin
     TibiaAddresses.acPrintName := $51A464;
     TibiaAddresses.acPrintMap := $51C741;
     TibiaAddresses.acSendFunction := $52C320;
@@ -4470,7 +4613,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1050'}
-  if AdrSelected = TibiaVer1050 then begin
+  if AdrSelected = TibiaVer1050 then
+  begin
     TibiaAddresses.acPrintName := $51EE88;
     TibiaAddresses.acPrintMap := $521298;
     TibiaAddresses.acSendFunction := $5312A0;
@@ -4525,7 +4669,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1050'}
-  if AdrSelected = TibiaVerP1050 then begin
+  if AdrSelected = TibiaVerP1050 then
+  begin
     TibiaAddresses.acPrintName := $521278;
     TibiaAddresses.acPrintMap := $523668;
     TibiaAddresses.acSendFunction := $533660;
@@ -4580,7 +4725,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1051'}
-  if AdrSelected = TibiaVer1051 then begin
+  if AdrSelected = TibiaVer1051 then
+  begin
     TibiaAddresses.acPrintName := $51EEEA;
     TibiaAddresses.acPrintMap := $5212E8;
     TibiaAddresses.acSendFunction := $5312E0;
@@ -4635,7 +4781,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1051'}
-  if AdrSelected = TibiaVerP1051 then begin
+  if AdrSelected = TibiaVerP1051 then
+  begin
     TibiaAddresses.acPrintName := $52103A;
     TibiaAddresses.acPrintMap := $523438;
     TibiaAddresses.acSendFunction := $533450;
@@ -4690,7 +4837,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1052'}
-  if AdrSelected = TibiaVer1052 then begin
+  if AdrSelected = TibiaVer1052 then
+  begin
     TibiaAddresses.acPrintName := $51EDCA;
     TibiaAddresses.acPrintMap := $5211C3;
     TibiaAddresses.acSendFunction := $5311C0;
@@ -4745,7 +4893,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1052'}
-  if AdrSelected = TibiaVerP1052 then begin
+  if AdrSelected = TibiaVerP1052 then
+  begin
     TibiaAddresses.acPrintName := $52115A;
     TibiaAddresses.acPrintMap := $523553;
     TibiaAddresses.acSendFunction := $533560;
@@ -4800,7 +4949,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1053'}
-  if AdrSelected = TibiaVer1053 then begin
+  if AdrSelected = TibiaVer1053 then
+  begin
     TibiaAddresses.acPrintName := $52115A;
     TibiaAddresses.acPrintMap := $523553;
     TibiaAddresses.acSendFunction := $533560;
@@ -4855,7 +5005,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerP1053'}
-  if AdrSelected = TibiaVerP1053 then begin
+  if AdrSelected = TibiaVerP1053 then
+  begin
     TibiaAddresses.acPrintName := $5212DA;
     TibiaAddresses.acPrintMap := $5236D3;
     TibiaAddresses.acSendFunction := $5336E0;
@@ -4910,7 +5061,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1054'}
-  if AdrSelected = TibiaVer1054 then begin
+  if AdrSelected = TibiaVer1054 then
+  begin
     TibiaAddresses.acPrintName := $5212DA;
     TibiaAddresses.acPrintMap := $5236D3;
     TibiaAddresses.acSendFunction := $5336E0;
@@ -4965,7 +5117,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1055'}
-  if AdrSelected = TibiaVer1055 then begin
+  if AdrSelected = TibiaVer1055 then
+  begin
     TibiaAddresses.acPrintName := $5274EA;
     TibiaAddresses.acPrintMap := $5298E3;
     TibiaAddresses.acSendFunction := $5398F0;
@@ -5020,7 +5173,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1056'}
-  if AdrSelected = TibiaVer1056 then begin
+  if AdrSelected = TibiaVer1056 then
+  begin
     TibiaAddresses.acPrintName := $5275EA;
     TibiaAddresses.acPrintMap := $5299E3;
     TibiaAddresses.acSendFunction := $539A60;
@@ -5075,7 +5229,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1057'}
-  if AdrSelected = TibiaVer1057 then begin
+  if AdrSelected = TibiaVer1057 then
+  begin
     TibiaAddresses.acPrintName := $5293EA;
     TibiaAddresses.acPrintMap := $52B7FE;
     TibiaAddresses.acSendFunction := $53B7A0;
@@ -5130,7 +5285,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1058'}
-  if AdrSelected = TibiaVer1058 then begin
+  if AdrSelected = TibiaVer1058 then
+  begin
     TibiaAddresses.acPrintName := $5293EA;
     TibiaAddresses.acPrintMap := $52B7FE;
     TibiaAddresses.acSendFunction := $53B7A0;
@@ -5144,7 +5300,8 @@ begin
     TibiaAddresses.acPrintText := $4E81F0;
 
     TibiaAddresses.AdrSelfConnection := $83E86C;
-    TibiaAddresses.AdrNameSpy1 := $52CA53; // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
+    TibiaAddresses.AdrNameSpy1 := $52CA53;
+    // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
     TibiaAddresses.AdrNameSpy2 := $52CA66;
     TibiaAddresses.NameSpy1Default := $0;
     TibiaAddresses.NameSpy2Default := $0;
@@ -5185,7 +5342,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1059'}
-  if AdrSelected = TibiaVer1059 then begin
+  if AdrSelected = TibiaVer1059 then
+  begin
     TibiaAddresses.acPrintName := $5293EA;
     TibiaAddresses.acPrintMap := $52B7FE;
     TibiaAddresses.acSendFunction := $53B7A0;
@@ -5199,7 +5357,8 @@ begin
     TibiaAddresses.acPrintText := $4E81F0;
 
     TibiaAddresses.AdrSelfConnection := $83E86C;
-    TibiaAddresses.AdrNameSpy1 := $52CA53; // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
+    TibiaAddresses.AdrNameSpy1 := $52CA53;
+    // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
     TibiaAddresses.AdrNameSpy2 := $52CA66;
     TibiaAddresses.NameSpy1Default := $0;
     TibiaAddresses.NameSpy2Default := $0;
@@ -5240,7 +5399,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1060'}
-  if AdrSelected = TibiaVer1060 then begin
+  if AdrSelected = TibiaVer1060 then
+  begin
     TibiaAddresses.acPrintName := $52976A;
     TibiaAddresses.acPrintMap := $52BB6E;
     TibiaAddresses.acSendFunction := $53BAF0;
@@ -5254,7 +5414,8 @@ begin
     TibiaAddresses.acPrintText := $4E8550;
 
     TibiaAddresses.AdrSelfConnection := $8408F8;
-    TibiaAddresses.AdrNameSpy1 := $52CDC3; // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
+    TibiaAddresses.AdrNameSpy1 := $52CDC3;
+    // 0F ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 3B ? 75 34
     TibiaAddresses.AdrNameSpy2 := $52CDD6;
     TibiaAddresses.NameSpy1Default := $0;
     TibiaAddresses.NameSpy2Default := $0;
@@ -5295,7 +5456,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1061'}
-  if AdrSelected = TibiaVer1061 then begin
+  if AdrSelected = TibiaVer1061 then
+  begin
     TibiaAddresses.acPrintName := $52A649;
     TibiaAddresses.acPrintMap := $52CBCE;
     TibiaAddresses.acSendFunction := $53CBF0;
@@ -5350,7 +5512,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1062'}
-  if AdrSelected = TibiaVer1062 then begin
+  if AdrSelected = TibiaVer1062 then
+  begin
     TibiaAddresses.acPrintName := $52B309;
     TibiaAddresses.acPrintMap := $52D88E;
     TibiaAddresses.acSendFunction := $53D520;
@@ -5405,7 +5568,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1063'}
-  if AdrSelected = TibiaVer1063 then begin
+  if AdrSelected = TibiaVer1063 then
+  begin
     TibiaAddresses.acPrintName := $52B309;
     TibiaAddresses.acPrintMap := $52D88E;
     TibiaAddresses.acSendFunction := $53D520;
@@ -5460,7 +5624,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1064'}
-  if AdrSelected = TibiaVer1064 then begin
+  if AdrSelected = TibiaVer1064 then
+  begin
     TibiaAddresses.acPrintName := $52B309;
     TibiaAddresses.acPrintMap := $52D88E;
     TibiaAddresses.acSendFunction := $53D520;
@@ -5515,7 +5680,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1070'}
-  if AdrSelected = TibiaVer1070 then begin
+  if AdrSelected = TibiaVer1070 then
+  begin
 
     TibiaAddresses.acPrintName := $52C699;
     TibiaAddresses.acPrintMap := $52EC1E;
@@ -5571,7 +5737,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1071'}
-  if AdrSelected = TibiaVer1071 then begin
+  if AdrSelected = TibiaVer1071 then
+  begin
 
     TibiaAddresses.acPrintName := $52D649;
     TibiaAddresses.acPrintMap := $52FBCE;
@@ -5627,7 +5794,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1072'}
-  if AdrSelected = TibiaVer1072 then begin
+  if AdrSelected = TibiaVer1072 then
+  begin
 
     TibiaAddresses.acPrintName := $52F309;
     TibiaAddresses.acPrintMap := $53188E;
@@ -5683,7 +5851,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1073'}
-  if AdrSelected = TibiaVer1073 then begin
+  if AdrSelected = TibiaVer1073 then
+  begin
 
     TibiaAddresses.acPrintName := $52F0A9;
     TibiaAddresses.acPrintMap := $53162E;
@@ -5739,7 +5908,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1074'}
-  if AdrSelected = TibiaVer1074 then begin
+  if AdrSelected = TibiaVer1074 then
+  begin
 
     TibiaAddresses.acPrintName := $52EDC9;
     TibiaAddresses.acPrintMap := $53134E;
@@ -5795,7 +5965,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1075'}
-  if AdrSelected = TibiaVer1075 then begin
+  if AdrSelected = TibiaVer1075 then
+  begin
 
     TibiaAddresses.acPrintName := $52EE09;
     TibiaAddresses.acPrintMap := $53138E;
@@ -5851,7 +6022,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1076'}
-  if AdrSelected = TibiaVer1076 then begin
+  if AdrSelected = TibiaVer1076 then
+  begin
 
     TibiaAddresses.acPrintName := $52F709;
     TibiaAddresses.acPrintMap := $531C9E;
@@ -5907,7 +6079,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1077'}
-  if AdrSelected = TibiaVer1077 then begin
+  if AdrSelected = TibiaVer1077 then
+  begin
 
     TibiaAddresses.acPrintName := $52F449;
     TibiaAddresses.acPrintMap := $5319CE;
@@ -5963,7 +6136,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1078'}
-  if AdrSelected = TibiaVer1078 then begin
+  if AdrSelected = TibiaVer1078 then
+  begin
 
     TibiaAddresses.acPrintName := $52F569;
     TibiaAddresses.acPrintMap := $531B0E;
@@ -6019,7 +6193,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1079'}
-  if AdrSelected = TibiaVer1079 then begin
+  if AdrSelected = TibiaVer1079 then
+  begin
 
     TibiaAddresses.acPrintName := $52F509;
     TibiaAddresses.acPrintMap := $531A8E;
@@ -6075,7 +6250,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerT1081'}
-  if AdrSelected = TibiaVerT1081 then begin
+  if AdrSelected = TibiaVerT1081 then
+  begin
 
     TibiaAddresses.acPrintName := $5701E9;
     TibiaAddresses.acPrintMap := $57277E;
@@ -6131,7 +6307,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1080'}
-  if AdrSelected = TibiaVer1080 then begin
+  if AdrSelected = TibiaVer1080 then
+  begin
 
     TibiaAddresses.acPrintName := $58006B;
     TibiaAddresses.acPrintMap := $58274E;
@@ -6187,7 +6364,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1081'}
-  if AdrSelected = TibiaVer1081 then begin
+  if AdrSelected = TibiaVer1081 then
+  begin
 
     TibiaAddresses.acPrintName := $57FCBB;
     TibiaAddresses.acPrintMap := $58239E;
@@ -6243,7 +6421,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1082'}
-  if AdrSelected = TibiaVer1082 then begin
+  if AdrSelected = TibiaVer1082 then
+  begin
 
     TibiaAddresses.acPrintName := $57FD2B;
     TibiaAddresses.acPrintMap := $58240E;
@@ -6299,7 +6478,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1090'}
-  if AdrSelected = TibiaVer1090 then begin
+  if AdrSelected = TibiaVer1090 then
+  begin
 
     TibiaAddresses.acPrintName := $57FE8F;
     TibiaAddresses.acPrintMap := $58270E;
@@ -6355,7 +6535,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1091'}
-  if AdrSelected = TibiaVer1091 then begin
+  if AdrSelected = TibiaVer1091 then
+  begin
 
     TibiaAddresses.acPrintName := $57FE8F;
     TibiaAddresses.acPrintMap := $58270E;
@@ -6411,7 +6592,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1092'}
-  if AdrSelected = TibiaVer1092 then begin
+  if AdrSelected = TibiaVer1092 then
+  begin
 
     TibiaAddresses.acPrintName := $58128F;
     TibiaAddresses.acPrintMap := $583AFE;
@@ -6467,7 +6649,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1093'}
-  if AdrSelected = TibiaVer1093 then begin
+  if AdrSelected = TibiaVer1093 then
+  begin
 
     TibiaAddresses.acPrintName := $58258F;
     TibiaAddresses.acPrintMap := $584DFE;
@@ -6523,7 +6706,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1094'}
-  if AdrSelected = TibiaVer1094 then begin
+  if AdrSelected = TibiaVer1094 then
+  begin
 
     TibiaAddresses.acPrintName := $58502F;
     TibiaAddresses.acPrintMap := $58789E;
@@ -6579,7 +6763,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1095'}
-  if AdrSelected = TibiaVer1095 then begin
+  if AdrSelected = TibiaVer1095 then
+  begin
 
     TibiaAddresses.acPrintName := $584B7F;
     TibiaAddresses.acPrintMap := $5873EE;
@@ -6635,7 +6820,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1096'}
-  if AdrSelected = TibiaVer1096 then begin
+  if AdrSelected = TibiaVer1096 then
+  begin
 
     TibiaAddresses.acPrintName := $584B7F;
     TibiaAddresses.acPrintMap := $5873EE;
@@ -6691,7 +6877,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1097'}
-  if AdrSelected = TibiaVer1097 then begin
+  if AdrSelected = TibiaVer1097 then
+  begin
 
     TibiaAddresses.acPrintName := $58658F;
     TibiaAddresses.acPrintMap := $588DFE;
@@ -6747,7 +6934,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1098'}
-  if AdrSelected = TibiaVer1098 then begin
+  if AdrSelected = TibiaVer1098 then
+  begin
 
     TibiaAddresses.acPrintName := $586D1F;
     TibiaAddresses.acPrintMap := $58959E;
@@ -6803,7 +6991,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer1099'}
-  if AdrSelected = TibiaVer1099 then begin
+  if AdrSelected = TibiaVer1099 then
+  begin
 
     TibiaAddresses.acPrintName := $586D1F;
     TibiaAddresses.acPrintMap := $58959E;
@@ -6859,7 +7048,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVerN1000'}
-  if AdrSelected = TibiaVerN1000 then begin
+  if AdrSelected = TibiaVerN1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A2FBF;
     TibiaAddresses.acPrintMap := $5A582E;
@@ -6915,7 +7105,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer2N1000'}
-  if AdrSelected = TibiaVer2N1000 then begin
+  if AdrSelected = TibiaVer2N1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A2FBF;
     TibiaAddresses.acPrintMap := $5A582E;
@@ -6971,7 +7162,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer3N1000'}
-  if AdrSelected = TibiaVer3N1000 then begin
+  if AdrSelected = TibiaVer3N1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A2FBF;
     TibiaAddresses.acPrintMap := $5A582E;
@@ -7027,7 +7219,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer4N1000'}
-  if AdrSelected = TibiaVer4N1000 then begin
+  if AdrSelected = TibiaVer4N1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A306F;
     TibiaAddresses.acPrintMap := $5A58DE;
@@ -7083,7 +7276,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer5N1000'}
-  if AdrSelected = TibiaVer5N1000 then begin
+  if AdrSelected = TibiaVer5N1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A3A0F;
     TibiaAddresses.acPrintMap := $5A627E;
@@ -7139,7 +7333,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer6N1000'}
-  if AdrSelected = TibiaVer6N1000 then begin
+  if AdrSelected = TibiaVer6N1000 then
+  begin
 
     TibiaAddresses.acPrintName := $5A3A2F;
     TibiaAddresses.acPrintMap := $5A629E;
@@ -7195,7 +7390,8 @@ begin
   end;
 {$ENDREGION}
 {$REGION 'Addresses for TibiaVer7N1000'}
-  if AdrSelected = TibiaVer7N1000 then begin
+  if AdrSelected = TibiaVer7N1000 then
+  begin
     TibiaAddresses.acPrintName := $5A58BF;
     TibiaAddresses.acPrintMap := $5A812E;
     TibiaAddresses.acSendFunction := $5B9410;
@@ -7253,4 +7449,3 @@ begin
 end;
 
 end.
-

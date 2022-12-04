@@ -1,5 +1,5 @@
 unit uBBotAttacker;
-
+
 interface
 
 uses
@@ -43,8 +43,10 @@ type
     function SelectTask(AFilter: BUInt32): BVector<TBBotAttackerTask>.It;
     function SelectBestTarget: BVector<TBBotAttackerTask>.It;
     function SelectNextTarget: BVector<TBBotAttackerTask>.It;
-    function ExecuteTask(const ATask: BVector<TBBotAttackerTask>.It): BBool; overload;
-    function ExecuteTask(const ASelector: BFunc<BVector<TBBotAttackerTask>.It>): BBool; overload;
+    function ExecuteTask(const ATask: BVector<TBBotAttackerTask>.It)
+      : BBool; overload;
+    function ExecuteTask(const ASelector: BFunc<BVector<TBBotAttackerTask>.It>)
+      : BBool; overload;
   public
     constructor Create;
     destructor Destroy; override;
@@ -65,13 +67,15 @@ type
     property Enabled: BBool read FEnabled write SetEnabled;
     property Debug: BBool read FDebug write FDebug;
 
-    property NeverAttackPlayers: BBool read FNeverAttackPlayers write FNeverAttackPlayers;
+    property NeverAttackPlayers: BBool read FNeverAttackPlayers
+      write FNeverAttackPlayers;
     property AvoidKS: BBool read FAvoidKS write FAvoidKS;
 
     property FailIgnoreTime: BUInt32 read FFailIgnoreTime;
     property FailMaxAttemps: BInt32 read FFailMaxAttemps;
     property UnReachableIgnoreTime: BUInt32 read FUnReachableIgnoreTime;
-    property AttackNotReachable: BBool read FAttackNotReachable write FAttackNotReachable;
+    property AttackNotReachable: BBool read FAttackNotReachable
+      write FAttackNotReachable;
 
     property AttackAllowed: BBool read GetAttackAllowed;
   end;
@@ -104,9 +108,11 @@ var
   Task: BVector<TBBotAttackerTask>.It;
   Creature: TBBotCreature;
 begin
-  if Me.IsAttacking then begin
+  if Me.IsAttacking then
+  begin
     Task := SelectBestTarget;
-    if Task <> nil then begin
+    if Task <> nil then
+    begin
       Creature := Task.GetCreature;
       if (Creature <> nil) and Creature.IsTarget then
         Exit(True);
@@ -123,7 +129,8 @@ begin
     begin
       if It^.Tries >= FailMaxAttemps then
         BBot.IgnoreAttack.Add(It^.ID, FailIgnoreTime, 'max attack attemps');
-      Result := (NeverAttackPlayers and It^.IsPlayer) or (not It^.Alive) or BBot.IgnoreAttack.IsIgnored(It^.ID);
+      Result := (NeverAttackPlayers and It^.IsPlayer) or (not It^.Alive) or
+        BBot.IgnoreAttack.IsIgnored(It^.ID);
     end);
 end;
 
@@ -151,15 +158,19 @@ begin
   inherited;
 end;
 
-function TBBotAttacker.ExecuteTask(const ATask: BVector<TBBotAttackerTask>.It): BBool;
+function TBBotAttacker.ExecuteTask(const ATask
+  : BVector<TBBotAttackerTask>.It): BBool;
 var
   Creature: TBBotCreature;
 begin
   Result := False;
-  if AttackAllowed then begin
-    if ATask <> nil then begin
+  if AttackAllowed then
+  begin
+    if ATask <> nil then
+    begin
       Creature := ATask^.GetCreature;
-      if Creature <> nil then begin
+      if Creature <> nil then
+      begin
         Creature.Attack;
         Result := True;
       end;
@@ -167,15 +178,16 @@ begin
   end;
 end;
 
-function TBBotAttacker.ExecuteTask(const ASelector: BFunc<BVector<TBBotAttackerTask>.It>): BBool;
+function TBBotAttacker.ExecuteTask(const ASelector
+  : BFunc<BVector<TBBotAttackerTask>.It>): BBool;
 begin
   Exit(ExecuteTask(ASelector()));
 end;
 
 function TBBotAttacker.GetAttackAllowed: BBool;
 begin
-  Result := (not BBot.JustLoggedIn.JustLoggedIn) and (not(tsWithinProtectionZone in Me.Status)) and
-    (not BBot.Cavebot.IsNoKill);
+  Result := (not BBot.JustLoggedIn.JustLoggedIn) and
+    (not(tsWithinProtectionZone in Me.Status)) and (not BBot.Cavebot.IsNoKill);
 end;
 
 procedure TBBotAttacker.NewTask(ACreature: TBBotCreature);
@@ -183,26 +195,33 @@ var
   Task: TBBotAttackerTask;
   Priority: BInt32;
 begin
-  if AttackAllowed then begin
+  if AttackAllowed then
+  begin
     if not ACreature.IsAlive then
       Exit;
     if not Me.CanSee(ACreature.Position) then
       Exit;
-    if not(NeverAttackPlayers and ACreature.IsPlayer) then begin
+    if not(NeverAttackPlayers and ACreature.IsPlayer) then
+    begin
       if not BBot.IgnoreAttack.IsIgnored(ACreature.ID) then
-        if BBot.AdvAttack.AttackablePriority(ACreature) then begin
-          if not Tasks.Has('Killer adding task uniqueness [' + ACreature.Name + '=' + BToStr(ACreature.ID) + ']',
+        if BBot.AdvAttack.AttackablePriority(ACreature) then
+        begin
+          if not Tasks.Has('Killer adding task uniqueness [' + ACreature.Name +
+            '=' + BToStr(ACreature.ID) + ']',
             function(It: BVector<TBBotAttackerTask>.It): BBool
             begin
               Result := It^.ID = ACreature.ID;
-            end) then begin
-            if ACreature.IsReachable or AttackNotReachable then begin
+            end) then
+          begin
+            if ACreature.IsReachable or AttackNotReachable then
+            begin
               Priority := BBot.AdvAttack.KillerPriority(ACreature);
               Task := TBBotAttackerTask.Create(ACreature.ID, Priority);
               Tasks.Add(Task);
             end
             else
-              BBot.IgnoreAttack.Add(ACreature.ID, UnReachableIgnoreTime, 'unreachable');
+              BBot.IgnoreAttack.Add(ACreature.ID, UnReachableIgnoreTime,
+                'unreachable');
           end;
         end;
     end;
@@ -236,17 +255,20 @@ begin
   BBot.Events.OnCreatureAttack.Add(OnCreatureAttack);
   BBot.Events.OnCreatureTick.Add(OnCreatureTick);
 
-  BBot.Macros.Registry.CreateSystemVariable(BBotAttackerFailIgnoreTimeVar, BBotAttackerFailIgnoreTime).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotAttackerFailIgnoreTimeVar,
+    BBotAttackerFailIgnoreTime).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FFailIgnoreTime := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotAttackerFailMaxAttempsVar, BBotAttackerFailMaxAttemps).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotAttackerFailMaxAttempsVar,
+    BBotAttackerFailMaxAttemps).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       FFailMaxAttemps := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotAttackerUnReachableIgnoreTimeVar,
+  BBot.Macros.Registry.CreateSystemVariable
+    (BBotAttackerUnReachableIgnoreTimeVar,
     BBotAttackerUnReachableIgnoreTime).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
@@ -268,7 +290,8 @@ begin
   Result := SelectTask(Me.TargetID);
 end;
 
-function TBBotAttacker.SelectTask(AFilter: BUInt32): BVector<TBBotAttackerTask>.It;
+function TBBotAttacker.SelectTask(AFilter: BUInt32)
+  : BVector<TBBotAttackerTask>.It;
 var
   Best: BVector<TBBotAttackerTask>.It;
   Score: BUInt32;
@@ -282,19 +305,23 @@ begin
       ItCreature: TBBotCreature;
     begin
       ItScore := It^.Heuristic;
-      if ((Best = nil) or (ItScore < Score)) and (It^.ID <> AFilter) then begin
-        if not BBot.SummonDetector.isSummon(It^.ID) then begin
+      if ((Best = nil) or (ItScore < Score)) and (It^.ID <> AFilter) then
+      begin
+        if not BBot.SummonDetector.isSummon(It^.ID) then
+        begin
           Best := It;
           Score := ItScore;
         end;
       end;
-      if Debug then begin
+      if Debug then
+      begin
         ItCreature := It^.GetCreature;
         if (ItCreature <> nil) then
           AddDebug(ItCreature, BToStr(ItScore));
       end;
     end);
-  if Best <> nil then begin
+  if Best <> nil then
+  begin
     Result := Best;
     if (Result <> nil) and Debug and (Result^.GetCreature <> nil) then
       AddDebug(Result^.GetCreature, '[' + BToStr(Result^.Heuristic) + ']');
@@ -312,4 +339,4 @@ begin
 end;
 
 end.
-
+

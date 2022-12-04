@@ -1,6 +1,5 @@
 unit uBBotProfitStats;
 
-
 interface
 
 uses
@@ -52,14 +51,17 @@ begin
   Waste := BBot.SupliesStats.Waste;
   Profit := BBot.LooterStats.Profit;
   Delta := Profit - Waste;
-  HUD.PrintGray(BFormat('Profit: %d gold (%dg/hour)', [Profit, BFloor(Profit * PerHourFactor)]));
-  HUD.PrintGray(BFormat('Waste: %d gold (%dg/hour)', [Waste, BFloor(Waste * PerHourFactor)]));
-  HUD.PrintGray(BFormat('%s: %d (%dg/hour)', [BIf(Delta < 0, 'Loss', 'Gain'), Delta, BFloor(Delta * PerHourFactor)]));
+  HUD.PrintGray(BFormat('Profit: %d gold (%dg/hour)',
+    [Profit, BFloor(Profit * PerHourFactor)]));
+  HUD.PrintGray(BFormat('Waste: %d gold (%dg/hour)',
+    [Waste, BFloor(Waste * PerHourFactor)]));
+  HUD.PrintGray(BFormat('%s: %d (%dg/hour)', [BIf(Delta < 0, 'Loss', 'Gain'),
+    Delta, BFloor(Delta * PerHourFactor)]));
   if Integer(BBot.TradeWindow.BankBalance) >= 0 then
-    HUD.Print(BFormat('Balance: %d gold', [BBot.TradeWindow.BankBalance]), $96F1F0);
+    HUD.Print(BFormat('Balance: %d gold', [BBot.TradeWindow.BankBalance]
+      ), $96F1F0);
   HUD.Line;
   HUD.Free;
 end;
 
 end.
-

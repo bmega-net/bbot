@@ -96,14 +96,16 @@ var
   RegionPos: BPos;
   CurrentCount: BInt32;
 begin
-  if ACreature <> nil then begin
+  if ACreature <> nil then
+  begin
     RegionPos := AttackRegionPos(ACreature.Position);
     if not AttackCount.TryGetValue(RegionPos, CurrentCount) then
       CurrentCount := 0;
     Inc(CurrentCount);
     AttackCount.AddOrSetValue(RegionPos, CurrentCount);
 
-    if Debug then begin
+    if Debug then
+    begin
       AddDebug(BFormat('Attacks for %s = %d', [BStr(RegionPos), CurrentCount]));
       HUDAttackOnPos(RegionPos);
     end;
@@ -121,7 +123,8 @@ begin
   Inc(CurrentCount);
   StepCount.AddOrSetValue(StepPos, CurrentCount);
 
-  if Debug then begin
+  if Debug then
+  begin
     AddDebug(BFormat('Steps for %s = %d', [BStr(StepPos), CurrentCount]));
     HUDStepOnPos(StepPos);
   end;
@@ -131,7 +134,8 @@ procedure TBBotPositionStatistics.Run;
 var
   Pos: BPos;
 begin
-  if ShowHUD then begin
+  if ShowHUD then
+  begin
     HUDRemoveGroup(bhgDebugPositionStepStatistics);
     HUDRemoveGroup(bhgDebugPositionAttackStatistics);
     for Pos in StepCount.Keys do
@@ -145,8 +149,10 @@ procedure TBBotPositionStatistics.HUDAttackOnPos(APos: BPos);
 var
   HUD: TBBotHUD;
 begin
-  if Me.CanSee(APos) then begin
-    HUDRemovePositionGroup(APos.X, APos.Y, APos.Z, bhgDebugPositionAttackStatistics);
+  if Me.CanSee(APos) then
+  begin
+    HUDRemovePositionGroup(APos.X, APos.Y, APos.Z,
+      bhgDebugPositionAttackStatistics);
     HUD := TBBotHUD.Create(bhgDebugPositionAttackStatistics);
     HUD.Color := $7070FF;
     HUD.Expire := 5000;
@@ -162,8 +168,10 @@ procedure TBBotPositionStatistics.HUDStepOnPos(APos: BPos);
 var
   HUD: TBBotHUD;
 begin
-  if Me.CanSee(APos) then begin
-    HUDRemovePositionGroup(APos.X, APos.Y, APos.Z, bhgDebugPositionStepStatistics);
+  if Me.CanSee(APos) then
+  begin
+    HUDRemovePositionGroup(APos.X, APos.Y, APos.Z,
+      bhgDebugPositionStepStatistics);
     HUD := TBBotHUD.Create(bhgDebugPositionStepStatistics);
     HUD.Color := $70FF70;
     HUD.Expire := 5000;

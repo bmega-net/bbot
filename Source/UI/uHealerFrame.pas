@@ -135,8 +135,9 @@ begin
 end;
 
 procedure THealerFrame.SetHealerSpell;
-  procedure ApplySpellHealer(const AEnable: TCheckBox; const APercent: TCheckBox; const ASpell: TEdit;
-    const AMana: TMemo; const AHealth: TMemo; const AHealer: TBBotHealerSpell);
+  procedure ApplySpellHealer(const AEnable: TCheckBox;
+    const APercent: TCheckBox; const ASpell: TEdit; const AMana: TMemo;
+    const AHealth: TMemo; const AHealer: TBBotHealerSpell);
   begin
     if AEnable.Checked and (ASpell.Text = '') then
       AEnable.Checked := False;
@@ -172,8 +173,9 @@ begin
 end;
 
 procedure THealerFrame.SetHealerItem;
-  procedure ApplyItemHealer(const AEnable: TCheckBox; const APercent: TCheckBox; const AUse: TBBotItemSelectorApply;
-    const AHealth: TMemo; const AHealer: TBBotHealerItem);
+  procedure ApplyItemHealer(const AEnable: TCheckBox; const APercent: TCheckBox;
+    const AUse: TBBotItemSelectorApply; const AHealth: TMemo;
+    const AHealer: TBBotHealerItem);
   begin
     AHealer.Percent := APercent.Checked;
     AHealer.HealHealth := BStrTo32(AHealth.Text, 0);
@@ -207,7 +209,8 @@ begin
 end;
 
 procedure THealerFrame.Init;
-  function InitHealerCombo(const ACombo: TComboBox; const AIndex: BInt32): TBBotItemSelectorApply;
+  function InitHealerCombo(const ACombo: TComboBox; const AIndex: BInt32)
+    : TBBotItemSelectorApply;
   begin
     Result := TFMain(FMain). //
       BBotItemSelector //
@@ -260,21 +263,29 @@ end;
 
 procedure THealerFrame.ValidateForm;
 begin
-  TFMain(FMain).CheckInt(numHealerSpellLowHP, chkHealerSpellLow, chkHealerSpellLowPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerSpellLowHP, chkHealerSpellLow,
+    chkHealerSpellLowPercent.Checked);
   TFMain(FMain).CheckInt(numHealerSpellLowMana, chkHealerSpellLow, False);
 
-  TFMain(FMain).CheckInt(numHealerSpellMidHP, chkHealerSpellMid, chkHealerSpellmidPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerSpellMidHP, chkHealerSpellMid,
+    chkHealerSpellmidPercent.Checked);
   TFMain(FMain).CheckInt(numHealerSpellMidMana, chkHealerSpellMid, False);
 
-  TFMain(FMain).CheckInt(numHealerSpellHighHP, chkHealerSpellHigh, chkHealerSpellHighPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerSpellHighHP, chkHealerSpellHigh,
+    chkHealerSpellHighPercent.Checked);
   TFMain(FMain).CheckInt(numHealerSpellHighMana, chkHealerSpellHigh, False);
 
-  TFMain(FMain).CheckInt(numHealerItemLowHP, chkHealerItemLow, chkHealerItemLowPercent.Checked);
-  TFMain(FMain).CheckInt(numHealerItemMidHP, chkHealerItemMid, chkHealerItemMidPercent.Checked);
-  TFMain(FMain).CheckInt(numHealerItemHighHP, chkHealerItemHigh, chkHealerItemHighPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerItemLowHP, chkHealerItemLow,
+    chkHealerItemLowPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerItemMidHP, chkHealerItemMid,
+    chkHealerItemMidPercent.Checked);
+  TFMain(FMain).CheckInt(numHealerItemHighHP, chkHealerItemHigh,
+    chkHealerItemHighPercent.Checked);
 
-  TFMain(FMain).CheckInt(numHealerItemsEx, 'Please insert a valid value in Healer Items delay', False);
-  TFMain(FMain).CheckInt(numHealerSpellsEx, 'Please insert a valid value in Healer Spells delay', False);
+  TFMain(FMain).CheckInt(numHealerItemsEx,
+    'Please insert a valid value in Healer Items delay', False);
+  TFMain(FMain).CheckInt(numHealerSpellsEx,
+    'Please insert a valid value in Healer Spells delay', False);
 end;
 
 end.

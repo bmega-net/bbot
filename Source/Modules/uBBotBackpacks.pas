@@ -1,5 +1,5 @@
 unit uBBotBackpacks;
-
+
 interface
 
 uses
@@ -12,6 +12,7 @@ uses
 {$IFNDEF Release}
 { .$DEFINE ShowClickPixel }
 {$ENDIF}
+
 type
   TBBotBackpacks = class(TBBotAction)
   private
@@ -34,8 +35,10 @@ type
     property Enabled: BBool read FEnabled write FEnabled;
     property IsWorking: BBool read GetIsWorking;
     property Minimizer: BBool read FMinimizer write FMinimizer;
-    property InventoryMinimized: BBool read FInventoryMinimized write FInventoryMinimized;
-    property GetPremiumMinimized: BBool read FGetPremiumMinimized write FGetPremiumMinimized;
+    property InventoryMinimized: BBool read FInventoryMinimized
+      write FInventoryMinimized;
+    property GetPremiumMinimized: BBool read FGetPremiumMinimized
+      write FGetPremiumMinimized;
 
     procedure Run; override;
     procedure OnInit; override;
@@ -87,9 +90,11 @@ procedure TBBotBackpacks.ToggleMinimize(const AIndex: BInt32);
 var
   R: TRect;
 begin
-  if AIndex > 0 then begin
+  if AIndex > 0 then
+  begin
     R := CalculateBackpackMinimizeArea(AIndex);
-    TibiaProcess.SendMouseClickEx(BRandom(R.Left, R.Right), BRandom(R.Top, R.Bottom));
+    TibiaProcess.SendMouseClickEx(BRandom(R.Left, R.Right),
+      BRandom(R.Top, R.Bottom));
   end
   else
     raise BException.Create('Invalid MinimizeBP Index');
@@ -131,7 +136,8 @@ begin
   Result := Result div 3;
 end;
 
-function TBBotBackpacks.CalculateBackpackMinimizeArea(const AIndex: BInt32): TRect;
+function TBBotBackpacks.CalculateBackpackMinimizeArea
+  (const AIndex: BInt32): TRect;
 const
   BPMinimizeFromX = -27;
   BPMinimizeFromYPre920 = 353;
@@ -182,8 +188,10 @@ begin
 {$IFDEF ShowClickPixel}
   ShowMinimizerPixels;
 {$ENDIF}
-  if DoCloseBackpacks then begin
-    if Tibia.TotalOpenContainers > 0 then begin
+  if DoCloseBackpacks then
+  begin
+    if Tibia.TotalOpenContainers > 0 then
+    begin
       CTClose := ContainerAt(BRandom(0, 15), 0);
       while not CTClose.Open do
         CTClose := ContainerAt(BRandom(0, 15), 0);
@@ -192,26 +200,35 @@ begin
     end;
     DoCloseBackpacks := False;
   end;
-  if DoOpenBackpacks then begin
+  if DoOpenBackpacks then
+  begin
     CTs := Tibia.TotalOpenContainers;
-    if CTs >= CurrentContainers then begin
-      if Item <> nil then begin
+    if CTs >= CurrentContainers then
+    begin
+      if Item <> nil then
+      begin
         if (CTs = CurrentContainers) and (Item.IsContainer) then
           Item.UseAsContainer
-        else if (CTs > CurrentContainers) or (not Item.IsContainer) then begin
+        else if (CTs > CurrentContainers) or (not Item.IsContainer) then
+        begin
           CurrentContainers := CTs;
           if Item = Me.Inventory.Backpack then
             Item := Me.Inventory.Ammo
-          else begin
+          else
+          begin
             Item := nil;
             CTOpen := ContainerFirst;
           end;
         end;
-      end else begin
+      end
+      else
+      begin
         if (CTOpen = nil) or (CTOpen.Container <> 0) then
           DoOpenBackpacks := False // Sucess
-        else begin
-          if (not CTOpen.IsContainer) or (CTs > CurrentContainers) then begin
+        else
+        begin
+          if (not CTOpen.IsContainer) or (CTs > CurrentContainers) then
+          begin
             CTOpen := CTOpen.Next;
             while (CTOpen <> nil) and (not CTOpen.IsContainer) do
               CTOpen := CTOpen.Next;
@@ -237,7 +254,8 @@ var
   R: TRect;
   TR: TRect;
 begin
-  for I := 0 to Tibia.TotalOpenContainers - 1 do begin
+  for I := 0 to Tibia.TotalOpenContainers - 1 do
+  begin
     R := CalculateBackpackMinimizeArea(I);
     TR := TibiaProcess.ClientRect;
     TibiaProcess.OpenHDC;
@@ -268,4 +286,4 @@ begin
 end;
 
 end.
-
+

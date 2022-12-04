@@ -1,5 +1,5 @@
 unit uBBotAntiAfk;
-
+
 interface
 
 uses
@@ -55,27 +55,38 @@ end;
 procedure TBBotAntiAFK.OnSystemMessage(AMessageData: TTibiaMessage);
 begin
   if BStrStart(AMessageData.Text, 'You have been idle for') or
-    BStrStart(AMessageData.Text, 'There was no variation in your behaviour') then
+    BStrStart(AMessageData.Text, 'There was no variation in your behaviour')
+  then
     Next.Unlock;
 end;
 
 procedure TBBotAntiAFK.Run;
 begin
-  if Enabled and (BBot.StandTime > 10000) then begin
-    if not Acting then begin
-      if not Next.Locked then begin
+  if Enabled and (BBot.StandTime > 10000) then
+  begin
+    if not Acting then
+    begin
+      if not Next.Locked then
+      begin
         Acting := True;
         Dir := Me.Direction;
         Next.Lock;
         case BRandom(1, 4) of
-        1: Me.Turn(tdNorth);
-        2: Me.Turn(tdSouth);
-        3: Me.Turn(tdEast);
-        4: Me.Turn(tdWest);
+          1:
+            Me.Turn(tdNorth);
+          2:
+            Me.Turn(tdSouth);
+          3:
+            Me.Turn(tdEast);
+          4:
+            Me.Turn(tdWest);
         end;
       end;
-    end else begin
-      if Me.Direction <> Dir then begin
+    end
+    else
+    begin
+      if Me.Direction <> Dir then
+      begin
         Me.Turn(Dir);
         Exit;
       end;
@@ -85,4 +96,4 @@ begin
 end;
 
 end.
-
+

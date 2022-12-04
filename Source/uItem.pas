@@ -1,5 +1,5 @@
 unit uItem;
-
+
 interface
 
 uses
@@ -169,7 +169,8 @@ begin
   if not InRange(ToCount, 0, 100) then
     ToCount := vItem.Count;
   ToCount := BMinMax(ToCount, 0, vItem.Count);
-  BBot.PacketSender.MoveItem(vItem.Position, vItem.ID, vItem.Stack, ToCount, BPosXYZ($FFFF, Ord(ToSlot), 0));
+  BBot.PacketSender.MoveItem(vItem.Position, vItem.ID, vItem.Stack, ToCount,
+    BPosXYZ($FFFF, Ord(ToSlot), 0));
 end;
 
 procedure TTibiaItem.ToGround(ToPos: BPos; ToCount: BInt32 = -1);
@@ -178,14 +179,15 @@ begin
     ToCount := vItem.Count;
   ToCount := BMinMax(ToCount, 0, vItem.Count);
   if vItem.ID <> 0 then
-    BBot.PacketSender.MoveItem(vItem.Position, vItem.ID, vItem.Stack, ToCount, ToPos);
+    BBot.PacketSender.MoveItem(vItem.Position, vItem.ID, vItem.Stack,
+      ToCount, ToPos);
 end;
 
 procedure TTibiaItem.Use;
 begin
   if vItem.ID <> 0 then
-    BBot.PacketSender.UseItem(vItem.Position, vItem.ID, vItem.Stack, BIf(vItem.Index = -1, Tibia.NewContainerIndex,
-      vItem.Index));
+    BBot.PacketSender.UseItem(vItem.Position, vItem.ID, vItem.Stack,
+      BIf(vItem.Index = -1, Tibia.NewContainerIndex, vItem.Index));
 end;
 
 procedure TTibiaItem.UseAsContainer;
@@ -193,10 +195,12 @@ begin
   if vItem.ID = 0 then
     Exit;
   if IsContainer then
-    BBot.PacketSender.UseItem(vItem.Position, vItem.ID, vItem.Stack, Tibia.NewContainerIndex);
+    BBot.PacketSender.UseItem(vItem.Position, vItem.ID, vItem.Stack,
+      Tibia.NewContainerIndex);
 end;
 
-procedure TTibiaItem.SetItem(ID: BUInt32; Count, Stack, Index: BInt32; Position: BPos);
+procedure TTibiaItem.SetItem(ID: BUInt32; Count, Stack, Index: BInt32;
+  Position: BPos);
 var
   BotFlags: TTibiaItemBotFlags;
   DatFlags: TTibiaItemDatFlags;
@@ -206,7 +210,8 @@ begin
   vItem.Stack := Stack;
   vItem.Position := Position;
   vItem.Index := Index;
-  if BInRange(ID, TibiaMinItems, TibiaLastItem) then begin
+  if BInRange(ID, TibiaMinItems, TibiaLastItem) then
+  begin
     Item := @TibiaItems[vItem.ID];
     FLootToContainer := Item.Loot.Target;
     FLootMinCap := Item.Loot.MinCap;
@@ -274,11 +279,13 @@ begin
   _UseItem := ContainerFind(UseID);
   if Assigned(_UseItem) then
     _ItemFrom := _UseItem.vItem.Position;
-  BBot.PacketSender.UseOnObject(_ItemFrom, UseID, _ItemFrom.Z, vItem.Position, vItem.ID, vItem.Stack);
+  BBot.PacketSender.UseOnObject(_ItemFrom, UseID, _ItemFrom.Z, vItem.Position,
+    vItem.ID, vItem.Stack);
 end;
 
 procedure TTibiaItem.UseWithOn(ASlot: TTibiaSlot);
-var
+
+var
   ToSlot: BPos;
   ToSlotId: BInt32;
 begin
@@ -286,8 +293,9 @@ begin
     Exit;
   ToSlot := BPosXYZ($FFFF, Ord(ASlot), 0);
   ToSlotId := Me.Inventory.GetSlot(ASlot).ID;
-  BBot.PacketSender.UseOnObject(vItem.Position, vItem.ID, vItem.Stack, ToSlot, ToSlotId, ToSlot.Y); //confirm ToStack
+  BBot.PacketSender.UseOnObject(vItem.Position, vItem.ID, vItem.Stack, ToSlot,
+    ToSlotId, ToSlot.Y); // confirm ToStack
 end;
 
 end.
-
+

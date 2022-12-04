@@ -1,5 +1,5 @@
 unit uMacroCore;
-
+
 interface
 
 uses
@@ -12,8 +12,9 @@ uses
   uMacroEngine;
 
 type
-  BMacroOperationKind = (bmoFunc, bmoText, bmoNumber, bmoEqual, bmoNotEqual, bmoBigger, bmoBiggerEqual, bmoSmaller,
-    bmoSmallerEqual, bmoVar, bmoLabel, bmoFalseLabel);
+  BMacroOperationKind = (bmoFunc, bmoText, bmoNumber, bmoEqual, bmoNotEqual,
+    bmoBigger, bmoBiggerEqual, bmoSmaller, bmoSmallerEqual, bmoVar, bmoLabel,
+    bmoFalseLabel);
 
   BMacroOperation = record
     Kind: BMacroOperationKind;
@@ -58,8 +59,10 @@ type
     function ParamInt(const AIndex: BInt32): BInt32; override;
 
     // BMacro Variables
-    procedure SetVariable(const AName: BStr; const AValue: BInt32); overload; override;
-    procedure SetVariable(const AName: BStr; const AValue: BStr); overload; override;
+    procedure SetVariable(const AName: BStr; const AValue: BInt32);
+      overload; override;
+    procedure SetVariable(const AName: BStr; const AValue: BStr);
+      overload; override;
     function HasVariable(const AName: BStr): BBool; override;
     function Variable(const AName: BStr): BInt32; override;
     function VariableStr(const AName: BStr): BStr; override;
@@ -68,7 +71,8 @@ type
     function Constant(const AName: BStr): BInt32; override;
 
     // BMacro Whens
-    procedure WatchWhen(const AEvent, AHandlerLabel: BStr; const ACond: BFunc<BBool>); override;
+    procedure WatchWhen(const AEvent, AHandlerLabel: BStr;
+      const ACond: BFunc<BBool>); override;
     procedure UnwatchWhen(); override;
     procedure CastWhen(const AEvent: BStr); override;
 
@@ -79,7 +83,8 @@ type
     procedure GoExit(); override;
 
     procedure AddDebug(const AMessage: BStr); override;
-    procedure AddDebugFmt(const AMessageFmt: BStr; const AArgs: array of const); override;
+    procedure AddDebugFmt(const AMessageFmt: BStr;
+      const AArgs: array of const); override;
     property Debugging: BBool read GetDebugging;
 
     // BMacro Internal
@@ -108,20 +113,24 @@ uses
 
 const
   cOperators = ['=', '>', '<', ':'];
-  ckOperators = [bmoEqual, bmoNotEqual, bmoBigger, bmoBiggerEqual, bmoSmaller, bmoSmallerEqual, bmoVar];
+  ckOperators = [bmoEqual, bmoNotEqual, bmoBigger, bmoBiggerEqual, bmoSmaller,
+    bmoSmallerEqual, bmoVar];
 
   { BMacroCore }
 
-procedure GetDText(var B: BStr; var C: BPChar; EOC: BPChar; DemStart, DemEnd: BChar);
+procedure GetDText(var B: BStr; var C: BPChar; EOC: BPChar;
+  DemStart, DemEnd: BChar);
 var
   PDeph: BInt32;
 begin
   PDeph := 0;
-  while C <= EOC do begin
+  while C <= EOC do
+  begin
     B := B + C^;
     if C^ = DemStart then
       Inc(PDeph);
-    if C^ = DemEnd then begin
+    if C^ = DemEnd then
+    begin
       Dec(PDeph);
       if PDeph = 0 then
         Break
@@ -137,7 +146,8 @@ var
   procedure AddP;
   begin
     B := Trim(B);
-    if B <> '' then begin
+    if B <> '' then
+    begin
       SetLength(R, Length(R) + 1);
       R[High(R)] := B;
       B := '';
@@ -152,11 +162,13 @@ var
   end;
 
 begin
-  if Length(S) > 0 then begin
+  if Length(S) > 0 then
+  begin
     C := @S[1];
     EOP := @S[Length(S)];
     B := '';
-    while C <= EOP do begin
+    while C <= EOP do
+    begin
       if C^ = '(' then
         GetDText(B, C, EOP, '(', ')')
       else if C^ = ',' then
@@ -187,7 +199,8 @@ begin
   Result := _Engine.Registry.Constants[AName];
 end;
 
-constructor BMacroCore.Create(AEngine: BMacroEngine; ADebug: BBool; ACode: BStr);
+constructor BMacroCore.Create(AEngine: BMacroEngine; ADebug: BBool;
+  ACode: BStr);
 begin
   FCode := ACode;
   _Engine := AEngine;
@@ -236,21 +249,26 @@ var
   var
     CompStrExpr, CompStrEval, CompStatus: BStr;
   begin
-    if Debugging then begin
+    if Debugging then
+    begin
       AddDebugSpacer;
       CompStatus := BIf(B, 'True', 'False');
 
-      CompStrExpr := BFormat('%s %s %s', [_Macro[_ExecIndex - 1].Datas, _Macro[_ExecIndex].Datas,
-        _Macro[_ExecIndex + 1].Datas]);
+      CompStrExpr := BFormat('%s %s %s', [_Macro[_ExecIndex - 1].Datas,
+        _Macro[_ExecIndex].Datas, _Macro[_ExecIndex + 1].Datas]);
       AddDebugFmt('[%s] %s', [CompStatus, CompStrExpr]);
 
-      CompStrEval := BFormat('%d %s %d', [LeftVal, _Macro[_ExecIndex].Datas, RightVal]);
+      CompStrEval := BFormat('%d %s %d', [LeftVal, _Macro[_ExecIndex].Datas,
+        RightVal]);
       AddDebugFmt('[%s] => %s', [CompStatus, CompStrEval]);
       AddDebugSpacer;
     end;
-    if B then begin
+    if B then
+    begin
       Inc(_ExecIndex, 2);
-    end else begin
+    end
+    else
+    begin
       Inc(_ExecIndex, 2);
       if _ExecIndex < H then
         if _Macro[_ExecIndex].Kind = bmoFalseLabel then
@@ -265,34 +283,41 @@ var
     if (Idx > 0) and (Idx < H) then
       Result := _Macro[Idx].Res
     else if Debugging then
-      AddDebug('[Critical] executing result out of range [' + IntToStr(Idx) + ']');
+      AddDebug('[Critical] executing result out of range [' +
+        IntToStr(Idx) + ']');
   end;
   procedure _CallF(Idx: BInt32);
   var
     F: ^BMacroOperation;
     Consts: BStr;
   begin
-    if (Idx > 0) and (Idx < H) then begin
+    if (Idx > 0) and (Idx < H) then
+    begin
       F := @_Macro[Idx];
-      if F^.Kind = bmoFunc then begin
+      if F^.Kind = bmoFunc then
+      begin
         _CallingIdx := Idx;
         if Debugging then
           AddDebugSpacer;
         F^.Res := F^.Func.FuncAsInt(Self);
-        if Debugging then begin
+        if Debugging then
+        begin
           AddDebug('[Function] ' + F^.Datas);
           Consts := BStrJoin(_Engine.Registry.ConstantsForValue(F^.Res), ' | ');
           AddDebug('[Function] -> ' + IntToStr(F^.Res) + '  ' + Consts);
           AddDebugSpacer;
         end;
-      end else if F^.Kind = bmoText then
+      end
+      else if F^.Kind = bmoText then
         F^.Res := StrToIntDef(_Engine.VarsText(F^.Datas), 0)
       else if F^.Kind = bmoNumber then
         F^.Res := F^.Datan
       else if Debugging then
         AddDebug('[Critical] invalid operation [' + IntToStr(Idx) + ']');
-    end else if Debugging then
-      AddDebug('[Critical] executing func out of range [' + IntToStr(Idx) + ']');
+    end
+    else if Debugging then
+      AddDebug('[Critical] executing func out of range [' +
+        IntToStr(Idx) + ']');
   end;
   function _LRes: BInt32;
   begin
@@ -321,7 +346,8 @@ var
 begin
   _ExecIndex := AInitialIndex;
   H := High(_Macro);
-  if Debugging then begin
+  if Debugging then
+  begin
     AddDebug('Start-Of-Macro');
     AddDebugSpacer;
   end;
@@ -329,57 +355,73 @@ begin
     try
       O := @_Macro[_ExecIndex];
       case O^.Kind of
-      bmoFunc: _CallC;
-      bmoText: _CallC;
-      bmoNumber: _CallC;
-      bmoEqual: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal = RightSideVal);
-        end;
-      bmoNotEqual: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal <> RightSideVal);
-        end;
-      bmoBigger: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal > RightSideVal);
-        end;
-      bmoBiggerEqual: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal >= RightSideVal);
-        end;
-      bmoSmaller: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal < RightSideVal);
-        end;
-      bmoSmallerEqual: begin
-          LeftSideVal := _LRes;
-          RightSideVal := _RRes;
-          _Compare(LeftSideVal, RightSideVal, LeftSideVal <= RightSideVal);
-        end;
-      bmoVar: _SetVar;
-      bmoLabel: _Skip;
-      bmoFalseLabel: _Skip;
+        bmoFunc:
+          _CallC;
+        bmoText:
+          _CallC;
+        bmoNumber:
+          _CallC;
+        bmoEqual:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal = RightSideVal);
+          end;
+        bmoNotEqual:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal <> RightSideVal);
+          end;
+        bmoBigger:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal > RightSideVal);
+          end;
+        bmoBiggerEqual:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal >= RightSideVal);
+          end;
+        bmoSmaller:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal < RightSideVal);
+          end;
+        bmoSmallerEqual:
+          begin
+            LeftSideVal := _LRes;
+            RightSideVal := _RRes;
+            _Compare(LeftSideVal, RightSideVal, LeftSideVal <= RightSideVal);
+          end;
+        bmoVar:
+          _SetVar;
+        bmoLabel:
+          _Skip;
+        bmoFalseLabel:
+          _Skip;
       end;
     except
-      on e: Exception do begin
+      on e: Exception do
+      begin
         if Debugging then
-          AddDebug('[Critical] Crashed executing ' + _Macro[_ExecIndex].Datas + ': ' + e.Message);
+          AddDebug('[Critical] Crashed executing ' + _Macro[_ExecIndex].Datas +
+            ': ' + e.Message);
         Exit;
       end;
       else
       begin
         if Debugging then
-          AddDebug('[Critical] Crashed executing ' + _Macro[_ExecIndex].Datas + ' unknown exception');
+          AddDebug('[Critical] Crashed executing ' + _Macro[_ExecIndex].Datas +
+            ' unknown exception');
         Exit;
       end;
     end;
-  if Debugging then begin
+  if Debugging then
+  begin
     AddDebugSpacer;
     AddDebug('End-Of-Macro');
   end;
@@ -408,7 +450,8 @@ var
 begin
   for I := 0 to High(_Macro) do
     if _Macro[I].Kind = bmoLabel then
-      if AnsiSameText(_Macro[I].Datas, AName) then begin
+      if AnsiSameText(_Macro[I].Datas, AName) then
+      begin
         if Debugging then
           AddDebug('[GoLabel] ' + AName);
         _ExecIndex := I;
@@ -423,14 +466,15 @@ function BMacroCore.HasVariable(const AName: BStr): BBool;
 var
   V: BMacroVariable;
 begin
-  Exit(_Engine.Registry.VariablesTryGet(AName, v));
+  Exit(_Engine.Registry.VariablesTryGet(AName, V));
 end;
 
 function BMacroCore.ParamStr(const AIndex: BInt32): BStr;
 begin
   if High(_Macro[_CallingIdx].FuncParams) >= AIndex then
     Result := _Engine.VarsText(_Macro[_CallingIdx].FuncParams[AIndex])
-  else begin
+  else
+  begin
     Result := '';
     if Debugging then
       AddDebug('[Critical] Param[' + IntToStr(AIndex) + '] out of range');
@@ -439,11 +483,13 @@ end;
 
 function BMacroCore.ParamInt(const AIndex: BInt32): BInt32;
 begin
-  try Result := StrToInt(ParamStr(AIndex));
+  try
+    Result := StrToInt(ParamStr(AIndex));
   except
     Result := MaxInt;
     if Debugging then
-      AddDebug('[Critical] Param[' + IntToStr(AIndex) + ']{' + ParamStr(AIndex) + '} is not a number');
+      AddDebug('[Critical] Param[' + IntToStr(AIndex) + ']{' + ParamStr(AIndex)
+        + '} is not a number');
   end;
 end;
 
@@ -456,7 +502,8 @@ var
   procedure AddT;
   begin
     B := Trim(B);
-    if B <> '' then begin
+    if B <> '' then
+    begin
       SetLength(T, Length(T) + 1);
       T[High(T)] := B;
       B := '';
@@ -483,16 +530,22 @@ begin
     Exit;
   C := @ACode[P2 + 1];
   EOC := @ACode[Length(ACode)];
-  while C <= EOC do begin
+  while C <= EOC do
+  begin
     if (C^ = ' ') then
       AddT
-    else if C^ = '{' then begin
+    else if C^ = '{' then
+    begin
       GetDText(B, C, EOC, '{', '}');
       AddT;
-    end else if C^ = '[' then begin
+    end
+    else if C^ = '[' then
+    begin
       GetDText(B, C, EOC, '[', ']');
       AddT;
-    end else if C^ = '(' then begin
+    end
+    else if C^ = '(' then
+    begin
       GetDText(B, C, EOC, '(', ')');
       AddT;
     end
@@ -513,7 +566,8 @@ var
 begin
   Variable := _Engine.Registry.Variables[AName];
   if Debugging then
-    AddDebug(BFormat('[Variable] !%s! has been set to <<%s>> (old value <<%s>>)',
+    AddDebug(BFormat
+      ('[Variable] !%s! has been set to <<%s>> (old value <<%s>>)',
       [AName, AValue, Variable.ValueAsString]));
   Variable.ValueStr := AValue;
 end;
@@ -529,14 +583,16 @@ var
 begin
   Variable := _Engine.Registry.Variables[AName];
   if Debugging then
-    AddDebug(BFormat('[Variable] !%s! has been set to <<%d>> (old value <<%s>>)',
+    AddDebug(BFormat
+      ('[Variable] !%s! has been set to <<%d>> (old value <<%s>>)',
       [AName, AValue, Variable.ValueAsString]));
   Variable.Value := AValue;
 end;
 
 function BMacroCore.Variable(const AName: BStr): BInt32;
 begin
-  if not _Engine.Registry.VariablesTry(AName, Result) then begin
+  if not _Engine.Registry.VariablesTry(AName, Result) then
+  begin
     if Debugging then
       AddDebug('[Warning] unable to get variable value ' + AName);
     Result := 0;
@@ -545,14 +601,16 @@ end;
 
 function BMacroCore.VariableStr(const AName: BStr): BStr;
 begin
-  if not _Engine.Registry.VariablesTry(AName, Result) then begin
+  if not _Engine.Registry.VariablesTry(AName, Result) then
+  begin
     if Debugging then
       AddDebug('[Warning] unable to get variable value ' + AName);
     Result := '';
   end;
 end;
 
-procedure BMacroCore.WatchWhen(const AEvent, AHandlerLabel: BStr; const ACond: BFunc<BBool>);
+procedure BMacroCore.WatchWhen(const AEvent, AHandlerLabel: BStr;
+const ACond: BFunc<BBool>);
 begin
   _Engine.Registry.WatchWhen(AEvent, AHandlerLabel, ACond, Self);
 end;
@@ -583,20 +641,27 @@ var
     P1 := AnsiPos('(', Fn);
     if P1 > 0 then
       Fn := Copy(Fn, 1, P1 - 1);
-    if _Engine.Registry.FuncByName(Fn, AFunc) then begin
+    if _Engine.Registry.FuncByName(Fn, AFunc) then
+    begin
       O^.Kind := bmoFunc;
       O^.Func := AFunc;
       SetLength(O^.FuncParams, 0);
-      if P1 > 0 then begin
+      if P1 > 0 then
+      begin
         B := Copy(B, P1 + 1, Length(B) - P1 - 1);
         GetPText(O^.FuncParams, B);
       end;
-    end else begin
+    end
+    else
+    begin
       Fi := StrToIntDef(B, -MaxInt);
-      if Fi <> -MaxInt then begin
+      if Fi <> -MaxInt then
+      begin
         O^.Kind := bmoNumber;
         O^.Datan := Fi;
-      end else begin
+      end
+      else
+      begin
         O^.Kind := bmoText;
         if (P1 > 0) and (BStrPos(Fn, '!') = 0) and (BStrPos(Fn, ':') = 0) then
           if Debugging then
@@ -605,41 +670,52 @@ var
     end;
     B := '';
   end;
-  function TryAddOperator(const AOperator: BStr; AKind: BMacroOperationKind): BBool;
+  function TryAddOperator(const AOperator: BStr;
+  AKind: BMacroOperationKind): BBool;
   begin
-    if Trim(B) = AOperator then begin
+    if Trim(B) = AOperator then
+    begin
       AddOperation;
       O^.Datas := B;
       O^.Kind := AKind;
       B := '';
       Exit(True);
-    end else begin
+    end
+    else
+    begin
       Exit(False);
     end;
   end;
   function TryAddOperators: BBool;
   begin
-    if TryAddOperator('==', bmoEqual) or TryAddOperator('<>', bmoNotEqual) or TryAddOperator(':=', bmoVar) or
-      TryAddOperator('>', bmoBigger) or TryAddOperator('<', bmoSmaller) or TryAddOperator('>=', bmoBiggerEqual) or
-      TryAddOperator('=>', bmoBiggerEqual) or TryAddOperator('<=', bmoSmallerEqual) or
+    if TryAddOperator('==', bmoEqual) or TryAddOperator('<>', bmoNotEqual) or
+      TryAddOperator(':=', bmoVar) or TryAddOperator('>', bmoBigger) or
+      TryAddOperator('<', bmoSmaller) or TryAddOperator('>=', bmoBiggerEqual) or
+      TryAddOperator('=>', bmoBiggerEqual) or
+      TryAddOperator('<=', bmoSmallerEqual) or
       TryAddOperator('=<', bmoSmallerEqual) then
       Exit(True);
     Exit(False);
   end;
   function TryParseOperator: BBool;
   begin
-    if C^ in cOperators then begin
+    if C^ in cOperators then
+    begin
       CreateFO;
       B := C^;
 
       Inc(C);
-      if (C <= EOP) and (C^ in ['=', '<', '>']) then begin
+      if (C <= EOP) and (C^ in ['=', '<', '>']) then
+      begin
         B := B + C^;
-      end else begin
+      end
+      else
+      begin
         Dec(C);
       end;
 
-      if TryAddOperators then begin
+      if TryAddOperators then
+      begin
         Inc(C);
         AddMacroOperation(C);
         Exit(True);
@@ -649,12 +725,15 @@ var
     end;
     Exit(False);
   end;
-  function TryAddLabel(const AStart, AEnd: BStr; const AKind: BMacroOperationKind): BBool;
+  function TryAddLabel(const AStart, AEnd: BStr;
+  const AKind: BMacroOperationKind): BBool;
   begin
     P1 := BStrPos(AStart, S);
-    if P1 = 1 then begin
+    if P1 = 1 then
+    begin
       P2 := BStrPos(AEnd, S);
-      if P2 > 0 then begin
+      if P2 > 0 then
+      begin
         AddOperation;
         O^.Kind := AKind;
         O^.Datas := Copy(S, 2, P2 - 2);
@@ -665,15 +744,19 @@ var
   end;
 
 begin
-  if TryAddLabel('[', ']', bmoFalseLabel) or TryAddLabel('{', '}', bmoLabel) then
+  if TryAddLabel('[', ']', bmoFalseLabel) or TryAddLabel('{', '}', bmoLabel)
+  then
     Exit;
   B := '';
   C := @S[1];
   EOP := @S[Length(S)];
-  while C <= EOP do begin
-    if TryParseOperator then begin
+  while C <= EOP do
+  begin
+    if TryParseOperator then
+    begin
       Exit;
-    end else if C^ = '(' then
+    end
+    else if C^ = '(' then
       GetDText(B, C, EOP, '(', ')')
     else
       B := B + C^;
@@ -700,7 +783,8 @@ begin
   Result := '';
   I := 1;
   L := 1;
-  while I < High(_Macro) do begin
+  while I < High(_Macro) do
+  begin
     if _Macro[I].Kind = bmoLabel then
       _R(BStrLine + '{');
     if _Macro[I].Kind = bmoFalseLabel then
@@ -716,7 +800,8 @@ begin
     if KN = bmoFalseLabel then
       Inc(L);
     Dec(L);
-    if L = 0 then begin
+    if L = 0 then
+    begin
       L := 1;
       if Result <> '' then
         _R(#13#10);
@@ -725,7 +810,8 @@ begin
   end;
 end;
 
-procedure BMacroCore.AddDebugFmt(const AMessageFmt: BStr; const AArgs: array of const);
+procedure BMacroCore.AddDebugFmt(const AMessageFmt: BStr;
+const AArgs: array of const);
 begin
   AddDebug(BFormat(AMessageFmt, AArgs));
 end;
@@ -739,4 +825,4 @@ begin
 end;
 
 end.
-
+

@@ -1,5 +1,5 @@
 unit uBBotEvents;
-
+
 interface
 
 uses
@@ -322,14 +322,18 @@ var
   CRC: BInt32;
   CT: TTibiaContainer;
 begin
-  for I := 0 to 15 do begin
+  for I := 0 to 15 do
+  begin
     CT := ContainerAt(I, 0);
     CRC := CT.Checksum;
-    if Enabled then begin
-      if (CT.Open <> ContainerInfo[CT.Container].Open) then begin
+    if Enabled then
+    begin
+      if (CT.Open <> ContainerInfo[CT.Container].Open) then
+      begin
         if DebugNormal then
           AddDebug(BFormat('OnContainerOpen(%d)', [CT.Container]));
-        try FOnContainerOpen.ForEach(
+        try
+          FOnContainerOpen.ForEach(
             procedure(It: TBBotEvent_Container.It)
             begin
               It^(CT);
@@ -341,10 +345,12 @@ begin
             raise;
         end;
       end;
-      if (CRC <> ContainerInfo[CT.Container].CRC) then begin
+      if (CRC <> ContainerInfo[CT.Container].CRC) then
+      begin
         if DebugNormal then
           AddDebug(BFormat('OnContainerChange(%d)', [CT.Container]));
-        try FOnContainerChange.ForEach(
+        try
+          FOnContainerChange.ForEach(
             procedure(It: TBBotEvent_Container.It)
             begin
               It^(CT);
@@ -364,7 +370,8 @@ end;
 
 procedure TBBotEvents.ReloadCreatureAttack(Creature: TBBotCreature);
 begin
-  if (Creature.BlackSquareTime <> 0) and (CreatureInfo[Creature.Index].BlackSquare <> Creature.BlackSquareTime) then
+  if (Creature.BlackSquareTime <> 0) and
+    (CreatureInfo[Creature.Index].BlackSquare <> Creature.BlackSquareTime) then
   begin
     CreatureInfo[Creature.Index].BlackSquare := Creature.BlackSquareTime;
     RunCreatureAttack(Creature);
@@ -373,12 +380,17 @@ end;
 
 procedure TBBotEvents.ReloadCreatureHP(Creature: TBBotCreature);
 begin
-  if CreatureInfo[Creature.Index].HP <> Creature.Health then begin
-    if Enabled then begin
-      if Creature.Health = 0 then begin
+  if CreatureInfo[Creature.Index].HP <> Creature.Health then
+  begin
+    if Enabled then
+    begin
+      if Creature.Health = 0 then
+      begin
         if DebugNormal then
-          AddDebug(BFormat('OnCreatureDie(%s %d)', [Creature.Name, Creature.ID]));
-        try FOnCreatureDie.ForEach(
+          AddDebug(BFormat('OnCreatureDie(%s %d)', [Creature.Name,
+            Creature.ID]));
+        try
+          FOnCreatureDie.ForEach(
             procedure(It: TBBotEvent_Creature.It)
             begin
               It^(Creature);
@@ -389,11 +401,15 @@ begin
           else
             raise;
         end;
-      end else begin
+      end
+      else
+      begin
         if DebugNormal then
-          AddDebug(BFormat('OnCreatureHP(%s %d, %d -> %d)', [Creature.Name, Creature.ID,
-            CreatureInfo[Creature.Index].HP, Creature.Health]));
-        try FOnCreatureHP.ForEach(
+          AddDebug(BFormat('OnCreatureHP(%s %d, %d -> %d)',
+            [Creature.Name, Creature.ID, CreatureInfo[Creature.Index].HP,
+            Creature.Health]));
+        try
+          FOnCreatureHP.ForEach(
             procedure(It: TBBotEvent_CreatureBInt32.It)
             begin
               It^(Creature, CreatureInfo[Creature.Index].HP);
@@ -412,11 +428,15 @@ end;
 
 procedure TBBotEvents.ReloadCreatureLight(Creature: TBBotCreature);
 begin
-  if CreatureInfo[Creature.Index].LightIntensity <> Creature.LightIntensity then begin
-    if Enabled then begin
+  if CreatureInfo[Creature.Index].LightIntensity <> Creature.LightIntensity then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
-        AddDebug(BFormat('OnCreatureLight(%s %d)', [Creature.Name, Creature.ID]));
-      try FOnCreatureLight.ForEach(
+        AddDebug(BFormat('OnCreatureLight(%s %d)', [Creature.Name,
+          Creature.ID]));
+      try
+        FOnCreatureLight.ForEach(
           procedure(It: TBBotEvent_Creature.It)
           begin
             It^(Creature);
@@ -434,11 +454,15 @@ end;
 
 procedure TBBotEvents.ReloadCreatureTick(Creature: TBBotCreature);
 begin
-  if (Tick - CreatureInfo[Creature.Index].Tick) > BBotEventCreatureTick then begin
-    if Enabled then begin
+  if (Tick - CreatureInfo[Creature.Index].Tick) > BBotEventCreatureTick then
+  begin
+    if Enabled then
+    begin
       if DebugNormal and DebugAll then
-        AddDebug(BFormat('OnCreatureTick(%s %d)', [Creature.Name, Creature.ID]));
-      try FOnCreatureTick.ForEach(
+        AddDebug(BFormat('OnCreatureTick(%s %d)', [Creature.Name,
+          Creature.ID]));
+      try
+        FOnCreatureTick.ForEach(
           procedure(It: TBBotEvent_Creature.It)
           begin
             It^(Creature);
@@ -456,12 +480,16 @@ end;
 
 procedure TBBotEvents.ReloadCreatureWalk(Creature: TBBotCreature);
 begin
-  if CreatureInfo[Creature.Index].Pos <> Creature.Position then begin
-    if Enabled then begin
+  if CreatureInfo[Creature.Index].Pos <> Creature.Position then
+  begin
+    if Enabled then
+    begin
       if DebugNormal and DebugAll then
-        AddDebug(BFormat('OnCreatureWalk(%s %d, %s -> %s)', [Creature.Name, Creature.ID,
-          BStr(CreatureInfo[Creature.Index].Pos), BStr(Creature.Position)]));
-      try FOnCreatureWalk.ForEach(
+        AddDebug(BFormat('OnCreatureWalk(%s %d, %s -> %s)',
+          [Creature.Name, Creature.ID, BStr(CreatureInfo[Creature.Index].Pos),
+          BStr(Creature.Position)]));
+      try
+        FOnCreatureWalk.ForEach(
           procedure(It: TBBotEvent_CreatureWalk.It)
           begin
             It^(Creature, CreatureInfo[Creature.Index].Pos);
@@ -479,7 +507,8 @@ end;
 
 procedure TBBotEvents.RunHotkeys;
 begin
-  try FOnHotkey.ForEach(
+  try
+    FOnHotkey.ForEach(
       procedure(It: TBBotEvent_Notify.It)
       begin
         It^();
@@ -496,10 +525,13 @@ end;
 
 procedure TBBotEvents.RunMenu;
 begin
-  if TibiaState^.HUDClick.ID <> 0 then begin
+  if TibiaState^.HUDClick.ID <> 0 then
+  begin
     if DebugNormal then
-      AddDebug(BFormat('OnMenuClick(%d %d)', [TibiaState^.HUDClick.ID, TibiaState^.HUDClick.Data]));
-    try FOnMenu.ForEach(
+      AddDebug(BFormat('OnMenuClick(%d %d)', [TibiaState^.HUDClick.ID,
+        TibiaState^.HUDClick.Data]));
+    try
+      FOnMenu.ForEach(
         procedure(It: TBBotEvent_Menu.It)
         begin
           It^(TibiaState^.HUDClick.ID, TibiaState^.HUDClick.Data);
@@ -517,7 +549,8 @@ end;
 procedure TBBotEvents.RunMessage(AMessageData: TTibiaMessage);
 begin
   if Enabled then
-    try FOnMessage.ForEach(
+    try
+      FOnMessage.ForEach(
         procedure(It: TBBotEvent_Message.It)
         begin
           It^(AMessageData);
@@ -533,7 +566,8 @@ end;
 procedure TBBotEvents.RunMissileEffect(AMissileEffectData: TTibiaMissileEffect);
 begin
   if Enabled then
-    try FOnMissileEffect.ForEach(
+    try
+      FOnMissileEffect.ForEach(
         procedure(It: TBBotEvent_MissileEffect.It)
         begin
           It^(AMissileEffectData);
@@ -550,8 +584,10 @@ procedure TBBotEvents.RunSay(ASayData: TTibiaMessage);
 var
   Spell: TTibiaSpell;
 begin
-  if Enabled then begin
-    try FOnSay.ForEach(
+  if Enabled then
+  begin
+    try
+      FOnSay.ForEach(
         procedure(It: TBBotEvent_Message.It)
         begin
           It^(ASayData);
@@ -564,7 +600,8 @@ begin
     end;
     Spell := BBot.Spells.Spell(ASayData.Text);
     if Spell <> nil then
-      try FOnSpell.ForEach(
+      try
+        FOnSpell.ForEach(
           procedure(It: TBBotEvent_Spell.It)
           begin
             It^(Spell);
@@ -581,7 +618,8 @@ end;
 procedure TBBotEvents.RunServerPacket(ABuffer: BPtr; ASize: BInt32);
 begin
   if Enabled then
-    try FOnServerPacket.ForEach(
+    try
+      FOnServerPacket.ForEach(
         procedure(It: TBBotEvent_Packet.It)
         begin
           It^(ABuffer, ASize);
@@ -597,7 +635,8 @@ end;
 procedure TBBotEvents.RunStop;
 begin
   if Enabled then
-    try FOnStop.ForEach(
+    try
+      FOnStop.ForEach(
         procedure(It: TBBotEvent_Notify.It)
         begin
           It^();
@@ -615,7 +654,8 @@ var
   R: BStrArray;
 begin
   if Enabled then
-    try FOnSystemMessage.ForEach(
+    try
+      FOnSystemMessage.ForEach(
         procedure(It: TBBotEvent_Message.It)
         begin
           It^(AMessageData);
@@ -631,8 +671,10 @@ begin
       You lose HP (hitpoints|hitpoint) due to an attack (by|by an|by a) NAME.
       NAME (loses|lose) HP (hitpoints|hitpoint) due to your attack.
     }
-    if BSimpleRegex('You lose \d+ hitpoint(?:s)? due to an attack (?:by an|by a|by) ([\w\s]+)\.', AMessageData.Text, R)
-      and (Length(R) = 2) then begin
+    if BSimpleRegex
+      ('You lose \d+ hitpoint(?:s)? due to an attack (?:by an|by a|by) ([\w\s]+)\.',
+      AMessageData.Text, R) and (Length(R) = 2) then
+    begin
       BBot.Creatures.Traverse(
         procedure(Creature: TBBotCreature)
         begin
@@ -651,7 +693,8 @@ end;
 procedure TBBotEvents.RunUseOnCreature(AUseOnCreatureData: TTibiaUseOnCreature);
 begin
   if Enabled then
-    try FOnUseOnCreature.ForEach(
+    try
+      FOnUseOnCreature.ForEach(
         procedure(It: TBBotEvent_UseOnCreature.It)
         begin
           It^(AUseOnCreatureData);
@@ -667,7 +710,8 @@ end;
 procedure TBBotEvents.RunUseOnItem(AUseOnItemData: TTibiaUseOnItem);
 begin
   if Enabled then
-    try FOnUseOnItem.ForEach(
+    try
+      FOnUseOnItem.ForEach(
         procedure(It: TBBotEvent_UseOnItem.It)
         begin
           It^(AUseOnItemData);
@@ -698,10 +742,12 @@ end;
 
 procedure TBBotEvents.ReloadSelfConnected;
 begin
-  if Me.Connected <> SelfInfo.Connected then begin
+  if Me.Connected <> SelfInfo.Connected then
+  begin
     if DebugNormal then
       AddDebug(BFormat('OnConnected(%d)', [BInt32(Me.Connected)]));
-    try FOnConnected.ForEach(
+    try
+      FOnConnected.ForEach(
         procedure(It: TBBotEvent_Notify.It)
         begin
           It^();
@@ -718,11 +764,15 @@ end;
 
 procedure TBBotEvents.ReloadSelfExp;
 begin
-  if Me.Experience <> SelfInfo.Experience then begin
-    if Enabled then begin
+  if Me.Experience <> SelfInfo.Experience then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
-        AddDebug(BFormat('OnExp(%d -> %d)', [SelfInfo.Experience, Me.Experience]));
-      try FOnExp.ForEach(
+        AddDebug(BFormat('OnExp(%d -> %d)', [SelfInfo.Experience,
+          Me.Experience]));
+      try
+        FOnExp.ForEach(
           procedure(It: TBBotEvent_BInt64.It)
           begin
             It^(SelfInfo.Experience);
@@ -740,11 +790,14 @@ end;
 
 procedure TBBotEvents.ReloadSelfHP;
 begin
-  if Me.HP <> SelfInfo.HP then begin
-    if Enabled then begin
+  if Me.HP <> SelfInfo.HP then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug(BFormat('OnHP(%d -> %d)', [SelfInfo.HP, Me.HP]));
-      try FOnHP.ForEach(
+      try
+        FOnHP.ForEach(
           procedure(It: TBBotEvent_BInt32.It)
           begin
             It^(SelfInfo.HP);
@@ -763,12 +816,14 @@ end;
 procedure TBBotEvents.ReloadSelfID;
 begin
   CharacterChangeEvent := False;
-  if Me.ID <> SelfInfo.ID then begin
+  if Me.ID <> SelfInfo.ID then
+  begin
     if DebugNormal then
       AddDebug(BFormat('OnCharacter(%s)', [Me.Name]));
     CharacterChangeEvent := True;
     SelfInfo.ID := Me.ID;
-    try FOnCharacter.ForEach(
+    try
+      FOnCharacter.ForEach(
         procedure(It: TBBotEvent_Notify.It)
         begin
           It^();
@@ -786,13 +841,17 @@ procedure TBBotEvents.ReloadSelfInventory;
 var
   I: TTibiaSlot;
 begin
-  for I := SlotFirst to SlotLast do begin
+  for I := SlotFirst to SlotLast do
+  begin
     if (Me.Inventory.GetSlot(I).ID <> SelfInfo.Inventory[I].ID) or
-      (Me.Inventory.GetSlot(I).Count <> SelfInfo.Inventory[I].Count) then begin
-      if Enabled then begin
+      (Me.Inventory.GetSlot(I).Count <> SelfInfo.Inventory[I].Count) then
+    begin
+      if Enabled then
+      begin
         if DebugNormal then
           AddDebug(BFormat('OnInventory(%s)', [SlotToStr(I)]));
-        try FOnInventory.ForEach(
+        try
+          FOnInventory.ForEach(
             procedure(It: TBBotEvent_Inventory.It)
             begin
               It^(I, SelfInfo.Inventory[I]);
@@ -812,11 +871,14 @@ end;
 
 procedure TBBotEvents.ReloadSelfLevel;
 begin
-  if Me.Level <> SelfInfo.Level then begin
-    if Enabled then begin
+  if Me.Level <> SelfInfo.Level then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug(BFormat('OnLevel(%d -> %d)', [SelfInfo.Level, Me.Level]));
-      try FOnLevel.ForEach(
+      try
+        FOnLevel.ForEach(
           procedure(It: TBBotEvent_BInt32.It)
           begin
             It^(SelfInfo.Level);
@@ -834,11 +896,14 @@ end;
 
 procedure TBBotEvents.ReloadSelfMana;
 begin
-  if Me.Mana <> SelfInfo.Mana then begin
-    if Enabled then begin
+  if Me.Mana <> SelfInfo.Mana then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug(BFormat('OnMana(%d -> %d)', [SelfInfo.Mana, Me.Mana]));
-      try FOnMana.ForEach(
+      try
+        FOnMana.ForEach(
           procedure(It: TBBotEvent_BInt32.It)
           begin
             It^(SelfInfo.Mana);
@@ -856,11 +921,15 @@ end;
 
 procedure TBBotEvents.ReloadSelfPostion;
 begin
-  if Me.Position <> SelfInfo.Position then begin
-    if Enabled then begin
+  if Me.Position <> SelfInfo.Position then
+  begin
+    if Enabled then
+    begin
       if DebugNormal and DebugAll then
-        AddDebug(BFormat('OnWalk(%s -> %s)', [BStr(SelfInfo.Position), BStr(Me.Position)]));
-      try FOnWalk.ForEach(
+        AddDebug(BFormat('OnWalk(%s -> %s)', [BStr(SelfInfo.Position),
+          BStr(Me.Position)]));
+      try
+        FOnWalk.ForEach(
           procedure(It: TBBotEvent_BPos.It)
           begin
             It^(SelfInfo.Position);
@@ -881,13 +950,17 @@ var
   I: TTibiaSkill;
   Level: BInt32;
 begin
-  for I := SkillFirst to SkillLast do begin
+  for I := SkillFirst to SkillLast do
+  begin
     Level := (Me.SkillLevel[I] * 100) + Me.SkillPercent[I];
-    if (Level <> SelfInfo.Skill[I]) then begin
-      if Enabled then begin
+    if (Level <> SelfInfo.Skill[I]) then
+    begin
+      if Enabled then
+      begin
         if DebugNormal then
           AddDebug(BFormat('OnSkill(%s, %d)', [SkillToStr(I), Level]));
-        try FOnSkill.ForEach(
+        try
+          FOnSkill.ForEach(
             procedure(It: TBBotEvent_Skill.It)
             begin
               It^(I, SelfInfo.Skill[I]);
@@ -906,11 +979,14 @@ end;
 
 procedure TBBotEvents.ReloadSelfStatus;
 begin
-  if Me.Status <> SelfInfo.Status then begin
-    if Enabled then begin
+  if Me.Status <> SelfInfo.Status then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug('OnStatus(...)');
-      try FOnStatus.ForEach(
+      try
+        FOnStatus.ForEach(
           procedure(It: TBBotEvent_Notify.It)
           begin
             It^();
@@ -928,11 +1004,14 @@ end;
 
 procedure TBBotEvents.ReloadSelfTarget;
 begin
-  if TargetInfo <> Me.TargetID then begin
-    if Enabled then begin
+  if TargetInfo <> Me.TargetID then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug(BFormat('OnTarget(%d -> %d)', [TargetInfo, Me.TargetID]));
-      try FOnTarget.ForEach(
+      try
+        FOnTarget.ForEach(
           procedure(It: TBBotEvent_Creature.It)
           begin
             It^(BBot.Creatures.Target);
@@ -953,11 +1032,14 @@ var
   IsFocused: BBool;
 begin
   IsFocused := GetForegroundWindow = TibiaProcess.hWnd;
-  if IsFocused <> FocusInfo then begin
-    if Enabled then begin
+  if IsFocused <> FocusInfo then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
         AddDebug(BFormat('OnTibiaFocus(%d)', [BInt32(IsFocused)]));
-      try FOnTibiaFocus.ForEach(
+      try
+        FOnTibiaFocus.ForEach(
           procedure(It: TBBotEvent_BBool.It)
           begin
             It^(IsFocused);
@@ -997,12 +1079,15 @@ begin
       OnScreen: BBool;
     begin
       CreatureState := @CreatureInfo[Creature.Index];
-      if Creature.ID <> CreatureState.ID then begin
+      if Creature.ID <> CreatureState.ID then
+      begin
         if DebugNormal then
-          AddDebug(BFormat('OnCreatureEnter(%s %d)', [Creature.Name, Creature.ID]));
+          AddDebug(BFormat('OnCreatureEnter(%s %d)', [Creature.Name,
+            Creature.ID]));
         ResetCreatureState(Creature);
         if Enabled then
-          try FOnCreature.ForEach(
+          try
+            FOnCreature.ForEach(
               procedure(It: TBBotEvent_Creature.It)
               begin
                 It^(Creature);
@@ -1013,21 +1098,31 @@ begin
             else
               raise;
           end;
-      end else begin
-        OnScreen := TibiaInScreen(Me.Position.X, Me.Position.Y, Me.Position.Z, Creature.Position.X, Creature.Position.Y,
-          Me.Position.Z, // We don't care if creature is on other floor
+      end
+      else
+      begin
+        OnScreen := TibiaInScreen(Me.Position.X, Me.Position.Y, Me.Position.Z,
+          Creature.Position.X, Creature.Position.Y, Me.Position.Z,
+        // We don't care if creature is on other floor
         False);
-        if OnScreen <> CreatureState.OnScreen then begin
+        if OnScreen <> CreatureState.OnScreen then
+        begin
           if DebugNormal then
-            if OnScreen then begin
-              AddDebug(BFormat('OnCreatureReEnter(%s %d)', [Creature.Name, Creature.ID]));
-            end else begin
-              AddDebug(BFormat('OnCreatureLeave(%s %d)', [Creature.Name, Creature.ID]));
+            if OnScreen then
+            begin
+              AddDebug(BFormat('OnCreatureReEnter(%s %d)', [Creature.Name,
+                Creature.ID]));
+            end
+            else
+            begin
+              AddDebug(BFormat('OnCreatureLeave(%s %d)', [Creature.Name,
+                Creature.ID]));
             end;
           ResetCreatureState(Creature);
           CreatureState.OnScreen := OnScreen;
         end;
-        if OnScreen then begin
+        if OnScreen then
+        begin
           ReloadCreatureTick(Creature);
           ReloadCreatureHP(Creature);
           ReloadCreatureLight(Creature);
@@ -1041,12 +1136,16 @@ end;
 
 procedure TBBotEvents.ReloadCreatureSpeed(Creature: TBBotCreature);
 begin
-  if CreatureInfo[Creature.Index].Speed <> Creature.Speed then begin
-    if Enabled then begin
+  if CreatureInfo[Creature.Index].Speed <> Creature.Speed then
+  begin
+    if Enabled then
+    begin
       if DebugNormal then
-        AddDebug(BFormat('OnCreatureSpeed(%s %d, %d -> %d)', [Creature.Name, Creature.ID,
-          CreatureInfo[Creature.Index].Speed, Creature.Speed]));
-      try FOnCreatureSpeed.ForEach(
+        AddDebug(BFormat('OnCreatureSpeed(%s %d, %d -> %d)',
+          [Creature.Name, Creature.ID, CreatureInfo[Creature.Index].Speed,
+          Creature.Speed]));
+      try
+        FOnCreatureSpeed.ForEach(
           procedure(It: TBBotEvent_CreatureBInt32.It)
           begin
             It^(Creature, CreatureInfo[Creature.Index].Speed);
@@ -1074,7 +1173,8 @@ end;
 procedure TBBotEvents.RunBotPacket(ABuffer: BPtr; ASize: BInt32);
 begin
   if Enabled then
-    try FOnBotPacket.ForEach(
+    try
+      FOnBotPacket.ForEach(
         procedure(It: TBBotEvent_Packet.It)
         begin
           It^(ABuffer, ASize);
@@ -1090,7 +1190,8 @@ end;
 procedure TBBotEvents.RunClientPacket(ABuffer: BPtr; ASize: BInt32);
 begin
   if Enabled then
-    try FOnClientPacket.ForEach(
+    try
+      FOnClientPacket.ForEach(
         procedure(It: TBBotEvent_Packet.It)
         begin
           It^(ABuffer, ASize);
@@ -1106,9 +1207,11 @@ end;
 
 procedure TBBotEvents.RunCreatureAttack(Creature: TBBotCreature);
 begin
-  if (Tick - CreatureInfo[Creature.Index].Attack) > BBotEventCreatureAttack then begin
+  if (Tick - CreatureInfo[Creature.Index].Attack) > BBotEventCreatureAttack then
+  begin
     if Enabled then
-      try FOnCreatureAttack.ForEach(
+      try
+        FOnCreatureAttack.ForEach(
           procedure(It: TBBotEvent_Creature.It)
           begin
             It^(Creature);
@@ -1120,7 +1223,8 @@ begin
           raise;
       end;
     if DebugNormal then
-      AddDebug(BFormat('OnCreatureAttack(%s %d)', [Creature.Name, Creature.ID]));
+      AddDebug(BFormat('OnCreatureAttack(%s %d)', [Creature.Name,
+        Creature.ID]));
     CreatureInfo[Creature.Index].Attack := Tick;
   end;
 end;
@@ -1131,7 +1235,8 @@ var
 begin
   Creature := BBot.Creatures.Find(ACreatureID);
   if Enabled then
-    try FOnCreatureFollow.ForEach(
+    try
+      FOnCreatureFollow.ForEach(
         procedure(It: TBBotEvent_Creature.It)
         begin
           It^(Creature);
@@ -1157,4 +1262,4 @@ begin
 end;
 
 end.
-
+

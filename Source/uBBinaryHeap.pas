@@ -14,8 +14,9 @@ type
     FItems: BVector<T>;
     function Compare(ALeft, ARight: BVectorIndex): BBool; virtual; abstract;
   public
-    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-      ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It,
+      BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+      ATToString: BUnaryFunc<BVector<T>.It, BStr>);
     destructor Destroy; override;
 
     function Parent(AIndex: BVectorIndex): BVectorIndex;
@@ -28,10 +29,12 @@ type
     function Pop: T;
     procedure Push(AValue: T);
 
-    function TreeToStr(AIndex: BInt32; AIndent: BStr; AIndentSize: BInt32): BStr; overload;
+    function TreeToStr(AIndex: BInt32; AIndent: BStr; AIndentSize: BInt32)
+      : BStr; overload;
     function TreeToStr(AIndent: BStr): BStr; overload;
 
-    property Comparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32> read FComparer;
+    property Comparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>
+      read FComparer;
     property Items: BVector<T> read FItems;
   end;
 
@@ -39,16 +42,18 @@ type
   protected
     function Compare(ALeft, ARight: BVectorIndex): BBool; override;
   public
-    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-      ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It,
+      BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+      ATToString: BUnaryFunc<BVector<T>.It, BStr>);
   end;
 
   BMinHeap<T> = class(BBaseHeap<T>)
   protected
     function Compare(ALeft, ARight: BVectorIndex): BBool; override;
   public
-    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-      ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+    constructor Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It,
+      BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+      ATToString: BUnaryFunc<BVector<T>.It, BStr>);
   end;
 
 implementation
@@ -59,8 +64,9 @@ uses
 
 { BBaseHeap<T> }
 
-constructor BBaseHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-  ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+constructor BBaseHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It,
+  BVector<T>.It, BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+  ATToString: BUnaryFunc<BVector<T>.It, BStr>);
 begin
   FItems := BVector<T>.Create(ADeleter);
   FComparer := AComparer;
@@ -73,11 +79,13 @@ begin
   inherited;
 end;
 
-function BBaseHeap<T>.TreeToStr(AIndex: BInt32; AIndent: BStr; AIndentSize: BInt32): BStr;
+function BBaseHeap<T>.TreeToStr(AIndex: BInt32; AIndent: BStr;
+  AIndentSize: BInt32): BStr;
 var
   I: BInt32;
 begin
-  if AIndex <= Size then begin
+  if AIndex <= Size then
+  begin
     Result := '';
     for I := 0 to AIndentSize do
       Result := Result + AIndent;
@@ -107,7 +115,8 @@ begin
     B := AIndex;
   if (R <= S) and Compare(R, B) then
     B := R;
-  if B <> AIndex then begin
+  if B <> AIndex then
+  begin
     FItems.Swap(B - 1, AIndex - 1);
     Heapify(B);
   end;
@@ -119,7 +128,8 @@ var
 begin
   FItems.Item[AIndex - 1]^ := AValue;
   Index := AIndex;
-  while (Index > 1) and (not Compare(Parent(Index), Index)) do begin
+  while (Index > 1) and (not Compare(Parent(Index), Index)) do
+  begin
     FItems.Swap(Index - 1, Parent(Index) - 1);
     Index := Parent(Index);
   end;
@@ -142,7 +152,8 @@ end;
 
 function BBaseHeap<T>.Pop: T;
 begin
-  if Size > 0 then begin
+  if Size > 0 then
+  begin
     Result := FItems.Item[0]^;
     FItems.Item[0]^ := FItems.Item[FItems.Count - 1]^;
     FItems.Remove(FItems.Count - 1);
@@ -165,8 +176,9 @@ end;
 
 { BMaxHeap<T> }
 
-constructor BMaxHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-  ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+constructor BMaxHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It,
+  BVector<T>.It, BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+  ATToString: BUnaryFunc<BVector<T>.It, BStr>);
 begin
   inherited Create(AComparer, ADeleter, ATToString);
 end;
@@ -178,8 +190,9 @@ end;
 
 { BMinHeap<T> }
 
-constructor BMinHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It, BVector<T>.It, BInt32>;
-  ADeleter: BUnaryProc<BVector<T>.It>; ATToString: BUnaryFunc<BVector<T>.It, BStr>);
+constructor BMinHeap<T>.Create(AComparer: BBinaryFunc<BVector<T>.It,
+  BVector<T>.It, BInt32>; ADeleter: BUnaryProc<BVector<T>.It>;
+  ATToString: BUnaryFunc<BVector<T>.It, BStr>);
 begin
   inherited Create(AComparer, ADeleter, ATToString);
 end;
@@ -190,6 +203,7 @@ begin
 end;
 
 {$IFDEF TEST}
+
 type
   BMinHeapTestCase = class(TTestCase)
   private

@@ -27,7 +27,8 @@ type
     function GetIsCustom: BBool;
     function GetText: BStr;
   protected
-    procedure OnDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure OnDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
+      State: TOwnerDrawState);
     procedure OnChange(Sender: TObject);
     function Parse(const ACode: BStr): BPair<BUInt32, BStr>; overload;
     function Parse: BPair<BUInt32, BStr>; overload;
@@ -37,14 +38,17 @@ type
     function hasItemID(const AID: BUInt32): BBool;
     function findItemIndex(const AID: BUInt32): BInt32;
   public
-    constructor Create(const AItemSelector: TBBotItemSelector; const AName: BStr; const ACombo: TCombobox);
+    constructor Create(const AItemSelector: TBBotItemSelector;
+      const AName: BStr; const ACombo: TCombobox);
     destructor Destroy; override;
 
-    function add(const AIDs: array of BUInt32): TBBotItemSelectorApply; overload;
+    function add(const AIDs: array of BUInt32): TBBotItemSelectorApply;
+      overload;
     function add(const ATitle: BStr): TBBotItemSelectorApply; overload;
     function addCustomItemSelector(): TBBotItemSelectorApply;
     function addCustomItemSupport(): TBBotItemSelectorApply;
-    function onSelect(const AOnSelect: BBinaryProc<BUInt32, BStr>): TBBotItemSelectorApply;
+    function onSelect(const AOnSelect: BBinaryProc<BUInt32, BStr>)
+      : TBBotItemSelectorApply;
     function selectByIndex(const AIndex: BInt32): TBBotItemSelectorApply;
     function selectById(const AID: BInt32): TBBotItemSelectorApply;
     function selectFirst(): TBBotItemSelectorApply;
@@ -74,7 +78,8 @@ type
 
     property Sprite[AID: BUInt32]: TPicture read GetSprite;
 
-    function Apply(const ACombo: TCombobox; const AName: BStr): TBBotItemSelectorApply; overload;
+    function Apply(const ACombo: TCombobox; const AName: BStr)
+      : TBBotItemSelectorApply; overload;
     function Apply(const ACombo: TCombobox): TBBotItemSelectorApply; overload;
 
     function HasApply(const ACombo: TCombobox): BBool;
@@ -106,22 +111,26 @@ var
 
   { TBBotItemSelector }
 
-function TBBotItemSelector.Apply(const ACombo: TCombobox; const AName: BStr): TBBotItemSelectorApply;
+function TBBotItemSelector.Apply(const ACombo: TCombobox; const AName: BStr)
+  : TBBotItemSelectorApply;
 begin
-  if not Appliers.TryGetValue(ACombo.Name, Result) then begin
+  if not Appliers.TryGetValue(ACombo.Name, Result) then
+  begin
     Result := TBBotItemSelectorApply.Create(Self, AName, ACombo);
     Appliers.add(ACombo.Name, Result);
   end;
 end;
 
-function TBBotItemSelector.Apply(const ACombo: TCombobox): TBBotItemSelectorApply;
+function TBBotItemSelector.Apply(const ACombo: TCombobox)
+  : TBBotItemSelectorApply;
 begin
   Appliers.TryGetValue(ACombo.Name, Result);
 end;
 
 constructor TBBotItemSelector.Create;
 begin
-  Appliers := TObjectDictionary<BStr, TBBotItemSelectorApply>.Create([doOwnsValues]);
+  Appliers := TObjectDictionary<BStr, TBBotItemSelectorApply>.Create
+    ([doOwnsValues]);
   Sprites := TObjectDictionary<BUInt32, TPicture>.Create([doOwnsValues]);
   LoadSprites;
 end;
@@ -163,7 +172,8 @@ begin
   Result := BStrStart(AValue, ItemPrefix);
 end;
 
-procedure TBBotItemSelector.LoadSprite(const AID: BUInt32; const APicture: TPicture);
+procedure TBBotItemSelector.LoadSprite(const AID: BUInt32;
+  const APicture: TPicture);
 begin
   APicture.LoadFromFile(BFormat('%s%d%s', [SpritesDirectory, AID, SpritesExt]));
 end;
@@ -176,9 +186,11 @@ var
   Pic: TPicture;
 begin
   Files := ListFiles(SpritesFilePattern);
-  for I := 0 to High(Files) do begin
+  for I := 0 to High(Files) do
+  begin
     ID := BStrTo32(BStrLeft(Files[I], SpritesExt), MaxInt);
-    if ID <> BUInt32(MaxInt) then begin
+    if ID <> BUInt32(MaxInt) then
+    begin
       Pic := TPicture.Create;
       LoadSprite(BUInt32(ID), Pic);
       Sprites.add(BUInt32(ID), Pic);
@@ -188,7 +200,8 @@ end;
 
 { TBBotItemSelectorApply }
 
-function TBBotItemSelectorApply.add(const AIDs: array of BUInt32): TBBotItemSelectorApply;
+function TBBotItemSelectorApply.add(const AIDs: array of BUInt32)
+  : TBBotItemSelectorApply;
 var
   I: BInt32;
 begin
@@ -220,10 +233,14 @@ var
   Values: BStrArray;
   ID: BUInt32;
 begin
-  if GambitBox('Custom item', 'Please type a custom item ID', 'ID', False, Values) then begin
+  if GambitBox('Custom item', 'Please type a custom item ID', 'ID', False,
+    Values) then
+  begin
     ID := BStrTo32(Values[0], 0);
-    if ID <> 0 then begin
-      if not hasItemID(ID) then begin
+    if ID <> 0 then
+    begin
+      if not hasItemID(ID) then
+      begin
         add(ID);
         SaveCustomItem(ID);
       end;
@@ -232,8 +249,8 @@ begin
   end;
 end;
 
-constructor TBBotItemSelectorApply.Create(const AItemSelector: TBBotItemSelector; const AName: BStr;
-  const ACombo: TCombobox);
+constructor TBBotItemSelectorApply.Create(const AItemSelector
+  : TBBotItemSelector; const AName: BStr; const ACombo: TCombobox);
 begin
   FOnSelect := nil;
   ItemSelector := AItemSelector;
@@ -262,7 +279,8 @@ var
   I: BInt32;
   P: BPair<BUInt32, BStr>;
 begin
-  for I := 0 to Combo.Items.Count - 1 do begin
+  for I := 0 to Combo.Items.Count - 1 do
+  begin
     P := Parse(Combo.Items[I]);
     if (P.First <> CustomID) and (P.First = AID) then
       Exit(I);
@@ -301,7 +319,8 @@ begin
     FOnSelect(Item.First, Item.Second);
 end;
 
-procedure TBBotItemSelectorApply.OnDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TBBotItemSelectorApply.OnDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   Item: BPair<BUInt32, BStr>;
   Pic: TPicture;
@@ -332,11 +351,14 @@ function TBBotItemSelectorApply.Parse(const ACode: BStr): BPair<BUInt32, BStr>;
 begin
   Result.First := 0;
   Result.Second := '';
-  if BStrStartSensitive(ACode, ItemPrefix) then begin
+  if BStrStartSensitive(ACode, ItemPrefix) then
+  begin
     Result.First := BStrTo32(BStrRight(ACode, ItemPrefix), MaxInt);
     if Result.First <= TibiaMaxItems then
       Result.Second := TibiaItems[Result.First].Name
-  end else if BStrStartSensitive(ACode, CustomPrefix) then begin
+  end
+  else if BStrStartSensitive(ACode, CustomPrefix) then
+  begin
     Result.First := CustomID;
     Result.Second := BStrRight(ACode, CustomPrefix + ' ');
   end;
@@ -356,7 +378,8 @@ var
 begin
   Buffer := BFileGet(CustomItemsFile);
   if BStrSplit(L, BStrLine, Buffer) > 0 then
-    for I := 0 to High(L) do begin
+    for I := 0 to High(L) do
+    begin
       ID := BStrTo32(L[I], 0);
       if ID <> 0 then
         if not hasItemID(ID) then
@@ -365,7 +388,8 @@ begin
   Exit(Self);
 end;
 
-function TBBotItemSelectorApply.loadValue(const AValue: BStr): TBBotItemSelectorApply;
+function TBBotItemSelectorApply.loadValue(const AValue: BStr)
+  : TBBotItemSelectorApply;
 begin
   selectById(Parse(AValue).First);
   Exit(Self);
@@ -376,13 +400,15 @@ begin
   BFileAppend(CustomItemsFile, BToStr(AID));
 end;
 
-function TBBotItemSelectorApply.onSelect(const AOnSelect: BBinaryProc<BUInt32, BStr>): TBBotItemSelectorApply;
+function TBBotItemSelectorApply.onSelect(const AOnSelect
+  : BBinaryProc<BUInt32, BStr>): TBBotItemSelectorApply;
 begin
   FOnSelect := AOnSelect;
   Exit(Self);
 end;
 
-function TBBotItemSelectorApply.selectByIndex(const AIndex: BInt32): TBBotItemSelectorApply;
+function TBBotItemSelectorApply.selectByIndex(const AIndex: BInt32)
+  : TBBotItemSelectorApply;
 begin
   Combo.ItemIndex := AIndex;
   Exit(Self);
@@ -393,7 +419,8 @@ begin
   Exit(selectByIndex(0));
 end;
 
-function TBBotItemSelectorApply.selectById(const AID: BInt32): TBBotItemSelectorApply;
+function TBBotItemSelectorApply.selectById(const AID: BInt32)
+  : TBBotItemSelectorApply;
 var
   Index: BInt32;
 begin

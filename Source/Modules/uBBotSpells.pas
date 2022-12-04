@@ -1,5 +1,5 @@
 unit uBBotSpells;
-
+
 interface
 
 uses
@@ -60,12 +60,15 @@ constructor TTibiaSpell.Create(ACode: BStr);
 var
   R: BStrArray;
 begin
-  if BStrSplit(R, '/', ACode) = 4 then begin
+  if BStrSplit(R, '/', ACode) = 4 then
+  begin
     FName := R[0];
     FSpell := BStrLower(R[1]);
     FStrippedSpell := StripSpell(FSpell);
-    try FMana := BStrTo32(R[2]);
-    except raise Exception.Create('Invalid spell mana in ' + ACode);
+    try
+      FMana := BStrTo32(R[2]);
+    except
+      raise Exception.Create('Invalid spell mana in ' + ACode);
     end;
     if BStrEqual(R[3], 'Healing') then
       FKind := tskHealing
@@ -139,7 +142,8 @@ begin
   AssignFile(FileHandle, SpellsFile);
   try
     Reset(FileHandle);
-    while not EOF(FileHandle) do begin
+    while not EOF(FileHandle) do
+    begin
       Readln(FileHandle, Line);
       Line := BTrim(Line);
       if (Length(Line) > 0) and (Line[1] <> '#') then
@@ -148,7 +152,8 @@ begin
     CloseFile(FileHandle);
   except
     on E: Exception do
-      raise BException.Create('Error loading BBot.Spells:' + BStrLine + E.Message);
+      raise BException.Create('Error loading BBot.Spells:' + BStrLine +
+        E.Message);
   end;
 end;
 
@@ -215,4 +220,4 @@ TestSpells;
 {$ENDIF}
 
 end.
-
+

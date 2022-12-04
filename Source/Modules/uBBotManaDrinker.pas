@@ -1,5 +1,5 @@
 unit uBBotManaDrinker;
-
+
 interface
 
 uses
@@ -97,17 +97,23 @@ end;
 
 procedure TBBotManaDrinker.EnforceVariables(AName: BStr; AValue: BInt32);
 begin
-  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Low.ItemID'].Value := Low.ManaUse;
-  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Mid.ItemID'].Value := Mid.ManaUse;
-  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Heavy.ItemID'].Value := Heavy.ManaUse;
+  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Low.ItemID'].Value :=
+    Low.ManaUse;
+  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Mid.ItemID'].Value :=
+    Mid.ManaUse;
+  BBot.Macros.Registry.Variables['BBot.ManaDrinker.Heavy.ItemID'].Value :=
+    Heavy.ManaUse;
 end;
 
 procedure TBBotManaDrinker.OnInit;
 begin
   inherited;
-  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Low.ItemID', 0).Watch(EnforceVariables);
-  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Mid.ItemID', 0).Watch(EnforceVariables);
-  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Heavy.ItemID', 0).Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Low.ItemID', 0)
+    .Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Mid.ItemID', 0)
+    .Watch(EnforceVariables);
+  BBot.Macros.Registry.CreateSystemVariable('BBot.ManaDrinker.Heavy.ItemID', 0)
+    .Watch(EnforceVariables);
 end;
 
 procedure TBBotManaDrinker.Run;
@@ -140,8 +146,10 @@ end;
 
 function TBBotManaDrink.Execute: BBool;
 begin
-  if Enabled then begin
-    if Working then begin
+  if Enabled then
+  begin
+    if Working then
+    begin
       if not BBot.Exhaust.Item then
         Me.UseOnMe(ManaUse);
       if PauseCavebot then
@@ -175,11 +183,13 @@ begin
   Mana := MyMana;
   if not BInRange(Mana, 1, MaxMyMana) then
     SetManaMax;
-  if (FWorking) and (Mana >= NextManaTo) then begin
+  if (FWorking) and (Mana >= NextManaTo) then
+  begin
     FWorking := False;
     SetManaMax;
   end;
-  if (not FWorking) and (Mana <= NextManaFrom) then begin
+  if (not FWorking) and (Mana <= NextManaFrom) then
+  begin
     FWorking := True;
     SetManaMax;
   end;
@@ -205,4 +215,4 @@ begin
 end;
 
 end.
-
+

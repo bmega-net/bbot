@@ -1,6 +1,5 @@
 unit uBBotDepotTools;
 
-
 interface
 
 uses
@@ -105,18 +104,22 @@ var
   H, BestH: BInt32;
   Map: TTibiaTiles;
 begin
-  if Me.DistanceTo(LastDepot) > 1 then begin
+  if Me.DistanceTo(LastDepot) > 1 then
+  begin
     FPosition := BPosXYZ(0, 0, 0);
     BestH := 0;
     TilesSearch(Map, Me.Position, 6, False,
       function: BBool
       begin
-        if Map.IsDepot then begin
+        if Map.IsDepot then
+        begin
           H := BBot.Walker.ApproachToCost(Map.Position);
-          if H <> PathCost_NotPossible then begin
+          if H <> PathCost_NotPossible then
+          begin
             if Map.Position = LastDepot then
               H := H * 3;
-            if (H <= BestH) or (FPosition.X = 0) then begin
+            if (H <= BestH) or (FPosition.X = 0) then
+            begin
               BestH := H;
               FPosition := Map.Position;
             end;
@@ -151,7 +154,8 @@ begin
   if isRunning then
     if FPosition.X = 0 then
       FindDepot
-    else begin
+    else
+    begin
       if IsOnDepot then
         doSuccess
       else
@@ -163,14 +167,17 @@ procedure TBBotDepotWalker.WalkToDepot;
 var
   Path: TBBotPathFinderPosition;
 begin
-  if BBot.Walker.Task = nil then begin
-    Path := TBBotPathFinderPosition.Create('DepotTools WalkToDepot <' + BStr(Position) + '>');
+  if BBot.Walker.Task = nil then
+  begin
+    Path := TBBotPathFinderPosition.Create('DepotTools WalkToDepot <' +
+      BStr(Position) + '>');
     Path.Position := Position;
     Path.Distance := 1;
     Path.Execute;
     if Path.Cost <> PathCost_NotPossible then
       BBot.Walker.WalkPathFinder(Path)
-    else begin
+    else
+    begin
       Path.Free;
       doStart;
     end;
@@ -202,10 +209,13 @@ var
   Container: TTibiaContainer;
   Map: TTibiaTiles;
 begin
-  if isRunning then begin
+  if isRunning then
+  begin
     Container := ContainerFirst;
-    while Container <> nil do begin
-      if Container.IsDepotContainer then begin
+    while Container <> nil do
+    begin
+      if Container.IsDepotContainer then
+      begin
         FDepotContainer := Container.Container;
         doSuccess;
         Exit;
@@ -216,7 +226,8 @@ begin
       function: BBool
       begin
         Result := Map.IsDepot;
-      end) then begin
+      end) then
+    begin
       if not Map.Cleanup then
         Map.UseAsContainer;
     end
@@ -274,12 +285,16 @@ var
 begin
   FirstBP := True;
   CT := ContainerFirst;
-  while CT <> nil do begin
+  while CT <> nil do
+  begin
     IsLocker := CT.ID = ItemID_Locker;
     IsSelectedLocker := CT.ID = BUInt32(SelectedDepotId);
     IsInsideSelectedLocker := CT.Icon = SelectedDepotId;
-    if IsLocker or IsSelectedLocker or (IsInsideSelectedLocker and CT.IsContainer) then begin
-      if IsInsideSelectedLocker and FirstBP and AOpenSecondBP then begin
+    if IsLocker or IsSelectedLocker or
+      (IsInsideSelectedLocker and CT.IsContainer) then
+    begin
+      if IsInsideSelectedLocker and FirstBP and AOpenSecondBP then
+      begin
         FirstBP := False;
         CT := CT.Next;
         Continue;
@@ -305,11 +320,13 @@ begin
   AssignFile(FileHandle, DepotsFile);
   try
     Reset(FileHandle);
-    while not EOF(FileHandle) do begin
+    while not EOF(FileHandle) do
+    begin
       Readln(FileHandle, Line);
       Line := BTrim(Line);
       if Length(Line) > 0 then
-        if BStrSplit(Line, '->', sID, Name) then begin
+        if BStrSplit(Line, '->', sID, Name) then
+        begin
           Entry := DepotList.Add;
           Entry^.ID := BStrTo32(BTrim(sID));
           Entry^.Name := BTrim(Name);
@@ -318,7 +335,8 @@ begin
     CloseFile(FileHandle);
   except
     on E: Exception do
-      raise BException.Create('Error loading BBot.Depots:' + BStrLine + E.Message);
+      raise BException.Create('Error loading BBot.Depots:' + BStrLine +
+        E.Message);
   end;
 end;
 
@@ -344,4 +362,3 @@ begin
 end;
 
 end.
-

@@ -1,5 +1,5 @@
 unit uBVector;
-
+
 interface
 
 uses
@@ -11,6 +11,7 @@ type
   BVectorIndex = BInt32;
 
   BVector<T> = class;
+
   BVectorIterator<T> = record
   private
     Vector: BVector<T>;
@@ -39,7 +40,8 @@ type
     function GetEmpty: BBool;
   protected
     procedure CheckIndex(AIndex: BVectorIndex; AFrom: BVectorIndex); inline;
-    procedure DoSort(const AStart, AEnd: BVectorIndex; AComparer: BCompareFunc<It>);
+    procedure DoSort(const AStart, AEnd: BVectorIndex;
+      AComparer: BCompareFunc<It>);
     procedure InternalRemove(AIndex: BVectorIndex);
   public
     constructor Create(ADeleter: BUnaryProc<It>); overload;
@@ -56,8 +58,10 @@ type
 
     function Add(AItem: T): It; overload;
     function Add: It; overload;
-    procedure AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AUpdater: BUnaryProc<It>); overload;
-    procedure AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex; AUpdater: BUnaryProc<It>); overload;
+    procedure AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+      AUpdater: BUnaryProc<It>); overload;
+    procedure AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+      AOffset: BVectorIndex; AUpdater: BUnaryProc<It>); overload;
 
     function Extract(AIndex: BVectorIndex): T;
     procedure Remove(AItem: It); overload;
@@ -70,14 +74,19 @@ type
 
     procedure ForEach(AIter: BUnaryProc<It>);
 
-    function Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>): BVectorIndex; overload;
-    function Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): BVectorIndex; overload;
+    function Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>)
+      : BVectorIndex; overload;
+    function Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+      AOffset: BVectorIndex): BVectorIndex; overload;
 
     function Find(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>): It; overload;
-    function Find(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): It; overload;
+    function Find(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+      AOffset: BVectorIndex): It; overload;
 
-    function Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>): BBool; overload;
-    function Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): BBool; overload;
+    function Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>)
+      : BBool; overload;
+    function Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+      AOffset: BVectorIndex): BBool; overload;
 
     function Iter: BVectorIterator<T>;
   end;
@@ -102,7 +111,8 @@ begin
   Result := @Data[FCount - 1];
 end;
 
-procedure BVector<T>.AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex; AUpdater: BUnaryProc<It>);
+procedure BVector<T>.AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+  AOffset: BVectorIndex; AUpdater: BUnaryProc<It>);
 var
   Entry: It;
 begin
@@ -112,7 +122,8 @@ begin
   AUpdater(Entry);
 end;
 
-procedure BVector<T>.AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AUpdater: BUnaryProc<It>);
+procedure BVector<T>.AddOrUpdate(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+  AUpdater: BUnaryProc<It>);
 begin
   AddOrUpdate(AQuery, ASearcher, 0, AUpdater);
 end;
@@ -120,7 +131,8 @@ end;
 procedure BVector<T>.CheckIndex(AIndex: BVectorIndex; AFrom: BVectorIndex);
 begin
   if not BInRange(AIndex, 0, FCount - 1) then
-    raise Exception.CreateFmt('BVector index out of bounds %d:%d/%d', [AFrom, AIndex, FCount]);
+    raise Exception.CreateFmt('BVector index out of bounds %d:%d/%d',
+      [AFrom, AIndex, FCount]);
 end;
 
 constructor BVector<T>.Create;
@@ -169,22 +181,28 @@ begin
   inherited;
 end;
 
-procedure BVector<T>.DoSort(const AStart, AEnd: BVectorIndex; AComparer: BCompareFunc<It>);
+procedure BVector<T>.DoSort(const AStart, AEnd: BVectorIndex;
+  AComparer: BCompareFunc<It>);
 var
   Pivot, I: BVectorIndex;
   Save: T;
 begin
-  if AStart < AEnd then begin
+  if AStart < AEnd then
+  begin
     Pivot := AStart;
     I := AEnd;
     Save := Data[Pivot];
-    while Pivot < I do begin
-      if AComparer(@Save, @Data[I]) > 0 then begin
+    while Pivot < I do
+    begin
+      if AComparer(@Save, @Data[I]) > 0 then
+      begin
         Data[Pivot] := Data[I];
         Pivot := I;
         I := AStart + 1;
-        while Pivot > I do begin
-          if AComparer(@Save, @Data[I]) < 0 then begin
+        while Pivot > I do
+        begin
+          if AComparer(@Save, @Data[I]) < 0 then
+          begin
             Data[Pivot] := Data[I];
             Pivot := I;
             I := AEnd;
@@ -226,10 +244,12 @@ var
 begin
   if FCount > 0 then
     for I := 0 to FCount - 1 do
-      try AIter(@Data[I]);
+      try
+        AIter(@Data[I]);
       except
         on E: Exception do
-          raise BException.Create(String(BFormat('BVector ForEach %d/%d\n%s', [I, FCount, E.Message])));
+          raise BException.Create(String(BFormat('BVector ForEach %d/%d\n%s',
+            [I, FCount, E.Message])));
       end;
 end;
 
@@ -249,7 +269,8 @@ var
   I: BVectorIndex;
 begin
   I := 0;
-  while I < FCount do begin
+  while I < FCount do
+  begin
     if APred(@Data[I]) then
       Delete(I)
     else
@@ -257,12 +278,14 @@ begin
   end;
 end;
 
-function BVector<T>.Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>): BVectorIndex;
+function BVector<T>.Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>)
+  : BVectorIndex;
 begin
   Result := Search(AQuery, ASearcher, 0);
 end;
 
-function BVector<T>.Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): BVectorIndex;
+function BVector<T>.Search(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+  AOffset: BVectorIndex): BVectorIndex;
 var
   I: BVectorIndex;
 begin
@@ -273,7 +296,8 @@ begin
           Exit(I);
       except
         on E: Exception do
-          raise BException.Create(String(BFormat('BVector Search %s %d/%d\n%s', [AQuery, I, FCount, E.Message])));
+          raise BException.Create(String(BFormat('BVector Search %s %d/%d\n%s',
+            [AQuery, I, FCount, E.Message])));
       end;
   Result := Invalid;
 end;
@@ -283,7 +307,8 @@ begin
   Result := Search(AQuery, ASearcher) <> Invalid;
 end;
 
-function BVector<T>.Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): BBool;
+function BVector<T>.Has(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+  AOffset: BVectorIndex): BBool;
 begin
   Result := Search(AQuery, ASearcher, AOffset) <> Invalid;
 end;
@@ -309,7 +334,8 @@ begin
   Result := Find(AQuery, ASearcher, 0);
 end;
 
-function BVector<T>.Find(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>; AOffset: BVectorIndex): It;
+function BVector<T>.Find(AQuery: BStr; ASearcher: BUnaryFunc<It, BBool>;
+  AOffset: BVectorIndex): It;
 var
   I: BVectorIndex;
 begin
@@ -322,7 +348,8 @@ end;
 
 procedure BVector<T>.SetCapacity(const Value: BVectorIndex);
 begin
-  if FCapacity <> Value then begin
+  if FCapacity <> Value then
+  begin
     FCapacity := Value;
     SetLength(Data, FCapacity);
   end;
@@ -330,7 +357,8 @@ end;
 
 procedure BVector<T>.SetCount(const Value: BVectorIndex);
 begin
-  if FCount <> Value then begin
+  if FCount <> Value then
+  begin
     if FCount = FCapacity then
       SetCapacity(FCapacity * 4);
     if (FCount < (FCapacity div 4)) and (FCount > 32) then
@@ -342,10 +370,12 @@ end;
 procedure BVector<T>.Sort(AComparer: BCompareFunc<It>);
 begin
   if FCount > 0 then
-    try DoSort(0, FCount - 1, AComparer);
+    try
+      DoSort(0, FCount - 1, AComparer);
     except
       on E: Exception do
-        raise BException.Create(String(BFormat('BVector Sort\n%s', [E.Message])));
+        raise BException.Create(String(BFormat('BVector Sort\n%s',
+          [E.Message])));
     end;
 end;
 
@@ -366,23 +396,28 @@ begin
 end;
 
 { BVectorIterator<T> }
-
+
 function BVectorIterator<T>.Clone: BVectorIterator<T>;
-begin
+
+begin
   Result.Vector := Self.Vector;
   Result.Index := Self.Index;
   Result.FFilter := Self.FFilter;
 end;
 
-function BVectorIterator<T>.Filter(const APred: BUnaryFunc<BInt32, BBool>): BVectorIterator<T>;
-begin
+function BVectorIterator<T>.Filter(const APred: BUnaryFunc<BInt32, BBool>)
+  : BVectorIterator<T>;
+
+begin
   Result := Clone;
   Result.FFilter := APred;
 end;
 
 function BVectorIterator<T>.HasNext: BBool;
-begin
-  while Index < (Vector.Count - 1) do begin
+
+begin
+  while Index < (Vector.Count - 1) do
+  begin
     Inc(Index);
     if Assigned(FFilter) then
       if not FFilter(Index) then
@@ -393,10 +428,10 @@ function BVectorIterator<T>.HasNext: BBool;
 end;
 
 function BVectorIterator<T>.Next: T;
-begin
+
+begin
   Exit(Vector.Item[Index]^);
 end;
-
 
 {$IFDEF TestBVector}
 {$APPTYPE CONSOLE}
@@ -449,7 +484,8 @@ var
   P: PRec2D;
 begin
   L := BVector<Rec2D>.Create;
-  for I := 0 to 99 do begin
+  for I := 0 to 99 do
+  begin
     P := PRec2D(L.Add);
     P^.X := BRandom(0, 10);
     P^.Y := BRandom(0, 10);
@@ -480,7 +516,8 @@ begin
     begin
       Dispose(It^);
     end);
-  for I := 0 to 99 do begin
+  for I := 0 to 99 do
+  begin
     New(P);
     L.Add(P);
     P^.X := BRandom(0, 10);
@@ -515,4 +552,5 @@ Halt;
 {$ENDIF}
 
 end.
-
+end.
+

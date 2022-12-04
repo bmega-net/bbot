@@ -59,9 +59,11 @@ uses
 
 { TBBotOpenCorpsesTask }
 
-constructor TBBotOpenCorpsesTask.Create(AOpenCorpses: TBBotOpenCorpses; APosition: BPos);
+constructor TBBotOpenCorpsesTask.Create(AOpenCorpses: TBBotOpenCorpses;
+  APosition: BPos);
 begin
-  inherited Create(TBBotPathFinderPosition.Create('OpenCorpse on <' + BStr(APosition) + '>'));
+  inherited Create(TBBotPathFinderPosition.Create('OpenCorpse on <' +
+    BStr(APosition) + '>'));
   FOpenCorpses := AOpenCorpses;
   FUsedContainer := False;
   FPosition := APosition;
@@ -97,7 +99,8 @@ function TBBotOpenCorpsesTask.GetDone: BBool;
   end;
   function NoContainerOnPosition: BBool;
   begin
-    Exit((TimeSinceDeath > OpenCorpses.NoCorpseTimeout.ValueU32) and (not HasContainerOnTile));
+    Exit((TimeSinceDeath > OpenCorpses.NoCorpseTimeout.ValueU32) and
+      (not HasContainerOnTile));
   end;
 
 begin
@@ -106,16 +109,24 @@ end;
 
 function TBBotOpenCorpsesTask.GetRunnable: BBool;
 begin
-  if (tsWithinProtectionZone in Me.Status) or BBot.Backpacks.IsWorking or BBot.Depositer.Working or BBot.Withdraw.IsWorking
-  then begin
+  if (tsWithinProtectionZone in Me.Status) or BBot.Backpacks.IsWorking or
+    BBot.Depositer.Working or BBot.Withdraw.IsWorking then
+  begin
     Exit(False);
-  end else begin
-    if HasContainerOnTile then begin
-      BBot.Walker.WaitLock('OpenCorpses at ' + BStr(Position), OpenCorpses.WaitLockNewCorpse.ValueU32);
+  end
+  else
+  begin
+    if HasContainerOnTile then
+    begin
+      BBot.Walker.WaitLock('OpenCorpses at ' + BStr(Position),
+        OpenCorpses.WaitLockNewCorpse.ValueU32);
       if OpenCorpses.Debug then
-        OpenCorpses.AddDebug(Position, 'corpse added in ' + BStr(Position), 'new corpse');
+        OpenCorpses.AddDebug(Position, 'corpse added in ' + BStr(Position),
+          'new corpse');
       Exit(True);
-    end else begin
+    end
+    else
+    begin
       Exit(False);
     end;
   end;
@@ -148,7 +159,8 @@ function TBBotOpenCorpsesTask.HasContainerOnTile: BBool;
 var
   Map: TTibiaTiles;
 begin
-  if Me.CanSee(Position) then begin
+  if Me.CanSee(Position) then
+  begin
     if Tiles(Map, Position) then
       Exit(Map.IsContainer);
   end;
@@ -167,14 +179,19 @@ procedure TBBotOpenCorpsesTask.Run;
 var
   Map: TTibiaTiles;
 begin
-  BBot.Walker.WaitLock('OpenCorpses run task at ' + BStr(Position), OpenCorpses.WaitLockRun.ValueU32);
+  BBot.Walker.WaitLock('OpenCorpses run task at ' + BStr(Position),
+    OpenCorpses.WaitLockRun.ValueU32);
   if TimeSinceDeath < OpenCorpses.DelayBeforeOpen.ValueU32 then
     Exit;
-  if not NextRun.Locked then begin
-    if (Me.GetDistance(Position) > 1) and (not HasNext) then begin
+  if not NextRun.Locked then
+  begin
+    if (Me.GetDistance(Position) > 1) and (not HasNext) then
+    begin
       if PathFinder.Cost = PathCost_NotPossible then
         RePath;
-    end else begin
+    end
+    else
+    begin
       FUsedContainer := True;
       if Tiles(Map, Position) and (Map.IsContainer) then
         Map.UseAsContainer;

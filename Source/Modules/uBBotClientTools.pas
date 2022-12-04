@@ -1,5 +1,5 @@
 unit uBBotClientTools;
-
+
 interface
 
 uses
@@ -36,7 +36,8 @@ type
 
   TBBotClientToolsClient = class
   private type
-    TBBotClientToolsPatchKind = (bctpkMutex, bctpkIP, bctpkRSA, bctpkUpdateDialog);
+    TBBotClientToolsPatchKind = (bctpkMutex, bctpkIP, bctpkRSA,
+      bctpkUpdateDialog);
 
     TBBotClientToolsPatch = record
       Original: BBInt8Buffer;
@@ -53,12 +54,16 @@ type
     FIP: BStr;
     Patches: BVector<TBBotClientToolsPatch>;
     FVersion: BStr;
-    function WriteProcess(AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
-    function ReadProcess(AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+    function WriteProcess(AAddress: BPtr; ABuffer: BPInt8;
+      ASize: BUInt32): BUInt32;
+    function ReadProcess(AAddress: BPtr; ABuffer: BPInt8;
+      ASize: BUInt32): BUInt32;
     procedure GatherAddresses();
     procedure PatchTibia();
-    procedure AddPatch(const AOriginal: BStr; const AKind: TBBotClientToolsPatchKind); overload;
-    procedure AddPatch(const AOriginal: array of BInt8; const AKind: TBBotClientToolsPatchKind); overload;
+    procedure AddPatch(const AOriginal: BStr;
+      const AKind: TBBotClientToolsPatchKind); overload;
+    procedure AddPatch(const AOriginal: array of BInt8;
+      const AKind: TBBotClientToolsPatchKind); overload;
   public
     constructor Create(AClientTools: TBBotClientTools);
     destructor Destroy; override;
@@ -184,7 +189,8 @@ begin
   Buffer := BFileGet(GetMCFileName);
   if (Buffer <> '') and (BStrSplit(Res, BStrLine, Buffer) > 0) then
     for I := 0 to High(Res) do
-      if Res[I] <> '' then begin
+      if Res[I] <> '' then
+      begin
         Add := TBBotClientToolsClient.Create(Self);
         if Add.UnSerialize(Res[I]) then
           FClients.Add(Add)
@@ -201,7 +207,8 @@ begin
   OpenName := TMenuItem(Sender).Hint;
   if OpenName = 'Edit' then
     ExecNewProcess(Application.EXEName + ' clienttools')
-  else begin
+  else
+  begin
     C := Client(OpenName);
     if C <> nil then
       C^.Launch;
@@ -264,7 +271,8 @@ begin
   BFilePut(GetMCFileName, Buffer);
 end;
 
-procedure TBBotClientTools.SaveClient(const AName, AFileName, AParam, AIP, AVersion: BStr);
+procedure TBBotClientTools.SaveClient(const AName, AFileName, AParam, AIP,
+  AVersion: BStr);
 var
   Add: TBBotClients.It;
 begin
@@ -286,7 +294,8 @@ end;
 
 { TBBotClientToolsClient }
 
-procedure TBBotClientToolsClient.AddPatch(const AOriginal: BStr; const AKind: TBBotClientToolsPatchKind);
+procedure TBBotClientToolsClient.AddPatch(const AOriginal: BStr;
+const AKind: TBBotClientToolsPatchKind);
 var
   Buffer: array of BInt8;
   I: BInt32;
@@ -297,7 +306,8 @@ begin
   AddPatch(Buffer, AKind);
 end;
 
-procedure TBBotClientToolsClient.AddPatch(const AOriginal: array of BInt8; const AKind: TBBotClientToolsPatchKind);
+procedure TBBotClientToolsClient.AddPatch(const AOriginal: array of BInt8;
+const AKind: TBBotClientToolsPatchKind);
 var
   It: BVector<TBBotClientToolsPatch>.It;
   I: BInt32;
@@ -384,17 +394,20 @@ begin
       Buffer: BBInt8Buffer;
       I: BInt32;
     begin
-      if (It^.Address <> 0) and (It^.Address <> ProcessScanSize) then begin
+      if (It^.Address <> 0) and (It^.Address <> ProcessScanSize) then
+      begin
         SetLength(Buffer, Length(It^.Original));
         ReadProcess(BPtr(It^.Address), @Buffer[0], Length(Buffer));
         for I := 0 to High(It^.Original) do
-          if It^.Original[I] <> Buffer[I] then begin
+          if It^.Original[I] <> Buffer[I] then
+          begin
             It^.Address := 0;
             Break;
           end;
       end;
       if It^.Address = 0 then
-        It^.Address := ProcessScan(hProcess, @It^.Original[0], Length(It^.Original));
+        It^.Address := ProcessScan(hProcess, @It^.Original[0],
+          Length(It^.Original));
     end);
   ClientTools.SaveClients;
 end;
@@ -405,9 +418,11 @@ var
 begin
   ResumeThread(Data^.hThread);
   Sleep(5000);
-  MutexAddr := ProcessScan(Data^.hProc, BPChar(@Data^.NewMutex[1]), Length(Data^.NewMutex));
+  MutexAddr := ProcessScan(Data^.hProc, BPChar(@Data^.NewMutex[1]),
+    Length(Data^.NewMutex));
   if (MutexAddr <> 0) and (MutexAddr <> ProcessScanSize) then
-    ProcessProtectedWrite(Data^.hProc, BPtr(MutexAddr), @TibiaPlayerMutex[1], Length(TibiaPlayerMutex));
+    ProcessProtectedWrite(Data^.hProc, BPtr(MutexAddr), @TibiaPlayerMutex[1],
+      Length(TibiaPlayerMutex));
   CloseHandle(Data^.hThread);
   CloseHandle(Data^.hProc);
   Dispose(Data);
@@ -426,16 +441,21 @@ begin
   Path := ExtractFilePath(FileName);
   FillChar(StartInfo, SizeOf(StartInfo), 0);
   FillChar(ProcInfo, SizeOf(ProcInfo), 0);
-  if not FileExists(FileName) then begin
+  if not FileExists(FileName) then
+  begin
     ShowMessage('The file ' + FileName + ' does not exist!');
     Exit;
   end;
-  if not CreateProcessA(nil, @Command[1], nil, nil, False, CREATE_SUSPENDED, nil, @Path[1], StartInfo, ProcInfo) then
-    ShowMessage(BFormat('Unable to create tibia process, error %d', [GetLastError]));
+  if not CreateProcessA(nil, @Command[1], nil, nil, False, CREATE_SUSPENDED,
+    nil, @Path[1], StartInfo, ProcInfo) then
+    ShowMessage(BFormat('Unable to create tibia process, error %d',
+      [GetLastError]));
   hProcess := ProcInfo.hProcess;
-  if Version <> 'Auto' then begin
+  if Version <> 'Auto' then
+  begin
     for TibiaVer := TibiaVerFirst to TibiaVerLast do
-      if BStrEqual(Version, BotVerSupported[TibiaVer]) then begin
+      if BStrEqual(Version, BotVerSupported[TibiaVer]) then
+      begin
         LaunchEntry := ClientToolsLaunchedCustomEntries.Add;
         LaunchEntry.PID := ProcInfo.dwProcessId;
         LaunchEntry.Version := TibiaVer;
@@ -460,29 +480,48 @@ begin
   Patches.ForEach(
     procedure(It: BVector<TBBotClientToolsPatch>.It)
     begin
-      if (It^.Address <> 0) and (It^.Address <> ProcessScanSize) then begin
-        if It^.Kind = bctpkMutex then begin
-          if WriteProcess(BPtr(It^.Address), @NewMutex[1], Length(NewMutex)) <> BUInt32(Length(NewMutex)) then
-            raise BException.Create(BFormat('Unable to patch Tibia mutex, error %d', [GetLastError]));
-        end else if (It^.Kind = bctpkRSA) and (FIP <> '') then begin
-          if WriteProcess(BPtr(It^.Address), @OTServerRSA[1], Length(OTServerRSA)) <> BUInt32(Length(OTServerRSA)) then
-            raise BException.Create(BFormat('Unable to patch Tibia rsa, error %d', [GetLastError]));
-        end else if (It^.Kind = bctpkIP) and (FIP <> '') then begin
+      if (It^.Address <> 0) and (It^.Address <> ProcessScanSize) then
+      begin
+        if It^.Kind = bctpkMutex then
+        begin
+          if WriteProcess(BPtr(It^.Address), @NewMutex[1], Length(NewMutex)) <>
+            BUInt32(Length(NewMutex)) then
+            raise BException.Create
+              (BFormat('Unable to patch Tibia mutex, error %d',
+              [GetLastError]));
+        end
+        else if (It^.Kind = bctpkRSA) and (FIP <> '') then
+        begin
+          if WriteProcess(BPtr(It^.Address), @OTServerRSA[1],
+            Length(OTServerRSA)) <> BUInt32(Length(OTServerRSA)) then
+            raise BException.Create
+              (BFormat('Unable to patch Tibia rsa, error %d', [GetLastError]));
+        end
+        else if (It^.Kind = bctpkIP) and (FIP <> '') then
+        begin
           S := FIP + #0;
-          if WriteProcess(BPtr(It^.Address), @S[1], Length(S)) <> BUInt32(Length(S)) then
-            raise BException.Create(BFormat('Unable to patch Tibia ip, error %d', [GetLastError]));
-        end else if It^.Kind = bctpkUpdateDialog then begin
+          if WriteProcess(BPtr(It^.Address), @S[1], Length(S)) <>
+            BUInt32(Length(S)) then
+            raise BException.Create
+              (BFormat('Unable to patch Tibia ip, error %d', [GetLastError]));
+        end
+        else if It^.Kind = bctpkUpdateDialog then
+        begin
           S := '';
           while Length(S) <> (Length(It^.Original) + 4) do // +4 = call address
             S := S + #$90;
-          if WriteProcess(BPtr(It^.Address), @S[1], Length(S)) <> BUInt32(Length(S)) then
-            raise BException.Create(BFormat('Unable to patch Tibia update dialog, error %d', [GetLastError]));
+          if WriteProcess(BPtr(It^.Address), @S[1], Length(S)) <>
+            BUInt32(Length(S)) then
+            raise BException.Create
+              (BFormat('Unable to patch Tibia update dialog, error %d',
+              [GetLastError]));
         end;
       end;
     end);
 end;
 
-function TBBotClientToolsClient.ReadProcess(AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function TBBotClientToolsClient.ReadProcess(AAddress: BPtr; ABuffer: BPInt8;
+ASize: BUInt32): BUInt32;
 begin
   Result := ProcessProtectedRead(hProcess, AAddress, ABuffer, ASize);
 end;
@@ -498,7 +537,8 @@ begin
       Addresses := Addresses + BFormat('%d,', [It^.Address]);
     end);
   Delete(Addresses, Length(Addresses), 1);
-  Result := BFormat('%s@@%s@@%s@@%s@@%s@@%s', [FName, FFileName, FIP, Addresses, FParam, FVersion]);
+  Result := BFormat('%s@@%s@@%s@@%s@@%s@@%s', [FName, FFileName, FIP, Addresses,
+    FParam, FVersion]);
 end;
 
 function TBBotClientToolsClient.UnSerialize(const ACode: BStr): BBool;
@@ -507,12 +547,16 @@ var
   N, J: BInt32;
 begin
   N := BStrSplit(R, '@@', ACode);
-  if BIntIn(N, [3, 5, 6]) then begin
-    if N = 3 then begin
+  if BIntIn(N, [3, 5, 6]) then
+  begin
+    if N = 3 then
+    begin
       FName := R[0];
       FFileName := R[1];
       FParam := R[2];
-    end else begin
+    end
+    else
+    begin
       FName := R[0];
       FFileName := R[1];
       FIP := R[2];
@@ -529,18 +573,20 @@ begin
     Exit(False);
 end;
 
-function TBBotClientToolsClient.WriteProcess(AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function TBBotClientToolsClient.WriteProcess(AAddress: BPtr; ABuffer: BPInt8;
+ASize: BUInt32): BUInt32;
 begin
   Result := ProcessProtectedWrite(hProcess, AAddress, ABuffer, ASize);
 end;
 
 initialization
 
-ClientToolsLaunchedCustomEntries := BVector<TBBotClientToolsLaunchedEntries>.Create();
+ClientToolsLaunchedCustomEntries :=
+  BVector<TBBotClientToolsLaunchedEntries>.Create();
 
 finalization
 
 ClientToolsLaunchedCustomEntries.Free;
 
 end.
-
+

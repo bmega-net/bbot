@@ -421,10 +421,13 @@ begin
               HUD.OnClickData := BUInt32(HUDPacket.GetBInt32);
               HUD.RelativeX := HUDPacket.GetBInt32;
               HUD.RelativeY := HUDPacket.GetBInt32;
-              if HUD.Validate then begin
+              if HUD.Validate then
+              begin
                 Data.Add(HUD);
                 MustSort := True;
-              end else begin
+              end
+              else
+              begin
                 HUD.Free;
               end;
             end;
@@ -449,10 +452,13 @@ begin
               HUD.OnClickData := BUInt32(HUDPacket.GetBInt32);
               HUD.RelativeX := HUDPacket.GetBInt32;
               HUD.RelativeY := HUDPacket.GetBInt32;
-              if HUD.Validate then begin
+              if HUD.Validate then
+              begin
                 Data.Add(HUD);
                 MustSort := True;
-              end else begin
+              end
+              else
+              begin
                 HUD.Free;
               end;
             end;
@@ -475,10 +481,13 @@ begin
               HUD.OnClickData := BUInt32(HUDPacket.GetBInt32);
               HUD.RelativeX := HUDPacket.GetBInt32;
               HUD.RelativeY := HUDPacket.GetBInt32;
-              if HUD.Validate then begin
+              if HUD.Validate then
+              begin
                 Data.Add(HUD);
                 MustSort := True;
-              end else begin
+              end
+              else
+              begin
                 HUD.Free;
               end;
             end;
@@ -488,7 +497,8 @@ begin
       end;
       HUDPacket.Position := 0;
       HUDPacket.WriteBInt32(_HUDBufferIDLE);
-      if MustSort then begin
+      if MustSort then
+      begin
         Data.Sort(
           function(A, B: BVector<TBBotHUD>.It): BInt32
           begin

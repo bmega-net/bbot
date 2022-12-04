@@ -1,5 +1,5 @@
 unit uBBotAttackSequence;
-
+
 interface
 
 uses
@@ -64,10 +64,13 @@ function TBBotAttackSequence.CanExecute: BBool;
 var
   It: BVector<TAttackEntry>.It;
 begin
-  Result := (not Seq.Empty) and (not FNext.Locked) and (not BBot.Exhaust.Offensive);
-  if Result then begin
+  Result := (not Seq.Empty) and (not FNext.Locked) and
+    (not BBot.Exhaust.Offensive);
+  if Result then
+  begin
     It := Get;
-    Result := (Me.Mana >= It^.Mana) and ((It^.VariableCheck = '') or (BBot.Cavebot.FullCheck(It^.VariableCheck)));
+    Result := (Me.Mana >= It^.Mana) and
+      ((It^.VariableCheck = '') or (BBot.Cavebot.FullCheck(It^.VariableCheck)));
   end;
 end;
 
@@ -89,20 +92,26 @@ function TBBotAttackSequence.Execute(ATarget: TBBotCreature): BBool;
 var
   It: BVector<TAttackEntry>.It;
 begin
-  if (ATarget <> nil) and (CanExecute) then begin
+  if (ATarget <> nil) and (CanExecute) then
+  begin
     It := Get;
-    if BInRange(ATarget.Health, It^.HPMin, It^.HPMax) then begin
+    if BInRange(ATarget.Health, It^.HPMin, It^.HPMax) then
+    begin
       case It^.Kind of
-      aekWait: FNext.Lock(It^.ParamInt);
-      aekItem: begin
-          if not BBot.Exhaust.Item then
-            ATarget.ShootOn(It^.ParamInt);
-        end;
-      aekMacro: begin
-          BBot.Macros.Execute(It^.ParamStr);
-          FNext.Lock;
-        end;
-      aekSpell: Me.Say(It^.ParamStr);
+        aekWait:
+          FNext.Lock(It^.ParamInt);
+        aekItem:
+          begin
+            if not BBot.Exhaust.Item then
+              ATarget.ShootOn(It^.ParamInt);
+          end;
+        aekMacro:
+          begin
+            BBot.Macros.Execute(It^.ParamStr);
+            FNext.Lock;
+          end;
+        aekSpell:
+          Me.Say(It^.ParamStr);
       end;
       Next;
       Exit(true);
@@ -117,24 +126,30 @@ var
   Map: TTibiaTiles;
   Creature: TBBotCreature;
 begin
-  if Me.CanSee(ATarget) and (CanExecute) then begin
+  if Me.CanSee(ATarget) and (CanExecute) then
+  begin
     It := Get;
     case It^.Kind of
-    aekWait: FNext.Lock(It^.ParamInt);
-    aekItem: begin
-        if not BBot.Exhaust.Item then begin
-          Creature := BBot.Creatures.Find(ATarget);
-          if (Creature <> nil) and (Creature.IsAlive) then
-            Creature.ShootOn(It^.ParamInt)
-          else if Tiles(Map, ATarget) then
-            Map.UseOn(It^.ParamInt);
+      aekWait:
+        FNext.Lock(It^.ParamInt);
+      aekItem:
+        begin
+          if not BBot.Exhaust.Item then
+          begin
+            Creature := BBot.Creatures.Find(ATarget);
+            if (Creature <> nil) and (Creature.IsAlive) then
+              Creature.ShootOn(It^.ParamInt)
+            else if Tiles(Map, ATarget) then
+              Map.UseOn(It^.ParamInt);
+          end;
         end;
-      end;
-    aekMacro: begin
-        BBot.Macros.Execute(It^.ParamStr);
-        FNext.Lock;
-      end;
-    aekSpell: Me.Say(It^.ParamStr);
+      aekMacro:
+        begin
+          BBot.Macros.Execute(It^.ParamStr);
+          FNext.Lock;
+        end;
+      aekSpell:
+        Me.Say(It^.ParamStr);
     end;
     Next;
     Exit(true);
@@ -169,18 +184,23 @@ begin
   FIndex := 0;
   Seq.Clear;
   FName := BStrBetween(ACode, '{', '}');
-  if FName <> '' then begin
+  if FName <> '' then
+  begin
     Delete(ACode, 1, Length(FName) + 2);
-    if BStrSplit(R, ';', ';' + ACode + ';') > 0 then begin
-      for I := 0 to High(R) do begin
-        if BStrSplit(S, ' ', Trim(R[I])) >= 4 then begin
+    if BStrSplit(R, ';', ';' + ACode + ';') > 0 then
+    begin
+      for I := 0 to High(R) do
+      begin
+        if BStrSplit(S, ' ', Trim(R[I])) >= 4 then
+        begin
           Add := Seq.Add;
           Add^.Mana := StrToIntDef(S[1], 0);
           Add^.HPMin := StrToIntDef(S[2], 0);
           Add^.HPMax := StrToIntDef(S[3], 0);
           Add^.ParamInt := StrToIntDef(S[4], 0);
           Add^.VariableCheck := BStrBetween(R[I], 'Check ', ' ECheck');
-          Add^.ParamStr := BStrRight(R[I], BIf(BStrPos('ECheck', R[I]) > 0, 'ECheck:', ':'));
+          Add^.ParamStr := BStrRight(R[I], BIf(BStrPos('ECheck', R[I]) > 0,
+            'ECheck:', ':'));
           if S[0] = '!' then
             Add^.Kind := aekWait;
           if S[0] = '@' then
@@ -190,8 +210,10 @@ begin
           if S[0] = '$' then
             if Length(Add^.ParamStr) > 2 then
               Add^.Kind := aekSpell
-            else begin
-              Err := BUserError.Create(BBot.AdvAttack, BFormat('Empty spell on attack sequence "%s"', [Name]));
+            else
+            begin
+              Err := BUserError.Create(BBot.AdvAttack,
+                BFormat('Empty spell on attack sequence "%s"', [Name]));
               Err.Actions := [uraEditAdvancedAttack];
               Err.Execute;
             end;
@@ -208,4 +230,4 @@ begin
 end;
 
 end.
-
+

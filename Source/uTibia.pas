@@ -1,5 +1,5 @@
 unit uTibia;
-
+
 interface
 
 uses
@@ -28,25 +28,35 @@ type
   TTibiaAction_Counter = procedure(Cooldown: BInt32) of object;
   TTibiaAction_Simple = procedure(Old, New: BInt32) of object;
   TTibiaAction_Simple64 = procedure(Old, New: Int64) of object;
-  TTibiaAction_Inventory = procedure(Slot: TTibiaSlot; Old, New: TBufferItem) of object;
-  TTibiaAction_Skill = procedure(Skill: TTibiaSkill; Old, New: BInt32) of object;
+  TTibiaAction_Inventory = procedure(Slot: TTibiaSlot; Old, New: TBufferItem)
+    of object;
+  TTibiaAction_Skill = procedure(Skill: TTibiaSkill; Old, New: BInt32)
+    of object;
   TTibiaAction_Bool = procedure(Value: boolean) of object;
   TTibiaAction_Creature = procedure(Creature: TBBotCreature) of object;
-  TTibiaAction_CreatureSimple = procedure(Creature: TBBotCreature; Old, New: BInt32) of object;
-  TTibiaAction_CreaturePosition = procedure(Creature: TBBotCreature; FromPos, ToPos: BPos) of object;
+  TTibiaAction_CreatureSimple = procedure(Creature: TBBotCreature;
+    Old, New: BInt32) of object;
+  TTibiaAction_CreaturePosition = procedure(Creature: TBBotCreature;
+    FromPos, ToPos: BPos) of object;
   TTibiaAction_Container = procedure(Container: TTibiaContainer) of object;
   TTibiaAction_Menu = procedure(Callback: BUInt32; Data: BUInt32) of object;
-  TTibiaAction_Hotkey = procedure(Callback: BInt32; var Release: BBool) of object;
-  TTibiaAction_ShootEffect = procedure(Ammo: BInt32; FromPos, ToPos: BPos) of object;
-  TTibiaAction_Shoot = procedure(Ammo, Target, Stackpos: BInt32; Pos: BPos) of object;
-  TTibiaAction_MessageSent = procedure(SpeakMode: TTibiaMessageMode; Destination, Text: BStr) of object;
-  TTibiaAction_MessageRecv = procedure(SpeakMode: TTibiaMessageMode; Author: BStr; Level, ChannelID: BInt32;
-    Text: BStr) of object;
+  TTibiaAction_Hotkey = procedure(Callback: BInt32; var Release: BBool)
+    of object;
+  TTibiaAction_ShootEffect = procedure(Ammo: BInt32; FromPos, ToPos: BPos)
+    of object;
+  TTibiaAction_Shoot = procedure(Ammo, Target, Stackpos: BInt32; Pos: BPos)
+    of object;
+  TTibiaAction_MessageSent = procedure(SpeakMode: TTibiaMessageMode;
+    Destination, Text: BStr) of object;
+  TTibiaAction_MessageRecv = procedure(SpeakMode: TTibiaMessageMode;
+    Author: BStr; Level, ChannelID: BInt32; Text: BStr) of object;
   TTibiaAction_Position = procedure(FromPos, ToPos: BPos) of object;
-  TTibiaAction_Equip = procedure(Slot: TTibiaSlot; ID: BInt32; Count: BInt32 = -1) of object;
+  TTibiaAction_Equip = procedure(Slot: TTibiaSlot; ID: BInt32;
+    Count: BInt32 = -1) of object;
   TTibiaAction_Say = procedure(Text: BStr) of object;
   TTibiaAction_Int = procedure(Value: BInt32) of object;
-  TTibiaAction_GiveCondition = procedure(Condition: BInt32; Spell: BStr; Mana: BInt32; GiveStatus: boolean) of object;
+  TTibiaAction_GiveCondition = procedure(Condition: BInt32; Spell: BStr;
+    Mana: BInt32; GiveStatus: boolean) of object;
 
   TTibia = class(TBBotAction)
   private
@@ -75,8 +85,10 @@ type
     function SleepWhileDisconnected(Delay: BUInt32): BBool;
 
     function IsKeyDown(Key: byte; First: BBool): BBool;
-    procedure BlockKeyCallback(Key: byte; WithShift: boolean; WithCtrl: boolean);
-    procedure UnBlockKeyCallback(Key: byte; WithShift: boolean; WithCtrl: boolean);
+    procedure BlockKeyCallback(Key: byte; WithShift: boolean;
+      WithCtrl: boolean);
+    procedure UnBlockKeyCallback(Key: byte; WithShift: boolean;
+      WithCtrl: boolean);
 
     procedure SetMove(ToPos: BPos);
     procedure UnsetMove;
@@ -133,7 +145,8 @@ function TTibia.CalcExp(Level: BInt32): Int64;
   F2 = ((50 * (level) * (level) * (level) - 150 * (level) * (level) + 400 * (level)) / 3)
 }
 begin
-  Result := Round(50.0 * ((Level / 3.0) * (Level * (Level - 6.0) + 17.0) - 4.0));
+  Result := Round(50.0 * ((Level / 3.0) * (Level * (Level - 6.0) +
+    17.0) - 4.0));
 end;
 
 function TTibia.LastClickedID: BInt32;
@@ -171,23 +184,34 @@ const
 var
   Buffer, Buffer2: BInt32;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     Buffer := $9090;
     Buffer2 := Buffer;
-  end else begin
+  end
+  else
+  begin
     Buffer := TibiaAddresses.NameSpy1Default;
     Buffer2 := TibiaAddresses.NameSpy2Default;
   end;
-  if AdrSelected < TibiaVer1056 then begin
+  if AdrSelected < TibiaVer1056 then
+  begin
     TibiaProcess.Write(TibiaAddresses.AdrNameSpy1, 2, @Buffer);
     TibiaProcess.Write(TibiaAddresses.AdrNameSpy2, 2, @Buffer2);
-  end else begin
-    if Enabled then begin
+  end
+  else
+  begin
+    if Enabled then
+    begin
       TibiaProcess.Write(TibiaAddresses.AdrNameSpy1, SizeOf(XRayOn1), @XRayOn1);
       TibiaProcess.Write(TibiaAddresses.AdrNameSpy2, SizeOf(XRayOn2), @XRayOn2);
-    end else begin
-      TibiaProcess.Write(TibiaAddresses.AdrNameSpy1, SizeOf(XRayOff1), @XRayOff1);
-      TibiaProcess.Write(TibiaAddresses.AdrNameSpy2, SizeOf(XRayOff2), @XRayOff2);
+    end
+    else
+    begin
+      TibiaProcess.Write(TibiaAddresses.AdrNameSpy1, SizeOf(XRayOff1),
+        @XRayOff1);
+      TibiaProcess.Write(TibiaAddresses.AdrNameSpy2, SizeOf(XRayOff2),
+        @XRayOff2);
     end;
   end;
 end;
@@ -243,28 +267,34 @@ begin
     if not DirectoryExists('Screenshots') then
       CreateDir('Screenshots');
 
-    n := BotPath + 'Screenshots/' + Me.Name + ' ' + FormatDateTime('dd.mm.yyyy hh.mm.ss', Now());
+    n := BotPath + 'Screenshots/' + Me.Name + ' ' +
+      FormatDateTime('dd.mm.yyyy hh.mm.ss', Now());
     j := TJPEGImage.Create;
     try
       try
         j.Assign(bmp);
         j.SaveToFile(n + '.jpeg');
-      except bmp.SaveToFile(n + '.bmp');
+      except
+        bmp.SaveToFile(n + '.bmp');
       end;
-    finally j.Free;
+    finally
+      j.Free;
     end;
 
     DeleteObject(B);
-  finally bmp.Free;
+  finally
+    bmp.Free;
   end;
 end;
 
 procedure TTibia.PingEnd;
 begin
-  if FPingStart <> 0 then begin
+  if FPingStart <> 0 then
+  begin
     Inc(FPingCount);
     Inc(FPingTotal, BMin(Tick - FPingStart, 1000));
-    if FPingCount > 100 then begin
+    if FPingCount > 100 then
+    begin
       FPingTotal := FPingTotal div FPingCount;
       FPingCount := 1;
     end;
@@ -300,19 +330,25 @@ begin
   if strAcc = '' then
     Exit;
   TibiaProcess.SendKey(VK_RETURN);
-  for i := 0 to 5 do begin
+  for i := 0 to 5 do
+  begin
     TibiaProcess.SendKey(VK_ESCAPE);
     if SleepWhileDisconnected(300) then
       Exit;
   end;
   R := TibiaProcess.ClientRect;
-  if AdrSelected >= TibiaVer1038 then begin
+  if AdrSelected >= TibiaVer1038 then
+  begin
     X := R.Left + LoginOriginXPost1038;
     Y := (R.Top + R.Bottom) + LoginOriginYPost1038;
-  end else if AdrSelected >= TibiaVer920 then begin
+  end
+  else if AdrSelected >= TibiaVer920 then
+  begin
     X := R.Left + LoginOriginXPost920;
     Y := (R.Top + R.Bottom) + LoginOriginYPost920;
-  end else begin
+  end
+  else
+  begin
     X := R.Left + LoginOriginXPre920;
     Y := (R.Top + R.Bottom) + LoginOriginYPre920;
   end;
@@ -332,13 +368,16 @@ begin
   Sleep(200 + BRandom(0, 300));
   TibiaProcess.SendKey(VK_RETURN);
   SleepWhileDisconnected(BRandom(4000, 6000));
-  if CharIndex <> 0 then begin
-    for i := 1 to 50 + BRandom(0, 10) do begin
+  if CharIndex <> 0 then
+  begin
+    for i := 1 to 50 + BRandom(0, 10) do
+    begin
       TibiaProcess.SendKey(VK_UP);
       Sleep(BRandom(10, 30));
     end;
     i := CharIndex;
-    while i > 1 do begin
+    while i > 1 do
+    begin
       TibiaProcess.SendKey(VK_DOWN);
       Sleep(200 + BRandom(0, 200));
       Dec(i);
@@ -388,43 +427,62 @@ end;
 function TTibia.MessageModeFrom(ModeID: BInt32): TTibiaMessageMode;
 const
 {$REGION 'MessageModes850'}
-  MessageModes850: array [0 .. 26] of TTibiaMessageMode = (MESSAGE_NONE, MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL,
-    MESSAGE_NPC_TO, MESSAGE_NPC_FROM_START_BLOCK, MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL, MESSAGE_CHANNEL_MANAGEMENT,
-    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_BROADCAST,
-    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_PRIVATE_FROM, MESSAGE_CHANNEL, MESSAGE_NONE, MESSAGE_CHANNEL_MANAGEMENT,
-    MESSAGE_NONE, MESSAGE_BARK_LOW, MESSAGE_BARK_LOUD, MESSAGE_GAME, MESSAGE_GAME, MESSAGE_GAME, MESSAGE_LOOK,
+  MessageModes850: array [0 .. 26] of TTibiaMessageMode = (MESSAGE_NONE,
+    MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL, MESSAGE_NPC_TO,
+    MESSAGE_NPC_FROM_START_BLOCK, MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL,
+    MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_GAMEMASTER_CHANNEL,
+    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_CHANNEL,
+    MESSAGE_GAMEMASTER_BROADCAST, MESSAGE_GAMEMASTER_CHANNEL,
+    MESSAGE_PRIVATE_FROM, MESSAGE_CHANNEL, MESSAGE_NONE,
+    MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_NONE, MESSAGE_BARK_LOW,
+    MESSAGE_BARK_LOUD, MESSAGE_GAME, MESSAGE_GAME, MESSAGE_GAME, MESSAGE_LOOK,
     MESSAGE_GAME, MESSAGE_GAME);
 {$ENDREGION}
 {$REGION 'MessageModes872'}
-  MessageModes872: array [0 .. 38] of TTibiaMessageMode = (MESSAGE_NONE, MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL,
-    MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL, MESSAGE_CHANNEL_HIGHLIGHT,
-    MESSAGE_SPELL, MESSAGE_NPC_FROM, MESSAGE_NPC_TO, MESSAGE_GAMEMASTER_BROADCAST, MESSAGE_GAMEMASTER_CHANNEL,
-    MESSAGE_GAMEMASTER_PRIVATE_FROM, MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_LOGIN, MESSAGE_ADMIN, MESSAGE_GAME,
-    MESSAGE_FAILURE, MESSAGE_LOOK, MESSAGE_DAMAGE_DEALED, MESSAGE_DAMAGE_RECEIVED, MESSAGE_HEAL, MESSAGE_EXP,
-    MESSAGE_DAMAGE_OTHERS, MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS, MESSAGE_STATUS, MESSAGE_LOOT, MESSAGE_TRADE_NPC,
-    MESSAGE_GUILD, MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY, MESSAGE_BARK_LOW, MESSAGE_BARK_LOUD, MESSAGE_REPORT,
-    MESSAGE_HOTKEY_USE, MESSAGE_TUTORIAL_HINT);
+  MessageModes872: array [0 .. 38] of TTibiaMessageMode = (MESSAGE_NONE,
+    MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL, MESSAGE_PRIVATE_FROM,
+    MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL,
+    MESSAGE_CHANNEL_HIGHLIGHT, MESSAGE_SPELL, MESSAGE_NPC_FROM, MESSAGE_NPC_TO,
+    MESSAGE_GAMEMASTER_BROADCAST, MESSAGE_GAMEMASTER_CHANNEL,
+    MESSAGE_GAMEMASTER_PRIVATE_FROM, MESSAGE_GAMEMASTER_PRIVATE_TO,
+    MESSAGE_LOGIN, MESSAGE_ADMIN, MESSAGE_GAME, MESSAGE_FAILURE, MESSAGE_LOOK,
+    MESSAGE_DAMAGE_DEALED, MESSAGE_DAMAGE_RECEIVED, MESSAGE_HEAL, MESSAGE_EXP,
+    MESSAGE_DAMAGE_OTHERS, MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS,
+    MESSAGE_STATUS, MESSAGE_LOOT, MESSAGE_TRADE_NPC, MESSAGE_GUILD,
+    MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY, MESSAGE_BARK_LOW,
+    MESSAGE_BARK_LOUD, MESSAGE_REPORT, MESSAGE_HOTKEY_USE,
+    MESSAGE_TUTORIAL_HINT);
 {$ENDREGION}
 {$REGION 'MessageModes1036'}
-  MessageModes1036: array [0 .. 41] of TTibiaMessageMode = (MESSAGE_NONE, MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL,
-    MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL, MESSAGE_CHANNEL_HIGHLIGHT,
-    MESSAGE_SPELL, MESSAGE_NPC_FROM_START_BLOCK, MESSAGE_NPC_FROM, MESSAGE_NPC_TO, MESSAGE_GAMEMASTER_BROADCAST,
-    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM, MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_LOGIN,
-    MESSAGE_ADMIN, MESSAGE_GAME, MESSAGE_FAILURE, MESSAGE_LOOK, MESSAGE_DAMAGE_DEALED, MESSAGE_DAMAGE_RECEIVED,
-    MESSAGE_HEAL, MESSAGE_EXP, MESSAGE_DAMAGE_OTHERS, MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS, MESSAGE_STATUS,
-    MESSAGE_LOOT, MESSAGE_TRADE_NPC, MESSAGE_GUILD, MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY, MESSAGE_BARK_LOW,
-    MESSAGE_BARK_LOUD, MESSAGE_REPORT, MESSAGE_HOTKEY_USE, MESSAGE_TUTORIAL_HINT, MESSAGE_THANKYOU, MESSAGE_MARKET);
+  MessageModes1036: array [0 .. 41] of TTibiaMessageMode = (MESSAGE_NONE,
+    MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL, MESSAGE_PRIVATE_FROM,
+    MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL,
+    MESSAGE_CHANNEL_HIGHLIGHT, MESSAGE_SPELL, MESSAGE_NPC_FROM_START_BLOCK,
+    MESSAGE_NPC_FROM, MESSAGE_NPC_TO, MESSAGE_GAMEMASTER_BROADCAST,
+    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM,
+    MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_LOGIN, MESSAGE_ADMIN, MESSAGE_GAME,
+    MESSAGE_FAILURE, MESSAGE_LOOK, MESSAGE_DAMAGE_DEALED,
+    MESSAGE_DAMAGE_RECEIVED, MESSAGE_HEAL, MESSAGE_EXP, MESSAGE_DAMAGE_OTHERS,
+    MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS, MESSAGE_STATUS, MESSAGE_LOOT,
+    MESSAGE_TRADE_NPC, MESSAGE_GUILD, MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY,
+    MESSAGE_BARK_LOW, MESSAGE_BARK_LOUD, MESSAGE_REPORT, MESSAGE_HOTKEY_USE,
+    MESSAGE_TUTORIAL_HINT, MESSAGE_THANKYOU, MESSAGE_MARKET);
 {$ENDREGION}
 {$REGION 'MessageModes1055'}
-  MessageModes1055: array [0 .. 43] of TTibiaMessageMode = (MESSAGE_NONE, MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL,
-    MESSAGE_PRIVATE_FROM, MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL, MESSAGE_CHANNEL_HIGHLIGHT,
-    MESSAGE_SPELL, MESSAGE_NPC_FROM_START_BLOCK, MESSAGE_NPC_FROM, MESSAGE_NPC_TO, MESSAGE_GAMEMASTER_BROADCAST,
-    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM, MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_LOGIN,
-    MESSAGE_ADMIN, MESSAGE_GAME, MESSAGE_GAME_HIGHLIGHT, MESSAGE_FAILURE, MESSAGE_LOOK, MESSAGE_DAMAGE_DEALED,
-    MESSAGE_DAMAGE_RECEIVED, MESSAGE_HEAL, MESSAGE_EXP, MESSAGE_DAMAGE_OTHERS, MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS,
-    MESSAGE_STATUS, MESSAGE_LOOT, MESSAGE_TRADE_NPC, MESSAGE_GUILD, MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY,
-    MESSAGE_BARK_LOW, MESSAGE_BARK_LOUD, MESSAGE_REPORT, MESSAGE_HOTKEY_USE, MESSAGE_TUTORIAL_HINT, MESSAGE_THANKYOU,
-    MESSAGE_MARKET, MESSAGE_MANA);
+  MessageModes1055: array [0 .. 43] of TTibiaMessageMode = (MESSAGE_NONE,
+    MESSAGE_SAY, MESSAGE_WHISPER, MESSAGE_YELL, MESSAGE_PRIVATE_FROM,
+    MESSAGE_PRIVATE_TO, MESSAGE_CHANNEL_MANAGEMENT, MESSAGE_CHANNEL,
+    MESSAGE_CHANNEL_HIGHLIGHT, MESSAGE_SPELL, MESSAGE_NPC_FROM_START_BLOCK,
+    MESSAGE_NPC_FROM, MESSAGE_NPC_TO, MESSAGE_GAMEMASTER_BROADCAST,
+    MESSAGE_GAMEMASTER_CHANNEL, MESSAGE_GAMEMASTER_PRIVATE_FROM,
+    MESSAGE_GAMEMASTER_PRIVATE_TO, MESSAGE_LOGIN, MESSAGE_ADMIN, MESSAGE_GAME,
+    MESSAGE_GAME_HIGHLIGHT, MESSAGE_FAILURE, MESSAGE_LOOK,
+    MESSAGE_DAMAGE_DEALED, MESSAGE_DAMAGE_RECEIVED, MESSAGE_HEAL, MESSAGE_EXP,
+    MESSAGE_DAMAGE_OTHERS, MESSAGE_HEAL_OTHERS, MESSAGE_EXP_OTHERS,
+    MESSAGE_STATUS, MESSAGE_LOOT, MESSAGE_TRADE_NPC, MESSAGE_GUILD,
+    MESSAGE_PARTY_MANAGEMENT, MESSAGE_PARTY, MESSAGE_BARK_LOW,
+    MESSAGE_BARK_LOUD, MESSAGE_REPORT, MESSAGE_HOTKEY_USE,
+    MESSAGE_TUTORIAL_HINT, MESSAGE_THANKYOU, MESSAGE_MARKET, MESSAGE_MANA);
 {$ENDREGION}
   function FromModes(Modes: array of TTibiaMessageMode): TTibiaMessageMode;
   begin
@@ -433,14 +491,22 @@ const
     else
       Result := MESSAGE_NONE;
   end;
+
 begin
-  if AdrSelected >= TibiaVer1055 then begin
+  if AdrSelected >= TibiaVer1055 then
+  begin
     Exit(FromModes(MessageModes1055))
-  end else if AdrSelected >= TibiaVer1036 then begin
+  end
+  else if AdrSelected >= TibiaVer1036 then
+  begin
     Exit(FromModes(MessageModes1036))
-  end else if AdrSelected >= TibiaVer872 then begin
+  end
+  else if AdrSelected >= TibiaVer872 then
+  begin
     Exit(FromModes(MessageModes872))
-  end else begin
+  end
+  else
+  begin
     Exit(FromModes(MessageModes850))
   end;
 end;
@@ -449,9 +515,11 @@ procedure TTibia.OnBotPacket(ABuffer: BPtr; ASize: BInt32);
 var
   MsgPacket: TBBotGUIMessageOnPacketBot;
 begin
-  if Assigned(Me) and Me.Connected then begin
+  if Assigned(Me) and Me.Connected then
+  begin
     Parser.SetBuffer(ABuffer, ASize);
-    if Assigned(FMain) then begin
+    if Assigned(FMain) then
+    begin
       MsgPacket := TBBotGUIMessageOnPacketBot.Create;
       MsgPacket.Time := Now;
       MsgPacket.Size := ASize;
@@ -465,9 +533,11 @@ procedure TTibia.OnClientPacket(ABuffer: BPtr; ASize: BInt32);
 var
   MsgPacket: TBBotGUIMessageOnPacketClient;
 begin
-  if Assigned(Me) and Me.Connected then begin
+  if Assigned(Me) and Me.Connected then
+  begin
     Parser.SetBuffer(ABuffer, ASize);
-    if Assigned(FMain) then begin
+    if Assigned(FMain) then
+    begin
       MsgPacket := TBBotGUIMessageOnPacketClient.Create;
       MsgPacket.Time := Now;
       MsgPacket.Size := ASize;
@@ -490,9 +560,11 @@ procedure TTibia.OnServerPacket(ABuffer: BPtr; ASize: BInt32);
 var
   MsgPacket: TBBotGUIMessageOnPacketServer;
 begin
-  if Assigned(Me) and Me.Connected then begin
+  if Assigned(Me) and Me.Connected then
+  begin
     Parser.SetBuffer(ABuffer, ASize);
-    if Assigned(FMain) then begin
+    if Assigned(FMain) then
+    begin
       MsgPacket := TBBotGUIMessageOnPacketServer.Create;
       MsgPacket.Time := Now;
       MsgPacket.Size := ASize;
@@ -522,7 +594,8 @@ var
   KS: TTibiaKeyStates;
 begin
   KS := TibiaState^.Keys[Key];
-  if First then begin
+  if First then
+  begin
     Result := bksDown in KS;
     if Result then
       TibiaState^.Keys[Key] := TibiaState^.Keys[Key] - [bksDown];
@@ -531,7 +604,8 @@ begin
     Result := bksPressed in KS;
 end;
 
-procedure TTibia.BlockKeyCallback(Key: byte; WithShift: boolean; WithCtrl: boolean);
+procedure TTibia.BlockKeyCallback(Key: byte; WithShift: boolean;
+  WithCtrl: boolean);
 var
   OffFlag: TTibiaKeyState;
 begin
@@ -544,7 +618,8 @@ begin
     TibiaState^.Keys[Key] := TibiaState^.Keys[Key] + [OffFlag];
 end;
 
-procedure TTibia.UnBlockKeyCallback(Key: byte; WithShift: boolean; WithCtrl: boolean);
+procedure TTibia.UnBlockKeyCallback(Key: byte; WithShift: boolean;
+  WithCtrl: boolean);
 var
   OffFlag: TTibiaKeyState;
 begin
@@ -579,7 +654,8 @@ begin
   Result := 15;
   for i := 0 to 15 do
     if ContainerAt(i, 0) <> nil then
-      if not ContainerAt(i, 0).Open then begin
+      if not ContainerAt(i, 0).Open then
+      begin
         Result := i;
         Exit;
       end;
@@ -601,7 +677,8 @@ begin
   try
     Result := False;
     n := BInt32(Delay) + BRandom(0, BFloor(Delay * 0.3));
-    while n > 0 do begin
+    while n > 0 do
+    begin
       Sleep(500);
       Dec(n, 500);
       Me.Reload;
@@ -609,9 +686,10 @@ begin
       if Result then
         Break;
     end;
-  finally BBotMutex.Acquire;
+  finally
+    BBotMutex.Acquire;
   end;
 end;
 
 end.
-
+

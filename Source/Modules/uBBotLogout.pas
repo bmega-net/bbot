@@ -1,5 +1,5 @@
 unit uBBotLogout;
-
+
 interface
 
 uses
@@ -42,11 +42,12 @@ begin
   if Me.LoggingOut and Me.Connected then
     if not(tsInBattle in Me.Status) then
       if not(tsCannotLogoutOrEnterProtectionZone in Me.Status) then
-        if not NextLogout.Locked then begin
+        if not NextLogout.Locked then
+        begin
           BBot.PacketSender.TryLogout;
           NextLogout.Lock();
         end;
 end;
 
 end.
-
+

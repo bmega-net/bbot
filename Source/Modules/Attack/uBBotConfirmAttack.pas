@@ -1,5 +1,5 @@
 unit uBBotConfirmAttack;
-
+
 interface
 
 uses
@@ -63,7 +63,8 @@ uses
 
 procedure TBBotConfirmAttack.AddHistory(Creature: TBBotCreature);
 begin
-  if Creature <> nil then begin
+  if Creature <> nil then
+  begin
     AttackHistory.AddOrUpdate('ConfirmAttack add ' + Creature.Name,
       function(AIt: BVector<THistoryData>.It): BBool
       begin
@@ -85,7 +86,8 @@ end;
 constructor TBBotConfirmAttack.Create;
 begin
   FConfirmTimeout := BLock.Create(BBotConfirmAttackTimeout, 0.4);
-  FVerifyReachable := BLock.Create(BBotConfirmAttackVerifyReachableTimeout, 0.4);
+  FVerifyReachable := BLock.Create
+    (BBotConfirmAttackVerifyReachableTimeout, 0.4);
   FConfirmed := True;
   FID := 0;
   AttackHistory := BVector<THistoryData>.Create;
@@ -100,7 +102,8 @@ begin
   inherited;
 end;
 
-procedure TBBotConfirmAttack.OnCreatureHP(Creature: TBBotCreature; OldHP: BInt32);
+procedure TBBotConfirmAttack.OnCreatureHP(Creature: TBBotCreature;
+OldHP: BInt32);
 begin
   if Creature.IsTarget and (ID = Creature.ID) and (not Confirmed) then
     Confirmed := True;
@@ -113,7 +116,8 @@ begin
 
   SysVariableLock('Attacker.ConfirmTime', ConfirmTimeout);
   SysVariableLock('Attacker.VerifyReachable', VerifyReachable);
-  FHistoryTimeout := SysVariable('Attacker.HistoryTimeout', BBotAttackerHistoryTimeout);
+  FHistoryTimeout := SysVariable('Attacker.HistoryTimeout',
+    BBotAttackerHistoryTimeout);
 end;
 
 procedure TBBotConfirmAttack.OnTarget(Creature: TBBotCreature);
@@ -131,21 +135,29 @@ begin
     end);
 end;
 
-function TBBotConfirmAttack.RecentlyAttacked(const ACreature: TBBotCreature): BBool;
+function TBBotConfirmAttack.RecentlyAttacked(const ACreature
+  : TBBotCreature): BBool;
 begin
   Exit(RecentlyAttacked(ACreature.ID));
 end;
 
 procedure TBBotConfirmAttack.Run;
 begin
-  if Me.IsAttacking and (ID = Me.TargetID) then begin
-    if (not Confirmed) and (not ConfirmTimeout.Locked) then begin
+  if Me.IsAttacking and (ID = Me.TargetID) then
+  begin
+    if (not Confirmed) and (not ConfirmTimeout.Locked) then
+    begin
       if BBot.Attacker.Debug then
         AddDebug('confirmation timeout');
       BBot.Attacker.AttackNext;
-    end else if Confirmed then begin
-      if not VerifyReachable.Locked then begin
-        if (not BBot.Creatures.Target.IsReachable) and (not BBot.Attacker.AttackNotReachable) then begin
+    end
+    else if Confirmed then
+    begin
+      if not VerifyReachable.Locked then
+      begin
+        if (not BBot.Creatures.Target.IsReachable) and
+          (not BBot.Attacker.AttackNotReachable) then
+        begin
           if BBot.Attacker.Debug then
             AddDebug('not reachable');
           BBot.Attacker.AttackNext;
@@ -166,11 +178,14 @@ end;
 procedure TBBotConfirmAttack.SetConfirmed(const Value: BBool);
 begin
   FConfirmed := Value;
-  if Value then begin
+  if Value then
+  begin
     VerifyReachable.Lock;
     if BBot.Attacker.Debug then
       AddDebug('confirmed');
-  end else begin
+  end
+  else
+  begin
     ConfirmTimeout.Lock;
     if BBot.Attacker.Debug then
       AddDebug('confirmation started');
@@ -184,4 +199,4 @@ begin
 end;
 
 end.
-
+

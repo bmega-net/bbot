@@ -1,6 +1,5 @@
 unit uTibiaProcess;
 
-
 interface
 
 uses
@@ -79,9 +78,12 @@ const
   ProcessScanChunkSize = 65535;
   ProcessScanSize = $FEFFFFFF;
 
-function ProcessProtectedWrite(AProcess: BUInt32; AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
-function ProcessProtectedRead(AProcess: BUInt32; AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
-function ProcessScan(AProcess: BUInt32; ASearchBuffer: BPChar; ASearchSize: BUInt32): BUInt32;
+function ProcessProtectedWrite(AProcess: BUInt32; AAddress: BPtr;
+  ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function ProcessProtectedRead(AProcess: BUInt32; AAddress: BPtr;
+  ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function ProcessScan(AProcess: BUInt32; ASearchBuffer: BPChar;
+  ASearchSize: BUInt32): BUInt32;
 
 var
   TibiaProcess: TBBotTibiaProcess;
@@ -93,7 +95,8 @@ uses
   Declaracoes,
   uBBotAddresses;
 
-function ProcessProtectedWrite(AProcess: BUInt32; AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function ProcessProtectedWrite(AProcess: BUInt32; AAddress: BPtr;
+  ABuffer: BPInt8; ASize: BUInt32): BUInt32;
 var
   BytesWritten: NativeUInt;
   OldProtection: BUInt32;
@@ -104,7 +107,8 @@ begin
   Result := BytesWritten;
 end;
 
-function ProcessProtectedRead(AProcess: BUInt32; AAddress: BPtr; ABuffer: BPInt8; ASize: BUInt32): BUInt32;
+function ProcessProtectedRead(AProcess: BUInt32; AAddress: BPtr;
+  ABuffer: BPInt8; ASize: BUInt32): BUInt32;
 var
   BytesRead: NativeUInt;
   OldProtection: BUInt32;
@@ -115,7 +119,8 @@ begin
   Result := BytesRead;
 end;
 
-function ProcessScan(AProcess: BUInt32; ASearchBuffer: BPChar; ASearchSize: BUInt32): BUInt32;
+function ProcessScan(AProcess: BUInt32; ASearchBuffer: BPChar;
+  ASearchSize: BUInt32): BUInt32;
 var
   Buffer: array [0 .. ProcessScanChunkSize] of BInt8;
   Offset: BUInt32;
@@ -123,11 +128,15 @@ var
   Buff: BPChar;
 begin
   Offset := 0;
-  while Offset < ProcessScanSize do begin
-    ReadProcessMemory(AProcess, BPtr(Offset), @Buffer[0], ProcessScanChunkSize, BytesRead);
-    if BytesRead > 0 then begin
+  while Offset < ProcessScanSize do
+  begin
+    ReadProcessMemory(AProcess, BPtr(Offset), @Buffer[0], ProcessScanChunkSize,
+      BytesRead);
+    if BytesRead > 0 then
+    begin
       Buff := @Buffer[0];
-      while Buff < @Buffer[High(Buffer) - ASearchSize] do begin
+      while Buff < @Buffer[High(Buffer) - ASearchSize] do
+      begin
         if CompareMem(Buff, ASearchBuffer, ASearchSize) then
           Exit(BUInt32(Buff) - BUInt32(@Buffer[0]) + Offset);
         Inc(Buff);
@@ -148,7 +157,8 @@ begin
   Result := OpenProcess(BotProcessAccess, False, PID);
 end;
 
-procedure TBBotTibiaProcess.PrintPixel(const X, Y, R: BInt32; const Color: BUInt32);
+procedure TBBotTibiaProcess.PrintPixel(const X, Y, R: BInt32;
+  const Color: BUInt32);
 var
   iX, iY: BInt32;
 begin
@@ -157,7 +167,8 @@ begin
       SetPixel(FhDC, iX, iY, Color);
 end;
 
-function TBBotTibiaProcess.Protect(Address, Size: BInt32; NewProtect: BUInt32): BUInt32;
+function TBBotTibiaProcess.Protect(Address, Size: BInt32;
+  NewProtect: BUInt32): BUInt32;
 var
   OldProtect: NativeUInt;
 begin
@@ -255,7 +266,8 @@ begin
   Result := ReadEx(GetAddress(Address), Size, Buffer);
 end;
 
-function TBBotTibiaProcess.Write(Address, Size: BInt32; Buffer: pointer): BInt32;
+function TBBotTibiaProcess.Write(Address, Size: BInt32;
+  Buffer: pointer): BInt32;
 begin
   Result := WriteEx(GetAddress(Address), Size, Buffer);
 end;
@@ -266,7 +278,8 @@ begin
   if fPID <> 0 then
     GetBaseAddress
   else
-    raise Exception.Create('Unable to gather process id, possible anti-virus blocking.');
+    raise Exception.Create
+      ('Unable to gather process id, possible anti-virus blocking.');
 end;
 
 procedure TBBotTibiaProcess.CloseDC;
@@ -277,7 +290,8 @@ end;
 
 procedure TBBotTibiaProcess.CloseHandle;
 begin
-  if Handle <> 0 then begin
+  if Handle <> 0 then
+  begin
     Windows.CloseHandle(Handle);
     Handle := 0;
   end;
@@ -299,11 +313,14 @@ var
 begin
   FBaseAddress := 0;
   h32SnapShot := CreateToolHelp32Snapshot(TH32CS_SNAPMODULE, PID);
-  if (h32SnapShot <> 0) and (h32SnapShot <> $FFFFFFFF) then begin
+  if (h32SnapShot <> 0) and (h32SnapShot <> $FFFFFFFF) then
+  begin
     ModuleEntry32.dwSize := SizeOf(TModuleEntry32);
-    if Module32First(h32SnapShot, ModuleEntry32) then begin
+    if Module32First(h32SnapShot, ModuleEntry32) then
+    begin
       repeat
-        if AnsiPos('.exe', ModuleEntry32.szModule) > 0 then begin
+        if AnsiPos('.exe', ModuleEntry32.szModule) > 0 then
+        begin
           FBaseAddress := BUInt32(ModuleEntry32.modBaseAddr);
           FBaseSize := BUInt32(ModuleEntry32.modBaseSize);
           Break;
@@ -312,7 +329,9 @@ begin
     end;
   end;
   if FBaseAddress = 0 then
-    raise Exception.Create('BaseAddress not found, possible anti-virus blocking. EC: ' + IntToStr(GetLastError));
+    raise Exception.Create
+      ('BaseAddress not found, possible anti-virus blocking. EC: ' +
+      IntToStr(GetLastError));
 end;
 
 function TBBotTibiaProcess.GetTibiaClientRect: TRect;
@@ -359,11 +378,13 @@ begin
   Result := Result + IntToStr(VerValue^.dwFileVersionLS and $FFFF);
   FreeMem(VerInfo, VerInfoSize);
   for I := 0 to High(TibiaVersionOverrides) do
-    if BStrEqual(TibiaVersionOverrides[I].FromVersion, Result) then begin
+    if BStrEqual(TibiaVersionOverrides[I].FromVersion, Result) then
+    begin
       Size := BCeil(Length(TibiaVersionOverrides[I].HexValue) / 3);
       Read(TibiaVersionOverrides[I].Address, Size, @OverrideSignatureBuffer);
       OverrideSignature := BinToHex(@OverrideSignatureBuffer, Size);
-      if BStrStartSensitive(OverrideSignature, TibiaVersionOverrides[I].HexValue) then
+      if BStrStartSensitive(OverrideSignature, TibiaVersionOverrides[I].HexValue)
+      then
         Exit(TibiaVersionOverrides[I].ToVersion);
     end;
 end;
@@ -373,7 +394,8 @@ begin
   Result := FBaseAddress + BUInt32(AAddress - $400000);
 end;
 
-function TBBotTibiaProcess.ReadEx(Address, Size: BInt32; Buffer: pointer): BInt32;
+function TBBotTibiaProcess.ReadEx(Address, Size: BInt32;
+  Buffer: pointer): BInt32;
 var
   Ret: NativeUInt;
 begin
@@ -381,7 +403,8 @@ begin
   Result := Ret;
 end;
 
-function TBBotTibiaProcess.WriteEx(Address, Size: BInt32; Buffer: pointer): Integer;
+function TBBotTibiaProcess.WriteEx(Address, Size: BInt32;
+  Buffer: pointer): Integer;
 var
   Ret: NativeUInt;
 begin
@@ -418,4 +441,3 @@ finalization
 _SafeFree(TibiaProcess);
 
 end.
-

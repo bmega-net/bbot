@@ -1,5 +1,5 @@
 ﻿unit uAStar;
-
+
 interface
 
 uses
@@ -26,7 +26,8 @@ type
     FPosition: BPos;
     procedure SetParent(const Value: TAStarNode);
   public
-    constructor Create(ATileCost: BFloat; APosition: BPos; AParent: TAStarNode; AAStar: TAStar);
+    constructor Create(ATileCost: BFloat; APosition: BPos; AParent: TAStarNode;
+      AAStar: TAStar);
 
     property AStar: TAStar read FAStar;
     property Position: BPos read FPosition;
@@ -88,7 +89,8 @@ begin
   FAStar.GetNeightbors(Self);
 end;
 
-constructor TAStarNode.Create(ATileCost: BFloat; APosition: BPos; AParent: TAStarNode; AAStar: TAStar);
+constructor TAStarNode.Create(ATileCost: BFloat; APosition: BPos;
+  AParent: TAStarNode; AAStar: TAStar);
 begin
   FAStar := AAStar;
   FPosition := APosition;
@@ -96,8 +98,8 @@ begin
   FStepCost := 0;
   FDone := False;
   FPath := False;
-  FDistancetoOrigin := DiagonalDistance(AAStar.GetOrigin.X, AAStar.GetOrigin.Y, FPosition.X, FPosition.Y,
-    StepCost_Diagonal, StepCost_Straight);
+  FDistancetoOrigin := DiagonalDistance(AAStar.GetOrigin.X, AAStar.GetOrigin.Y,
+    FPosition.X, FPosition.Y, StepCost_Diagonal, StepCost_Straight);
   FHeuristic := FAStar.GetHeuristic(Self);
   SetParent(AParent);
   FTarget := FAStar.GetTarget(Self);
@@ -106,10 +108,14 @@ end;
 procedure TAStarNode.SetParent(const Value: TAStarNode);
 begin
   FParent := Value;
-  if FParent <> nil then begin
-    FStepCost := FAStar.GetStepCost(FParent.Position.X, FParent.Position.Y, Position.X, Position.Y);
+  if FParent <> nil then
+  begin
+    FStepCost := FAStar.GetStepCost(FParent.Position.X, FParent.Position.Y,
+      Position.X, Position.Y);
     FCost := FParent.Cost;
-  end else begin
+  end
+  else
+  begin
     FStepCost := 0;
     FCost := 0;
   end;
@@ -135,10 +141,13 @@ begin
     begin
       Result := It^.Position = Position;
     end);
-  if F <> BVector<TAStarNode>.Invalid then begin
+  if F <> BVector<TAStarNode>.Invalid then
+  begin
     N := LOpen.Items.Item[F]^;
-    S := GetStepCost(Parent.Position.X, Parent.Position.Y, Position.X, Position.Y);
-    if S < N.StepCost then begin
+    S := GetStepCost(Parent.Position.X, Parent.Position.Y, Position.X,
+      Position.Y);
+    if S < N.StepCost then
+    begin
       N.Parent := Parent;
       LOpen.IncreaseKey(F + 1, LOpen.Items.Item[F]^);
     end;
@@ -146,7 +155,8 @@ begin
     Exit;
   end;
   S := GetTileCost(Position);
-  if S < TileCost_NotWalkable then begin
+  if S < TileCost_NotWalkable then
+  begin
     N := TAStarNode.Create(S, Position, Parent, Self);
     OnDebug(N);
     LOpen.Push(N);
@@ -159,7 +169,8 @@ var
 begin
   Result := 0;
   N := LastNode;
-  while N <> nil do begin
+  while N <> nil do
+  begin
     Inc(Result);
     N.Path := True;
     OnDebug(N);
@@ -172,9 +183,11 @@ var
   Node: TAStarNode;
 begin
   Node := ANode;
-  while Node <> nil do begin
+  while Node <> nil do
+  begin
     OnDebug(Node);
-    if Node.Target then begin
+    if Node.Target then
+    begin
       LastNode := Node;
       FCost := CalcCost;
       Exit;
@@ -205,7 +218,9 @@ begin
     begin
       It^.Free;
     end;
-  Comparer := function(ALeft: BVector<TAStarNode>.It; ARight: BVector<TAStarNode>.It): BInt32
+  Comparer :=
+      function(ALeft: BVector<TAStarNode>.It;
+    ARight: BVector<TAStarNode>.It): BInt32
     begin
       Result := BCeil(ALeft^.Cost - ARight^.Cost);
     end;
@@ -258,11 +273,12 @@ var
   N: TAStarNode;
 begin
   N := LastNode;
-  while N <> nil do begin
+  while N <> nil do
+  begin
     Path.Add(N.Position);
     N := N.Parent;
   end;
 end;
 
 end.
-
+

@@ -1,11 +1,12 @@
 unit uRegex;
-
+
 interface
 
 uses
   uBTypes;
 
-function BSimpleRegex(Pattern, Subject: BStr; var Res: BStrArray): BBool; overload;
+function BSimpleRegex(Pattern, Subject: BStr; var Res: BStrArray)
+  : BBool; overload;
 function BSimpleRegex(Pattern, Subject: BStr): BBool; overload;
 function BSimpleRegexReplace(Pattern, Replacement, Subject: BStr): BStr;
 
@@ -30,7 +31,8 @@ begin
   R := TRegEx.Create(Pattern, Options);
   M := R.Match(Subject);
   Result := M.Success;
-  if Result then begin
+  if Result then
+  begin
     SetLength(Res, M.Groups.Count);
     for I := 0 to M.Groups.Count - 1 do
       Res[I] := M.Groups.Item[I].Value;
@@ -56,4 +58,4 @@ begin
 end;
 
 end.
-
+

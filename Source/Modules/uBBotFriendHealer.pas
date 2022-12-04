@@ -1,5 +1,5 @@
 unit uBBotFriendHealer;
-
+
 interface
 
 uses
@@ -79,7 +79,8 @@ end;
 
 procedure TBBotFriendHealer.Run;
 begin
-  if Enabled and (not Data.Empty) then begin
+  if Enabled and (not Data.Empty) then
+  begin
     BBot.Creatures.Has(
       function(Creature: TBBotCreature): BBool
       begin
@@ -89,13 +90,19 @@ begin
             if Me.HP >= It^.MyHP then
               if Me.Mana >= It^.MyMana then
                 if BInRange(Creature.Health, 1, It^.HP) then
-                  if (BStrEqual(Creature.Name, It^.Name)) or (((Creature.Party.Player = PartyMember) or
-                    (Creature.Party.Player = PartyLeader)) and (It^.Name = 'Party')) or
-                    ((Creature.IsAlly) and (It^.Name = 'Allies')) then begin
-                    if (It^.Use <> 1) and (not BBot.Exhaust.Item) then begin
+                  if (BStrEqual(Creature.Name, It^.Name)) or
+                    (((Creature.Party.Player = PartyMember) or
+                    (Creature.Party.Player = PartyLeader)) and
+                    (It^.Name = 'Party')) or ((Creature.IsAlly) and
+                    (It^.Name = 'Allies')) then
+                  begin
+                    if (It^.Use <> 1) and (not BBot.Exhaust.Item) then
+                    begin
                       Creature.ShootOn(It^.Use);
                       Exit(True);
-                    end else if (It^.Use = 1) and (not BBot.Exhaust.Defensive) then begin
+                    end
+                    else if (It^.Use = 1) and (not BBot.Exhaust.Defensive) then
+                    begin
                       Me.Say(BStrReplace(It^.UseSpell, '%Name', Creature.Name));
                       Exit(True);
                     end;
@@ -107,4 +114,4 @@ begin
 end;
 
 end.
-
+

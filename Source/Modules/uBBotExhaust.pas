@@ -1,5 +1,5 @@
 unit uBBotExhaust;
-
+
 interface
 
 uses
@@ -124,17 +124,20 @@ begin
   BBot.Events.OnUseOnCreature.Add(OnUseOnCreature);
   BBot.Events.OnUseOnItem.Add(OnUseOnItem);
 
-  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustOffensiveVar, BBotExhaustOffensive).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustOffensiveVar,
+    BBotExhaustOffensive).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       LOffensive.Delay := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustDefensiveVar, BBotExhaustDefensive).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustDefensiveVar,
+    BBotExhaustDefensive).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       LDefensive.Delay := AValue;
     end);
-  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustPotionVar, BBotExhaustPotion).Watch(
+  BBot.Macros.Registry.CreateSystemVariable(BBotExhaustPotionVar,
+    BBotExhaustPotion).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       LItem.Delay := AValue;
@@ -185,4 +188,4 @@ begin
 end;
 
 end.
-
+

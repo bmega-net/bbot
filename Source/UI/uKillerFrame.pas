@@ -51,10 +51,13 @@ type
     procedure KillerNewTargetKeepDistanceClick(Sender: TObject);
     procedure numKillerNewDistChange(Sender: TObject);
     procedure cmbKillerNewNameDropDown(Sender: TObject);
-    procedure cmbKillerNewPriorityDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
+    procedure cmbKillerNewPriorityDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
     procedure lstKillerTargetsDblClick(Sender: TObject);
-    procedure lstKillerTargetsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure lstKillerTargetsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstKillerTargetsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure lstKillerTargetsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure btnKillerNewAddClick(Sender: TObject);
     procedure MacroSetup(Sender: TObject);
     procedure ApplySettings(Sender: TObject);
@@ -92,12 +95,15 @@ var
   I: Integer;
 begin
   for I := lstKillerTargets.Count - 1 downto 0 do
-    if AnsiSameText(BStrLeft(lstKillerTargets.Items[I], ':'), cmbKillerNewName.Text) then
+    if AnsiSameText(BStrLeft(lstKillerTargets.Items[I], ':'),
+      cmbKillerNewName.Text) then
       lstKillerTargets.Items.Delete(I);
-  lstKillerTargets.Items.Add(Format('%s:%d:%s:%s:%s:%s:%s', [cmbKillerNewName.Text,
-    BInt32(ComboSelectedObj(cmbKillerNewPriority)), numKillerNewDist.Text, BIF(chkKillerNewDiagonal.Checked, '1', '0'),
-    BIF(chkKillerNewMacroAuto.Checked, cmbKillerNewMacroAuto.Text, ''), BIF(chkKillerNewMacroStart.Checked,
-    cmbKillerNewMacroStart.Text, ''), BIF(chkKillerNewMacroStop.Checked, cmbKillerNewMacroStop.Text, '')]));
+  lstKillerTargets.Items.Add(Format('%s:%d:%s:%s:%s:%s:%s',
+    [cmbKillerNewName.Text, BInt32(ComboSelectedObj(cmbKillerNewPriority)),
+    numKillerNewDist.Text, BIF(chkKillerNewDiagonal.Checked, '1', '0'),
+    BIF(chkKillerNewMacroAuto.Checked, cmbKillerNewMacroAuto.Text, ''),
+    BIF(chkKillerNewMacroStart.Checked, cmbKillerNewMacroStart.Text, ''),
+    BIF(chkKillerNewMacroStop.Checked, cmbKillerNewMacroStop.Text, '')]));
   TFMain(FMain).AutomationToolsSettings(Sender);
 end;
 
@@ -113,13 +119,14 @@ begin
     end);
 end;
 
-procedure TKillerFrame.cmbKillerNewPriorityDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-State: TOwnerDrawState);
+procedure TKillerFrame.cmbKillerNewPriorityDrawItem(Control: TWinControl;
+Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A, B: BStr;
 begin
   BStrSplit(cmbKillerNewPriority.Items[Index], ' ', A, B);
-  BListDrawItem(cmbKillerNewPriority.Canvas, Index, odSelected in State, Rect, A, B);
+  BListDrawItem(cmbKillerNewPriority.Canvas, Index, odSelected in State,
+    Rect, A, B);
 end;
 
 constructor TKillerFrame.Create(AOwner: TComponent);
@@ -158,7 +165,8 @@ var
 begin
   if lstKillerTargets.ItemIndex = -1 then
     Exit;
-  if BStrSplit(R, ':', lstKillerTargets.Items[lstKillerTargets.ItemIndex]) < 6 then
+  if BStrSplit(R, ':', lstKillerTargets.Items[lstKillerTargets.ItemIndex]) < 6
+  then
     Exit;
   cmbKillerNewName.Text := R[0];
   I := BStrTo32(R[1], 0);
@@ -179,8 +187,8 @@ begin
   numKillerNewDistChange(Sender);
 end;
 
-procedure TKillerFrame.lstKillerTargetsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
-State: TOwnerDrawState);
+procedure TKillerFrame.lstKillerTargetsDrawItem(Control: TWinControl;
+Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   A: BStr;
   B: BStr;
@@ -189,7 +197,8 @@ begin
   A := '?';
   B := lstKillerTargets.Items[Index];
   P := AnsiPos(':', lstKillerTargets.Items[Index]);
-  if P > 0 then begin
+  if P > 0 then
+  begin
     B := Copy(lstKillerTargets.Items[Index], 1, P - 1);
     A := Copy(lstKillerTargets.Items[Index], P + 1, 1);
     if (A = '6') or (A = '7') then
@@ -197,14 +206,17 @@ begin
     else
       A := '+' + A;
   end;
-  BListDrawItem(lstKillerTargets.Canvas, Index, odSelected in State, Rect, A, B);
+  BListDrawItem(lstKillerTargets.Canvas, Index, odSelected in State,
+    Rect, A, B);
 end;
 
-procedure TKillerFrame.lstKillerTargetsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TKillerFrame.lstKillerTargetsKeyDown(Sender: TObject; var Key: Word;
+Shift: TShiftState);
 var
   Selected: BInt32;
 begin
-  if ssShift in Shift then begin
+  if ssShift in Shift then
+  begin
     Selected := lstKillerTargets.ItemIndex;
     if Selected <> -1 then
       if Key = VK_DELETE then
@@ -238,13 +250,16 @@ var
   Data: TJson;
   Creatures: TJsonArray;
 begin
-  for I := 0 to lstKillerTargets.Items.Count - 1 do begin
+  for I := 0 to lstKillerTargets.Items.Count - 1 do
+  begin
     S := lstKillerTargets.Items.Strings[I];
-    if BStrPos(OldAttackDelimiter, S) > 0 then begin
+    if BStrPos(OldAttackDelimiter, S) > 0 then
+    begin
       Atk := BTrim(BStrRight(S, OldAttackDelimiter));
       Name := BTrim(BStrLeft(S, ':'));
 
-      if Atk <> '' then begin
+      if Atk <> '' then
+      begin
         Data := TJson.Create;
         Data.Put('name', Name);
         Data.Put('action', Atk);
@@ -258,7 +273,9 @@ begin
         Data.Put('type', 'Single');
         Code := Name + StrAdvancedAttackDataDelimiter + Data.Stringify;
         Data.Free;
-      end else begin
+      end
+      else
+      begin
         Code := '';
       end;
 
@@ -267,7 +284,8 @@ begin
       TFMain(FMain).AddDebug(BFormat('Creature: %s', [Name]));
       TFMain(FMain).AddDebug(BFormat('Attack: %s', [Atk]));
       TFMain(FMain).AddDebug(BFormat('From: %s', [S]));
-      TFMain(FMain).AddDebug(BFormat('To: %s', [BStrLeft(S, OldAttackDelimiter)]));
+      TFMain(FMain).AddDebug(BFormat('To: %s',
+        [BStrLeft(S, OldAttackDelimiter)]));
       TFMain(FMain).AddDebug(BFormat('Created new AdvAttack: %s', [Code]));
       TFMain(FMain).AddDebug(':: ATTACK MIGRATION END ::');
 
@@ -290,7 +308,8 @@ procedure TKillerFrame.SetAttacker;
 var
   I: BInt32;
 begin
-  if TFMain(FMain).MutexAcquire then begin
+  if TFMain(FMain).MutexAcquire then
+  begin
     BBot.Attacker.Enabled := chkKillerAttackAll.Checked;
     BBot.Attacker.NeverAttackPlayers := not chkKillerAllowAttackPlayers.Checked;
     BBot.Attacker.AvoidKS := chkAvoidKS.Checked;

@@ -1,5 +1,5 @@
 unit uBBotFramerate;
-
+
 interface
 
 uses
@@ -94,4 +94,4 @@ begin
 end;
 
 end.
-
+

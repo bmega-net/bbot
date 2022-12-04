@@ -32,17 +32,21 @@ begin
 end;
 
 type
-  TPeekMessageFunc = function(lpMsg: LPVOID; hWnd: HWND; wMsgFilterMin, wMsgFilterMax, wRemoveMsg: UINT): BOOL; stdcall;
+  TPeekMessageFunc = function(lpMsg: LPVOID; hWnd: hWnd;
+    wMsgFilterMin, wMsgFilterMax, wRemoveMsg: UINT): BOOL; stdcall;
   TSleepFunc = procedure(dwMilliseconds: DWORD); stdcall;
+
 var
   OriginalPeekMessage: BPtr;
   OriginalSleep: BPtr;
   TibiaThreadID: BUInt32;
 
-function BDllPeekMessage(lpMsg: LPVOID; hWnd: HWND; wMsgFilterMin, wMsgFilterMax, wRemoveMsg: UINT): BOOL; stdcall;
+function BDllPeekMessage(lpMsg: LPVOID; hWnd: hWnd;
+  wMsgFilterMin, wMsgFilterMax, wRemoveMsg: UINT): BOOL; stdcall;
 begin
   UpdateTibiaState;
-  Result := TPeekMessageFunc(OriginalPeekMessage)(lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax, wRemoveMsg);
+  Result := TPeekMessageFunc(OriginalPeekMessage)(lpMsg, hWnd, wMsgFilterMin,
+    wMsgFilterMax, wRemoveMsg);
 end;
 
 procedure BDllSleep(dwMilliseconds: DWORD); stdcall;
@@ -59,7 +63,8 @@ begin
       Dec(D, 10);
     end;
     TSleepFunc(OriginalSleep)(D);
-  end else
+  end
+  else
     TSleepFunc(OriginalSleep)(dwMilliseconds);
 end;
 
@@ -69,8 +74,10 @@ begin
   InitHUDHook;
   InitNETHook;
 
-  InjectIATHook(GetModuleHandle(nil), 'PeekMessageA', BPtr(@BDllPeekMessage), @OriginalPeekMessage);
-  InjectIATHook(GetModuleHandle(nil), 'Sleep', BPtr(@BDllSleep), @OriginalSleep);
+  InjectIATHook(GetModuleHandle(nil), 'PeekMessageA', BPtr(@BDllPeekMessage),
+    @OriginalPeekMessage);
+  InjectIATHook(GetModuleHandle(nil), 'Sleep', BPtr(@BDllSleep),
+    @OriginalSleep);
 end;
 
 procedure InitDLL;

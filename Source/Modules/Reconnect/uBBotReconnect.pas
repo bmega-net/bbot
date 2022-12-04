@@ -1,5 +1,5 @@
 unit uBBotReconnect;
-
+
 interface
 
 uses
@@ -47,8 +47,10 @@ procedure TBBotReconnect.Login;
 var
   Char: TBBotReconnectCharacter;
 begin
-  if not Me.Connected then begin
-    if not BBot.ServerSave.IsServerSave then begin
+  if not Me.Connected then
+  begin
+    if not BBot.ServerSave.IsServerSave then
+    begin
       BBot.ReconnectManager.LoadAccounts;
       Char := TryGetCharacter;
       if Char <> nil then
@@ -71,7 +73,8 @@ end;
 
 procedure TBBotReconnect.Run;
 begin
-  if Me.Connected then begin
+  if Me.Connected then
+  begin
     LastCharacterName := Me.Name;
     if Enabled then
       TryGetCharacter;
@@ -93,8 +96,10 @@ var
 
 begin
   Result := BBot.ReconnectManager.CharacterByName(LastCharacterName);
-  if (Result = nil) or (Result.Account = nil) then begin
-    Err := BUserError.Create(Self, BFormat('Missing "%s" account and password in Reconnect Manager.',
+  if (Result = nil) or (Result.Account = nil) then
+  begin
+    Err := BUserError.Create(Self,
+      BFormat('Missing "%s" account and password in Reconnect Manager.',
       [LastCharacterName]));
     Err.Actions := [uraEditReconnectManager];
     Err.DisableReconnectManager := True;
@@ -103,4 +108,4 @@ begin
 end;
 
 end.
-
+

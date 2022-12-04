@@ -1,5 +1,5 @@
 unit uXTea;
-
+
 interface
 
 uses
@@ -42,7 +42,8 @@ begin
     SetLength(Result, ((L - 1) div SizeOf(V) + 1) * SizeOf(V))
   else
     SetLength(Result, 0);
-  while I <= L do begin
+  while I <= L do
+  begin
     V[0] := 0;
     V[1] := 0;
     N := L - I + 1;
@@ -76,7 +77,8 @@ begin
     SetLength(Result, ((L - 1) div SizeOf(V) + 1) * SizeOf(V))
   else
     SetLength(Result, 0);
-  while I <= L do begin
+  while I <= L do
+  begin
     V[0] := 0;
     V[1] := 0;
     N := L - I + 1;
@@ -95,7 +97,8 @@ var
   S: Int64;
 begin
   S := 0;
-  for I := 0 to N - 1 do begin
+  for I := 0 to N - 1 do
+  begin
     Inc(V[0], ((V[1] shl 4 xor V[1] shr 5) + V[1]) xor (S + K[S and 3]));
     Dec(S, DELTA);
     Inc(V[1], ((V[0] shl 4 xor V[0] shr 5) + V[0]) xor (S + K[S shr 11 and 3]));
@@ -108,7 +111,8 @@ var
   S: Int64;
 begin
   S := SUMDecrypt;
-  for I := 0 to N - 1 do begin
+  for I := 0 to N - 1 do
+  begin
     Dec(V[1], ((V[0] shl 4 xor V[0] shr 5) + V[0]) xor (S + K[S shr 11 and 3]));
     Inc(S, DELTA);
     Dec(V[0], ((V[1] shl 4 xor V[1] shr 5) + V[1]) xor (S + K[S and 3]));
@@ -116,4 +120,4 @@ begin
 end;
 
 end.
-
+

@@ -1,5 +1,5 @@
 unit uBBotAutoRope;
-
+
 interface
 
 uses
@@ -36,11 +36,13 @@ var
   Map: TTibiaTiles;
   X, Y: BInt32;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     for X := -1 to 1 do
       for Y := -1 to 1 do
         if Tiles(Map, X + Me.Position.X, Y + Me.Position.Y) then
-          if Map.ChangeLevelDown then begin
+          if Map.ChangeLevelDown then
+          begin
             Map.UseOn(BBot.CaveBot.Rope);
             Exit;
           end;
@@ -48,4 +50,4 @@ begin
 end;
 
 end.
-
+

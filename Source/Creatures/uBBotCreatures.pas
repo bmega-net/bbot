@@ -33,7 +33,8 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr; ASize: BUInt32); virtual; abstract;
+    procedure Write(ACreature: BUInt32; AOffset: BUInt32; AValue: BPtr;
+      ASize: BUInt32); virtual; abstract;
 
     procedure Run; override;
     procedure Reload;
@@ -47,7 +48,8 @@ type
     procedure RawTraverse(AIter: BUnaryProc<TBBotCreature>);
     function RawFind(APred: BUnaryFunc<TBBotCreature, BBool>): TBBotCreature;
 
-    function Find(APred: BUnaryFunc<TBBotCreature, BBool>): TBBotCreature; overload;
+    function Find(APred: BUnaryFunc<TBBotCreature, BBool>)
+      : TBBotCreature; overload;
     function Find(AID: BUInt32): TBBotCreature; overload;
     function Find(AName: BStr): TBBotCreature; overload;
     function Find(APosition: BPos): TBBotCreature; overload;
@@ -145,7 +147,8 @@ begin
   Result := AIndex * GetCreatureBufferSize;
 end;
 
-function TBBotCreatures.Find(APred: BUnaryFunc<TBBotCreature, BBool>): TBBotCreature;
+function TBBotCreatures.Find(APred: BUnaryFunc<TBBotCreature, BBool>)
+  : TBBotCreature;
 var
   Found: TCreatureIter;
 begin
@@ -232,9 +235,10 @@ begin
     end);
 end;
 
-function TBBotCreatures.RawFind(APred: BUnaryFunc<TBBotCreature, BBool>): TBBotCreature;
+function TBBotCreatures.RawFind(APred: BUnaryFunc<TBBotCreature, BBool>)
+  : TBBotCreature;
 var
-  P: BVector<BPair<BBool, TBBotCreature>>.It;
+  P: BVector < BPair < BBool, TBBotCreature >>.It;
 begin
   P := CreatureList.Find('Creatures - rawFind',
     function(It: TCreatureIter): BBool
@@ -267,7 +271,8 @@ begin
     procedure(It: TCreatureIter)
     begin
       It^.First := False;
-      if It^.Second.IsSelf and It^.Second.IsVisible and It^.Second.IsAlive then begin
+      if It^.Second.IsSelf and It^.Second.IsVisible and It^.Second.IsAlive then
+      begin
         It^.First := True;
         FPlayer := It^.Second;
       end;
@@ -276,7 +281,9 @@ begin
     CreatureList.ForEach(
       procedure(It: TCreatureIter)
       begin
-        if (It^.Second.ID <> 0) and TibiaInScreen(FPlayer.Position, It^.Second.Position, True) then begin
+        if (It^.Second.ID <> 0) and TibiaInScreen(FPlayer.Position,
+          It^.Second.Position, True) then
+        begin
           It^.First := True;
           if It^.Second.IsTarget and It^.Second.IsAlive then
             FTarget := It^.Second;

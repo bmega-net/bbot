@@ -1,5 +1,5 @@
 unit uBBotJustLoggedIn;
-
+
 interface
 
 uses
@@ -65,11 +65,13 @@ var
 begin
   LoginLock.Lock;
   HUDRemoveGroup(bhgJustLoggedIn);
-  if Me.Connected then begin
+  if Me.Connected then
+  begin
     HUD := TBBotHUD.Create(bhgJustLoggedIn);
     HUD.AlignTo(bhaCenter, bhaTop);
     HUD.Expire := LoginLock.Remaining;
-    HUD.PrintGray('The Automation Tools are paused for # because you just logged in.');
+    HUD.PrintGray
+      ('The Automation Tools are paused for # because you just logged in.');
     HUD.OnClick := BBotJustLoggedInClickID;
     HUD.PrintGray('[ click here to skip ]');
     HUD.Free;
@@ -96,4 +98,4 @@ begin
 end;
 
 end.
-
+

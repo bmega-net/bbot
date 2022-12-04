@@ -7,7 +7,8 @@ uses
   uBBotAction;
 
 type
-  BUserErrorAction = (uraEditCavebot, uraEditAdvancedAttack, uraEditReconnectManager, uraEditMacro, uraEditEnchanter);
+  BUserErrorAction = (uraEditCavebot, uraEditAdvancedAttack,
+    uraEditReconnectManager, uraEditMacro, uraEditEnchanter);
   BUserErrorActions = set of BUserErrorAction;
 
   BUserError = class
@@ -33,8 +34,10 @@ type
 
     property DisableCavebot: BBool read FDisableCavebot write FDisableCavebot;
     property DisableMacros: BBool read FDisableMacros write FDisableMacros;
-    property DisableEnchanter: BBool read FDisableEnchanter write FDisableEnchanter;
-    property DisableReconnectManager: BBool read FDisableReconnectManager write FDisableReconnectManager;
+    property DisableEnchanter: BBool read FDisableEnchanter
+      write FDisableEnchanter;
+    property DisableReconnectManager: BBool read FDisableReconnectManager
+      write FDisableReconnectManager;
 
     property Formatted: BStr read GetFormatted;
 
@@ -65,14 +68,16 @@ end;
 
 procedure BUserError.Execute;
 begin
-  BBot.SimpleAlarm('[' + ModuleName + '] Error, please check BBot main window.', True);
+  BBot.SimpleAlarm('[' + ModuleName +
+    '] Error, please check BBot main window.', True);
   if DisableCavebot then
     BBot.Cavebot.Enabled := False;
   if DisableEnchanter then
     BBot.Enchanter.Enabled := False;
   if DisableMacros then
     BBot.Macros.AutoExecute := False;
-  if DisableReconnectManager then begin
+  if DisableReconnectManager then
+  begin
     BBot.Reconnect.Enabled := False;
     BBot.ReconnectManager.Enabled := False;
   end;
@@ -81,7 +86,8 @@ end;
 
 function BUserError.GetFormatted: BStr;
 begin
-  Result := BFormat('%s Error\nMessage:\n%s\n\nTime: %s\n', [ModuleName, Message, BDateToStr(Time)]);
+  Result := BFormat('%s Error\nMessage:\n%s\n\nTime: %s\n',
+    [ModuleName, Message, BDateToStr(Time)]);
   if DisableCavebot then
     Result := Result + BStrLine + 'Cavebot is paused';
   if DisableMacros then

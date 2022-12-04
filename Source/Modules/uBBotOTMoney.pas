@@ -1,5 +1,5 @@
 unit uBBotOTMoney;
-
+
 interface
 
 uses
@@ -36,11 +36,14 @@ procedure TBBotOTMoney.Run;
 var
   CT: TTibiaContainer;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     CT := ContainerFirst;
-    while CT <> nil do begin
+    while CT <> nil do
+    begin
       if CT.Count = 100 then
-        if BIntIn(CT.ID, [ItemID_GoldCoin, ItemID_PlatinumCoin]) then begin
+        if BIntIn(CT.ID, [ItemID_GoldCoin, ItemID_PlatinumCoin]) then
+        begin
           CT.Use;
           Exit;
         end;
@@ -50,4 +53,4 @@ begin
 end;
 
 end.
-
+

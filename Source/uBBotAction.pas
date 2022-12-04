@@ -1,6 +1,5 @@
 unit uBBotAction;
 
-
 interface
 
 uses
@@ -21,10 +20,14 @@ type
   public
     procedure Run; virtual; abstract;
 
-    function SysVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroSystemVariable; overload;
-    function SysValue(const AName: BStr; const ADefaultValue: BInt32): BInt32; overload;
-    function SysValueU32(const AName: BStr; const ADefaultValue: BUInt32): BUInt32; overload;
-    function SysVariableLock(const AName: BStr; const ALock: BLock): BMacroSystemVariable;
+    function SysVariable(const AName: BStr; const ADefaultValue: BInt32)
+      : BMacroSystemVariable; overload;
+    function SysValue(const AName: BStr; const ADefaultValue: BInt32)
+      : BInt32; overload;
+    function SysValueU32(const AName: BStr; const ADefaultValue: BUInt32)
+      : BUInt32; overload;
+    function SysVariableLock(const AName: BStr; const ALock: BLock)
+      : BMacroSystemVariable;
   end;
 
   TBBotAction = class(TBBotRunnable)
@@ -45,16 +48,23 @@ type
     procedure OnInit; virtual;
 
     procedure AddDebug(const AText: BStr); overload;
-    procedure AddDebug(const ACreature: TBBotCreature; const ACreatureText: BStr); overload;
-    procedure AddDebug(const ACreature: TBBotCreature; const AText, ACreatureText: BStr); overload;
-    procedure AddDebug(const APosition: BPos; const AText, APosText: BStr); overload;
+    procedure AddDebug(const ACreature: TBBotCreature;
+      const ACreatureText: BStr); overload;
+    procedure AddDebug(const ACreature: TBBotCreature;
+      const AText, ACreatureText: BStr); overload;
+    procedure AddDebug(const APosition: BPos;
+      const AText, APosText: BStr); overload;
     procedure AddDebug(const APosition: BPos; const APosText: BStr); overload;
     function DebugGroup: TBBotHUDGroup; virtual;
 
-    function ModVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroSystemVariable; overload;
-    function ModValue(const AName: BStr; const ADefaultValue: BInt32): BInt32; overload;
-    function ModValueU32(const AName: BStr; const ADefaultValue: BUInt32): BUInt32; overload;
-    function ModVariableLock(const AName: BStr; const ALock: BLock): BMacroSystemVariable;
+    function ModVariable(const AName: BStr; const ADefaultValue: BInt32)
+      : BMacroSystemVariable; overload;
+    function ModValue(const AName: BStr; const ADefaultValue: BInt32)
+      : BInt32; overload;
+    function ModValueU32(const AName: BStr; const ADefaultValue: BUInt32)
+      : BUInt32; overload;
+    function ModVariableLock(const AName: BStr; const ALock: BLock)
+      : BMacroSystemVariable;
   end;
 
   TBBotActions = class(TBBotAction)
@@ -125,13 +135,15 @@ begin
   HUD.Free;
 end;
 
-procedure TBBotAction.AddDebug(const ACreature: TBBotCreature; const AText, ACreatureText: BStr);
+procedure TBBotAction.AddDebug(const ACreature: TBBotCreature;
+  const AText, ACreatureText: BStr);
 begin
   AddDebug(ACreature, ACreatureText);
   AddDebug(AText);
 end;
 
-procedure TBBotAction.AddDebug(const APosition: BPos; const AText, APosText: BStr);
+procedure TBBotAction.AddDebug(const APosition: BPos;
+  const AText, APosText: BStr);
 var
   HUD: TBBotHUD;
 begin
@@ -151,7 +163,8 @@ begin
   AddDebug(APosition, '', APosText);
 end;
 
-procedure TBBotAction.AddDebug(const ACreature: TBBotCreature; const ACreatureText: BStr);
+procedure TBBotAction.AddDebug(const ACreature: TBBotCreature;
+  const ACreatureText: BStr);
 var
   HUD: TBBotHUD;
 begin
@@ -186,22 +199,26 @@ begin
   inherited;
 end;
 
-function TBBotAction.ModValue(const AName: BStr; const ADefaultValue: BInt32): BInt32;
+function TBBotAction.ModValue(const AName: BStr;
+  const ADefaultValue: BInt32): BInt32;
 begin
   Exit(ModVariable(AName, ADefaultValue).Value);
 end;
 
-function TBBotAction.ModValueU32(const AName: BStr; const ADefaultValue: BUInt32): BUInt32;
+function TBBotAction.ModValueU32(const AName: BStr;
+  const ADefaultValue: BUInt32): BUInt32;
 begin
   Exit(ModVariable(AName, ADefaultValue).ValueU32);
 end;
 
-function TBBotAction.ModVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroSystemVariable;
+function TBBotAction.ModVariable(const AName: BStr; const ADefaultValue: BInt32)
+  : BMacroSystemVariable;
 begin
   Exit(SysVariable(ModVariableName(AName), ADefaultValue));
 end;
 
-function TBBotAction.ModVariableLock(const AName: BStr; const ALock: BLock): BMacroSystemVariable;
+function TBBotAction.ModVariableLock(const AName: BStr; const ALock: BLock)
+  : BMacroSystemVariable;
 begin
   Exit(SysVariableLock(ModVariableName(AName), ALock));
 end;
@@ -227,7 +244,8 @@ begin
     ActionProfiler.Stop;
   except
     on E: Exception do
-      raise BException.Create('BBot->Action->' + ActionName + BStrLine + E.Message);
+      raise BException.Create('BBot->Action->' + ActionName + BStrLine +
+        E.Message);
   end;
 end;
 
@@ -354,25 +372,30 @@ end;
 
 { TBBotRunnable }
 
-function TBBotRunnable.SysValue(const AName: BStr; const ADefaultValue: BInt32): BInt32;
+function TBBotRunnable.SysValue(const AName: BStr;
+const ADefaultValue: BInt32): BInt32;
 
 begin
   Exit(SysVariable(AName, ADefaultValue).Value);
 end;
 
-function TBBotRunnable.SysValueU32(const AName: BStr; const ADefaultValue: BUInt32): BUInt32;
+function TBBotRunnable.SysValueU32(const AName: BStr;
+const ADefaultValue: BUInt32): BUInt32;
 
 begin
   Exit(SysVariable(AName, ADefaultValue).ValueU32);
 end;
 
-function TBBotRunnable.SysVariable(const AName: BStr; const ADefaultValue: BInt32): BMacroSystemVariable;
+function TBBotRunnable.SysVariable(const AName: BStr;
+const ADefaultValue: BInt32): BMacroSystemVariable;
 
 begin
-  Exit(BMacroSystemVariable(BBot.Macros.Registry.CreateSystemVariable('BBot.' + AName, ADefaultValue)));
+  Exit(BMacroSystemVariable(BBot.Macros.Registry.CreateSystemVariable('BBot.' +
+    AName, ADefaultValue)));
 end;
 
-function TBBotRunnable.SysVariableLock(const AName: BStr; const ALock: BLock): BMacroSystemVariable;
+function TBBotRunnable.SysVariableLock(const AName: BStr; const ALock: BLock)
+  : BMacroSystemVariable;
 
 begin
   Result := SysVariable(AName, ALock.Delay);
@@ -384,4 +407,3 @@ begin
 end;
 
 end.
-

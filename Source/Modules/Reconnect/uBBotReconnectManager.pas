@@ -25,8 +25,10 @@ type
     FIndex: BInt32;
     FBlock: TDateTime;
   public
-    constructor Create(AManager: TBBotReconnectManager; AAccount: TBBotReconnectAccount); overload;
-    constructor Create(AManager: TBBotReconnectManager; ASerialized: BStr); overload;
+    constructor Create(AManager: TBBotReconnectManager;
+      AAccount: TBBotReconnectAccount); overload;
+    constructor Create(AManager: TBBotReconnectManager;
+      ASerialized: BStr); overload;
 
     property Account: TBBotReconnectAccount read FAccount;
     property Manager: TBBotReconnectManager read FManager;
@@ -57,7 +59,8 @@ type
     procedure UnSerializePassword(ASerialized: BStr);
   public
     constructor Create(AManager: TBBotReconnectManager); overload;
-    constructor Create(AManager: TBBotReconnectManager; ASerialized: BStr); overload;
+    constructor Create(AManager: TBBotReconnectManager;
+      ASerialized: BStr); overload;
     destructor Destroy; override;
 
     property Manager: TBBotReconnectManager read FManager;
@@ -99,7 +102,8 @@ type
     property Duration: BUInt32 read FDuration write FDuration;
     property Variation: BUInt32 read FVariation write FVariation;
     property Blocked: BBool read getBlocked;
-    property ShouldLoadScript: BBool read FShouldLoadScript write FShouldLoadScript;
+    property ShouldLoadScript: BBool read FShouldLoadScript
+      write FShouldLoadScript;
 
     procedure Start; virtual;
     procedure Process; virtual; abstract;
@@ -118,7 +122,8 @@ type
 
   TBBotReconnectScheduleOfflineItem = class(TBBotReconnectScheduleItem)
   public
-    constructor Create(AManager: TBBotReconnectManager; ASerialized: BStr); overload;
+    constructor Create(AManager: TBBotReconnectManager;
+      ASerialized: BStr); overload;
     constructor Create(AManager: TBBotReconnectManager); overload;
 
     procedure Process; override;
@@ -141,14 +146,16 @@ type
   protected
     function getBlocked: BBool; override;
   public
-    constructor Create(AManager: TBBotReconnectManager; ASerialized: BStr); overload;
+    constructor Create(AManager: TBBotReconnectManager;
+      ASerialized: BStr); overload;
     constructor Create(AManager: TBBotReconnectManager); overload;
 
     procedure Start; override;
     procedure Process; override;
 
     property Account: TBBotReconnectAccount read GetAccount write SetAccount;
-    property Character: TBBotReconnectCharacter read GetCharacter write SetCharacter;
+    property Character: TBBotReconnectCharacter read GetCharacter
+      write SetCharacter;
     property BlockCharacter: BUInt32 read FBlockCharacter write FBlockCharacter;
     property Script: BStr read FScript write FScript;
 
@@ -192,7 +199,8 @@ type
     property Accounts: TBBotReconnectAccounts read FAccounts;
     property Schedule: TBBotReconnectSchedule read FSchedule;
 
-    property Current: TBBotReconnectScheduleItem read GetCurrent write SetCurrent;
+    property Current: TBBotReconnectScheduleItem read GetCurrent
+      write SetCurrent;
     property CurrentID: BUInt32 read FCurrentID;
 
     function AccountByID(AID: BUInt32): TBBotReconnectAccount;
@@ -248,7 +256,8 @@ var
 begin
   BStrSplit(R, ':', ADuration);
   if Length(R) = 3 then
-    Exit((60 * 60 * BStrTo32(R[0], 1)) + (60 * BStrTo32(R[1], 0)) + BStrTo32(R[2]))
+    Exit((60 * 60 * BStrTo32(R[0], 1)) + (60 * BStrTo32(R[1], 0)) +
+      BStrTo32(R[2]))
   else if Length(R) = 2 then
     Exit((60 * 60 * BStrTo32(R[0], 1)) + (60 * BStrTo32(R[1], 0)))
   else if Length(R) = 1 then
@@ -266,7 +275,8 @@ end;
 
 { TBBotReconnectScheduleItem }
 
-constructor TBBotReconnectScheduleOnlineItem.Create(AManager: TBBotReconnectManager; ASerialized: BStr);
+constructor TBBotReconnectScheduleOnlineItem.Create
+  (AManager: TBBotReconnectManager; ASerialized: BStr);
 var
   R: BStrArray;
 begin
@@ -283,11 +293,13 @@ begin
     FFinishTime := BStrToDate(R[9]);
     FBlockCharacter := BUInt32(BStrTo32(R[10]));
     FScript := R[11];
-  except raise Exception.Create('Unable to unserialize online: ' + ASerialized);
+  except
+    raise Exception.Create('Unable to unserialize online: ' + ASerialized);
   end;
 end;
 
-constructor TBBotReconnectScheduleOnlineItem.Create(AManager: TBBotReconnectManager);
+constructor TBBotReconnectScheduleOnlineItem.Create
+  (AManager: TBBotReconnectManager);
 begin
   inherited Create(AManager);
   FAccount := 0;
@@ -302,7 +314,8 @@ var
   Char: TBBotReconnectCharacter;
 begin
   Char := GetCharacter;
-  if Char <> nil then begin
+  if Char <> nil then
+  begin
     Result := '';
     if not Enabled then
       Result := Result + '[Disabled]';
@@ -320,7 +333,8 @@ var
   Blk: BStr;
 begin
   Char := GetCharacter;
-  if Char <> nil then begin
+  if Char <> nil then
+  begin
     if Char.getBlocked then
       Blk := 'blocked till ' + FormatDateTime('dd-mm hh:nn', Char.getBlockDate)
     else
@@ -341,7 +355,8 @@ var
   Char: TBBotReconnectCharacter;
 begin
   Result := inherited;
-  if not Result then begin
+  if not Result then
+  begin
     Char := GetCharacter;
     Result := (Char = nil) or (Char.getBlocked);
   end;
@@ -360,13 +375,19 @@ end;
 
 procedure TBBotReconnectScheduleOnlineItem.Process;
 begin
-  if (Account <> nil) and (Character <> nil) then begin
-    if Me.Connected and (not BStrEqual(Me.Name, Character.Name)) then begin
+  if (Account <> nil) and (Character <> nil) then
+  begin
+    if Me.Connected and (not BStrEqual(Me.Name, Character.Name)) then
+    begin
       Me.Logout;
       Manager.NextReconnect := 0;
-    end else if (not Me.Connected) and (not BBot.ServerSave.IsServerSave) then begin
-      if Manager.NextReconnect < Tick then begin
-        while BRandom(0, 100) < 80 do begin
+    end
+    else if (not Me.Connected) and (not BBot.ServerSave.IsServerSave) then
+    begin
+      if Manager.NextReconnect < Tick then
+      begin
+        while BRandom(0, 100) < 80 do
+        begin
           TibiaProcess.SendKey(VK_ESCAPE);
           if BRandom(0, 100) < 50 then
             TibiaProcess.SendKey(VK_RETURN);
@@ -374,8 +395,12 @@ begin
         Tibia.Login(Account.Name, Account.Password, Character.Index + 1);
         Manager.NextReconnect := BRandom(1 * 60 * 1000, 15 * 60 * 1000);
       end;
-    end else if (not Me.Connected) or (Me.Connected and (BStrEqual(Me.Name, Character.Name))) then begin
-      if ShouldLoadScript then begin
+    end
+    else if (not Me.Connected) or
+      (Me.Connected and (BStrEqual(Me.Name, Character.Name))) then
+    begin
+      if ShouldLoadScript then
+      begin
         Engine.LoadSettings := Script;
         FShouldLoadScript := False;
       end;
@@ -385,11 +410,13 @@ end;
 
 function TBBotReconnectScheduleOnlineItem.Serialize: BStr;
 begin
-  Result := BFormat('Schedule/Online/%d/%d/%d/%d/%d/%d/%s/%s/%d/%s', [FID, BIf(Enabled, 1, 0), FAccount, FCharacter,
-    FDuration, FVariation, BDateToStr(StartTime), BDateToStr(FinishTime), FBlockCharacter, FScript]);
+  Result := BFormat('Schedule/Online/%d/%d/%d/%d/%d/%d/%s/%s/%d/%s',
+    [FID, BIf(Enabled, 1, 0), FAccount, FCharacter, FDuration, FVariation,
+    BDateToStr(StartTime), BDateToStr(FinishTime), FBlockCharacter, FScript]);
 end;
 
-procedure TBBotReconnectScheduleOnlineItem.SetAccount(const Value: TBBotReconnectAccount);
+procedure TBBotReconnectScheduleOnlineItem.SetAccount
+  (const Value: TBBotReconnectAccount);
 begin
   if Value <> nil then
     FAccount := Value.ID
@@ -397,7 +424,8 @@ begin
     FAccount := 0;
 end;
 
-procedure TBBotReconnectScheduleOnlineItem.SetCharacter(const Value: TBBotReconnectCharacter);
+procedure TBBotReconnectScheduleOnlineItem.SetCharacter
+  (const Value: TBBotReconnectCharacter);
 begin
   if Value <> nil then
     FCharacter := Value.ID
@@ -411,8 +439,10 @@ var
 begin
   inherited;
   Char := GetCharacter;
-  if Char <> nil then begin
-    Char.Block(1000 * BRandom(FBlockCharacter, BUInt32(BCeil(FBlockCharacter * (1 + (Variation / 100))))));
+  if Char <> nil then
+  begin
+    Char.Block(1000 * BRandom(FBlockCharacter,
+      BUInt32(BCeil(FBlockCharacter * (1 + (Variation / 100))))));
     FShouldLoadScript := True;
   end
   else
@@ -449,7 +479,8 @@ end;
 
 function TBBotReconnectScheduleItem.getRandomDuration: BUInt32;
 begin
-  Result := BRandom(Duration, BUInt32(BCeil(Duration * (1 + (Variation / 100))))) * 1000;
+  Result := BRandom(Duration, BUInt32(BCeil(Duration * (1 + (Variation / 100))
+    ))) * 1000;
 end;
 
 procedure TBBotReconnectScheduleItem.Start;
@@ -475,7 +506,8 @@ begin
     Exit(nil);
 end;
 
-function TBBotReconnectManager.CharacterByID(AID: BUInt32): TBBotReconnectCharacter;
+function TBBotReconnectManager.CharacterByID(AID: BUInt32)
+  : TBBotReconnectCharacter;
 var
   Char: TBBotReconnectCharacter;
 begin
@@ -490,7 +522,8 @@ begin
     Exit(nil);
 end;
 
-function TBBotReconnectManager.CharacterByName(AName: BStr): TBBotReconnectCharacter;
+function TBBotReconnectManager.CharacterByName(AName: BStr)
+  : TBBotReconnectCharacter;
 var
   Char: TBBotReconnectCharacter;
 begin
@@ -555,16 +588,20 @@ var
   Curr: TBBotReconnectScheduleItem;
 begin
   Curr := GetCurrent;
-  if (Curr = nil) or (Curr.Finished) then begin
+  if (Curr = nil) or (Curr.Finished) then
+  begin
     LoadProfile;
-    if Schedule.Count > 0 then begin
-      if CurrentID <> 0 then begin
+    if Schedule.Count > 0 then
+    begin
+      if CurrentID <> 0 then
+      begin
         Index := Schedule.Search('Reconnect Manager - next task',
           function(It: BVector<TBBotReconnectScheduleItem>.It): BBool
           begin
             Result := It^.ID = CurrentID;
           end);
-        if Index <> BVector<TBBotReconnectScheduleItem>.Invalid then begin
+        if Index <> BVector<TBBotReconnectScheduleItem>.Invalid then
+        begin
           NextAfter(Index);
           Exit;
         end;
@@ -579,10 +616,13 @@ var
   Index, Count: BInt32;
 begin
   Count := 1;
-  while Count <= Schedule.Count do begin
+  while Count <= Schedule.Count do
+  begin
     Index := (AIndex + Count) mod Schedule.Count;
-    if Index <> AIndex then begin
-      if not Schedule.Item[Index]^.Blocked then begin
+    if Index <> AIndex then
+    begin
+      if not Schedule.Item[Index]^.Blocked then
+      begin
         Current := Schedule.Item[Index]^;
         NextStatus := 0;
         SaveStatus;
@@ -607,7 +647,8 @@ end;
 
 procedure TBBotReconnectManager.Run;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     Next;
     SaveStatus;
     Process;
@@ -621,9 +662,12 @@ var
   L: BStrArray;
 begin
   FAccounts.Clear;
-  if BFileExists(ReconnectManagerAccountsFile) then begin
+  if BFileExists(ReconnectManagerAccountsFile) then
+  begin
     Buffer := BFileGet(ReconnectManagerAccountsFile);
-    if (BStrSplit(L, BStrLine, Buffer) > 1) and BStrEqualSensitive(L[0], 'ReconnectManager.V1') then begin
+    if (BStrSplit(L, BStrLine, Buffer) > 1) and
+      BStrEqualSensitive(L[0], 'ReconnectManager.V1') then
+    begin
       for I := 1 to High(L) do
         if BStrStartSensitive(L[I], 'Account') then
           FAccounts.Add(TBBotReconnectAccount.Create(Self, L[I]))
@@ -641,9 +685,12 @@ var
 begin
   LoadAccounts;
   FSchedule.Clear;
-  if BFileExists(GetProfileFileName) then begin
+  if BFileExists(GetProfileFileName) then
+  begin
     Buffer := BFileGet(GetProfileFileName);
-    if (BStrSplit(L, BStrLine, Buffer) > 1) and BStrEqualSensitive(L[0], 'ReconnectManager.V1') then begin
+    if (BStrSplit(L, BStrLine, Buffer) > 1) and
+      BStrEqualSensitive(L[0], 'ReconnectManager.V1') then
+    begin
       for I := 1 to High(L) do
         if BStrStartSensitive(L[I], 'Schedule/Online') then
           FSchedule.Add(TBBotReconnectScheduleOnlineItem.Create(Self, L[I]))
@@ -662,7 +709,8 @@ begin
   AccountFile := nil;
   try
     try
-      AccountFile := TFileStream.Create(ReconnectManagerAccountsFile, fmCreate or fmShareDenyWrite);
+      AccountFile := TFileStream.Create(ReconnectManagerAccountsFile,
+        fmCreate or fmShareDenyWrite);
       AUpdate();
       Res := 'ReconnectManager.V1' + BStrLine;
       FAccounts.ForEach(
@@ -691,7 +739,8 @@ begin
   ScheduleFile := nil;
   try
     try
-      ScheduleFile := TFileStream.Create(GetProfileFileName, fmCreate or fmShareDenyWrite);
+      ScheduleFile := TFileStream.Create(GetProfileFileName,
+        fmCreate or fmShareDenyWrite);
       AUpdate();
       Res := 'ReconnectManager.V1' + BStrLine;
       FSchedule.ForEach(
@@ -715,9 +764,11 @@ procedure TBBotReconnectManager.SaveStatus;
 var
   SavedSuccessfuly: BBool;
 begin
-  if NextStatus < Tick then begin
+  if NextStatus < Tick then
+  begin
     SavedSuccessfuly := True;
-    if GetCurrent <> nil then begin
+    if GetCurrent <> nil then
+    begin
       SavedSuccessfuly := SavedSuccessfuly and UpdateAccounts(
         procedure()
         begin
@@ -732,7 +783,8 @@ begin
   end;
 end;
 
-function TBBotReconnectManager.ScheduleByID(AID: BUInt32): TBBotReconnectScheduleItem;
+function TBBotReconnectManager.ScheduleByID(AID: BUInt32)
+  : TBBotReconnectScheduleItem;
 var
   Res: BVector<TBBotReconnectScheduleItem>.It;
 begin
@@ -747,10 +799,12 @@ begin
     Exit(nil);
 end;
 
-procedure TBBotReconnectManager.SetCurrent(const Value: TBBotReconnectScheduleItem);
+procedure TBBotReconnectManager.SetCurrent(const Value
+  : TBBotReconnectScheduleItem);
 begin
   FCurrentID := 0;
-  if Value <> nil then begin
+  if Value <> nil then
+  begin
     FCurrentID := Value.ID;
     Value.Start;
     NextReconnect := 0;
@@ -778,7 +832,8 @@ end;
 
 { TBBotReconnectCharacter }
 
-constructor TBBotReconnectCharacter.Create(AManager: TBBotReconnectManager; AAccount: TBBotReconnectAccount);
+constructor TBBotReconnectCharacter.Create(AManager: TBBotReconnectManager;
+AAccount: TBBotReconnectAccount);
 begin
   FID := GenerateID;
   FIndex := 0;
@@ -792,7 +847,8 @@ begin
   FBlock := DateUtils.IncMilliSecond(Now(), ADelay);
 end;
 
-constructor TBBotReconnectCharacter.Create(AManager: TBBotReconnectManager; ASerialized: BStr);
+constructor TBBotReconnectCharacter.Create(AManager: TBBotReconnectManager;
+ASerialized: BStr);
 var
   R: BStrArray;
 begin
@@ -806,7 +862,8 @@ begin
     FBlock := BStrToDate(R[5]);
     // Unused: R[6]
     FAccount.Characters.Add(Self);
-  except raise Exception.Create('Unable to unserialize character: ' + ASerialized);
+  except
+    raise Exception.Create('Unable to unserialize character: ' + ASerialized);
   end;
 end;
 
@@ -830,7 +887,8 @@ end;
 
 function TBBotReconnectCharacter.Serialize: BStr;
 begin
-  Result := BFormat('Character/%d/%d/%d/%s/%s/%s\n', [FAccount.ID, FID, FIndex, FName, BDateToStr(FBlock), 'NULL']);
+  Result := BFormat('Character/%d/%d/%d/%s/%s/%s\n', [FAccount.ID, FID, FIndex,
+    FName, BDateToStr(FBlock), 'NULL']);
 end;
 
 { TBBotReconnectAccount }
@@ -846,7 +904,8 @@ begin
   FID := GenerateID;
 end;
 
-function TBBotReconnectAccount.CharacterByID(AID: BUInt32): TBBotReconnectCharacter;
+function TBBotReconnectAccount.CharacterByID(AID: BUInt32)
+  : TBBotReconnectCharacter;
 var
   Char: BVector<TBBotReconnectCharacter>.It;
 begin
@@ -861,7 +920,8 @@ begin
     Exit(nil);
 end;
 
-function TBBotReconnectAccount.CharacterByName(AName: BStr): TBBotReconnectCharacter;
+function TBBotReconnectAccount.CharacterByName(AName: BStr)
+  : TBBotReconnectCharacter;
 var
   Char: BVector<TBBotReconnectCharacter>.It;
 begin
@@ -876,7 +936,8 @@ begin
     Exit(nil);
 end;
 
-constructor TBBotReconnectAccount.Create(AManager: TBBotReconnectManager; ASerialized: BStr);
+constructor TBBotReconnectAccount.Create(AManager: TBBotReconnectManager;
+ASerialized: BStr);
 var
   R: BStrArray;
 begin
@@ -891,7 +952,8 @@ begin
     FID := BStrTo32(R[1]);
     FName := R[2];
     UnSerializePassword(R[3]);
-  except raise Exception.Create('Unable to unserialize account: ' + ASerialized);
+  except
+    raise Exception.Create('Unable to unserialize account: ' + ASerialized);
   end;
 end;
 
@@ -929,12 +991,14 @@ begin
     begin
       Chars := Chars + It^.Serialize;
     end);
-  Result := BFormat('Account/%d/%s/%s\n%s', [FID, FName, GetSerializedPassword, Chars]);
+  Result := BFormat('Account/%d/%s/%s\n%s',
+    [FID, FName, GetSerializedPassword, Chars]);
 end;
 
 { TBBotReconnectScheduleOfflineItem }
 
-constructor TBBotReconnectScheduleOfflineItem.Create(AManager: TBBotReconnectManager; ASerialized: BStr);
+constructor TBBotReconnectScheduleOfflineItem.Create
+  (AManager: TBBotReconnectManager; ASerialized: BStr);
 var
   R: BStrArray;
 begin
@@ -947,11 +1011,13 @@ begin
     FVariation := BUInt32(BStrTo32(R[5]));
     FStartTime := BStrToDate(R[6]);
     FFinishTime := BStrToDate(R[7]);
-  except raise Exception.Create('Unable to unserialize offline: ' + ASerialized);
+  except
+    raise Exception.Create('Unable to unserialize offline: ' + ASerialized);
   end;
 end;
 
-constructor TBBotReconnectScheduleOfflineItem.Create(AManager: TBBotReconnectManager);
+constructor TBBotReconnectScheduleOfflineItem.Create
+  (AManager: TBBotReconnectManager);
 begin
   inherited Create(AManager);
 end;
@@ -980,8 +1046,9 @@ end;
 
 function TBBotReconnectScheduleOfflineItem.Serialize: BStr;
 begin
-  Result := BFormat('Schedule/Offline/%d/%d/%d/%d/%s/%s', [FID, BIf(Enabled, 1, 0), Duration, Variation,
-    BDateToStr(StartTime), BDateToStr(FinishTime)]);
+  Result := BFormat('Schedule/Offline/%d/%d/%d/%d/%s/%s',
+    [FID, BIf(Enabled, 1, 0), Duration, Variation, BDateToStr(StartTime),
+    BDateToStr(FinishTime)]);
 end;
 
 end.

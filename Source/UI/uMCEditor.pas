@@ -1,5 +1,5 @@
 unit uMCEditor;
-
+
 interface
 
 uses
@@ -41,8 +41,10 @@ type
     Label11: TLabel;
     procedure edtClientNameChange(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
-    procedure lstClientsDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
-    procedure lstClientsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lstClientsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure lstClientsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure btnFileClick(Sender: TObject);
     procedure lstClientsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -84,17 +86,19 @@ begin
     edtClientName.Color := clRed
   else
     edtClientName.Color := clWindow;
-  if (Length(edtClientFile.Text) < 2) or (not FileExists(edtClientFile.Text)) then
+  if (Length(edtClientFile.Text) < 2) or (not FileExists(edtClientFile.Text))
+  then
     edtClientFile.Color := clRed
   else
     edtClientFile.Color := clWindow;
-  btnAdd.Enabled := (edtClientFile.Color = clWindow) and (edtClientName.Color = clWindow);
+  btnAdd.Enabled := (edtClientFile.Color = clWindow) and
+    (edtClientName.Color = clWindow);
 end;
 
 procedure TfrmMC.btnAddClick(Sender: TObject);
 begin
-  ClientTools.SaveClient(edtClientName.Text, edtClientFile.Text, edtClientParam.Text, edtClientIP.Text,
-    cmbVersion.Text);
+  ClientTools.SaveClient(edtClientName.Text, edtClientFile.Text,
+    edtClientParam.Text, edtClientIP.Text, cmbVersion.Text);
   UpdateList;
 end;
 
@@ -102,30 +106,37 @@ procedure TfrmMC.lstClientsDblClick(Sender: TObject);
 var
   Client: TBBotClients.It;
 begin
-  if lstClients.ItemIndex <> -1 then begin
-    Client := ClientTools.Client(BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
+  if lstClients.ItemIndex <> -1 then
+  begin
+    Client := ClientTools.Client
+      (BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
     if Client <> nil then
       Client^.Launch;
   end;
 end;
 
-procedure TfrmMC.lstClientsDrawItem(Control: TWinControl; Index: BInt32; Rect: TRect; State: TOwnerDrawState);
+procedure TfrmMC.lstClientsDrawItem(Control: TWinControl; Index: BInt32;
+  Rect: TRect; State: TOwnerDrawState);
 var
   A, B, T: BStr;
 begin
   T := lstClients.Items.Strings[Index];
-  if not BStrSplit(lstClients.Items.Strings[Index], '@@', A, B) then begin
+  if not BStrSplit(lstClients.Items.Strings[Index], '@@', A, B) then
+  begin
     A := T;
     B := '';
   end;
   BListDrawItem(lstClients.Canvas, Index, odSelected in State, Rect, A, B);
 end;
 
-procedure TfrmMC.lstClientsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfrmMC.lstClientsKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
   if Key = VK_DELETE then
-    if lstClients.ItemIndex <> -1 then begin
-      ClientTools.RemoveClient(BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
+    if lstClients.ItemIndex <> -1 then
+    begin
+      ClientTools.RemoveClient
+        (BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
       UpdateList;
     end;
 end;
@@ -142,7 +153,8 @@ end;
 
 procedure TfrmMC.btnFileClick(Sender: TObject);
 begin
-  edtClientFile.Text := FileDialog('Select a client', 'Tibia Client|*.exe', 'load', nil);
+  edtClientFile.Text := FileDialog('Select a client', 'Tibia Client|*.exe',
+    'load', nil);
 end;
 
 procedure TfrmMC.chkOTServerClick(Sender: TObject);
@@ -170,9 +182,12 @@ procedure TfrmMC.lstClientsClick(Sender: TObject);
 var
   C: TBBotClients.It;
 begin
-  if lstClients.ItemIndex <> -1 then begin
-    C := ClientTools.Client(BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
-    if C <> nil then begin
+  if lstClients.ItemIndex <> -1 then
+  begin
+    C := ClientTools.Client
+      (BStrLeft(lstClients.Items.Strings[lstClients.ItemIndex], '@@'));
+    if C <> nil then
+    begin
       edtClientName.Text := C^.Name;
       edtClientFile.Text := C^.FileName;
       edtClientParam.Text := C^.Param;
@@ -184,4 +199,4 @@ begin
 end;
 
 end.
-
+

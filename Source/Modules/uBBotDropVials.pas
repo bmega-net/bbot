@@ -1,5 +1,5 @@
 unit uBBotDropVials;
-
+
 interface
 
 uses
@@ -41,17 +41,22 @@ var
   CT: TTibiaContainer;
   PrevIsVial: BBool;
 begin
-  if Enabled then begin
+  if Enabled then
+  begin
     PrevIsVial := False;
     CT := ContainerLast;
-    while CT <> nil do begin
-      if IntIn(CT.ID, Vials) then begin
-        if PrevIsVial then begin
+    while CT <> nil do
+    begin
+      if IntIn(CT.ID, Vials) then
+      begin
+        if PrevIsVial then
+        begin
           CT.ToGround(Me.Position);
           Exit;
         end;
         PrevIsVial := True;
-        if CT.Count > NextDropMinCount then begin
+        if CT.Count > NextDropMinCount then
+        begin
           CT.ToGround(Me.Position);
           NextDropMinCount := BRandom(1, 50);
           Exit;
@@ -65,4 +70,4 @@ begin
 end;
 
 end.
-
+

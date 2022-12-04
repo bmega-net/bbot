@@ -82,16 +82,20 @@ end;
 procedure BGuard<T>.get(AMethod: BGuardGet<T>; ATimeout: BUInt32);
 begin
   if enter(ATimeout) then
-    try AMethod(Data);
-    finally leave;
+    try
+      AMethod(Data);
+    finally
+      leave;
     end;
 end;
 
 procedure BGuard<T>.get(AMethod: BGuardGet<T>);
 begin
   if enter then
-    try AMethod(Data);
-    finally leave;
+    try
+      AMethod(Data);
+    finally
+      leave;
     end;
 end;
 
@@ -104,7 +108,8 @@ begin
       Temp := Data;
       Data := AValue;
       Deleter(Temp);
-    finally leave;
+    finally
+      leave;
     end;
 end;
 

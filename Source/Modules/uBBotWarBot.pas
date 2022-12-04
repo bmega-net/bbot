@@ -1,6 +1,5 @@
 unit uBBotWarBot;
 
-
 interface
 
 uses
@@ -101,7 +100,8 @@ type
     property ComboSetAttack: BBool read FComboSetAttack write FComboSetAttack;
     property ComboSay: BBool read FComboSay write FComboSay;
     property ComboSayText: BStr read FComboSayText write FComboSayText;
-    property ComboParalyzedEnemies: BBool read FComboParalyzedEnemies write FComboParalyzedEnemies;
+    property ComboParalyzedEnemies: BBool read FComboParalyzedEnemies
+      write FComboParalyzedEnemies;
     property ComboLeaders: BStr read FComboLeaders write SetComboLeaders;
     property ComboAttack: TBBotAttackSequence read GetComboAttack;
     property ComboAttackCode: BStr read FComboAttackCode write FComboAttackCode;
@@ -109,21 +109,29 @@ type
     property LockTarget: BBool read FLockTarget write FLockTarget;
     property LockTargetID: BUInt32 read FLockTargetID write FLockTargetID;
 
-    property PushParalyzedEnemies: BBool read FPushParalyzedEnemies write FPushParalyzedEnemies;
-    property MarkAlliesAndEnemies: BBool read FMarkAlliesAndEnemies write SetMarkAlliesAndEnemies;
-    property AutoAttackEnemies: BBool read FAutoAttackEnemies write FAutoAttackEnemies;
-    property MWallOnFrontOfEnemies: BBool read FMWallOnFrontOfEnemies write FMWallOnFrontOfEnemies;
+    property PushParalyzedEnemies: BBool read FPushParalyzedEnemies
+      write FPushParalyzedEnemies;
+    property MarkAlliesAndEnemies: BBool read FMarkAlliesAndEnemies
+      write SetMarkAlliesAndEnemies;
+    property AutoAttackEnemies: BBool read FAutoAttackEnemies
+      write FAutoAttackEnemies;
+    property MWallOnFrontOfEnemies: BBool read FMWallOnFrontOfEnemies
+      write FMWallOnFrontOfEnemies;
 
-    property MarkPartyMembersAsAlly: BBool read FMarkPartyMembersAsAlly write FMarkPartyMembersAsAlly;
-    property MarkPlayersAsEnemy: BBool read FMarkPlayersAsEnemy write FMarkPlayersAsEnemy;
+    property MarkPartyMembersAsAlly: BBool read FMarkPartyMembersAsAlly
+      write FMarkPartyMembersAsAlly;
+    property MarkPlayersAsEnemy: BBool read FMarkPlayersAsEnemy
+      write FMarkPlayersAsEnemy;
 
     property CreatureLevels: BBool read FCreatureLevels write SetCreatureLevels;
     property PlayerGroups: BBool read FPlayerGroups write SetPlayerGroups;
 
     property Aimbot: BBool read FAimbot write SetAimbot;
     property AimbotIndex: BInt32 read FAimbotIndex write SetAimbotIndex;
-    property AimBotRunes[Index: BInt32]: TBBotAttackSequence read GetAimbotRunes;
-    property AimBotRunesCode[Index: BInt32]: BStr read GetAimbotRunesCode write SetAimBotRunesCode;
+    property AimBotRunes[Index: BInt32]: TBBotAttackSequence
+      read GetAimbotRunes;
+    property AimBotRunesCode[Index: BInt32]: BStr read GetAimbotRunesCode
+      write SetAimBotRunesCode;
 
     property NETCombo: BBool read FNETCombo write FNETCombo;
     property NETComboAtk: TBBotAttackSequence read GetNETComboAtk;
@@ -133,7 +141,8 @@ type
     property Enemies: BStrArray read FEnemies;
     function IsEnemy(Name: BStr): BBool;
     function IsAlly(Name: BStr): BBool;
-    property AlliesEnemiesVersion: BInt32 read FAlliesEnemiesVersion write FAlliesEnemiesVersion;
+    property AlliesEnemiesVersion: BInt32 read FAlliesEnemiesVersion
+      write FAlliesEnemiesVersion;
     procedure LoadAlliesAndEnemies(AAllies: TStrings; AEnemies: TStrings);
 
     property MagicWallID: BInt32 read FMagicWallID write FMagicWallID;
@@ -204,7 +213,8 @@ procedure TBBotWarBot.Run;
 var
   BL: TBBotCreature;
 begin
-  if LockTarget and (not Me.IsAttacking) and (LockTargetID <> 0) then begin
+  if LockTarget and (not Me.IsAttacking) and (LockTargetID <> 0) then
+  begin
     BL := BBot.Creatures.Find(LockTargetID);
     if (BL <> nil) and BL.IsOnScreen then
       BL.Attack;
@@ -236,20 +246,27 @@ begin
   Result := BBot.AdvAttack.GetAttackSequence(FNETComboAtkCode);
 end;
 
-procedure TBBotWarBot.OnCreatureSpeed(Creature: TBBotCreature; OldSpeed: BInt32);
+procedure TBBotWarBot.OnCreatureSpeed(Creature: TBBotCreature;
+  OldSpeed: BInt32);
 var
   Map: TTibiaTiles;
 begin
-  if (Creature.Health < OldSpeed) and (Abs(Creature.Health - OldSpeed) > 60) then begin
-    if Creature.IsEnemy then begin
+  if (Creature.Health < OldSpeed) and (Abs(Creature.Health - OldSpeed) > 60)
+  then
+  begin
+    if Creature.IsEnemy then
+    begin
       if ComboParalyzedEnemies then
         DoCombo(Creature);
       if PushParalyzedEnemies then
         if Me.DistanceTo(Creature) = 1 then
-          if Tiles(Map, Creature.Position) then begin
+          if Tiles(Map, Creature.Position) then
+          begin
             Map.CreatureOnTop;
-            if (Map.ID = ItemID_Creature) and (BUInt32(Map.Count) = Creature.ID) then
-              Map.ToGround(BPosXYZ(Map.Position.X + BRandom(-1, 1), Map.Position.Y + BRandom(-1, 1), Map.Position.Z));
+            if (Map.ID = ItemID_Creature) and (BUInt32(Map.Count) = Creature.ID)
+            then
+              Map.ToGround(BPosXYZ(Map.Position.X + BRandom(-1, 1),
+                Map.Position.Y + BRandom(-1, 1), Map.Position.Z));
           end;
     end;
   end;
@@ -257,9 +274,11 @@ end;
 
 procedure TBBotWarBot.OnHotkey;
 begin
-  if MWallOnFrontOfEnemies and Tibia.IsKeyDown(VK_END, False) and Me.IsAttacking then
+  if MWallOnFrontOfEnemies and Tibia.IsKeyDown(VK_END, False) and Me.IsAttacking
+  then
     MagicWallInFrontOfTarget;
-  if Aimbot then begin
+  if Aimbot then
+  begin
     if Tibia.IsKeyDown(VK_NEXT, True) then
       AimbotIndex := AimbotIndex + 1;
     if Me.IsAttacking then
@@ -292,7 +311,8 @@ begin
   BL := BBot.Creatures.Find(AMissileEffect.FromPosition);
   if BL <> nil then
     if not BL.IsSelf then
-      if IsLeader(BL.Name) then begin
+      if IsLeader(BL.Name) then
+      begin
         BL := BBot.Creatures.Find(AMissileEffect.ToPosition);
         if BL <> nil then
           DoCombo(BL);
@@ -402,25 +422,31 @@ begin
     if not Me.IsAttacking then
       if Creature.IsEnemy then
         Creature.Attack;
-  if (CreatureBigTickBlock[Creature.Index] < Tick) then begin
+  if (CreatureBigTickBlock[Creature.Index] < Tick) then
+  begin
     CreatureBigTickBlock[Creature.Index] := Tick + 1000;
-    if Creature.IsPlayer and (Creature.ID <> Me.ID) then begin
+    if Creature.IsPlayer and (Creature.ID <> Me.ID) then
+    begin
       if MarkPartyMembersAsAlly then
-        if (Creature.Party.Player = PartyMember) or (Creature.Party.Player = PartyLeader) then
-          if not Creature.IsAlly then begin
+        if (Creature.Party.Player = PartyMember) or
+          (Creature.Party.Player = PartyLeader) then
+          if not Creature.IsAlly then
+          begin
             MsgAlly := TBBotGUIMessageAddAlly.Create;
             MsgAlly.Ally := Creature.Name;
             FMain.AddBBotMessage(MsgAlly);
           end;
       if MarkPlayersAsEnemy then
         if not Creature.IsAlly then
-          if not Creature.IsEnemy then begin
+          if not Creature.IsEnemy then
+          begin
             MsgEnemy := TBBotGUIMessageAddEnemy.Create;
             MsgEnemy.Enemy := Creature.Name;
             FMain.AddBBotMessage(MsgEnemy);
           end;
     end;
-    if (CreatureLevels) or (MarkAlliesAndEnemies) or (PlayerGroups) then begin
+    if (CreatureLevels) or (MarkAlliesAndEnemies) or (PlayerGroups) then
+    begin
       HUD := TBBotHUD.Create(bhgCreatureHUD);
       OnCreatureHUD(HUD, Creature);
       HUD.Free;
@@ -442,17 +468,21 @@ begin
   HUD.Creature := Creature.ID;
   HUD.Expire := 5000;
   HUD.RelativeX := 0;
-  if MarkAlliesAndEnemies then begin
-    if Creature.IsAlly then begin
+  if MarkAlliesAndEnemies then
+  begin
+    if Creature.IsAlly then
+    begin
       HUD.Print('A', $FFD47F);
       HUD.RelativeX := HUD.RelativeX - 8;
     end;
-    if Creature.IsEnemy then begin
+    if Creature.IsEnemy then
+    begin
       HUD.Print('E', $9090FF);
       HUD.RelativeX := HUD.RelativeX - 8;
     end;
   end;
-  if CreatureLevels then begin
+  if CreatureLevels then
+  begin
     HUD.Print('~' + IntToStr(Creature.Level), $00FFFF);
     HUD.RelativeX := HUD.RelativeX - (8 * (Length(HUD.Text)));
   end;
@@ -469,11 +499,13 @@ begin
     Exit;
   UpdateMap;
   SS := 0;
-  for I := 0 to 8 do begin
+  for I := 0 to 8 do
+  begin
     X := Pos.X + (Sx * SS);
     Y := Pos.Y + (Sy * SS);
     if Tiles(Map, X, Y) then
-      if Map.Shootable then begin
+      if Map.Shootable then
+      begin
         Map.UseOn(MagicWallID);
         Exit;
       end;
@@ -487,14 +519,20 @@ procedure TBBotWarBot.MagicWallInFrontOfTarget;
 var
   P: BPos;
 begin
-  if Me.IsAttacking then begin
+  if Me.IsAttacking then
+  begin
     P := BBot.Creatures.Target.Position;
     case BBot.Creatures.Target.Direction of
-    tdNorth: MagicWall(P.X, P.Y - 1, P.Z, 1, 0);
-    tdSouth: MagicWall(P.X, P.Y + 1, P.Z, 1, 0);
-    tdEast: MagicWall(P.X + 1, P.Y, P.Z, 0, 1);
-    tdWest: MagicWall(P.X - 1, P.Y, P.Z, 0, 1);
-  else;
+      tdNorth:
+        MagicWall(P.X, P.Y - 1, P.Z, 1, 0);
+      tdSouth:
+        MagicWall(P.X, P.Y + 1, P.Z, 1, 0);
+      tdEast:
+        MagicWall(P.X + 1, P.Y, P.Z, 0, 1);
+      tdWest:
+        MagicWall(P.X - 1, P.Y, P.Z, 0, 1);
+    else
+      ;
     end;
   end;
 end;
@@ -503,9 +541,11 @@ procedure TBBotWarBot.SetDash(const Value: BBool);
 var
   HUD: TBBotHUD;
 begin
-  if Dash <> Value then begin
+  if Dash <> Value then
+  begin
     TibiaState^.Dash := Value;
-    if Value and (not DashWarning) then begin
+    if Value and (not DashWarning) then
+    begin
       DashWarning := True;
       HUD := TBBotHUD.Create(bhgAny);
       HUD.AlignTo(bhaCenter, bhaTop);
@@ -533,7 +573,8 @@ begin
   FAimbot := Value;
   Tibia.UnBlockKeyCallback(VK_NEXT, False, False);
   Tibia.UnBlockKeyCallback(VK_PRIOR, False, False);
-  if Value then begin
+  if Value then
+  begin
     Tibia.BlockKeyCallback(VK_NEXT, False, False);
     Tibia.BlockKeyCallback(VK_PRIOR, False, False);
   end;
@@ -546,8 +587,10 @@ var
   S: TTibiaSpell;
 begin
   if Combo and ComboSay then
-    if IsLeader(AMessageData.Author) then begin
-      if BStrStart(LowerCase(AMessageData.Text), ComboSayText) then begin
+    if IsLeader(AMessageData.Author) then
+    begin
+      if BStrStart(LowerCase(AMessageData.Text), ComboSayText) then
+      begin
         Name := AMessageData.Text;
         Delete(Name, 1, Max(Pos('"', Name), Length(ComboSayText) + 1));
         Name := Trim(Name);
@@ -570,7 +613,8 @@ end;
 
 procedure TBBotWarBot.DoCombo(BL: TBBotCreature);
 begin
-  if BL.IsOnScreen then begin
+  if BL.IsOnScreen then
+  begin
     if ComboAttack <> nil then
       ComboAttack.Execute;
     if ComboSetAttack and (not BL.IsTarget) then
@@ -614,4 +658,3 @@ begin
 end;
 
 end.
-

@@ -13,7 +13,8 @@ uses
   SysUtils;
 
 const
-  BBotAttackerSummonMessages: array [0 .. 1] of BStr = ('You may not attack this person.',
+  BBotAttackerSummonMessages: array [0 .. 1] of BStr =
+    ('You may not attack this person.',
     'Adjust your combat settings to attack this player.');
 
 type
@@ -139,7 +140,8 @@ begin
             Exit(False);
           EStart := BMin(ASummoned^.Time, AAppeared^.Time);
           EEnd := BMax(ASummoned^.Time, AAppeared^.Time);
-          if (EEnd - EStart) < MatchDuration then begin
+          if (EEnd - EStart) < MatchDuration then
+          begin
             AddDebug(BBot.Creatures.Find(AAppeared^.ID), 'Possible summon');
             AAppeared^.Confirmed := True;
             ASummoned^.Confirmed := True;
@@ -178,7 +180,8 @@ var
 begin
   Spell := BBot.Spells.Spell(AMsg.Text);
   if Spell <> nil then
-    if Spell.Kind = tskSummon then begin
+    if Spell.Kind = tskSummon then
+    begin
       SummonName := BStrRight(AMsg.Text, Spell.Spell);
       SummonName := BTrim(BStrReplaceSensitive(SummonName, '"', ''));
       Added := RecentlySummoned.Add;
@@ -195,7 +198,8 @@ var
   I: BInt32;
 begin
   for I := 0 to High(BBotAttackerSummonMessages) do
-    if AMessageData.Text = BBotAttackerSummonMessages[I] then begin
+    if AMessageData.Text = BBotAttackerSummonMessages[I] then
+    begin
       if BBot.Attacker.Debug then
         AddDebug('Summon detected, attacking next');
       // BBot.IgnoreAttack.Add(ID, SummonIgnoreTime.ValueU32, 'summon detection');

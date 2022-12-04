@@ -9,7 +9,8 @@ uses
   uBVector;
 
 type
-  TBBotPathFinderNodeKind = (bpfnkOrigin, bpfnkTarget, bpfnkPath, bpfnkDone, bpfnkOther);
+  TBBotPathFinderNodeKind = (bpfnkOrigin, bpfnkTarget, bpfnkPath, bpfnkDone,
+    bpfnkOther);
 
   TBBotPathFinderDebugEvent = record
     Pos: BPos;
@@ -91,10 +92,13 @@ begin
   F := True;
   for X := -Distance to +Distance do
     for Y := -Distance to +Distance do
-      if (BUInt32(BAbs(X)) = Distance) or (BUInt32(BAbs(Y)) = Distance) then begin
-        H := 1 + DiagonalDistance(Node.Position.X, Node.Position.Y, GetDestination.X + X, GetDestination.Y + Y,
-          StepCost_Diagonal, StepCost_Straight);
-        if F or (H < Result) then begin
+      if (BUInt32(BAbs(X)) = Distance) or (BUInt32(BAbs(Y)) = Distance) then
+      begin
+        H := 1 + DiagonalDistance(Node.Position.X, Node.Position.Y,
+          GetDestination.X + X, GetDestination.Y + Y, StepCost_Diagonal,
+          StepCost_Straight);
+        if F or (H < Result) then
+        begin
           Result := H;
           F := False;
         end;
@@ -108,7 +112,8 @@ var
 begin
   for X := -1 to +1 do
     for Y := -1 to +1 do
-      if (X <> 0) or (Y <> 0) then begin
+      if (X <> 0) or (Y <> 0) then
+      begin
         P.X := Node.Position.X + X;
         P.Y := Node.Position.Y + Y;
         P.Z := Node.Position.Z;
@@ -119,7 +124,8 @@ end;
 
 function TBBotPathFinder.GetTarget(Node: TAStarNode): BBool;
 begin
-  Result := BUInt32(SQMDistance(Node.Position.X, Node.Position.Y, GetDestination.X, GetDestination.Y)) = Distance;
+  Result := BUInt32(SQMDistance(Node.Position.X, Node.Position.Y,
+    GetDestination.X, GetDestination.Y)) = Distance;
 end;
 
 function TBBotPathFinder.GetTileCost(P: BPos): BFloat;
@@ -157,34 +163,48 @@ begin
   else
     Event^.Kind := bpfnkOther;
   // Set direction
-  if Assigned(Node.Parent) then begin
+  if Assigned(Node.Parent) then
+  begin
     case Node.Parent.Position.X - Node.Position.X of
-    - 1: begin
-        case Node.Parent.Position.Y - Node.Position.Y of
-        - 1: Event^.Dir := tdSouthEast;
-        0: Event^.Dir := tdEast;
-        +1: Event^.Dir := tdNorthEast;
+      - 1:
+        begin
+          case Node.Parent.Position.Y - Node.Position.Y of
+            - 1:
+              Event^.Dir := tdSouthEast;
+            0:
+              Event^.Dir := tdEast;
+            +1:
+              Event^.Dir := tdNorthEast;
+          end;
         end;
-      end;
-    0: begin
-        case Node.Parent.Position.Y - Node.Position.Y of
-        - 1: Event^.Dir := tdSouth;
-        0: Event^.Dir := tdCenter;
-        +1: Event^.Dir := tdNorth;
+      0:
+        begin
+          case Node.Parent.Position.Y - Node.Position.Y of
+            - 1:
+              Event^.Dir := tdSouth;
+            0:
+              Event^.Dir := tdCenter;
+            +1:
+              Event^.Dir := tdNorth;
+          end;
         end;
-      end;
-    +1: begin
-        case Node.Parent.Position.Y - Node.Position.Y of
-        - 1: Event^.Dir := tdSouthWest;
-        0: Event^.Dir := tdWest;
-        +1: Event^.Dir := tdNorthWest;
+      +1:
+        begin
+          case Node.Parent.Position.Y - Node.Position.Y of
+            - 1:
+              Event^.Dir := tdSouthWest;
+            0:
+              Event^.Dir := tdWest;
+            +1:
+              Event^.Dir := tdNorthWest;
+          end;
         end;
-      end;
     end;
   end;
 end;
 
-procedure CalculateMinMaxValues(const Events: BVector<TBBotPathFinderDebugEvent>; out MinX, MinY, MaxX, MaxY: BInt32);
+procedure CalculateMinMaxValues(const Events
+  : BVector<TBBotPathFinderDebugEvent>; out MinX, MinY, MaxX, MaxY: BInt32);
 var
   I: BInt32;
   Item: BVector<TBBotPathFinderDebugEvent>.It;
@@ -194,7 +214,8 @@ begin
   MaxX := MinX;
   MinY := Item^.Pos.Y;
   MaxY := MinY;
-  for I := 1 to Events.Count - 1 do begin
+  for I := 1 to Events.Count - 1 do
+  begin
     Item := Events.Item[I];
     MinX := BMin(MinX, Item^.Pos.X);
     MinY := BMin(MinY, Item^.Pos.Y);
@@ -210,17 +231,21 @@ var
   TileScore: BVector<TBBotPathFinderDebugTile>.It;
 begin
   inherited;
-  if Engine.Debug.Path and (Events.Count > 0) then begin
+  if Engine.Debug.Path and (Events.Count > 0) then
+  begin
     CalculateMinMaxValues(Events, MinX, MinY, MaxX, MaxY);
     TileScoreMap := BVector<TBBotPathFinderDebugTile>.Create;
-    for X := MinX - 1 to MaxX + 1 do begin
-      for Y := MinY - 1 to MaxY + 1 do begin
+    for X := MinX - 1 to MaxX + 1 do
+    begin
+      for Y := MinY - 1 to MaxY + 1 do
+      begin
         TileScore := TileScoreMap.Add;
         TileScore^.Pos := BPosXYZ(X, Y, Me.Position.Z);
         TileScore^.Score := GetTileCost(TileScore^.Pos);
       end;
     end;
-    FMain.AddBBotMessage(TBBotGUIMessagePathFinderFinished.Create(FDescription, Events, TileScoreMap));
+    FMain.AddBBotMessage(TBBotGUIMessagePathFinderFinished.Create(FDescription,
+      Events, TileScoreMap));
     TileScoreMap.Free;
   end;
 end;

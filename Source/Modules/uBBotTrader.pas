@@ -1,5 +1,5 @@
 unit uBBotTrader;
-
+
 interface
 
 uses
@@ -56,21 +56,25 @@ end;
 
 procedure TBBotTrader.Run;
 begin
-  if not BBot.Exhaust.Defensive then begin
+  if not BBot.Exhaust.Defensive then
+  begin
     if TradeChannel then
-      if not NextTrade.Locked then begin
+      if not NextTrade.Locked then
+      begin
         NextTrade.Lock;
         Me.TradeSay(Text);
         Exit;
       end;
     if Yell then
-      if not NextYell.Locked then begin
+      if not NextYell.Locked then
+      begin
         NextYell.Lock;
         Me.Yell(Text);
         Exit;
       end;
     if Say then
-      if not NextSay.Locked then begin
+      if not NextSay.Locked then
+      begin
         NextSay.Lock;
         Me.Say(Text);
       end;
@@ -78,4 +82,4 @@ begin
 end;
 
 end.
-
+

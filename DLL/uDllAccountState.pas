@@ -28,16 +28,17 @@ begin
     TibiaTemporaryState.Account := '';
     TibiaTemporaryState.Password := '';
   end
-  else
-  if TibiaState^.Version >= TibiaVer971 then
+  else if TibiaState^.Version >= TibiaVer971 then
   begin
     STLString15ReadTo(TibiaAccount, @TibiaTemporaryState.Account[0], 32);
     STLString15ReadTo(TibiaPassword, @TibiaTemporaryState.Password[0], 32);
   end
   else
   begin
-    STLCharArrayCopy(BPChar(TibiaAccount), BPChar(@TibiaTemporaryState.Account), 32);
-    STLCharArrayCopy(BPChar(TibiaPassword), BPChar(@TibiaTemporaryState.Password), 32);
+    STLCharArrayCopy(BPChar(TibiaAccount),
+      BPChar(@TibiaTemporaryState.Account), 32);
+    STLCharArrayCopy(BPChar(TibiaPassword),
+      BPChar(@TibiaTemporaryState.Password), 32);
   end;
 end;
 

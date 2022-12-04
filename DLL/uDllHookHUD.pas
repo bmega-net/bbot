@@ -170,11 +170,11 @@ end;
 {$REGION 'Print Text 1050'}
 
 var
-  PrintTextFunc1050: procedure(NY, nFont, nRed, nGreen,
-    nBlue: integer; Text: BPChar; nAlign: integer); cdecl;
+  PrintTextFunc1050: procedure(NY, nFont, nRed, nGreen, nBlue: integer;
+    Text: BPChar; nAlign: integer); cdecl;
 
-procedure PrintText1050(ASurface, AScreenX, AScreenY, AFont, AR, AG, AB, AAlign: BInt32;
-  Text: BPChar);
+procedure PrintText1050(ASurface, AScreenX, AScreenY, AFont, AR, AG, AB,
+  AAlign: BInt32; Text: BPChar);
 begin
   asm
     PUSH ECX
@@ -189,8 +189,8 @@ begin
   end;
 end;
 
-procedure MyPrintName1050(NY, nFont, nRed, nGreen,
-    nBlue: integer; Text: BPChar; nAlign: integer); cdecl;
+procedure MyPrintName1050(NY, nFont, nRed, nGreen, nBlue: integer; Text: BPChar;
+  nAlign: integer); cdecl;
 var
   CID: BInt32;
   NX, nSurface: BInt32;
@@ -204,8 +204,8 @@ begin
   HUDManager.OnPrintCreature(CID, nSurface, nFont, NX, NY);
 end;
 
-procedure MyPrintFps1050(NY, nFont, nRed, nGreen,
-    nBlue: integer; Text: BPChar; nAlign: integer); cdecl;
+procedure MyPrintFps1050(NY, nFont, nRed, nGreen, nBlue: integer; Text: BPChar;
+  nAlign: integer); cdecl;
 var
   NX, nSurface: BInt32;
 begin
@@ -220,9 +220,6 @@ begin
   HUDManager.OnPrintFPS(nSurface, nFont);
 end;
 {$ENDREGION}
-
-
-
 {$REGION 'Print Map 850'}
 
 procedure MyPrintMapHook850(retn, ScreenX, ScreenY, a3, a4, a5, a6, AbsX, AbsY,
@@ -338,8 +335,8 @@ end;
 {$ENDREGION}
 {$REGION 'Print Map 1050'}
 
-procedure MyPrintMapHook1050(retn, ScreenX, ScreenY, a3, a4, a5, a6, a7, a8, a9, a10,
-  a11, AbsX, AbsY, AbsZ: BInt32); cdecl;
+procedure MyPrintMapHook1050(retn, ScreenX, ScreenY, a3, a4, a5, a6, a7, a8, a9,
+  a10, a11, AbsX, AbsY, AbsZ: BInt32); cdecl;
 asm
   PUSH ECX
   MOV ECX, DWORD PTR DS:[AbsX]
@@ -390,14 +387,14 @@ begin
   fpName := nil;
   fpFPS := nil;
 
-
   if TibiaState^.Version >= TibiaVer1050 then
   begin
     PrintText := PrintText1050;
     PrintMapMy := @MyPrintMapHook1050;
     fpName := @MyPrintName1050;
     fpFPS := @MyPrintFps1050;
-  end else if TibiaState^.Version >= TibiaVer1021 then
+  end
+  else if TibiaState^.Version >= TibiaVer1021 then
   begin
     PrintText := PrintText942;
     PrintMapMy := @MyPrintMapHook1021;

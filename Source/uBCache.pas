@@ -21,12 +21,17 @@ type
     FCalculator: BUnaryFunc<K, V>;
     FFree: BBinaryProc<K, V>;
   public
-    constructor Create(const ATimeToLife: BUInt32; const ACalculator: BUnaryFunc<K, V>;
+    constructor Create(const ATimeToLife: BUInt32;
+      const ACalculator: BUnaryFunc<K, V>;
       const AComparer: IEqualityComparer<K>); overload;
-    constructor Create(const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>); overload;
-    constructor Create(const ATimeToLife: BUInt32; const ACalculator: BUnaryFunc<K, V>;
-      const AComparer: IEqualityComparer<K>; const AFree: BBinaryProc<K, V>); overload;
-    constructor Create(const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>;
+    constructor Create(const ACalculator: BUnaryFunc<K, V>;
+      const AComparer: IEqualityComparer<K>); overload;
+    constructor Create(const ATimeToLife: BUInt32;
+      const ACalculator: BUnaryFunc<K, V>;
+      const AComparer: IEqualityComparer<K>;
+      const AFree: BBinaryProc<K, V>); overload;
+    constructor Create(const ACalculator: BUnaryFunc<K, V>;
+      const AComparer: IEqualityComparer<K>;
       const AFree: BBinaryProc<K, V>); overload;
     destructor Destroy; override;
 
@@ -41,8 +46,8 @@ implementation
 
 { BCache<K, V> }
 
-constructor BCache<K, V>.Create(const ATimeToLife: BUInt32; const ACalculator: BUnaryFunc<K, V>;
-  const AComparer: IEqualityComparer<K>);
+constructor BCache<K, V>.Create(const ATimeToLife: BUInt32;
+  const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>);
 begin
   FTimeToLife := ATimeToLife;
   FCalculator := ACalculator;
@@ -50,7 +55,8 @@ begin
   FFree := nil;
 end;
 
-constructor BCache<K, V>.Create(const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>);
+constructor BCache<K, V>.Create(const ACalculator: BUnaryFunc<K, V>;
+  const AComparer: IEqualityComparer<K>);
 begin
   FTimeToLife := 0;
   FCalculator := ACalculator;
@@ -58,8 +64,9 @@ begin
   FFree := nil;
 end;
 
-constructor BCache<K, V>.Create(const ATimeToLife: BUInt32; const ACalculator: BUnaryFunc<K, V>;
-  const AComparer: IEqualityComparer<K>; const AFree: BBinaryProc<K, V>);
+constructor BCache<K, V>.Create(const ATimeToLife: BUInt32;
+  const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>;
+  const AFree: BBinaryProc<K, V>);
 begin
   FTimeToLife := ATimeToLife;
   FCalculator := ACalculator;
@@ -67,8 +74,8 @@ begin
   FFree := AFree;
 end;
 
-constructor BCache<K, V>.Create(const ACalculator: BUnaryFunc<K, V>; const AComparer: IEqualityComparer<K>;
-  const AFree: BBinaryProc<K, V>);
+constructor BCache<K, V>.Create(const ACalculator: BUnaryFunc<K, V>;
+  const AComparer: IEqualityComparer<K>; const AFree: BBinaryProc<K, V>);
 begin
   FTimeToLife := 0;
   FCalculator := ACalculator;
@@ -80,9 +87,11 @@ procedure BCache<K, V>.Clear;
 var
   E: TDictionary<K, BCacheData>.TPairEnumerator;
 begin
-  if Assigned(FFree) then begin
+  if Assigned(FFree) then
+  begin
     E := Data.GetEnumerator;
-    while E.MoveNext do begin
+    while E.MoveNext do
+    begin
       FFree(E.Current.Value.Key, E.Current.Value.Value);
     end;
     E.Free;
@@ -101,7 +110,8 @@ function BCache<K, V>.Get(const AKey: K): V;
 var
   Cached: BCacheData;
 begin
-  if Data.TryGetValue(AKey, Cached) then begin
+  if Data.TryGetValue(AKey, Cached) then
+  begin
     if (TimeToLife = 0) or (Cached.Life < Tick) then
       Exit(Cached.Value);
     if Assigned(FFree) then

@@ -1,6 +1,5 @@
 unit uBBotTradeWindow;
 
-
 interface
 
 uses
@@ -37,7 +36,8 @@ type
     FIgnoreCap: BBool;
     FBuyInBackpacks: BBool;
     procedure SetOpen(const Value: BBool);
-    function GetItem(const AID: BUInt32; const AAmount: BUInt32; const CanAdd: BBool): TBBotTradeWindowItems.It;
+    function GetItem(const AID: BUInt32; const AAmount: BUInt32;
+      const CanAdd: BBool): TBBotTradeWindowItems.It;
     procedure Clear;
   protected
     WaitingBalance: BBool;
@@ -63,10 +63,12 @@ type
     function Sell(const ID: BUInt32; const SellCount: BInt32): BBool;
     function SellAll(const ID: BUInt32): BBool;
 
-    procedure AddItem(const AName: BStr; const AID, AAmount: BUInt32; const AWeight, ASellPrice, ABuyPrice: BInt32);
+    procedure AddItem(const AName: BStr; const AID, AAmount: BUInt32;
+      const AWeight, ASellPrice, ABuyPrice: BInt32);
     procedure AddHaveCount(const AID, AAmount, AHaveCount: BUInt32);
 
-    function ItemInfo(const AID, AAmount: BUInt32): TBBotTradeWindowItems.It; overload;
+    function ItemInfo(const AID, AAmount: BUInt32)
+      : TBBotTradeWindowItems.It; overload;
     function ItemInfo(const AID: BUInt32): TBBotTradeWindowItems.It; overload;
 
     property Debug: BBool read FDebug write FDebug;
@@ -91,17 +93,20 @@ const
   AnyAmountMessagePattern: BStr = '(\b[\d.,]+\b)';
   NotValidAmount = BUInt32(999999999);
 
-procedure TBBotTradeWindow.AddHaveCount(const AID, AAmount, AHaveCount: BUInt32);
+procedure TBBotTradeWindow.AddHaveCount(const AID, AAmount,
+  AHaveCount: BUInt32);
 var
   Add: TBBotTradeWindowItems.It;
 begin
   Add := GetItem(AID, AAmount, True);
   Add^.HaveCount := AHaveCount;
   if Debug then
-    AddDebug(BFormat('HaveCount: %d for ID: %d with amount: %d', [AHaveCount, AID, AAmount]));
+    AddDebug(BFormat('HaveCount: %d for ID: %d with amount: %d',
+      [AHaveCount, AID, AAmount]));
 end;
 
-procedure TBBotTradeWindow.AddItem(const AName: BStr; const AID, AAmount: BUInt32; const AWeight, ASellPrice, ABuyPrice: BInt32);
+procedure TBBotTradeWindow.AddItem(const AName: BStr;
+  const AID, AAmount: BUInt32; const AWeight, ASellPrice, ABuyPrice: BInt32);
 var
   Add: TBBotTradeWindowItems.It;
 begin
@@ -111,7 +116,8 @@ begin
   Add^.SellPrice := ASellPrice;
   Add^.BuyPrice := ABuyPrice;
   if Debug then
-    AddDebug(BFormat('New item: %d with name %s and weight %d sell price %d buy price %d and amount %d',
+    AddDebug(BFormat
+      ('New item: %d with name %s and weight %d sell price %d buy price %d and amount %d',
       [AID, AName, AWeight, ASellPrice, ABuyPrice, AAmount]));
 end;
 
@@ -123,72 +129,91 @@ var
   NewBuyCount: BInt32;
 begin
   Result := False;
-  if not IsOpen then begin
+  if not IsOpen then
+  begin
     AddDebug(BFormat('Buying %d with Trade Window closed', [ID]));
     Exit;
   end;
   Itemm := ItemInfo(ID);
-  if Itemm = nil then begin
+  if Itemm = nil then
+  begin
     AddDebug(BFormat('Buying item %d not found', [ID]));
     Exit;
   end;
-  if Itemm^.BuyPrice < 1 then begin
+  if Itemm^.BuyPrice < 1 then
+  begin
     AddDebug(BFormat('Buying item %d is not buyable in current NPC', [ID]));
     Exit;
   end;
-  if BuyCount < 0 then begin
+  if BuyCount < 0 then
+  begin
     Exit(True);
   end;
   Cost := BuyCount * Itemm^.BuyPrice;
-  if Money < Cost then begin
-    AddDebug(BFormat('Buying with no enought money for id %d (wanted buy: %d, current money: %d, cost: %d)',
+  if Money < Cost then
+  begin
+    AddDebug(BFormat
+      ('Buying with no enought money for id %d (wanted buy: %d, current money: %d, cost: %d)',
       [ID, BuyCount, Money, Cost]));
     NewBuyCount := BFloor(BBot.TradeWindow.Money / Itemm^.BuyPrice);
-    AddDebug(BFormat('Buying trying again %d with new Buy Count: %d (old: %d)', [ID, BuyCount, NewBuyCount]));
+    AddDebug(BFormat('Buying trying again %d with new Buy Count: %d (old: %d)',
+      [ID, BuyCount, NewBuyCount]));
     Exit(Buy(ID, NewBuyCount));
   end;
   Count := BuyCount;
-  while Count > 0 do begin
+  while Count > 0 do
+  begin
     if Debug then
-      AddDebug(BFormat('Buying %d of id %d (%d/%d)', [BMin(100, Count), ID, BuyCount - Count, BuyCount]));
-    BBot.PacketSender.NPCBuy(ID, BMin(100, Count), Itemm^.Amount, IgnoreCap, BuyInBackpacks);
+      AddDebug(BFormat('Buying %d of id %d (%d/%d)', [BMin(100, Count), ID,
+        BuyCount - Count, BuyCount]));
+    BBot.PacketSender.NPCBuy(ID, BMin(100, Count), Itemm^.Amount, IgnoreCap,
+      BuyInBackpacks);
     Dec(Count, 100);
     SleepBetweenCommand;
   end;
   Exit(True);
 end;
 
-function TBBotTradeWindow.Sell(const ID: BUInt32; const SellCount: BInt32): BBool;
+function TBBotTradeWindow.Sell(const ID: BUInt32;
+  const SellCount: BInt32): BBool;
 var
   Count: BInt32;
   Itemm: TBBotTradeWindowItems.It;
 begin
   Result := False;
-  if not IsOpen then begin
+  if not IsOpen then
+  begin
     AddDebug(BFormat('Selling %d with Trade Window closed', [ID]));
     Exit;
   end;
   Itemm := ItemInfo(ID);
-  if Itemm = nil then begin
+  if Itemm = nil then
+  begin
     AddDebug(BFormat('Selling item %d not found', [ID]));
     Exit;
   end;
-  if Itemm^.SellPrice < 0 then begin
+  if Itemm^.SellPrice < 0 then
+  begin
     AddDebug(BFormat('Selling item %d is not sellable in current NPC', [ID]));
     Exit;
   end;
-  if SellCount < 1 then begin
+  if SellCount < 1 then
+  begin
     Exit(True);
   end;
-  if not BInRange(SellCount, 1, Itemm^.HaveCount) then begin
-    AddDebug(BFormat('Selling invalid SellCount for id %d (SellCount: %d available: %d)',
+  if not BInRange(SellCount, 1, Itemm^.HaveCount) then
+  begin
+    AddDebug(BFormat
+      ('Selling invalid SellCount for id %d (SellCount: %d available: %d)',
       [ID, SellCount, Itemm^.HaveCount]));
     Exit;
   end;
   Count := SellCount;
-  while Count > 0 do begin
+  while Count > 0 do
+  begin
     if Debug then
-      AddDebug(BFormat('Selling %d of id %d (%d/%d)', [BMin(100, Count), ID, SellCount - Count, SellCount]));
+      AddDebug(BFormat('Selling %d of id %d (%d/%d)', [BMin(100, Count), ID,
+        SellCount - Count, SellCount]));
     BBot.PacketSender.NPCSell(ID, BMin(100, Count), Itemm^.Amount);
     Dec(Count, 100);
     SleepBetweenCommand;
@@ -204,19 +229,24 @@ var
   Count: BInt32;
 begin
   Itemm := ItemInfo(ID);
-  if Itemm = nil then begin
+  if Itemm = nil then
+  begin
     AddDebug(BFormat('Selling item %d not found', [ID]));
     Exit(False);
   end;
   Count := Itemm^.HaveCount;
   if Debug then
     AddDebug(BFormat('Selling all items %d Sell Count: %d', [ID, Count]));
-  for Slot := SlotFirst to SlotLast do begin
+  for Slot := SlotFirst to SlotLast do
+  begin
     EquippedItem := Me.Inventory.GetSlot(Slot);
-    if EquippedItem.ID = ID then begin
+    if EquippedItem.ID = ID then
+    begin
       Dec(Count, BMax(EquippedItem.Count, 1));
       if Debug then
-        AddDebug(BFormat('Selling item %d found in inventory, new Sell Count: %d', [ID, Count]));
+        AddDebug(BFormat
+          ('Selling item %d found in inventory, new Sell Count: %d',
+          [ID, Count]));
     end;
   end;
   Exit(Sell(ID, Count));
@@ -248,14 +278,17 @@ begin
   inherited;
 end;
 
-function TBBotTradeWindow.GetItem(const AID: BUInt32; const AAmount: BUInt32; const CanAdd: BBool): TBBotTradeWindowItems.It;
+function TBBotTradeWindow.GetItem(const AID: BUInt32; const AAmount: BUInt32;
+  const CanAdd: BBool): TBBotTradeWindowItems.It;
 begin
   Result := Items.Find('Trade Window - Get Item',
     function(It: TBBotTradeWindowItems.It): BBool
     begin
-      Result := (It^.ID = AID) and ((It^.Amount = AAmount) or (AAmount = NotValidAmount))
+      Result := (It^.ID = AID) and ((It^.Amount = AAmount) or
+        (AAmount = NotValidAmount))
     end);
-  if (Result = nil) and CanAdd and (AAMount <> NotValidAmount) then begin
+  if (Result = nil) and CanAdd and (AAmount <> NotValidAmount) then
+  begin
     Result := Items.Add;
     Result^.ID := AID;
     Result^.Amount := AAmount;
@@ -267,13 +300,14 @@ begin
   end;
 end;
 
-function TBBotTradeWindow.ItemInfo(
-  const AID: BUInt32): TBBotTradeWindowItems.It;
+function TBBotTradeWindow.ItemInfo(const AID: BUInt32)
+  : TBBotTradeWindowItems.It;
 begin
   Result := GetItem(AID, NotValidAmount, False);
 end;
 
-function TBBotTradeWindow.ItemInfo(const AID, AAmount: BUInt32): TBBotTradeWindowItems.It;
+function TBBotTradeWindow.ItemInfo(const AID, AAmount: BUInt32)
+  : TBBotTradeWindowItems.It;
 begin
   Result := GetItem(AID, AAmount, False);
 end;
@@ -286,7 +320,8 @@ begin
   BBot.Events.OnSystemMessage.Add(OnSystemMessage);
 
   DelayBetweenBuySellCommands := BBotTradeWindowDelayBetweenCommandsDelay;
-  ModVariable(BBotTradeWindowDelayBetweenCommandsVar, BBotTradeWindowDelayBetweenCommandsDelay).Watch(
+  ModVariable(BBotTradeWindowDelayBetweenCommandsVar,
+    BBotTradeWindowDelayBetweenCommandsDelay).Watch(
     procedure(AName: BStr; AValue: BInt32)
     begin
       DelayBetweenBuySellCommands := AValue;
@@ -297,9 +332,14 @@ procedure TBBotTradeWindow.OnMessage(AMessageData: TTibiaMessage);
 var
   R: BStrArray;
 begin
-  if (AMessageData.Mode = MESSAGE_NPC_FROM_START_BLOCK) or (AMessageData.Mode = MESSAGE_NPC_FROM) then begin
-    if WaitingBalance then begin
-      if BSimpleRegex(AnyAmountMessagePattern, AMessageData.Text, R) and (High(R) >= 0) then begin
+  if (AMessageData.Mode = MESSAGE_NPC_FROM_START_BLOCK) or
+    (AMessageData.Mode = MESSAGE_NPC_FROM) then
+  begin
+    if WaitingBalance then
+    begin
+      if BSimpleRegex(AnyAmountMessagePattern, AMessageData.Text, R) and
+        (High(R) >= 0) then
+      begin
         WaitingBalance := False;
         SetBankBalance(R[High(R)]);
       end;
@@ -311,8 +351,11 @@ procedure TBBotTradeWindow.OnSystemMessage(AMessageData: TTibiaMessage);
 var
   R: BStrArray;
 begin
-  if AMessageData.Mode = MESSAGE_LOOK then begin
-    if BSimpleRegex(ShopBankMessagePattern, AMessageData.Text, R) and (High(R) >= 0) then begin
+  if AMessageData.Mode = MESSAGE_LOOK then
+  begin
+    if BSimpleRegex(ShopBankMessagePattern, AMessageData.Text, R) and
+      (High(R) >= 0) then
+    begin
       SetBankBalance(R[High(R)]);
     end;
   end;
@@ -358,9 +401,9 @@ var
   Delay: BUInt32;
 
 begin
-  Delay := BUInt32((BInt32(DelayBetweenBuySellCommands) * BRandom(100, 140)) div 100);
+  Delay := BUInt32((BInt32(DelayBetweenBuySellCommands) * BRandom(100, 140)
+    ) div 100);
   Sleep(Delay);
 end;
 
 end.
-

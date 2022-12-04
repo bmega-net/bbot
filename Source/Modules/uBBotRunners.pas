@@ -1,6 +1,5 @@
 unit uBBotRunners;
 
-
 interface
 
 uses
@@ -13,7 +12,8 @@ type
   private
     FActionLevel: TBBotActionPauseLevel;
   public
-    constructor Create(AActionName: BStr; AActionDelay: BUInt32; AActionLevel: TBBotActionPauseLevel);
+    constructor Create(AActionName: BStr; AActionDelay: BUInt32;
+      AActionLevel: TBBotActionPauseLevel);
 
     procedure Run; override;
     property ActionLevel: TBBotActionPauseLevel read FActionLevel;
@@ -26,7 +26,8 @@ implementation
 uses
   BBotEngine;
 
-constructor TBBotRunnerPauser.Create(AActionName: BStr; AActionDelay: BUInt32; AActionLevel: TBBotActionPauseLevel);
+constructor TBBotRunnerPauser.Create(AActionName: BStr; AActionDelay: BUInt32;
+  AActionLevel: TBBotActionPauseLevel);
 begin
   FActionLevel := AActionLevel;
   inherited Create(AActionName, AActionDelay);
@@ -44,4 +45,3 @@ begin
 end;
 
 end.
-

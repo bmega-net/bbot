@@ -74,7 +74,8 @@ type
     ManaDrinkerLowUseApply: TBBotItemSelectorApply;
     ManaDrinkerMidUseApply: TBBotItemSelectorApply;
     ManaDrinkerHighUseApply: TBBotItemSelectorApply;
-    function InitializeManaDrinkerCombo(const ACombo: TComboBox; const AIndex: BInt32): TBBotItemSelectorApply;
+    function InitializeManaDrinkerCombo(const ACombo: TComboBox;
+      const AIndex: BInt32): TBBotItemSelectorApply;
     procedure Init;
     procedure ValidateForm;
     procedure AfterSubmit;
@@ -156,23 +157,32 @@ end;
 
 procedure TManaToolsFrame.ValidateForm;
 begin
-  TFMain(FMain).CheckInt(ManaDrinkerLowFrom, ManaDrinkerLow, ManaDrinkerLowPercent.Checked);
-  TFMain(FMain).CheckInt(ManaDrinkerLowTo, ManaDrinkerLow, ManaDrinkerLowPercent.Checked);
+  TFMain(FMain).CheckInt(ManaDrinkerLowFrom, ManaDrinkerLow,
+    ManaDrinkerLowPercent.Checked);
+  TFMain(FMain).CheckInt(ManaDrinkerLowTo, ManaDrinkerLow,
+    ManaDrinkerLowPercent.Checked);
   TFMain(FMain).ValidateItemCheckbox(ManaDrinkerLowUseApply.ID, ManaDrinkerLow);
 
-  TFMain(FMain).CheckInt(ManaDrinkerMidFrom, ManaDrinkerMid, ManaDrinkerMidPercent.Checked);
-  TFMain(FMain).CheckInt(ManaDrinkerMidTo, ManaDrinkerMid, ManaDrinkerMidPercent.Checked);
+  TFMain(FMain).CheckInt(ManaDrinkerMidFrom, ManaDrinkerMid,
+    ManaDrinkerMidPercent.Checked);
+  TFMain(FMain).CheckInt(ManaDrinkerMidTo, ManaDrinkerMid,
+    ManaDrinkerMidPercent.Checked);
   TFMain(FMain).ValidateItemCheckbox(ManaDrinkerMidUseApply.ID, ManaDrinkerMid);
 
-  TFMain(FMain).CheckInt(ManaDrinkerHighFrom, ManaDrinkerHigh, ManaDrinkerHighPercent.Checked);
-  TFMain(FMain).CheckInt(ManaDrinkerHighTo, ManaDrinkerHigh, ManaDrinkerHighPercent.Checked);
-  TFMain(FMain).ValidateItemCheckbox(ManaDrinkerHighUseApply.ID, ManaDrinkerHigh);
+  TFMain(FMain).CheckInt(ManaDrinkerHighFrom, ManaDrinkerHigh,
+    ManaDrinkerHighPercent.Checked);
+  TFMain(FMain).CheckInt(ManaDrinkerHighTo, ManaDrinkerHigh,
+    ManaDrinkerHighPercent.Checked);
+  TFMain(FMain).ValidateItemCheckbox(ManaDrinkerHighUseApply.ID,
+    ManaDrinkerHigh);
 
   TFMain(FMain).CheckInt(ManaDrinkerVariation,
     'Please insert a value between 1 and 100 in Mana Drinker Variation', True);
 
-  TFMain(FMain).CheckInt(ManaTrainerFrom, ManaTrainerEnable, ManaTrainerPercent.Checked);
-  TFMain(FMain).CheckInt(ManaTrainerTo, ManaTrainerEnable, ManaTrainerPercent.Checked);
+  TFMain(FMain).CheckInt(ManaTrainerFrom, ManaTrainerEnable,
+    ManaTrainerPercent.Checked);
+  TFMain(FMain).CheckInt(ManaTrainerTo, ManaTrainerEnable,
+    ManaTrainerPercent.Checked);
   TFMain(FMain).CheckInt(ManaTrainerVariation,
     'Please insert a value between 1 and 100 in Mana Trainer Variation', True);
 
@@ -213,12 +223,13 @@ begin
   ManaDrinkerHighUseApply := InitializeManaDrinkerCombo(ManaDrinkerHighUse, 2);
 end;
 
-function TManaToolsFrame.InitializeManaDrinkerCombo(const ACombo: TComboBox; const AIndex: BInt32)
-  : TBBotItemSelectorApply;
+function TManaToolsFrame.InitializeManaDrinkerCombo(const ACombo: TComboBox;
+const AIndex: BInt32): TBBotItemSelectorApply;
 begin
   Result := TFMain(FMain).BBotItemSelector.Apply(ACombo, 'ManaDrinker')
-    .add([ItemID_ManaPotion, ItemID_StrongManaPotion, ItemID_GreatManaPotion, ItemID_UltimateManaPotion,
-    ItemID_GreatSpiritPotion, ItemID_UltimateSpiritPotion]).selectByIndex(AIndex).addCustomItemSupport;
+    .add([ItemID_ManaPotion, ItemID_StrongManaPotion, ItemID_GreatManaPotion,
+    ItemID_UltimateManaPotion, ItemID_GreatSpiritPotion,
+    ItemID_UltimateSpiritPotion]).selectByIndex(AIndex).addCustomItemSupport;
 end;
 
 end.

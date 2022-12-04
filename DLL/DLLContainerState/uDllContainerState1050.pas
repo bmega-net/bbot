@@ -59,9 +59,9 @@ type
     OpenContainers: BInt32;
   end;
 
-
 const
   MAX_SEQUENCIAL_ERRORS = 50;
+
 var
   TibiaContainer1050: PTibiaContainer1050;
   SequencialErrors: BInt32;
@@ -87,7 +87,8 @@ begin
           TibiaTemporaryState.Container[Index].Icon := C^.Icon.ID;
           STLString15ReadTo(@C^.Name.StrData[0],
             @TibiaTemporaryState.Container[Index].Name[0], 32);
-          TibiaTemporaryState.Container[Index].Capacity := BMinMax(C^.Capacity, 0, 60);
+          TibiaTemporaryState.Container[Index].Capacity :=
+            BMinMax(C^.Capacity, 0, 60);
           TibiaTemporaryState.Container[Index].Count :=
             BMinMax(C^.Count, 0, TibiaTemporaryState.Container[Index].Capacity);
           if C^.ItemsData <> nil then
@@ -95,7 +96,8 @@ begin
             for S := 0 to BMin(TibiaTemporaryState.Container[Index].Count - 1,
               ContainerStateItems - 1) do
             begin
-              TibiaTemporaryState.Container[Index].Items[S].ID := C^.ItemsData^[S].ID;
+              TibiaTemporaryState.Container[Index].Items[S].ID :=
+                C^.ItemsData^[S].ID;
               TibiaTemporaryState.Container[Index].Items[S].Count :=
                 C^.ItemsData^[S].Count;
               TibiaTemporaryState.Container[Index].Items[S].Amount :=
@@ -113,7 +115,8 @@ begin
       if SequencialErrors > MAX_SEQUENCIAL_ERRORS then
         BDllError('DLLContainerState1050B: ' + BStr(E.Message));
     end
-    else begin
+    else
+    begin
       Inc(SequencialErrors);
       if SequencialErrors > MAX_SEQUENCIAL_ERRORS then
         BDllError('DLLContainerState1050B: no exception catch');

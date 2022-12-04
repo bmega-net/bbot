@@ -5,7 +5,7 @@ interface
 uses uBTypes, uDllContainerState, uDllAccountState, SyncObjs;
 
 type
-  {$I ..\Source\VERSIONS.inc}
+{$I ..\Source\VERSIONS.inc}
   TTibiaKeyState = (bksDown, bksPressed, bksCallOff, bksCallOffShift,
     bksCallOffCtrl);
   TTibiaKeyStates = set of TTibiaKeyState;
@@ -186,7 +186,7 @@ procedure BDllError(const AMessage: BStr);
 begin
   if (Length(AMessage) > 0) and (not TibiaState^.HasError) then
   begin
-    STLChararrayCopy(BPChar(@AMessage[1]), BPChar(@TibiaState^.Error[0]), 255);
+    STLCharArrayCopy(BPChar(@AMessage[1]), BPChar(@TibiaState^.Error[0]), 255);
     TibiaState^.Error[Length(AMessage)] := #0;
     TibiaState^.HasError := True;
   end;

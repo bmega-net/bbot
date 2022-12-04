@@ -24,14 +24,17 @@ type
     function Variable(const AName: BStr): BInt32; virtual; abstract;
     function VariableStr(const AName: BStr): BStr; virtual; abstract;
     function HasVariable(const AName: BStr): BBool; virtual; abstract;
-    procedure SetVariable(const AName: BStr; const AValue: BInt32); overload; virtual; abstract;
-    procedure SetVariable(const AName: BStr; const AValue: BStr); overload; virtual; abstract;
+    procedure SetVariable(const AName: BStr; const AValue: BInt32); overload;
+      virtual; abstract;
+    procedure SetVariable(const AName: BStr; const AValue: BStr); overload;
+      virtual; abstract;
 
     // BMacro Constants
     function Constant(const AName: BStr): BInt32; virtual; abstract;
 
     // BMacro Whens
-    procedure WatchWhen(const AEvent, AHandlerLabel: BStr; const ACond: BFunc<BBool>); virtual; abstract;
+    procedure WatchWhen(const AEvent, AHandlerLabel: BStr;
+      const ACond: BFunc<BBool>); virtual; abstract;
     procedure UnwatchWhen(); virtual; abstract;
     procedure CastWhen(const AEvent: BStr); virtual; abstract;
 
@@ -42,7 +45,8 @@ type
     procedure GoExit(); virtual; abstract;
     property Debugging: BBool read GetDebugging;
     procedure AddDebug(const AMessage: BStr); virtual; abstract;
-    procedure AddDebugFmt(const AMessageFmt: BStr; const AArgs: array of const); virtual; abstract;
+    procedure AddDebugFmt(const AMessageFmt: BStr; const AArgs: array of const);
+      virtual; abstract;
 
     property Name: BStr read GetName;
   end;

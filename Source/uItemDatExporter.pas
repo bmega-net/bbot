@@ -10,12 +10,13 @@ uses
   uTibiaDeclarations;
 
 {$IFNDEF Release}
-{ .$DEFINE ExportDat}
+{ .$DEFINE ExportDat }
 { .$DEFINE ExportSprites }
 {$ENDIF}
 
 const
-  AdrDatPtr: BInt32 = $400000 + $70A130; // 1000N9: Pointer Scan -> First Item Name, max distance: 16; max jumps: 2
+  AdrDatPtr: BInt32 = $400000 + $70A130;
+  // 1000N9: Pointer Scan -> First Item Name, max distance: 16; max jumps: 2
   SprTransparent = $FFFFFF;
   ItemMapColorFloor = 210;
   ItemsProperties = '../Tools/Properties.txt';
@@ -111,7 +112,8 @@ uses
   uItem;
 
 type
-  TDatItemVocations = set of (diRooker, diKnight, diPaladin, diSorcerer, diDruid);
+  TDatItemVocations = set of (diRooker, diKnight, diPaladin,
+    diSorcerer, diDruid);
 
   TDatItem = record
     Name: BStr32;
@@ -168,9 +170,11 @@ begin
   Loader := TTibiaDatLoader.Create(hWnd, AdrDatPtr);
   try
     ID := 100;
-    while Loader.Load(ID) do begin
+    while Loader.Load(ID) do
+    begin
       if Loader.BotFlags <> TibiaItems[ID].DatFlags then
-        WriteLn(Properties, BFormat('%d,%d,%s', [ID, BPInt16(@Loader.BotFlags)^, Loader.Name]));
+        WriteLn(Properties, BFormat('%d,%d,%s', [ID, BPInt16(@Loader.BotFlags)^,
+          Loader.Name]));
 {$IFDEF ExportSprites}
       ItemSpriteName := BFormat('%.5d', [ID]);
       Flags := BPUInt32(@Loader.TibiaFlags)^;
@@ -178,7 +182,8 @@ begin
         if (Flags and (1 shl Flag)) <> 0 then
           ItemSpriteName := ItemSpriteName + BFormat('_%d', [Flag]);
       ItemSpriteName := BFormat(ItemsSprite, [ItemSpriteName]);
-      if not BFileExists(ItemSpriteName) then begin
+      if not BFileExists(ItemSpriteName) then
+      begin
         OutputDebugMessage('Exporting Item Sprite: ' + ItemSpriteName);
         Loader.LoadSprite;
         Loader.ExportSprite(ItemSpriteName);
@@ -187,7 +192,8 @@ begin
       Inc(ID);
     end;
     ShowMessageFmt('Found %d items.', [ID]);
-  finally Loader.Free;
+  finally
+    Loader.Free;
   end;
   CloseFile(Properties);
   Halt;
@@ -240,8 +246,10 @@ begin
   FBotFlags := [];
   FTibiaFlags := [];
   SetLength(Sprites, 0);
-  Result := Process.ReadEx(DatAddress + ((AItem - 100) * SizeOf(TDatItem)), SizeOf(TDatItem), @Item) = SizeOf(TDatItem);
-  if Result then begin
+  Result := Process.ReadEx(DatAddress + ((AItem - 100) * SizeOf(TDatItem)),
+    SizeOf(TDatItem), @Item) = SizeOf(TDatItem);
+  if Result then
+  begin
     FName := Item.Name;
     FTibiaFlags := Item.Flags;
     FWalkSpeed := Item.WalkSpeed;
@@ -270,7 +278,8 @@ begin
       FBotFlags := FBotFlags + [idfPickupable];
     if (diWalkSpeed in Item.Flags) and (Item.WalkSpeed > 0) then
       FBotFlags := FBotFlags + [idfGround];
-    if (diIsStackable in Item.Flags) or (diIsFluidContainer in Item.Flags) or (diIsSplash in Item.Flags) then
+    if (diIsStackable in Item.Flags) or (diIsFluidContainer in Item.Flags) or
+      (diIsSplash in Item.Flags) then
       FBotFlags := FBotFlags + [idfHasExtra];
   end;
 end;
@@ -290,26 +299,31 @@ begin
   ImageY := Bmp.Height - 32;
   Bmp.Canvas.Brush.Color := SprTransparent;
   Bmp.Canvas.FillRect(Bmp.Canvas.ClipRect);
-  for SpriteID := 0 to High(Sprites) do begin
+  for SpriteID := 0 to High(Sprites) do
+  begin
     SpriteFile.Seek(4 + (Sprites[SpriteID] * 4), soFromBeginning);
     SpriteFile.Read(SprOffsetBegin, 4);
     SpriteFile.Seek(SprOffsetBegin + 3, soFromBeginning);
     SpriteFile.Read(Size, 2);
     SprOffsetEnd := Size + SpriteFile.Position;
     CurrentPixel := 0;
-    while SpriteFile.Position < SprOffsetEnd do begin
+    while SpriteFile.Position < SprOffsetEnd do
+    begin
       SpriteFile.Read(TransparentPixels, 2);
       SpriteFile.Read(ColoredPixels, 2);
       Inc(CurrentPixel, TransparentPixels);
-      for I := 1 to ColoredPixels do begin
+      for I := 1 to ColoredPixels do
+      begin
         SpriteFile.Read(Red, 1);
         SpriteFile.Read(Green, 1);
         SpriteFile.Read(Blue, 1);
-        Bmp.Canvas.Pixels[ImageX + (CurrentPixel mod 32), ImageY + (CurrentPixel div 32)] := RGB(Red, Green, Blue);
+        Bmp.Canvas.Pixels[ImageX + (CurrentPixel mod 32),
+          ImageY + (CurrentPixel div 32)] := RGB(Red, Green, Blue);
         Inc(CurrentPixel, 1);
       end;
     end;
-    if ImageX = 0 then begin
+    if ImageX = 0 then
+    begin
       Dec(ImageY, 32);
       ImageX := Bmp.Width - 32;
     end
@@ -325,35 +339,39 @@ end;
 
 procedure TTibiaDatLoader.SelfTest;
 begin
-  if (not Load(100)) or (TibiaFlags <> [diWalkSpeed, diBlocking, diIsImmovable, diBlocksMissiles, diIsLightSource,
-    diIsGround]) then
+  if (not Load(100)) or (TibiaFlags <> [diWalkSpeed, diBlocking, diIsImmovable,
+    diBlocksMissiles, diIsLightSource, diIsGround]) then
     raise Exception.Create('Item 100 flags failed');
 
-  if (not Load(ItemID_GoldCoin)) or (TibiaFlags <> [diIsStackable, diIsPickupable]) then
+  if (not Load(ItemID_GoldCoin)) or
+    (TibiaFlags <> [diIsStackable, diIsPickupable]) then
     raise Exception.Create('Gold Coin flags failed');
 
-  if (not Load(ItemID_PlatinumCoin)) or (TibiaFlags <> [diIsStackable, diIsPickupable]) then
+  if (not Load(ItemID_PlatinumCoin)) or
+    (TibiaFlags <> [diIsStackable, diIsPickupable]) then
     raise Exception.Create('Platinum Coin flags failed');
 
-  if (not Load(ItemID_CrystalCoin)) or (TibiaFlags <> [diIsStackable, diIsPickupable]) then
+  if (not Load(ItemID_CrystalCoin)) or
+    (TibiaFlags <> [diIsStackable, diIsPickupable]) then
     raise Exception.Create('Crystal Coin flags failed');
 
   if (not Load(2870)) or (TibiaFlags <> [diIsContainer, diIsPickupable]) then
     raise Exception.Create('Gray Backpack flags failed');
 
-  if (not Load(ItemID_ManaPotion)) or (TibiaFlags <> [diIsStackable, diIsUsable, diIsPickupable]) then
+  if (not Load(ItemID_ManaPotion)) or
+    (TibiaFlags <> [diIsStackable, diIsUsable, diIsPickupable]) then
     raise Exception.Create('Mana Potion flags failed');
 
-  if (not Load(2925)) or (TibiaFlags <> [diIsPickupable, diIsLightSource]) or (LightIntensity <> 5) or
-    (LightColor <> 206) then
+  if (not Load(2925)) or (TibiaFlags <> [diIsPickupable, diIsLightSource]) or
+    (LightIntensity <> 5) or (LightColor <> 206) then
     raise Exception.Create('Torch flags failed');
 
-  if (not Load(799)) or (TibiaFlags <> [diWalkSpeed, diIsImmovable, diHasAutoMapColor, diIsGround]) or (WalkSpeed <> 160)
-  then
+  if (not Load(799)) or (TibiaFlags <> [diWalkSpeed, diIsImmovable,
+    diHasAutoMapColor, diIsGround]) or (WalkSpeed <> 160) then
     raise Exception.Create('Ice floor 799 properties failed');
 
-  if (not Load(800)) or (TibiaFlags <> [diWalkSpeed, diIsImmovable, diHasAutoMapColor, diIsGround]) or (WalkSpeed <> 100)
-  then
+  if (not Load(800)) or (TibiaFlags <> [diWalkSpeed, diIsImmovable,
+    diHasAutoMapColor, diIsGround]) or (WalkSpeed <> 100) then
     raise Exception.Create('Ice floor 800 properties failed');
 end;
 
